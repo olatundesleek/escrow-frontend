@@ -2,9 +2,11 @@ import { ReactNode } from "react";
 
 const PageBannerTitle = ({children}:{children:ReactNode}) => {
   return (
-    <h1 className="">
+<div className="bg-stone-900">
+    <h1 className="text-7xl font-bold outline-text-title">
       {children}
     </h1>
+</div>
   );
 };
 
