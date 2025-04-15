@@ -5,6 +5,8 @@ import { LuFacebook } from "react-icons/lu";
 import { FaLocationDot, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { TbBrandLinkedin, TbMailFilled } from "react-icons/tb";
+import React from "react";
+import { IconType } from "react-icons";
 
 const FooterSection = ({
   title,
@@ -47,19 +49,21 @@ const FooterLinks = ({
   </ul>
 );
 
-const ContactInfo = () => (
+const ContactInfo = ({
+  Icon,
+  text,
+  href,
+  link_text,
+}: {
+  Icon: IconType;
+  text?: string;
+  href?: string;
+  link_text?: string;
+}) => (
   <ul>
     <li className="flex items-center gap-2">
-      <FaLocationDot size={20} className="text-[#E9967A]" />
-      Ojo Ayo Street, Ikorodu, Lagos State, Nigeria
-    </li>
-    <li className="flex items-center gap-2">
-      <TbMailFilled size={20} className="text-[#E9967A]" />
-      <Link href="mailto:info@tonaescrow.com">info@tonaescrow.com</Link>
-    </li>
-    <li className="flex items-center gap-2">
-      <FaPhoneAlt size={20} className="text-[#E9967A]" />
-      +1(909) 562 1786
+      <Icon size={20} className="text-[#E9967A]" />
+      {(text && text) || (href && <Link href={href}>{link_text}</Link>)}
     </li>
   </ul>
 );
@@ -109,7 +113,16 @@ const Footer = () => {
 
         {/* Contact Information */}
         <FooterSection title="Contact With Us">
-          <ContactInfo />
+          <ContactInfo
+            Icon={FaLocationDot}
+            text="  Ojo Ayo Street, Ikorodu, Lagos State, Nigeria"
+          />
+          <ContactInfo
+            Icon={TbMailFilled}
+            href="mailto:info@tonaescrow.com"
+            link_text="info@tonaescrow.com"
+          />
+          <ContactInfo Icon={FaPhoneAlt} text="+1(909) 562 1786" />
         </FooterSection>
       </section>
 
