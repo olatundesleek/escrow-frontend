@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+.bg-primary{
+    @apply bg-cyan-900
+}
+
+.text-primary{
+    @apply text-cyan-900
+}
+
+.bg-secondary{
+@apply bg-[#e9967a]
+}
+
+.text-secondary{
+@apply text-[#E9967A]
+}
+
+.border-secondary{
+@apply border-[#E9967A]
+}
+
 .bg-clip-text {
   -webkit-background-clip: text;
   background-clip: text;
