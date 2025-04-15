@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 .bg-primary{
-    @apply bg-cyan-900
+    @apply bg-black
 }
 
 .text-primary{
-    @apply text-cyan-900
+    @apply text-white
 }
 
 .bg-secondary{
-@apply bg-[#e9967a]
+@apply bg-[#9af039]
 }
 
 .text-secondary{
-@apply text-[#E9967A]
+@apply text-[#9af039]
 }
 
 .border-secondary{
-@apply border-[#E9967A]
+@apply border-[#9af039]
 }
 
 .bg-clip-text {
