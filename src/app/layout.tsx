@@ -1,6 +1,7 @@
+import Footer from "./components/Footer";
 import "./globals.css";
-import {ReactNode} from "react";
 // import { Lexend } from 'next/font/google';
+import { ReactNode } from "react";
 
 export const metadata = {
   title: "Escrow App",
@@ -18,7 +19,10 @@ export default function RootLayout({children}: {children: ReactNode}) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

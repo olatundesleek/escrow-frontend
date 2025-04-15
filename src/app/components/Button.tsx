@@ -1,4 +1,4 @@
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 
 //Documentation on how to use some styles like all as a default value buh perhaps you want to adjusts some you have room to do so and you can so pass function if required
 // if u encounter an issue console.bol()
@@ -19,11 +19,11 @@ const Button = ({
   textSize = "font-2xl",
   padding = "px-5 py-3",
   onClick,
-type ="button"
+  type = "button",
 }: ButtonProps) => {
   return (
     <button
-    type={type}
+      type={type}
       onClick={onClick}
       className={`${padding} ${textSize} ${color} rounded-md hover:opacity-80 transition duration-300`}
     >
