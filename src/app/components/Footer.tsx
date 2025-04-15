@@ -7,6 +7,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { TbBrandLinkedin, TbMailFilled } from "react-icons/tb";
 import React from "react";
 import { IconType } from "react-icons";
+import * as motion from "motion/react-client";
 
 const FooterSection = ({
   title,
@@ -30,9 +31,25 @@ const SocialLink = ({
   href: string;
   icon: React.ReactNode;
 }) => (
-  <li className="text-[#E9967A] hover:bg-cyan-700 transition-all duration-300 p-2 rounded-xl border-1 border-[#E9967A]">
+  <motion.li
+    whileHover={{ scale: 1.05 }}
+    whileTap={{
+      scale: 0.9,
+      transition: {
+        type: "spring",
+        stiffness: 500,
+        damping: 10,
+      },
+    }}
+    transition={{
+      type: "spring",
+      stiffness: 400,
+      damping: 15,
+    }}
+    className="text-[#E9967A] hover:bg-cyan-700 p-2 rounded-xl border border-[#E9967A]"
+  >
     <Link href={href}>{icon}</Link>
-  </li>
+  </motion.li>
 );
 
 const FooterLinks = ({
