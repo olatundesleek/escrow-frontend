@@ -1,3 +1,10 @@
+import PageBanner from '../components/PageBanner';
+import PageBannerTitle from '../components/PageBannerTitle';
+
 export default function Page() {
-  return <h1>About us</h1>;
+  return (
+    <PageBanner>
+      <PageBannerTitle>About Us</PageBannerTitle>
+    </PageBanner>
+  );
 }

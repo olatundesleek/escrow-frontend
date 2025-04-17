@@ -1,10 +1,9 @@
-// import Header from "./components/Header";
-// import Article from "./components/Article";
+import HomepageBanner from './components/HomepageBanner';
 
 const Home = () => {
   return (
     <main>
-        
+      <HomepageBanner />
     </main>
   );
 };

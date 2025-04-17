@@ -86,9 +86,9 @@ const ContactInfo = ({
 
 const Footer = () => {
   const usefulLinks = [
-    { href: '#', label: 'About Us' },
-    { href: '#', label: 'Blog' },
-    { href: '#', label: 'Contact' },
+    { href: '/aboutus', label: 'About Us' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/contact', label: 'Contact' },
   ];
 
   const companyPolicies = [
