@@ -1,11 +1,9 @@
-import PageBannerTitle from "./components/PageBannerTitle"
+import HomepageBanner from './components/HomepageBanner';
 
 const Home = () => {
   return (
     <main>
-     
-    <PageBannerTitle>ABOUT US</PageBannerTitle>
-      
+      <HomepageBanner />
     </main>
   );
 };
