@@ -1,10 +1,8 @@
 "use client";
 
-// import { useRef } from "react";
 import Image from "next/image";
 import Header from "./Header";
 import Article from "./Article";
-// import { motion, useInView } from "framer-motion";
 
 interface WorkflowCardProps {
   image: string;
@@ -21,10 +19,7 @@ const WorkflowCard = ({
   style
 }: WorkflowCardProps) => {
 
-  // const ref = useRef(null);
-  // const showCard = useInView(ref);
-
-  // console.log("showcard", showCard);
+  
 
   return (
     <section className=" h-screen sticky top-0 transparent">
