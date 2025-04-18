@@ -1,16 +1,18 @@
-import React from "react";
+import Image from "next/image";
+import Header from "./Header";
+import Article from "./Article";
 
-const AboutusCard = () => {
+interface AboutusCardProps {
+  image: string;
+  title: string;
+  description: string;
+}
+const AboutusCard = ({ image, title, description }: AboutusCardProps) => {
   return (
-    <div>
-      <div className="flex gap-30">
-        <img src="/greet.png" width="100" height="100" alt="Workflow Image" />
-        <div>
-          <h1 className="bg-secondary w-10 h-10 rounded-sm font-bold shadow-[5px_5px_0px_0px_hsl(35,85%,60%)] flex justify-center items-center text-2xl text-white">
-            1
-          </h1>
-        </div>
-      </div>
+    <div className="lg:w-72 m-3 h-52 flex flex-col gap-3 border-1 border-gray-300 bg-white rounded-md p-4">
+      <Image src={image} alt={title} width={60} height={60} />
+      <Header>{title}</Header>
+      <Article>{description}</Article>
     </div>
   );
 };
