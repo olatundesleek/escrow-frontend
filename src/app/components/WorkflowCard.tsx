@@ -1,26 +1,6 @@
-"use client";
-
 import Image from "next/image";
-import Header from "./Header";
-import Article from "./Article";
 
-interface WorkflowCardProps {
-  image: string;
-  number: string;
-  title: string;
-  description: string;
-  style?: string;
-}
-const WorkflowCard = ({
-  image,
-  number,
-  description,
-  title,
-  style
-}: WorkflowCardProps) => {
-
-  
-
+const WorkflowCard = () => {
   return (
     <section className=" h-screen sticky top-0 transparent">
       <div className={`lg:flex m-3 gap-10 lg:w-[60rem] ${style} lg:p-10 p-5 items-center bg-white border border-gray-300 rounded-lg shadow-md max-w-4xl w-full`}>
