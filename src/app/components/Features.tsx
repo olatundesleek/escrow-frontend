@@ -7,22 +7,20 @@ import Offers from "./Offers";
 const Features = () => {
   return (
     <section>
-      <div className="flex flex-col lg:w-[40rem] m-3">
-        <SectionalTitle
-          title="Features"
-          description="Unlock the Full Potential of Your Transactions with Confidence and Security"
-        />
-      </div>
+      <SectionalTitle
+        title="FEATURES"
+        description="Unlock the Full Potential of Your Transactions with Confidence and Security"
+      />
 
-      <div>
+      <div className="lg:flex gap-4 m-3 justify-center">
         <Image
           src="/confidence.png"
           alt="features section"
-          width={400}
-          height={400}
+          width={450}
+          height={450}
         />
 
-        <div>
+        <div className="lg:w-[47%]">
           <Article>
             Discover the full spectrum of capabilities with our feature-rich
             platform, designed to elevate every aspect of your transactions.
@@ -33,21 +31,28 @@ const Features = () => {
             ensuring peace of mind at every step of the way.
           </Article>
 
-          <div className="grid grid-cols-2">
-            <div>
+          <div className="lg:grid grid-cols-2  pt-5">
+            <div className="flex flex-col gap-3">
               <Offers title="Regulatory Compliance" />
               <Offers title="Integration Options" />
               <Offers title="Escrow Record Keeping" />
             </div>
 
-            <div>
+            <div className="flex flex-col gap-3">
               <Offers title="Instant Notifications" color="text-orange-400" />
               <Offers title="Escrow Tracking" color="text-orange-400" />
               <Offers title="Collaborative Workflows" color="text-orange-400" />
             </div>
           </div>
 
-          <HistoryCard image="/client.png" title="Clients" number="10k+"/>
+          <div className="lg:flex gap-4 pt-5">
+            <HistoryCard image="/client.png" title="Clients" number="500+" />
+            <HistoryCard
+              image="/transaction.png"
+              title="Transaction"
+              number="10k+"
+            />
+          </div>
         </div>
       </div>
     </section>
