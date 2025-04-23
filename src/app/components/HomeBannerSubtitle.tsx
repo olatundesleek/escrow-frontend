@@ -1,6 +1,6 @@
 const HomeBannerSubtitle = ({
   children,
-  style = "lg:text-7xl",
+  style = 'lg:text-7xl',
 }: {
   children: React.ReactNode;
   style?: string;
