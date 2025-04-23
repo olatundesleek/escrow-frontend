@@ -1,24 +1,20 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-@theme{
-  --color-section:#eeeeee;
-  --color-primary:#000000;
-  --color-secondary:#9af039;
-  
+@theme {
+  --color-section: #eeeeee;
+  --color-primary: #000000;
+  --color-secondary: #9af039;
 }
 
-.top-navbar{
-    top: 'var(--navbar-height)';
-    background-color: #eeeeee;
+.top-navbar {
+  top: 'var(--navbar-height)';
+  background-color: #eeeeee;
 }
-
-
 
 .bg-clip-text {
   -webkit-background-clip: text;
   background-clip: text;
 }
-
 
 .outline-text {
   color: transparent;
