@@ -1,6 +1,6 @@
 const HomeBannerSubtitle = ({
   children,
-  style,
+  style = "lg:text-7xl",
 }: {
   children: React.ReactNode;
   style?: string;
@@ -8,7 +8,7 @@ const HomeBannerSubtitle = ({
   return (
     <div className='bg-transparent'>
       <h1
-        className={`font-lexend ${style} text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold outline-text`}
+        className={`font-lexend ${style} text-4xl sm:text-5xl md:text-6xl  font-bold outline-text`}
       >
         {children}
       </h1>
