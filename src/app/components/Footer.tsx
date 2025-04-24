@@ -1,102 +1,16 @@
-import Link from "next/link";
 import { LuFacebook } from "react-icons/lu";
 import { FaLocationDot, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { TbBrandLinkedin, TbMailFilled } from "react-icons/tb";
 import React from "react";
-import { IconType } from "react-icons";
-import * as motion from "motion/react-client";
 import Logo from "./Logo";
-
-const FooterSection = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <div className="container flex flex-col gap-2">
-    <h2 className="text-2xl font-bold w-full flex flex-col gap-2 mb-2">
-      {title} <span className="w-10 bg-secondary h-1"></span>
-    </h2>
-    {children}
-  </div>
-);
-
-const SocialLink = ({
-  href,
-  icon,
-}: {
-  href: string;
-  icon: React.ReactNode;
-}) => (
-  <motion.li
-    whileHover={{ scale: 1.05 }}
-    whileTap={{
-      scale: 0.9,
-      transition: {
-        type: "spring",
-        stiffness: 500,
-        damping: 10,
-      },
-    }}
-    transition={{
-      type: "spring",
-      stiffness: 400,
-      damping: 15,
-    }}
-    className="text-secondary hover:bg-cyan-700 p-2 rounded-xl border border-secondary"
-  >
-    <Link href={href}>{icon}</Link>
-  </motion.li>
-);
-
-const FooterLinks = ({
-  links,
-}: {
-  links: { href: string; label: string }[];
-}) => (
-  <ul>
-    {links.map(({ href, label }, index) => (
-      <li key={index}>
-        <Link href={href}>{label}</Link>
-      </li>
-    ))}
-  </ul>
-);
-
-const ContactInfo = ({
-  Icon,
-  text,
-  href,
-  link_text,
-}: {
-  Icon: IconType;
-  text?: string;
-  href?: string;
-  link_text?: string;
-}) => (
-  <ul>
-    <li className="flex items-center gap-2">
-      <Icon size={20} className="text-secondary" />
-      {(text && text) || (href && <Link href={href}>{link_text}</Link>)}
-    </li>
-  </ul>
-);
+import { FooterSection } from "./_footer/FooterSection";
+import { SocialLink } from "./_footer/SocialLink";
+import { FooterLinks } from "./_footer/FooterLinks";
+import { ContactInfo } from "./_footer/ContactInfo";
+import { usefulLinks, companyPolicies } from "./_footer/data";
 
 const Footer = () => {
-  const usefulLinks = [
-    { href: "/aboutus", label: "About Us" },
-    { href: "/blog", label: "Blog" },
-    { href: "/contact", label: "Contact" },
-  ];
-
-  const companyPolicies = [
-    { href: "#", label: "Cookie policy" },
-    { href: "#", label: "Privacy policy" },
-    { href: "#", label: "Terms of Service" },
-  ];
-
   return (
     <footer className="text-amber-100 bg-primary mt-10 w-full h-auto flex flex-col gap-10 p-10 justify-center items-center">
       {/* Logo and Description, Useful Links, Company Policies, Contact Information */}
@@ -144,7 +58,7 @@ const Footer = () => {
 
       {/*   Copywrite */}
       <div className="container flex flex-col gap-2 text-center py-5 border-t-1 border-secondary">
-        <p>© 2023 Tona Escrow. All rights reserved.</p>
+        <p>© 2025 Tona Escrow. All rights reserved.</p>
       </div>
     </footer>
   );
