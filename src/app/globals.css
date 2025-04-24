@@ -1,24 +1,17 @@
 @import "tailwindcss";
 
-.bg-primary{
-    @apply bg-black
+@theme{
+  --color-section:#fafaff;
+  --color-primary:#000000;
+  --color-secondary:#9af039;
+  
 }
 
-.text-primary{
-    @apply text-white
+.top-navbar{
+    top: 'var(--navbar-height)'
 }
 
-.bg-secondary{
-@apply bg-[#9af039]
-}
 
-.text-secondary{
-@apply text-[#9af039]
-}
-
-.border-secondary{
-@apply border-[#9af039]
-}
 
 .bg-clip-text {
   -webkit-background-clip: text;

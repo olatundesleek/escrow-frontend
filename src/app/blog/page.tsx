@@ -3,8 +3,10 @@ import PageBannerTitle from '../components/PageBannerTitle';
 
 export default function Page() {
   return (
-    <PageBanner>
-      <PageBannerTitle>Latest Article</PageBannerTitle>
-    </PageBanner>
+    <>
+      <PageBanner>
+        <PageBannerTitle>Latest Article</PageBannerTitle>
+      </PageBanner>
+    </>
   );
 }
