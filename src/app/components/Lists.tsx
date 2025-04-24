@@ -1,5 +1,5 @@
-import { FaPlus } from "react-icons/fa";
-import Article from "./Article";
+import { FaPlus } from 'react-icons/fa';
+import Article from './Article';
 
 interface ListsProps {
   faq: {

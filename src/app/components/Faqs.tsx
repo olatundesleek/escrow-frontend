@@ -1,5 +1,5 @@
-import SectionalTitle from "./SectionalTitle";
-import Accordian from "./Accordian";
+import SectionalTitle from './SectionalTitle';
+import Accordian from './Accordian';
 
 const Faqs = () => {
   return (
