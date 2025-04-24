@@ -1,27 +1,13 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-.bg-primary {
-  @apply bg-black;
+@theme {
+  --color-section: #fafaff;
+  --color-primary: #000000;
+  --color-secondary: #9af039;
 }
 
-.text-primary {
-  @apply text-white;
-}
-
-.bg-secondary {
-  @apply bg-[#9af039];
-}
-
-.text-secondary {
-  @apply text-[#9af039];
-}
-
-.border-secondary {
-  @apply border-[#9af039];
-}
-
-.outline-secondary {
-  @apply outline-[#9af039];
+.top-navbar {
+  top: 'var(--navbar-height)';
 }
 
 .bg-clip-text {
