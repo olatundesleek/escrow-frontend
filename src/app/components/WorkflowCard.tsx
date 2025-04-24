@@ -1,6 +1,16 @@
-import Image from "next/image";
+import Image from 'next/image';
 import Header from './Header';
 import Article from './Article';
+
+interface WorkflowCardProps {
+  style?: string;
+  border?: string;
+  image: string;
+  number: string;
+  title: string;
+  description: string;
+  align?: 'end' | 'start';
+}
 
 interface WorkflowCardProps {
   style?: string;
