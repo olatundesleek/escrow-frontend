@@ -1,11 +1,13 @@
-import HomepageBanner from "./components/HomepageBanner";
-import Features from "./components/Features";
+import Features from './components/Features';
+import HomepageBanner from './components/HomepageBanner';
+import Workflow from './components/Workflow';
 
 const Home = () => {
   return (
     <main>
       <HomepageBanner />
-      <Features/>
+      <Workflow />
+      <Features />
     </main>
   );
 };

@@ -18,7 +18,7 @@ export default function NavItem({
   return (
     <li
       className={`border-b border-gray-500 text-lg py-2 lg:py-0 lg:border-0 relative group ${
-        isActive ? 'text-secondary lg:text-white' : 'text-amber-100'
+        isActive ? 'text-secondary lg:text-secondary' : ''
       }`}
     >
       <Link href={href}>
