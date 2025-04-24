@@ -4,15 +4,15 @@ import WorkflowCard from './WorkflowCard';
 
 export default function Workflow() {
   return (
-    <div className='bg-section py-32'>
-      <div className='mb-8'>
+    <div className='bg-section py-12 lg:py-24 lg:px-32'>
+      <div className='lg:mb-8 [&>div>header]:text-base md:[&>div>header]:text-lg'>
         <SectionalTitle
           title='Workflow'
           description='Your Comprehensive Roadmap to Secure, Transparent, and Hassle-Free Transactions'
         />
       </div>
 
-      <div className='grid grid-cols-1 px-32 py-20 gap-6'>
+      <div className='grid grid-cols-1 lg:gap-6 justify-items-start lg:justify-items-center '>
         {workflow.map((data, i) => (
           <WorkflowCard
             key={data.number}
