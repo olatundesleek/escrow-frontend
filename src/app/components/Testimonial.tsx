@@ -1,43 +1,23 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Card } from "./_slider/Card";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import * as motion from "motion/react-client";
 
 export const Testimonial = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardWidth, setCardWidth] = useState(0);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const cards = [0, 1, 2, 3, 4].map((index) => <Card key={index} />);
-
-  // Use ResizeObserver for real-time width updates
-  useEffect(() => {
-    const updateCardWidth = () => {
-      if (cardRef.current) {
-        setCardWidth(cardRef.current.offsetWidth);
-      }
-    };
-
-    const observer = new ResizeObserver(updateCardWidth);
-    if (cardRef.current) observer.observe(cardRef.current);
-
-    updateCardWidth(); // Initial call
-
-    return () => observer.disconnect();
-  }, []);
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
+  const scroll = (direction: "left" | "right") => {
+    if (containerRef.current) {
+      const { scrollLeft, clientWidth } = containerRef.current;
+      const scrollTo = direction === "left" ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+      containerRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+    }
   };
 
   return (
-    <div className="w-full h-auto px-4 py-20 bg-primary text-center flex flex-col justify-center items-center mt-10 overflow-hidden">
-      {/* Heading Section */}
+    <div className="w-full h-auto px-2 py-20 bg-primary text-center flex flex-col justify-center items-center mt-10 overflow-hidden">
+      {/* Heading */}
       <motion.section
         className="w-full max-w-6xl mb-10"
         initial={{ opacity: 0, y: -50 }}
@@ -52,50 +32,42 @@ export const Testimonial = () => {
         </h2>
       </motion.section>
 
-      {/* Slider */}
-      <section className="relative w-full overflow-hidden max-w-7xl">
+      {/* Snap Scroll Slider */}
+      <section className="relative w-full max-w-7xl overflow-hidden">
         <div
-          className="flex transition-transform duration-1000 ease-in-out gap-6"
-          style={{
-            transform: `translateX(-${currentIndex * cardWidth}px)`,
-          }}
+          ref={containerRef}
+          className="flex overflow-x-auto gap-6 scroll-smooth snap-x snap-mandatory px-2 hide-scrollbar"
         >
-          {cards.map((card, index) => (
+          {[0, 1, 2, 3, 4, 5].map((index) => (
             <div
               key={index}
-              ref={index === 0 ? cardRef : null}
-              className="
-                flex-shrink-0
-                basis-[90%] 
-                sm:basis-[80%] 
-                md:basis-1/2 
-                lg:basis-[40%] 
-                xl:basis-[33%]
-                flex justify-center items-center"
+              className="flex-shrink-0 w-[90%] sm:w-[80%] md:w-1/2 lg:w-[40%] xl:w-[40%] snap-center h-full"
             >
-              {card}
+              <Card />
             </div>
           ))}
         </div>
       </section>
-
+ 
       {/* Arrows */}
       <div className="w-full mt-8 flex justify-center gap-10 text-4xl items-center">
-        {[
-          { Icon: <BsArrowLeft />, click: handlePrev },
-          { Icon: <BsArrowRight />, click: handleNext },
-        ].map(({ Icon, click }, index) => (
-          <motion.button
-            key={index}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 300, damping: 10 }}
-            onClick={click}
-            className="rounded-full border p-2 w-14 h-14 text-white sm:w-16 sm:h-16 flex items-center justify-center cursor-pointer"
-          >
-            {Icon}
-          </motion.button>
-        ))}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => scroll("left")}
+          className="rounded-full border p-2 w-14 h-14 text-white flex items-center justify-center cursor-pointer"
+        >
+          <BsArrowLeft />
+        </motion.button>
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => scroll("right")}
+          className="rounded-full border p-2 w-14 h-14 text-white flex items-center justify-center cursor-pointer"
+        >
+          <BsArrowRight />
+        </motion.button>
       </div>
     </div>
   );
