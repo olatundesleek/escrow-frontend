@@ -20,7 +20,6 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
 
   return (
     <div key={index} className='lg:w-[35rem]'>
-    <div key={index} className='lg:w-[35rem]'>
       <div
         className={`flex gap-4 items-center w-full   justify-between duration-300 cursor-pointer `}
         onClick={handleToggle}
@@ -46,7 +45,6 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
       <h1
         className={`text-xl  ${
           isOpen ? 'text-orange-500' : 'text-gray-300'
-          isOpen ? 'text-orange-500' : 'text-gray-300'
         }  overflow-hidden  flex`}
       >
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -57,12 +55,12 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
       <div
         className={`grid transition-all duration-700 ease-in-out ${
           isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
         } overflow-hidden`}
       >
         <div className='overflow-hidden'>
-        <div className='overflow-hidden'>
-          <Article>{faq.answer}</Article>
+          <div className='overflow-hidden'>
+            <Article>{faq.answer}</Article>
+          </div>
         </div>
       </div>
     </div>
