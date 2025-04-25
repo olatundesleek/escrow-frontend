@@ -44,7 +44,7 @@ const Accordian = () => {
 
   return (
     <div className="flex flex-col gap-10 lg:gap-15  lg:py-20">
-      <div className="lg:flex lg:gap-15 lg:justify-center lg:items-center">
+      <div className="flex flex-col-reverse lg:flex-row lg:gap-15 lg:justify-center lg:items-center m-3">
         <div>
           {FAQs.map((faq, i) => (
             <Lists
@@ -56,9 +56,9 @@ const Accordian = () => {
             />
           ))}
         </div>
-        <Image src="/qa.png" alt="qa" width={400} height={100} />
+        <Image src="/qa.png" alt="qa" width={500} height={200} />
       </div>
-      <div className="flex flex-col gap-10 pl-40 ">
+      <div className="flex flex-col gap-10 m-3 lg:pl-30 ">
         <Article>
           Have more questions? Click the button bellow to learn more.
         </Article>
