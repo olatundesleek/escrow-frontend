@@ -1,5 +1,5 @@
-import Marquee from "react-fast-marquee";
-import SponsorImage from "./SponsorImages";
+import Marquee from 'react-fast-marquee';
+import SponsorImage from './SponsorImages';
 import { sponsors } from '../constants/sponsors';
 
 const Sponsor = () => {
