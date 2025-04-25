@@ -39,10 +39,14 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
         </button>
       </div>
       <h1
-        className={`text-xl  ${isOpen ? "text-orange-500" : "text-gray-300"}`}
+        className={`text-xl  ${
+          isOpen ? "text-orange-500" : "text-gray-300"
+        }  overflow-hidden  flex`}
       >
-        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        - - - - - - - - - - - - - - - - -
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        <span className="lg:flex hidden">
+          - - - - - - - - - - - - - - - - - - -
+        </span>
       </h1>
       <div
         className={`grid transition-all duration-700 ease-in-out ${

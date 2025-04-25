@@ -7,19 +7,21 @@ interface SectionalTitleProps {
   description: string;
   desSize?: string;
   style?: string;
+  conAlignment?: string;
+  destextAlign?: string;
 }
 const SectionalTitle = ({
   title,
   description,
   desSize = "text-2xl",
-  style
+  destextAlign="text-center",
+  style,
+  conAlignment = "items-center",
 }: SectionalTitleProps) => {
   return (
-    <div className="flex flex-col gap-6 justify-center items-center ">
+    <div className={`flex flex-col gap-6 justify-center ${conAlignment}  `}>
       <HomeBannerSubtitle style={style}>{title}</HomeBannerSubtitle>
-      <Header
-        textSize={`mg:text-lg ${desSize} w-[22rem] text-center lg:w-[45rem]`}
-      >
+      <Header textSize={`  ${desSize} ${destextAlign} w-[22rem] lg:w-[45rem]`}>
         {description}
       </Header>
     </div>
