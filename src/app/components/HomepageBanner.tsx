@@ -1,9 +1,16 @@
+'use client';
+
+import { useStickyContext } from '../_context/StickyContext';
+import { useIntersectionObserver } from '../_hooks/useIntersectionObserver';
 import EscrowAction from './EscrowAction';
 import HomeBannerTitle from './HomeBannerTitle';
 
 export default function HomepageBanner() {
+  const { setIsIntersecting } = useStickyContext();
+  const ref = useIntersectionObserver(setIsIntersecting, 0.15);
+
   return (
-    <div className={`relative w-full bg-primary text-white`}>
+    <div ref={ref} className={`relative w-full bg-primary text-white`}>
       <div className="absolute inset-0 bg-[url('/images/banner.png')] bg-no-repeat bg-contain bg-center z-0" />
 
       <div className='absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-transparent z-10' />

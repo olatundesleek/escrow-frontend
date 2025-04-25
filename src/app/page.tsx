@@ -1,17 +1,18 @@
-import HomepageBanner from "./components/HomepageBanner";
-import Subscribe from "./components/Subscribe";
-import ServiceCards from "./components/ServiceCards";
-import Faqs from "./components/Faqs";
-import BlogArticle from "./components/BlogArticle";
+import Features from './components/Features';
+import HomepageBanner from './components/HomepageBanner';
+import Section from './components/Section';
+import Workflow from './components/Workflow';
 
 const Home = () => {
   return (
     <main>
       <HomepageBanner />
-      <Subscribe />
-      <ServiceCards />
-      <Faqs />
-      <BlogArticle/>
+      <Section>
+        <Workflow />
+      </Section>
+      <Section>
+        <Features />
+      </Section>
     </main>
   );
 };

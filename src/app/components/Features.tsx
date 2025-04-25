@@ -6,21 +6,23 @@ import Offers from "./Offers";
 
 const Features = () => {
   return (
-    <section>
+    <section className='[&>div>header]:text-base md:[&>div>header]:text-lg'>
       <SectionalTitle
-        title="FEATURES"
-        description="Unlock the Full Potential of Your Transactions with Confidence and Security"
+        title='FEATURES'
+        description='Unlock the Full Potential of Your Transactions with Confidence and Security'
       />
 
-      <div className="lg:flex gap-4 m-3 justify-center">
-        <Image
-          src="/confidence.png"
-          alt="features section"
-          width={450}
-          height={450}
-        />
+      <div className='lg:flex gap-4 m-3 justify-center'>
+        <div className='relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] mx-auto'>
+          <Image
+            src='/confidence.png'
+            alt='features section'
+            fill
+            className='object-contain'
+          />
+        </div>
 
-        <div className="lg:w-[47%]">
+        <div className='lg:w-[47%]'>
           <Article>
             Discover the full spectrum of capabilities with our feature-rich
             platform, designed to elevate every aspect of your transactions.
@@ -31,26 +33,26 @@ const Features = () => {
             ensuring peace of mind at every step of the way.
           </Article>
 
-          <div className="lg:grid grid-cols-2  pt-5">
-            <div className="flex flex-col gap-3">
-              <Offers title="Regulatory Compliance" />
-              <Offers title="Integration Options" />
-              <Offers title="Escrow Record Keeping" />
+          <div className='lg:grid grid-cols-2  pt-5'>
+            <div className='flex flex-col gap-3'>
+              <Offers title='Regulatory Compliance' />
+              <Offers title='Integration Options' />
+              <Offers title='Escrow Record Keeping' />
             </div>
 
-            <div className="flex flex-col gap-3">
-              <Offers title="Instant Notifications" color="text-orange-400" />
-              <Offers title="Escrow Tracking" color="text-orange-400" />
-              <Offers title="Collaborative Workflows" color="text-orange-400" />
+            <div className='flex flex-col gap-3'>
+              <Offers title='Instant Notifications' color='text-orange-400' />
+              <Offers title='Escrow Tracking' color='text-orange-400' />
+              <Offers title='Collaborative Workflows' color='text-orange-400' />
             </div>
           </div>
 
-          <div className="lg:flex gap-4 pt-5">
-            <HistoryCard image="/client.png" title="Clients" number="500+" />
+          <div className='lg:flex gap-4 pt-5'>
+            <HistoryCard image='/client.png' title='Clients' number='500+' />
             <HistoryCard
-              image="/transaction.png"
-              title="Transaction"
-              number="10k+"
+              image='/transaction.png'
+              title='Transaction'
+              number='10k+'
             />
           </div>
         </div>
