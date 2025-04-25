@@ -4,6 +4,11 @@ import ArticleCard from "./ArticleCard";
 import { FiArrowUpRight } from "react-icons/fi";
 
 const BlogArticle = () => {
+
+  
+
+  
+
   return (
     <section>
       <div className="lg:flex lg:justify-evenly items-center m-3  text-start">
@@ -24,8 +29,22 @@ const BlogArticle = () => {
         </Button>
       </div>
 
-      <div>
-        <ArticleCard image="/" title="Top Benefits of Using Escrow for Business Dea..." description=""/>
+      <div className="flex flex-col gap-4 lg:flex-row lg:gap-6 justify-center items-center">
+        <ArticleCard
+          image="/pay.png"
+          title="Top Benefits of Using Escrow for Business Dea..."
+          description="In today's fast-paced world, freelancing has emerged as a popular choice for many professionals seeking flexibility, aut..."
+        />
+        <ArticleCard
+          image="/password.png"
+          title="How Escrow Services Build Trust in High-Value..."
+          description="In today's fast-paced world, freelancing has emerged as a popular choice for many professionals seeking flexibility, aut..."
+        />
+        <ArticleCard
+          image="/tips.png"
+          title="5 Tips to Ensure Secure Online Transactions i..."
+          description="In today's fast-paced world, freelancing has emerged as a popular choice for many professionals seeking flexibility, aut..."
+        />
       </div>
     </section>
   );
