@@ -47,10 +47,6 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
         <span className='lg:flex hidden'>
           - - - - - - - - - - - - - - - - - - -
         </span>
-        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        <span className='lg:flex hidden'>
-          - - - - - - - - - - - - - - - - - - -
-        </span>
       </h1>
       <div
         className={`grid transition-all duration-700 ease-in-out ${
