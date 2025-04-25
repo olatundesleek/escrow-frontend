@@ -37,6 +37,7 @@ const WorkflowCard = ({
             alt='Workflow Image'
             fill
             className={`object-contain ${border} p-7 border-gray-200`}
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           />
         </div>
         <div className='w-full flex flex-col gap-5  lg:w-[55%]'>
