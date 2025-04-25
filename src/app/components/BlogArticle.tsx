@@ -41,6 +41,14 @@ const BlogArticle = () => {
           description="In today's fast-paced world, freelancing has emerged as a popular choice for many professionals seeking flexibility, aut..."
         />
       </div>
+
+      <div>
+        <ArticleCard
+          image='/'
+          title='Top Benefits of Using Escrow for Business Dea...'
+          description=''
+        />
+      </div>
     </section>
   );
 };

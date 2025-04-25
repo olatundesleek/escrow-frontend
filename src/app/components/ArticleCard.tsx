@@ -9,6 +9,7 @@ interface ArticleCardProps {
   image: string;
 }
 const ArticleCard = ({ title, image, description }: ArticleCardProps) => {
+<<<<<<< HEAD
   // Can be replaced with a more dynamic date fetching method when getting from backend
   const today = new Date();
 
@@ -37,6 +38,17 @@ const ArticleCard = ({ title, image, description }: ArticleCardProps) => {
       <Header>{title}</Header>
       <div className='w-full h-[1px] bg-gray-300'></div>
       <Article>{description}</Article>
+=======
+  return (
+    <div>
+      <Image src={image} alt={title} width={250} height={250} />
+      <div>
+        <HiCalendarDateRange />
+        <p>{Date.now()}</p>
+        <Header>{title}</Header>
+        <Article>{description}</Article>
+      </div>
+>>>>>>> a7d25a2 (modifying and creation of Blog section)
     </div>
   );
 };

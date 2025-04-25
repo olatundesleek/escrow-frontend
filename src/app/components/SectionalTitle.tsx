@@ -8,6 +8,8 @@ interface SectionalTitleProps {
   style?: string;
   conAlignment?: string;
   destextAlign?: string;
+  conAlignment?: string;
+  destextAlign?: string;
 }
 const SectionalTitle = ({
   title,
