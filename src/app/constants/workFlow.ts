@@ -10,8 +10,8 @@ interface Workflow {
 export const workflow: Workflow[] = [
   {
     image: '/greet.png',
-    style: 'flex-row',
-    border: 'border-r-1',
+    style: 'lg:flex-row',
+    border: 'lg:border-r-1',
     number: '1',
     title: 'Agreement Between Buyer and Seller',
     description:
@@ -19,8 +19,8 @@ export const workflow: Workflow[] = [
   },
   {
     image: '/payment.png',
-    style: 'flex-row-reverse',
-    border: 'border-l-2',
+    style: 'lg:flex-row-reverse',
+    border: 'lg:border-l-2',
     number: '2',
     title: 'Transfer Payment to Escrow Account',
     description:
@@ -28,8 +28,8 @@ export const workflow: Workflow[] = [
   },
   {
     image: '/goods.png',
-    style: 'flex-row',
-    border: 'border-r-1',
+    style: 'lg:flex-row',
+    border: 'lg:border-r-1',
     number: '3',
     title: 'Provide Goods or Services to Buyer',
     description:
@@ -37,8 +37,8 @@ export const workflow: Workflow[] = [
   },
   {
     image: '/funds.png',
-    style: 'flex-row-reverse',
-    border: 'border-l-2',
+    style: 'lg:flex-row-reverse',
+    border: 'lg:border-l-2',
     number: '4',
     title: 'Release Funds to Seller Upon Completion',
     description:
