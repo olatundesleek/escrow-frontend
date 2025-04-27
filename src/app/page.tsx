@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-import HomepageBanner from "./components/HomepageBanner";
 import { Testimonial } from "./components/Testimonial";
-=======
-import Features from './components/Features';
-import HomepageBanner from './components/HomepageBanner';
-import Section from './components/Section';
-import Workflow from './components/Workflow';
->>>>>>> 2367ccc4e9d931421a4f1e00db8ce50dac491cfe
+import Features from "./components/Features";
+import HomepageBanner from "./components/HomepageBanner";
+import Section from "./components/Section";
+import Workflow from "./components/Workflow";
 
 const Home = () => {
   return (
@@ -14,6 +10,7 @@ const Home = () => {
       <HomepageBanner />
       <Section>
         <Workflow />
+        <Testimonial />
       </Section>
       <Section>
         <Features />

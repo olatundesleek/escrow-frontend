@@ -1,14 +1,8 @@
-<<<<<<< HEAD
+"use client";
+import { useStickyContext } from "../_context/StickyContext";
+import { useIntersectionObserver } from "../_hooks/useIntersectionObserver";
 import EscrowAction from "./EscrowAction";
 import HomeBannerTitle from "./HomeBannerTitle";
-=======
-'use client';
-
-import { useStickyContext } from '../_context/StickyContext';
-import { useIntersectionObserver } from '../_hooks/useIntersectionObserver';
-import EscrowAction from './EscrowAction';
-import HomeBannerTitle from './HomeBannerTitle';
->>>>>>> 2367ccc4e9d931421a4f1e00db8ce50dac491cfe
 
 export default function HomepageBanner() {
   const { setIsIntersecting } = useStickyContext();

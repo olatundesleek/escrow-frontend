@@ -1,18 +1,24 @@
 "use client";
-import { useRef } from "react";
+
+import { useState } from "react";
 import { Card } from "./_slider/Card";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import * as motion from "motion/react-client";
+import { motion } from "framer-motion"; // Fix your import here
+import { TestimonialData } from "../constants/Testimonial";
 
 export const Testimonial = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const scroll = (direction: "left" | "right") => {
-    if (containerRef.current) {
-      const { scrollLeft, clientWidth } = containerRef.current;
-      const scrollTo = direction === "left" ? scrollLeft - clientWidth : scrollLeft + clientWidth;
-      containerRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
-    }
+  const nextSlide = () => {
+    setCurrentIndex((prev) =>
+      prev === TestimonialData.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) =>
+      prev === 0 ? TestimonialData.length - 1 : prev - 1
+    );
   };
 
   return (
@@ -34,27 +40,30 @@ export const Testimonial = () => {
 
       {/* Snap Scroll Slider */}
       <section className="relative w-full max-w-7xl overflow-hidden">
-        <div
-          ref={containerRef}
-          className="flex overflow-x-auto gap-6 scroll-smooth snap-x snap-mandatory px-2 hide-scrollbar"
-        >
-          {[0, 1, 2, 3, 4, 5].map((index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 w-[90%] sm:w-[80%] md:w-1/2 lg:w-[40%] xl:w-[40%] snap-center h-full"
-            >
-              <Card />
-            </div>
-          ))}
+        <div className="relative w-full h-[300px] overflow-hidden">
+          <motion.div
+            className="flex gap-6 h-full"
+            animate={{ x: `-${currentIndex * 100}%` }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            {TestimonialData.map(({ image, remark, clientname }, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-full sm:w-full md:w-full lg:w-full xl:w-full h-full"
+              >
+                <Card image={image} remark={remark} clientname={clientname} />
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
- 
+
       {/* Arrows */}
       <div className="w-full mt-8 flex justify-center gap-10 text-4xl items-center">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => scroll("left")}
+          onClick={prevSlide}
           className="rounded-full border p-2 w-14 h-14 text-white flex items-center justify-center cursor-pointer"
         >
           <BsArrowLeft />
@@ -63,7 +72,7 @@ export const Testimonial = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => scroll("right")}
+          onClick={nextSlide}
           className="rounded-full border p-2 w-14 h-14 text-white flex items-center justify-center cursor-pointer"
         >
           <BsArrowRight />

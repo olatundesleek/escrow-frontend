@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
 interface StickyContextType {
   isIntersecting: boolean;
@@ -32,7 +32,7 @@ export const useStickyContext = () => {
   const context = useContext(StickyContext);
   if (!context)
     throw new Error(
-      'useStickyContext must be used within a StickyContextProvider',
+      "useStickyContext must be used within a StickyContextProvider"
     );
   return context;
 };
