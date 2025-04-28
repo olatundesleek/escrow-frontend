@@ -1,4 +1,4 @@
-import Faqs from './components/Faqs';
+// import Faqs from './components/Faqs';
 import Features from './components/Features';
 import HomepageBanner from './components/HomepageBanner';
 import Section from './components/Section';
@@ -14,9 +14,9 @@ const Home = () => {
       <Section>
         <Features />
       </Section>
-      <Section>
+      {/* <Section>
         <Faqs />
-      </Section>
+      </Section> */}
     </main>
   );
 };
