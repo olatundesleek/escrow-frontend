@@ -1,5 +1,6 @@
 import SectionalTitle from './SectionalTitle';
 import Accordian from './Accordian';
+import { FAQs } from '../constants/faqs';
 
 const Faqs = () => {
   return (
@@ -11,7 +12,7 @@ const Faqs = () => {
         desSize='lg:text-3xl'
       />
 
-      <Accordian />
+      <Accordian faqs={FAQs} />
     </section>
   );
 };

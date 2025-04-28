@@ -1,8 +1,8 @@
-// import Faqs from './components/Faqs';
-import Features from './components/Features';
 import HomepageBanner from './components/HomepageBanner';
 import Section from './components/Section';
 import Workflow from './components/Workflow';
+import Features from './components/Features';
+import Faqs from './components/Faqs';
 
 const Home = () => {
   return (
@@ -14,9 +14,9 @@ const Home = () => {
       <Section>
         <Features />
       </Section>
-      {/* <Section>
+      <Section>
         <Faqs />
-      </Section> */}
+      </Section>
     </main>
   );
 };
