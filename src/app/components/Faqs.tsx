@@ -8,7 +8,7 @@ const Faqs = () => {
       <SectionalTitle
         title='FAQ'
         description='Unveiling Valuable Insights and Delivering Clear, Actionable Understanding'
-        style='text-9xl'
+        style='lg:text-9xl'
         desSize='lg:text-3xl'
       />
 
