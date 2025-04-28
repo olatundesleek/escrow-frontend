@@ -22,7 +22,7 @@ export const Testimonial = () => {
   };
 
   return (
-    <div className="w-full h-auto px-2 py-20 bg-primary text-center flex flex-col justify-center items-center mt-10 overflow-hidden">
+    <div className="w-full h-auto px-10 xl:px-2 py-20 bg-primary text-center flex flex-col justify-center items-center xl:mt-10 mt-20 overflow-hidden">
       {/* Heading */}
       <motion.section
         className="w-full max-w-6xl mb-10"
@@ -40,16 +40,16 @@ export const Testimonial = () => {
 
       {/* Snap Scroll Slider */}
       <section className="relative w-full max-w-7xl overflow-hidden">
-        <div className="relative w-full h-[300px] overflow-hidden">
+        <div className="relative w-full h-[300px] overflow-hidden justify-center items-center">
           <motion.div
-            className="flex gap-6 h-full"
+            className="flex h-full md:w-[70%] w-full xl:gap-20 lg:gap-5 lg:w-[45%] md:gap-5"
             animate={{ x: `-${currentIndex * 100}%` }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ ease: "easeInOut" }}
           >
             {TestimonialData.map(({ image, remark, clientname }, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-full sm:w-full md:w-full lg:w-full xl:w-full h-full"
+                className="flex-shrink-0 w-full sm:w-full md:w-full lg:w-full xl:w-[90%] h-full"
               >
                 <Card image={image} remark={remark} clientname={clientname} />
               </div>

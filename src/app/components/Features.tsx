@@ -6,19 +6,20 @@ import Offers from "./Offers";
 
 const Features = () => {
   return (
-    <section className='[&>div>header]:text-base md:[&>div>header]:text-lg'>
+    <section className='[&>div>header]:text-base md:[&>div>header]:text-lg lg:[&>div>header]:text-2xl'>
       <SectionalTitle
         title='FEATURES'
         description='Unlock the Full Potential of Your Transactions with Confidence and Security'
       />
 
-      <div className='lg:flex gap-4 m-3 justify-center'>
-        <div className='relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] mx-auto'>
+      <div className='lg:flex gap-4 m-3 lg:mt-12 justify-center'>
+        <div className='relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] mx-auto lg:mr-0 lg:ml-0'>
           <Image
             src='/confidence.png'
             alt='features section'
             fill
             className='object-contain'
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           />
         </div>
 
