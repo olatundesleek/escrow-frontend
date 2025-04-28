@@ -1,22 +1,25 @@
 'use client';
 
-// import Button from "./Button";
 import Lists from './Lists';
 import { useState } from 'react';
 import Image from 'next/image';
 import Article from './Article';
 import { FiArrowUpRight } from 'react-icons/fi';
 import Button from './Button';
-import { FAQs } from '../constants/faqs';
 
-const Accordian = () => {
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+const Accordian = ({ faqs }: { faqs: FAQ[] }) => {
   const [curOpen, setCurOpen] = useState<number | null>(null);
 
   return (
     <div className='flex flex-col gap-10 lg:gap-15  lg:py-20'>
       <div className='flex flex-col-reverse lg:flex-row lg:gap-15 lg:justify-center lg:items-center m-3'>
         <div>
-          {FAQs.map((faq, i) => (
+          {faqs.map((faq, i) => (
             <Lists
               faq={faq}
               index={i}
