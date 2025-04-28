@@ -4,12 +4,11 @@ import Workflow from './components/Workflow';
 import Features from './components/Features';
 import Faqs from './components/Faqs';
 import Subscribe from './components/Subscribe';
-import ServiceCards from './components/ServiceCards';
 import Services from './components/Services';
 
 const Home = () => {
   return (
-    <main>
+    <>
       <HomepageBanner />
       <Section>
         <Workflow />
@@ -26,7 +25,7 @@ const Home = () => {
       <Section>
         <Faqs />
       </Section>
-    </main>
+    </>
   );
 };
 
