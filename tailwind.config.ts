@@ -1,15 +1,15 @@
 // tailwind.config.ts
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        lexend: ['"Lexend"', 'sans-serif'],
+        lexend: ['"Lexend"', "sans-serif"],
       },
     },
   },
-  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   plugins: [],
 };
 

@@ -2,7 +2,7 @@ import Features from "./components/Features";
 import HomepageBanner from "./components/HomepageBanner";
 import Section from "./components/Section";
 import Workflow from "./components/Workflow";
-import Sponsor from "./components/Sponsor";
+// import Sponsor from "./components/Sponsor";
 
 const Home = () => {
   return (
