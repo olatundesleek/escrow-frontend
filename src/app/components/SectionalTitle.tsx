@@ -1,5 +1,5 @@
-import HomeBannerSubtitle from './HomeBannerSubtitle';
-import Header from './Header';
+import HomeBannerSubtitle from "./HomeBannerSubtitle";
+import Header from "./Header";
 
 interface SectionalTitleProps {
   title: string;
@@ -12,10 +12,10 @@ interface SectionalTitleProps {
 const SectionalTitle = ({
   title,
   description,
-  desSize = 'text-2xl',
-  destextAlign = 'text-center',
+  desSize = "text-2xl",
+  destextAlign = "text-center",
   style,
-  conAlignment = 'items-center',
+  conAlignment = "items-center",
 }: SectionalTitleProps) => {
   return (
     <div className={`flex flex-col gap-6 justify-center ${conAlignment}  `}>
