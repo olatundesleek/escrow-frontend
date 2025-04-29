@@ -5,6 +5,21 @@
   --color-primary: #000000;
   --color-secondary: #9af039;
 }
+@layer utilities {
+  /* Chrome, Safari, Edge */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+
 
 .top-navbar {
   top: 'var(--navbar-height)';

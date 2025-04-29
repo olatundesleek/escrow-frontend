@@ -6,6 +6,7 @@ import Faqs from './components/Faqs';
 import Subscribe from './components/Subscribe';
 import Services from './components/Services';
 import { Testimonial } from './components/Testimonial';
+import Sponsor from './components/Sponsor';
 
 const Home = () => {
   return (
@@ -13,6 +14,8 @@ const Home = () => {
       <HomepageBanner />
       <Section>
         <Workflow />
+      </Section>
+      <Section>
         <Testimonial />
       </Section>
       <Section>
@@ -26,6 +29,9 @@ const Home = () => {
       </Section>
       <Section>
         <Faqs />
+      </Section>
+      <Section style='mb-0 lg:mb-0 lg:mt-40'>
+        <Sponsor />
       </Section>
     </>
   );
