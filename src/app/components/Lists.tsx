@@ -25,7 +25,9 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
         onClick={handleToggle}
       >
         <h1
-          className={`text-xl  ${isOpen ? "text-secondary" : "text-gray-700"}`}
+          className={`text-base lg:text-xl max-w-4/5 lg:max-w-full  ${
+            isOpen ? "text-secondary" : "text-gray-700"
+          }`}
         >
           {faq.question}
         </h1>
@@ -34,6 +36,8 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
           className={`rounded-full font-light w-10 h-10 flex items-center justify-center  ${
             isOpen ? "bg-secondary text-white" : "bg-green-100 text-secondary"
           } `}
+          aria-label={isOpen ? "Collapse" : "Expand"}
+          title={isOpen ? "Collapse" : "Expand"}
         >
           <FaPlus />
         </button>
@@ -43,7 +47,7 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
           isOpen ? "text-orange-500" : "text-gray-300"
         }  overflow-hidden  flex`}
       >
-        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         <span className="lg:flex hidden">
           - - - - - - - - - - - - - - - - - - -
         </span>
@@ -54,7 +58,9 @@ const Lists = ({ faq, index, curOpen, setCurOpen }: ListsProps) => {
         } overflow-hidden`}
       >
         <div className="overflow-hidden">
-          <Article>{faq.answer}</Article>
+          <div className="overflow-hidden">
+            <Article>{faq.answer}</Article>
+          </div>
         </div>
       </div>
     </div>

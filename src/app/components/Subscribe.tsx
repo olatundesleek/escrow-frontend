@@ -11,16 +11,16 @@ const Subscribe = () => {
         desSize="lg:text-3xl text-white"
       />
 
-      <div className="lg:flex w-auto justify-center items-center block border-2 border-green-400">
+      <div className="lg:flex w-full justify-center items-center flex flex-col lg:flex-row">
         <input
-          className="lg:w-[50rem] border-0 lg:m-5 m-2 rounded-md outline-secondary h-13 text-xl bg-white p-8"
+          className="lg:w-[50rem] lg:m-5 m-2 rounded-md outline-secondary h-13 text-xl bg-white p-8 border"
           type="email"
           placeholder="Enter Your Email Address"
         />
         <Button
           color="bg-orange-400 hover:opacity-90 text-white"
           textSize="text-2xl"
-          style="flex gap-3 items-center ml-20"
+          style="flex gap-3 items-center lg:py-4"
         >
           Subscribe
           <span>
