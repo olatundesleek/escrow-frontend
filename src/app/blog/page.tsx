@@ -1,5 +1,7 @@
-import PageBanner from '../components/PageBanner';
-import PageBannerTitle from '../components/PageBannerTitle';
+import PageBanner from "../components/PageBanner";
+import PageBannerTitle from "../components/PageBannerTitle";
+import Blogs from "../components/Blogs";
+import Section from "../components/Section";
 
 export default function Page() {
   return (
@@ -7,6 +9,10 @@ export default function Page() {
       <PageBanner>
         <PageBannerTitle>Latest Article</PageBannerTitle>
       </PageBanner>
+
+      <Section>
+        <Blogs />
+      </Section>
     </>
   );
 }

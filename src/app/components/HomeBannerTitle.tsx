@@ -15,17 +15,17 @@ const HomeBannerTitle = () => {
         <Typewriter
           words={["Secure Payments", "Secure Payments"]}
           loop={1}
-          typeSpeed={400}
-          deleteSpeed={300}
-          delaySpeed={1000}
+          typeSpeed={100}
+          deleteSpeed={100}
+          delaySpeed={100}
         />
         <HomeBannerSubtitle>
           <Typewriter
             words={["Simplified", "Simplified"]}
             loop={1}
-            typeSpeed={400}
-            deleteSpeed={400}
-            delaySpeed={1000}
+            typeSpeed={100}
+            deleteSpeed={100}
+            delaySpeed={100}
           />
         </HomeBannerSubtitle>
       </h1>
