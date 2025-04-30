@@ -9,18 +9,18 @@ interface ButtonProps {
   textSize?: string;
   padding?: string;
   style?: string;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   onClick?: () => void;
 }
 
 const Button = ({
   children,
-  color = 'bg-primary text-white',
-  textSize = 'font-2xl',
-  padding = 'px-5 py-3',
-  style = '',
+  color = "bg-primary text-white",
+  textSize = "font-2xl",
+  padding = "px-5 py-3",
+  style = "",
   onClick,
-  type = 'button',
+  type = "button",
 }: ButtonProps) => {
   return (
     <button

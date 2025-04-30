@@ -1,21 +1,21 @@
 "use client";
 
-import {useState} from "react";
+import { useState } from "react";
 import Button from "./Button";
-import { Listbox } from '@headlessui/react';
+import { Listbox } from "@headlessui/react";
 
-const options = ['Selling', 'Buying'];
+const options = ["Selling", "Buying"];
 const categories = [
-  'Real Estate',
-  'Vehicle',
-  'Construction',
-  'Home Renovation',
-  'Freelancing Platform',
-  'Loan Agreement',
-  'Investment Transaction',
-  'Luxury Goods',
-  'Import/Export Transaction',
-  'Crypto Transaction',
+  "Real Estate",
+  "Vehicle",
+  "Construction",
+  "Home Renovation",
+  "Freelancing Platform",
+  "Loan Agreement",
+  "Investment Transaction",
+  "Luxury Goods",
+  "Import/Export Transaction",
+  "Crypto Transaction",
 ];
 
 const EscrowAction = () => {
@@ -40,7 +40,7 @@ const EscrowAction = () => {
                   key={option}
                   value={option}
                   className={({ active }) =>
-                    `cursor-pointer select-none ${
+                    `cursor-pointer select-none py-2 px-4 ${
                       active ? 'bg-secondary text-white' : 'text-gray-900'
                     }`
                   }
@@ -104,4 +104,3 @@ const EscrowAction = () => {
 };
 
 export default EscrowAction;
-
