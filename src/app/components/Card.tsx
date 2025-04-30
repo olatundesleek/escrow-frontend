@@ -5,7 +5,7 @@ import { TestimonialType } from "@/app/constants/Testimonial";
 export const Card = ({ image, remark, clientname }: TestimonialType) => {
   return (
     <motion.section
-      className="w-full h-full bg-amber-100 rounded-2xl xl:text-xl flex justify-evenly items-center flex-col p-5 shadow-lg hover:shadow-2xl transition-shadow duration-300"
+      className="w-full max-w-[500px] h-full bg-amber-100 rounded-2xl xl:text-xl flex justify-center items-center flex-col p-5 shadow-lg hover:shadow-2xl transition-shadow duration-300"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}

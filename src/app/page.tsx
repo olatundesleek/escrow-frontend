@@ -7,16 +7,18 @@ import Subscribe from './components/Subscribe';
 import Services from './components/Services';
 import { Testimonial } from './components/Testimonial';
 import Sponsor from './components/Sponsor';
+import BlogArticle from './components/BlogArticle';
+import About from './components/About';
 
 const Home = () => {
   return (
     <>
       <HomepageBanner />
       <Section>
-        <Workflow />
+        <About />
       </Section>
       <Section>
-        <Testimonial />
+        <Workflow />
       </Section>
       <Section>
         <Features />
@@ -29,6 +31,12 @@ const Home = () => {
       </Section>
       <Section>
         <Faqs />
+      </Section>
+      <Section>
+        <Testimonial />
+      </Section>
+      <Section>
+        <BlogArticle />
       </Section>
       <Section style='mb-0 lg:mb-0 lg:mt-40'>
         <Sponsor />

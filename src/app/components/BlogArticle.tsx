@@ -2,6 +2,7 @@ import SectionalTitle from './SectionalTitle';
 import Button from './Button';
 import ArticleCard from './ArticleCard';
 import { FiArrowUpRight } from 'react-icons/fi';
+import Link from 'next/link';
 
 const BlogArticle = () => {
   return (
@@ -20,7 +21,9 @@ const BlogArticle = () => {
           textSize='text-xl'
           style='flex items-center gap-3'
         >
-          View All Blog <FiArrowUpRight />
+          <Link href={'/blog'} className='flex items-center gap-3'>
+            View All Blog <FiArrowUpRight />
+          </Link>
         </Button>
       </div>
 
@@ -39,14 +42,6 @@ const BlogArticle = () => {
           image='/tips.png'
           title='5 Tips to Ensure Secure Online Transactions i...'
           description="In today's fast-paced world, freelancing has emerged as a popular choice for many professionals seeking flexibility, aut..."
-        />
-      </div>
-
-      <div>
-        <ArticleCard
-          image='/'
-          title='Top Benefits of Using Escrow for Business Dea...'
-          description=''
         />
       </div>
     </section>

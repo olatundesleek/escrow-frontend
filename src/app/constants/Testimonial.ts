@@ -38,4 +38,10 @@ export const TestimonialData: TestimonialType[] = [
       "I've tried many other platforms, but none come close to this one. Seamless transactions, great support, and real peace of mind. It's truly a game changer!",
     clientname: "Olivia Chen",
   },
+  {
+    image: profile,
+    remark:
+      "I've tried many other platforms, but none come close to this one. Seamless transactions, great support, and real peace of mind. It's truly a game changer!",
+    clientname: "Olivia Chen",
+  },
 ];
