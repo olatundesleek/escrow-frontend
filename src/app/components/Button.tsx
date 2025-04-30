@@ -26,7 +26,7 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      className={`${padding} ${textSize} ${color} ${style} rounded-md hover:opacity-80 transition duration-300`}
+      className={`${padding} ${textSize} ${color} ${style} rounded-md hover:opacity-80 transition duration-300  cursor-pointer`}
     >
       {children}
     </button>
