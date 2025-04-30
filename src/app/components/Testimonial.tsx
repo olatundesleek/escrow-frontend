@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { Card } from './Card';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';

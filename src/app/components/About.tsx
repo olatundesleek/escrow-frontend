@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Button from './Button';
 import SectionalTitle from './SectionalTitle';
 import { FiArrowUpRight } from 'react-icons/fi';
+import AboutusCards from './AboutusCards';
 
 export default function About() {
   return (
@@ -25,6 +26,8 @@ export default function About() {
           </Link>
         </Button>
       </div>
+
+      <AboutusCards />
     </section>
   );
 }
