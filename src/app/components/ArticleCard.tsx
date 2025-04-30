@@ -26,7 +26,7 @@ const ArticleCard = ({ title, image, description }: ArticleCardProps) => {
         alt={title}
         width={500}
         height={500}
-        className="rounded-lg w-full  object-cover"
+        className="rounded-lg w-full pointer object-cover"
       />
 
       <div className="flex  gap-4 items-center justify-start w-50 p-2 rounded-4xl bg-orange-400 text-white">
@@ -34,7 +34,9 @@ const ArticleCard = ({ title, image, description }: ArticleCardProps) => {
         <p>{formattedDate}</p>
       </div>
 
-      <Header>{title}</Header>
+      <Header textSize="text-2xl hover:text-secondary duration-1000 cursor-pointer">
+        {title}
+      </Header>
       <div className="w-full h-[1px] bg-gray-300"></div>
       <Article>{description}</Article>
     </div>
