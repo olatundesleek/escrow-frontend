@@ -2,10 +2,6 @@ import Image from 'next/image';
 import Header from './Header';
 import Article from './Article';
 import { HiCalendarDateRange } from 'react-icons/hi2';
-import Image from 'next/image';
-import Header from './Header';
-import Article from './Article';
-import { HiCalendarDateRange } from 'react-icons/hi2';
 
 interface ArticleCardProps {
   title: string;
