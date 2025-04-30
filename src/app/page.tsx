@@ -24,9 +24,6 @@ const Home = () => {
         <Features />
       </Section>
       <Section>
-        <Subscribe />
-      </Section>
-      <Section>
         <Services />
       </Section>
       <Section>
@@ -37,6 +34,9 @@ const Home = () => {
       </Section>
       <Section>
         <BlogArticle />
+      </Section>
+      <Section>
+        <Subscribe />
       </Section>
       <Section style='mb-0 lg:mb-0 lg:mt-40'>
         <Sponsor />
