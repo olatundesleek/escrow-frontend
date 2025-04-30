@@ -13,15 +13,15 @@ export default function Page() {
         <PageBannerTitle>About Us</PageBannerTitle>
       </PageBanner>
 
-      <div className="lg:mx-25 mt-15 mx-4">
+      <div className='lg:mx-25 mt-15 mx-4'>
         <Article>
           Celebrate peace of mind in every transaction with our trusted escrow
           platform. We understand the importance of trust and security in
           financial transactions. Backed by years of experience, our reliable
           escrow service safeguards your funds and ensures smooth, secure
           transactions. With a seamless user experience, our platform enables
-          buyers and sellers to transact confidently. Whether you're dealing
-          with real estate, vehicles, high-value items, or business
+          buyers and sellers to transact confidently. Whether you&apos;re
+          dealing with real estate, vehicles, high-value items, or business
           transactions, our escrow services provide a secure and transparent way
           to exchange funds.
         </Article>
