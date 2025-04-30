@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Article from './Article';
 import { FiArrowUpRight } from 'react-icons/fi';
 import Button from './Button';
+import Link from 'next/link';
 
 interface FAQ {
   question: string;
@@ -49,7 +50,12 @@ const Accordian = ({ faqs }: { faqs: FAQ[] }) => {
           textSize='text-xl'
           style='flex gap-3 items-center justify-center w-[10rem]'
         >
-          Ask More <FiArrowUpRight />
+          <Link
+            href={'/contact'}
+            className='flex gap-3 items-center justify-center w-[10rem]'
+          >
+            Ask More <FiArrowUpRight />
+          </Link>
         </Button>
       </div>
     </div>
