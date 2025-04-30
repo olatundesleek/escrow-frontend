@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Article from "./Article";
+import Image from 'next/image';
+import Article from './Article';
 
 interface ServiceCardProps {
   goods: string;

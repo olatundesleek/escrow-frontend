@@ -1,6 +1,6 @@
-import SectionalTitle from "./SectionalTitle";
-import Button from "./Button";
-import { FiArrowUpRight } from "react-icons/fi";
+import SectionalTitle from './SectionalTitle';
+import Button from './Button';
+import { FiArrowUpRight } from 'react-icons/fi';
 
 const Subscribe = () => {
   return (

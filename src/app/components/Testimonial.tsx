@@ -1,7 +1,6 @@
 "use client";
-
-import { useState } from "react";
-import { Card } from "./_slider/Card";
+import { useState, useEffect } from "react";
+import { Card } from "./Card";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { motion } from "framer-motion"; // Fix your import here
 import { TestimonialData } from "../constants/Testimonial";
@@ -22,6 +21,13 @@ export const Testimonial = () => {
       prev === 0 ? TestimonialData.length - 1 : prev - 1
     );
   };
+
+  useEffect(() => {
+    const slide = setInterval(() => {
+      nextSlide();
+    }, 1000);
+    return clearInterval(slide);
+  }, []);
 
   return (
     <PageBanner>
@@ -47,7 +53,7 @@ export const Testimonial = () => {
             <motion.div
               className="flex h-full md:w-[70%] w-full xl:gap-20 lg:gap-5 lg:w-[45%] md:gap-5"
               animate={{ x: `-${currentIndex * 100}%` }}
-              transition={{ ease: "easeInOut" }}
+              transition={{ ease: "easeInOut", duration: 1 }}
             >
               {TestimonialData.map(({ image, remark, clientname }, index) => (
                 <div
@@ -62,7 +68,7 @@ export const Testimonial = () => {
         </section>
 
         {/* Arrows */}
-        <div className="w-full mt-8 flex justify-center gap-10 text-4xl items-center">
+        <div className="w-full m-5 flex justify-center gap-10 text-4xl items-center">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}

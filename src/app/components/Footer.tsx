@@ -1,18 +1,20 @@
+"use client";
 import { LuFacebook } from "react-icons/lu";
 import { FaLocationDot, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { TbBrandLinkedin, TbMailFilled } from "react-icons/tb";
 import React from "react";
 import Logo from "./Logo";
-import { FooterSection } from "./_footer/FooterSection";
-import { SocialLink } from "./_footer/SocialLink";
-import { FooterLinks } from "./_footer/FooterLinks";
-import { ContactInfo } from "./_footer/ContactInfo";
-import { usefulLinks, companyPolicies } from "./_footer/data";
+import { FooterSection } from "./FooterSection";
+import { SocialLink } from "./SocialLink";
+import { FooterLinks } from "./FooterLinks";
+import { ContactInfo } from "./ContactInfo";
+import { usefulLinks, companyPolicies } from "./data";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
   return (
-    <footer className="text-amber-100 bg-primary mt-10 w-full h-auto flex flex-col gap-10 p-10 justify-center items-center">
+    <footer className="text-amber-100 bg-primary w-full h-auto flex flex-col gap-10 p-10 justify-center items-center">
       {/* Logo and Description, Useful Links, Company Policies, Contact Information */}
       <section className="container flex justify-between gap-10 md:flex-nowrap flex-wrap">
         {/* Logo and Description */}
@@ -58,7 +60,7 @@ const Footer = () => {
 
       {/*   Copywrite */}
       <div className="container flex flex-col gap-2 text-center py-5 border-t-1 border-secondary">
-        <p>© 2025 Tona Escrow. All rights reserved.</p>
+        <p>© {currentYear} Tona Escrow. All rights reserved.</p>
       </div>
     </footer>
   );
