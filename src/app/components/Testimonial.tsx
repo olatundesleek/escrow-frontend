@@ -25,8 +25,8 @@ export const Testimonial = () => {
   useEffect(() => {
     const slide = setInterval(() => {
       nextSlide();
-    }, 1000);
-    return clearInterval(slide);
+    }, 5000);
+    return () => clearInterval(slide);
   }, []);
 
   return (
@@ -51,7 +51,7 @@ export const Testimonial = () => {
         <section className="relative w-full max-w-7xl overflow-hidden">
           <div className="relative w-full h-[300px] overflow-hidden justify-center items-center">
             <motion.div
-              className="flex h-full md:w-[70%] w-full xl:gap-20 lg:gap-5 lg:w-[45%] md:gap-5"
+              className="flex h-full md:w-[70%] w-[98%] gap-2 xl:gap-10 lg:gap-5 lg:w-[45%] md:gap-5"
               animate={{ x: `-${currentIndex * 100}%` }}
               transition={{ ease: "easeInOut", duration: 1 }}
             >
