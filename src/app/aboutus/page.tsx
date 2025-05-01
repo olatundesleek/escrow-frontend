@@ -5,6 +5,7 @@ import Section from "../components/Section";
 import AboutusCards from "../components/AboutusCards";
 import Vision from "../components/Vision";
 import Faqs from "../components/Faqs";
+import {Testimonial} from "../components/Testimonial";
 
 export default function Page() {
   return (
@@ -33,6 +34,10 @@ export default function Page() {
 
       <Section>
         <Vision />
+      </Section>
+
+      <Section>
+        <Testimonial />
       </Section>
 
       <Section>

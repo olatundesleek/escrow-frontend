@@ -54,7 +54,7 @@ const ContentForm = () => {
       </div>
 
       {/* Right: Form */}
-      <div className="flex flex-col w-full lg:pl-[13rem] pt-10 lg:w-[600px] h-full bg-section p-6 border-1 border-gray-500 rounded-xl shadow">
+      <div className="flex flex-col w-full lg:pl-[13rem] pt-10 lg:w-[600px] h-full bg-primary-section p-6 border-1 border-gray-500 rounded-xl shadow">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col py-4 gap-6"
