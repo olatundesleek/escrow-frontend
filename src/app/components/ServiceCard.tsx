@@ -21,7 +21,7 @@ const ServiceCard = ({
         {title}
       </h1>
       <Image src={image} alt={title} width={130} height={130} />
-      <h1 className='text-secondary '>
+      <h1 className="text-secondary ">
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       </h1>
       <Article>{description}</Article>

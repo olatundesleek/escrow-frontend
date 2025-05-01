@@ -1,6 +1,6 @@
-import SectionalTitle from './SectionalTitle';
-import Accordian from './Accordian';
-import { FAQs } from '../constants/faqs';
+import SectionalTitle from "./SectionalTitle";
+import Accordian from "./Accordian";
+import { FAQs } from "../constants/faqs";
 
 const Faqs = () => {
   return (

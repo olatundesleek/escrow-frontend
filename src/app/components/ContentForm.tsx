@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import Button from "./Button";
-
+import FormFormat from "./FormFormat";
 import { FiArrowUpRight } from "react-icons/fi";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { FaHouseUser, FaPhone } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 interface FormData {
   name: string;
@@ -25,72 +27,104 @@ const ContentForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center border-2 lg:flex-row lg:gap-8 lg:justify-center ">
-      <div className="relative lg:w-[450px] lg:h-[650px] md:w-[300px] md:h-[500px] sm:w-[150px] sm:h-[350px] rounded-xl overflow-hidden  ">
-        <Image src="/group.png" alt="group" fill className="object-contains" />
+    <div className="relative flex flex-col gap-70 m-4 lg:flex-row lg:gap-20 lg:items-center lg:justify-center">
+      {/* Middle Absolute Component */}
+      <div className="bg-green-900 text-white   rounded-xl shadow-lg lg:w-[400px] w-full  absolute lg:left-9/20 left-1/2 lg:top-1/2 top-3/10 transform -translate-x-1/2 -translate-y-1/2 z-10 border-1 border-white flex items-center  justify-center ">
+        <div className="flex w-full p-10 flex-col gap-7">
+          <FormFormat
+            title="Address"
+            format="Ojo Ayo Street, Lagos State, Nigeria"
+          >
+            <FaHouseUser />
+          </FormFormat>
+
+          <FormFormat title="Email Address" format="example@example.com">
+            <MdEmail />
+          </FormFormat>
+
+          <FormFormat title="Phone" format="0123-456-789">
+            <FaPhone />
+          </FormFormat>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-4 w-[50%] lg:items-end h-full rounded-xl bg-amber-200/30">
+      {/* Left: Image */}
+      <div className="relative w-full h-64 sm:h-80 md:h-96 lg:w-[400px] lg:h-[600px] rounded-xl overflow-hidden">
+        <Image src="/group.png" alt="group" fill className="object-cover" />
+      </div>
+
+      {/* Right: Form */}
+      <div className="flex flex-col w-full lg:pl-[13rem] pt-10 lg:w-[600px] h-full bg-primary-section p-6 border-1 border-gray-500 rounded-xl shadow">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-[60%] flex flex-col gap-8  p-10 "
+          className="flex flex-col py-4 gap-6"
         >
-          <div className="flex flex-col gap-2">
-            <h1>
+          {/* Name */}
+          <div className="flex flex-col gap-1">
+            <label>
               Your Full Name <span className="text-red-500">*</span>
-            </h1>
+            </label>
             <input
               type="text"
               {...register("name", { required: "Name is required" })}
-              className="border-1 border-gray-500  outline-secondary rounded-sm h-12 w-full"
+              className="border border-gray-400 bg-amber-200/30 outline-secondary rounded h-12 px-3"
             />
-            {errors.name && <p>{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
           </div>
 
-          <div className="flex flex-col gap-2">
-            <h1>
-              Your Email <span>*</span>
-            </h1>
+          {/* Email */}
+          <div className="flex flex-col gap-1">
+            <label>
+              Your Email <span className="text-red-500">*</span>
+            </label>
             <input
-              type="text"
+              type="email"
               {...register("email", { required: "Email is required" })}
-              className="border-1 border-gray-500  outline-secondary rounded-sm h-12 w-full"
+              className="border border-gray-400 bg-amber-200/30 outline-secondary rounded h-12 px-3"
             />
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
 
-          <div className="flex flex-col gap-2">
-            <h1>
-              Subject <span>*</span>
-            </h1>
+          {/* Subject */}
+          <div className="flex flex-col gap-1">
+            <label>
+              Subject <span className="text-red-500">*</span>
+            </label>
             <input
               type="text"
               {...register("subject", { required: "Subject is required" })}
-              className="border-1 border-gray-500  outline-secondary rounded-sm h-12 w-full"
+              className="border border-gray-400 bg-amber-200/30 outline-secondary rounded h-12 px-3"
             />
-            {errors.subject && <p>{errors.subject.message}</p>}
+            {errors.subject && (
+              <p className="text-red-500 text-sm">{errors.subject.message}</p>
+            )}
           </div>
 
-          <div className="flex flex-col gap-2">
-            <h1>
-              Message <span>*</span>
-            </h1>
+          {/* Message */}
+          <div className="flex flex-col gap-1">
+            <label>
+              Message <span className="text-red-500">*</span>
+            </label>
             <textarea
               {...register("message", { required: "Message is required" })}
-              className="border-1 border-gray-500  outline-secondary rounded-sm h-20 w-full"
+              className="border border-gray-400 bg-amber-200/30 outline-secondary rounded h-28 px-3 py-2"
             />
-            {errors.message && <p>{errors.message.message}</p>}
+            {errors.message && (
+              <p className="text-red-500 text-sm">{errors.message.message}</p>
+            )}
           </div>
+
           <Button
             color="bg-secondary hover:opacity-90 text-white"
             textSize="text-xl"
-            style="flex gap-3  items-center  w-[14rem]"
+            style="flex gap-3 items-center w-fit"
             type="submit"
           >
-            Send Message
-            <span>
-              <FiArrowUpRight />
-            </span>
+            Send Message <FiArrowUpRight />
           </Button>
         </form>
       </div>

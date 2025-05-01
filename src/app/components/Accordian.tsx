@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Lists from './Lists';
 import { useState } from 'react';
@@ -17,8 +17,8 @@ const Accordian = ({ faqs }: { faqs: FAQ[] }) => {
   const [curOpen, setCurOpen] = useState<number | null>(null);
 
   return (
-    <div className='flex flex-col gap-10 lg:gap-15  lg:py-20'>
-      <div className='flex flex-col-reverse lg:flex-row lg:gap-15 lg:justify-center lg:items-center m-3'>
+    <div className="flex flex-col gap-10 lg:gap-15  lg:py-20">
+      <div className="flex flex-col-reverse lg:flex-row lg:gap-15 lg:justify-center lg:items-center m-3">
         <div>
           {faqs.map((faq, i) => (
             <Lists
@@ -30,17 +30,17 @@ const Accordian = ({ faqs }: { faqs: FAQ[] }) => {
             />
           ))}
         </div>
-        <div className='relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] mx-auto lg:ml-0 lg:mr-0'>
+        <div className="relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] mx-auto lg:ml-0 lg:mr-0">
           <Image
-            src='/qa.png'
-            alt='qa'
+            src="/qa.png"
+            alt="qa"
             fill
-            className='object-contain'
-            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
       </div>
-      <div className='flex flex-col gap-10 m-3 lg:pl-30 '>
+      <div className="flex flex-col gap-10 m-3 lg:pl-30 ">
         <Article>
           Have more questions? Click the button bellow to learn more.
         </Article>
