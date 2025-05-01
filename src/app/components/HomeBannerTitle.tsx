@@ -1,7 +1,5 @@
 import HomeBannerSubtitle from "./HomeBannerSubtitle";
 import { Typewriter } from "react-simple-typewriter";
-import HomeBannerSubtitle from "./HomeBannerSubtitle";
-import { Typewriter } from "react-simple-typewriter";
 
 const HomeBannerTitle = () => {
   return (
