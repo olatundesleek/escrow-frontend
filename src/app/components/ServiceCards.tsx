@@ -20,3 +20,6 @@ const ServiceCards = () => {
 };
 
 export default ServiceCards;
+
+
+//className={i === 3 ? 'col-start-2 row-start-2' : '' }
