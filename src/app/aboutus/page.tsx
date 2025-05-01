@@ -5,7 +5,7 @@ import Section from "../components/Section";
 import AboutusCards from "../components/AboutusCards";
 import Vision from "../components/Vision";
 import Faqs from "../components/Faqs";
-import {Testimonial} from "../components/Testimonial";
+import { Testimonial } from "../components/Testimonial";
 
 export default function Page() {
   return (
@@ -21,8 +21,8 @@ export default function Page() {
           financial transactions. Backed by years of experience, our reliable
           escrow service safeguards your funds and ensures smooth, secure
           transactions. With a seamless user experience, our platform enables
-          buyers and sellers to transact confidently. Whether you're dealing
-          with real estate, vehicles, high-value items, or business
+          buyers and sellers to transact confidently. Whether you&apos;re
+          dealing with real estate, vehicles, high-value items, or business
           transactions, our escrow services provide a secure and transparent way
           to exchange funds.
         </Article>
