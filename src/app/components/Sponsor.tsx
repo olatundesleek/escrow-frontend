@@ -1,10 +1,10 @@
-import Marquee from "react-fast-marquee";
-import SponsorImage from "./SponsorImages";
+import Marquee from 'react-fast-marquee';
+import SponsorImage from './SponsorImages';
 import { sponsors } from '../constants/sponsors';
 
 const Sponsor = () => {
   return (
-    <section className='w-full bg-[#F9F9F9] lg:py-8 py-4'>
+    <section className='w-full bg-primary-section lg:py-8 py-4'>
       <div className='flex justify-center items-center w-[80%] mx-auto'>
         <Marquee gradient={false} speed={200}>
           {sponsors.map((sponsor, i) => (

@@ -3,6 +3,7 @@ import { TbUserPlus } from 'react-icons/tb';
 import Button from './Button';
 import NavItem from './NavItem';
 import { navLinks } from '../constants/navLinks';
+import Link from 'next/link';
 
 export default function NavMenu({ isToggled }: { isToggled: boolean }) {
   return (
@@ -17,16 +18,18 @@ export default function NavMenu({ isToggled }: { isToggled: boolean }) {
         ))}
       </ul>
       <div className='grow-1 flex justify-end'>
-        <Button
-          padding='px-2 py-2'
-          style='flex justify-center items-center flex-row gap-2'
-          color='bg-secondary text-white'
-        >
-          <span>
-            <TbUserPlus fontSize='1.2rem' />
-          </span>
-          <span>Log In</span>
-        </Button>
+        <Link href='/login'>
+          <Button
+            padding='px-2 py-2'
+            style='flex justify-center items-center flex-row gap-2'
+            color='bg-secondary text-white'
+          >
+            <span>
+              <TbUserPlus fontSize='1.2rem' />
+            </span>
+            <span>Log In</span>
+          </Button>
+        </Link>
       </div>
     </div>
   );
