@@ -52,7 +52,7 @@ export default function Login() {
               </label>
               <input
                 type="text"
-                className="form_input w-full p-4 border border-gray-300 rounded-sm"
+                className="form_input w-full p-4 border border-gray-300 rounded-sm bg-white md:bg-none"
               />
             </div>
             <div className="w-full">
@@ -62,7 +62,7 @@ export default function Login() {
               <div className="relative w-full flex items-center">
                 <input
                   type={isVisible ? "password" : "text"}
-                  className="form_input w-full p-4 pr-15 border border-gray-300 rounded-sm sm:bg-blue-200"
+                  className="form_input w-full p-4 pr-15 md:bg-none border border-gray-300 rounded-sm bg-white"
                 />
                 <m.div
                   whileHover={{ scale: 1.05, cursor: "pointer" }}
