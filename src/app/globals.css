@@ -1,10 +1,17 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-primary-section: #fafaff;
   --color-primary: #000000;
   --color-secondary: #9af039;
 }
+
+@media (max-width: 768px) {
+  .custom-gradient {
+    background: linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70);
+  }
+}
+
 @layer utilities {
   /* Chrome, Safari, Edge */
   input::-webkit-outer-spin-button,
@@ -14,13 +21,13 @@
   }
 
   /* Firefox */
-  input[type='number'] {
+  input[type="number"] {
     -moz-appearance: textfield;
   }
 }
 
 .top-navbar {
-  top: 'var(--navbar-height)';
+  top: "var(--navbar-height)";
 }
 
 .bg-clip-text {
@@ -36,4 +43,13 @@
 .outline-text-title {
   color: transparent;
   -webkit-text-stroke: 1.5px #d9ff02; /* yellow-400 */
+}
+
+.form_input:focus {
+  border: 1px solid #9af039;
+  outline: 1px solid #9af039;
+}
+
+.form_input {
+  outline: none;
 }
