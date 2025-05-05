@@ -1,89 +1,115 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Card } from './Card';
-import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
-import { motion } from 'framer-motion'; // Fix your import here
-import { TestimonialData } from '../constants/Testimonial';
-import SectionalTitle from './SectionalTitle';
-import PageBanner from './PageBanner';
+import dynamic from "next/dynamic";
+import { useRef } from "react";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { motion } from "framer-motion";
+import { TestimonialData } from "../constants/Testimonial";
+import { Card } from "./Card";
+import SectionalTitle from "./SectionalTitle";
+import PageBanner from "./PageBanner";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+// Types from react-slick
+import type { Settings } from "react-slick";
+import type Slider from "react-slick";
+
+// Dynamically import Slider with SSR disabled
+const SlickSlider = dynamic(
+  () => import("react-slick").then((mod) => mod.default),
+  {
+    ssr: false,
+  }
+);
 
 export const Testimonial = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const sliderRef = useRef<Slider | null>(null);
+
+  const settings: Settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+    pauseOnHover: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: 640,
+        settings: { slidesToShow: 1 },
+      },
+    ],
+  };
 
   const nextSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === TestimonialData.length - 1 ? 0 : prev + 1,
-    );
+    sliderRef.current?.slickNext();
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? TestimonialData.length - 1 : prev - 1,
-    );
+    sliderRef.current?.slickPrev();
   };
-
-  useEffect(() => {
-    const slide = setInterval(() => {
-      nextSlide();
-    }, 5000);
-    return () => clearInterval(slide);
-  }, []);
 
   return (
     <PageBanner>
-      <div className='w-full text-center flex flex-col justify-center items-center overflow-hidden'>
+      <div className="w-full flex flex-col items-center justify-center text-center overflow-hidden">
         <motion.section
-          className='w-full max-w-6xl mb-10'
+          className="w-full max-w-6xl mb-10"
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <SectionalTitle
-            title={'FEEDBACK'}
-            desSize={'text-2xl text-white'}
-            description={
-              'Sharing Valuable Insights and Meaningful Experiences for Growth'
-            }
+            title="FEEDBACK"
+            desSize="text-2xl text-white"
+            description="Sharing Valuable Insights and Meaningful Experiences for Growth"
           />
         </motion.section>
 
-        {/* Snap Scroll Slider */}
-        <section className='relative w-full max-w-7xl overflow-hidden'>
-          <div className='relative w-full h-[300px] overflow-hidden justify-center items-center'>
-            <motion.div
-              className='flex h-full md:w-[70%] w-[98%] gap-2 xl:gap-10 lg:gap-5 lg:w-[45%] md:gap-5'
-              animate={{ x: `-${currentIndex * 100}%` }}
-              transition={{ ease: 'easeInOut', duration: 1 }}
-            >
-              {TestimonialData.map(({ image, remark, clientname }, index) => (
-                <div
-                  key={index}
-                  className='flex-shrink-0 w-full sm:w-full md:w-full lg:w-full xl:w-[90%] h-full'
-                >
-                  <Card image={image} remark={remark} clientname={clientname} />
+        <section
+          className="relative w-full max-w-7xl px-2"
+          aria-label="Customer Testimonials"
+        >
+          <SlickSlider ref={sliderRef} {...settings}>
+            {TestimonialData.map(
+              ({ image, remark, clientname, profession }, index: number) => (
+                <div key={index} className="px-2 xl:h-90 h-80">
+                  <Card
+                    profession={profession}
+                    image={image}
+                    remark={remark}
+                    clientname={clientname}
+                  />
                 </div>
-              ))}
-            </motion.div>
-          </div>
+              )
+            )}
+          </SlickSlider>
         </section>
 
-        {/* Arrows */}
-        <div className='w-full m-5 flex justify-center gap-10 text-4xl items-center'>
+        <div className="w-full mt-5 flex justify-center gap-10 text-3xl items-center">
           <motion.button
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
             onClick={prevSlide}
-            className='rounded-full border p-2 w-14 h-14 text-white flex items-center justify-center cursor-pointer'
+            aria-label="Previous testimonial"
+            className="rounded-full border p-2 w-12 h-12 text-white flex items-center justify-center"
           >
             <BsArrowLeft />
           </motion.button>
 
           <motion.button
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
             onClick={nextSlide}
-            className='rounded-full border p-2 w-14 h-14 text-white flex items-center justify-center cursor-pointer'
+            aria-label="Next testimonial"
+            className="rounded-full border p-2 w-12 h-12 text-white flex items-center justify-center"
           >
             <BsArrowRight />
           </motion.button>

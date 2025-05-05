@@ -2,10 +2,18 @@ import Image from "next/image";
 import * as motion from "motion/react-client";
 import { TestimonialType } from "@/app/constants/Testimonial";
 
-export const Card = ({ image, remark, clientname }: TestimonialType) => {
+export const Card = ({
+  image,
+  remark,
+  clientname,
+  profession,
+}: TestimonialType) => {
   return (
     <motion.section
-      className="w-full max-w-[500px] h-full bg-amber-100 rounded-2xl xl:text-xl flex justify-center items-center flex-col p-5 shadow-lg hover:shadow-2xl transition-shadow duration-300"
+      className="w-full max-w-[500px] h-full rounded-2xl text-lg xl:text-xl flex justify-center items-center flex-col p-5 shadow-lg hover:shadow-2xl transition-shadow duration-300"
+      style={{
+        background: "linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70)",
+      }}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -15,7 +23,7 @@ export const Card = ({ image, remark, clientname }: TestimonialType) => {
         whileInView={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -50 }}
         transition={{ duration: 0.5 }}
-        className="text-center text-gray-800 leading-relaxed"
+        className="text-center text-primary leading-relaxed"
       >
         {remark}
       </motion.h2>
@@ -30,14 +38,14 @@ export const Card = ({ image, remark, clientname }: TestimonialType) => {
           <Image
             src={image}
             alt="profile_image"
-            className="w-full h-full rounded-full border-4 border-amber-700"
+            className="w-full h-full rounded-full border-4 border-primary  bg-primary"
           />
         </div>
         <div className="info flex justify-center items-start flex-col">
-          <h2 className="name text-xl xl:text-3xl text-amber-700 font-bold">
+          <h2 className="name text-xl xl:text-3xl text-orange-500 font-bold">
             {clientname}
           </h2>
-          <p className="profession text-gray-600">Businessman</p>
+          <p className="profession text-primary">{profession}</p>
         </div>
       </motion.div>
     </motion.section>
