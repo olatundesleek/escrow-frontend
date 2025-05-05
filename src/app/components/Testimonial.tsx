@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { motion } from "framer-motion";
@@ -12,20 +11,11 @@ import PageBanner from "./PageBanner";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// Types from react-slick
-import type { Settings } from "react-slick";
-import type Slider from "react-slick";
-
-// Dynamically import Slider with SSR disabled
-const SlickSlider = dynamic(
-  () => import("react-slick").then((mod) => mod.default),
-  {
-    ssr: false,
-  }
-);
-
+// Dynamically import the Slider with SSR disabled
+import { Settings, SliderMethods } from "react-slick";
+import Slider from "react-slick";
 export const Testimonial = () => {
-  const sliderRef = useRef<Slider | null>(null);
+  const sliderRef = useRef<SliderMethods | null>(null);
 
   const settings: Settings = {
     dots: true,
@@ -77,9 +67,9 @@ export const Testimonial = () => {
           className="relative w-full max-w-7xl px-2"
           aria-label="Customer Testimonials"
         >
-          <SlickSlider ref={sliderRef} {...settings}>
+          <Slider ref={sliderRef} {...settings}>
             {TestimonialData.map(
-              ({ image, remark, clientname, profession }, index: number) => (
+              ({ image, remark, clientname, profession }, index) => (
                 <div key={index} className="px-2 xl:h-90 h-80">
                   <Card
                     profession={profession}
@@ -90,7 +80,7 @@ export const Testimonial = () => {
                 </div>
               )
             )}
-          </SlickSlider>
+          </Slider>
         </section>
 
         <div className="w-full mt-5 flex justify-center gap-10 text-3xl items-center">
