@@ -1,3 +1,4 @@
+"use client";
 import { ChangeEvent, useState } from "react";
 import AuthContent from "./AuthContent";
 import signupBanner from "../../../public/signup-banner.png";
