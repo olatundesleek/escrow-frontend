@@ -1,5 +1,5 @@
 interface InputProps {
-  InputTitle: string;
+  InputTitle?: string;
   name?: string;
   type: string;
   value: string;

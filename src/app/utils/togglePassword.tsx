@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import * as m from "motion/react-client";
-import { Input } from "../components/AuthInput";
+import { AuthInput } from "../components/AuthInput";
 
 interface TogglePasswordProps {
   name?: string;
@@ -24,7 +24,7 @@ export const TogglePassword = ({
         {title} <span className="text-red-500">*</span>
       </label>
       <div className="relative">
-        <Input
+        <AuthInput
           name={name}
           type={`${isVisible ? "password" : "text"}`}
           value={password}
