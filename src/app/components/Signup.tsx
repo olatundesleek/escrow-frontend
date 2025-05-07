@@ -5,17 +5,18 @@ import signupBanner from "../../../public/signup-banner.png";
 import Button from "./Button";
 import Link from "next/link";
 import { TogglePassword } from "../utils/togglePassword";
+import { AuthInput } from "./AuthInput";
 
 export default function Signup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
     username: "",
     password: "",
     confirmPassword: "",
-    firstName: "",
-    lastName: "",
     emailAddress: "",
     Country: "",
     Phone: "",
@@ -30,21 +31,21 @@ export default function Signup() {
     e.preventDefault();
     setError("");
     const {
+      firstName,
+      lastName,
       username,
       password,
       confirmPassword,
-      firstName,
-      lastName,
       emailAddress,
       Country,
       Phone,
     } = userInfo;
     if (
+      firstName &&
+      lastName &&
       username &&
       password &&
       confirmPassword &&
-      firstName &&
-      lastName &&
       emailAddress &&
       Country &&
       Phone
@@ -61,11 +62,11 @@ export default function Signup() {
 
       // Success logic here (e.g., redirect, context update)
       console.log("Logged in:", {
+        firstName,
+        lastName,
         username,
         password,
         confirmPassword,
-        firstName,
-        lastName,
         emailAddress,
         Country,
         Phone,
@@ -84,35 +85,42 @@ export default function Signup() {
       {loading && <p className="text-gray-600 mb-4">Logging in...</p>}
 
       <div className="w-full">
-        <label className="block pt-4 font-medium">
-          Username
-          <span className="text-red-500">*</span>
-        </label>
-        <input
+        <AuthInput
+          InputTitle="First Name"
+          name="firstName"
           type="text"
-          name="username"
-          value={userInfo.username}
-          onChange={handleOnchange}
-          className="form_input w-full p-4 border border-gray-300 rounded-sm bg-white"
+          value={userInfo.firstName}
+          onchange={handleOnchange}
+        />
+      </div>
+      <div className="w-full">
+        <AuthInput
+          InputTitle="Last Name"
+          name="lastName"
+          type="text"
+          value={userInfo.lastName}
+          onchange={handleOnchange}
         />
       </div>
 
-      <div className="w-full">
-        <TogglePassword
-          name="password"
-          title="Password"
-          password={userInfo.password}
-          setPassword={handleOnchange}
-        />
-      </div>
+      <div className="w-full flex justify-between items-center gap-2">
+        <label className="w-1/2">
+          <TogglePassword
+            name="password"
+            title="Password"
+            password={userInfo.password}
+            setPassword={handleOnchange}
+          />
+        </label>
 
-      <div className="w-full">
-        <TogglePassword
-          name="confirmPassword"
-          title="Confirm Password"
-          password={userInfo.confirmPassword}
-          setPassword={handleOnchange}
-        />
+        <label className="w-1/2">
+          <TogglePassword
+            name="confirmPassword"
+            title="Confirm Password"
+            password={userInfo.confirmPassword}
+            setPassword={handleOnchange}
+          />
+        </label>
       </div>
 
       <div className="flex w-full justify-between items-center py-4">

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import * as m from "motion/react-client";
-import { Input } from "../components/input";
+import { Input } from "../components/AuthInput";
 
 interface TogglePasswordProps {
   name?: string;

@@ -5,7 +5,7 @@ import loginBanner from "../../../public/loginimage.png";
 import Button from "./Button";
 import AuthContent from "./AuthContent";
 import { TogglePassword } from "../utils/togglePassword";
-import { Input } from "./input";
+import { AuthInput } from "./AuthInput";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -43,11 +43,8 @@ export default function Login() {
       {loading && <p className="text-gray-600 mb-4">Logging in...</p>}
 
       <div className="w-full">
-        <label className="block pt-4 font-medium">
-          Username or Email Address
-          <span className="text-red-500">*</span>
-        </label>
-        <Input
+        <AuthInput
+          InputTitle="Username or Email Address"
           type="text"
           value={username}
           onchange={(e) => setUsername(e.target.value)}

@@ -21,9 +21,9 @@ export default function AuthContent({
 }: AuthContentProps) {
   return (
     <div className="w-full h-auto custom-gradient p-2 flex justify-center items-center text-lg">
-      <div className="w-full h-full flex justify-center items-center">
-        <div className="md:w-1/2 w-[90%] h-full flex flex-col items-center p-2 lg:mx-10">
-          <header className="flex justify-between items-center w-full py-10">
+      <div className="w-full flex justify-center items-center">
+        <div className="md:w-1/2 w-[90%] flex flex-col items-center p-2 lg:mx-7">
+          <header className="flex justify-between items-center w-full py-5">
             <Logo />
             <m.a
               href="/"
@@ -47,7 +47,7 @@ export default function AuthContent({
 
           <form
             onSubmit={handleSubmit}
-            className="w-full pt-10 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300"
+            className="w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300"
           >
             {formContent}
           </form>
