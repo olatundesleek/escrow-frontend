@@ -17,7 +17,7 @@ export const AuthInput = ({
 }: InputProps) => {
   return (
     <>
-      <label className="block pt-4 font-medium">
+      <label className="block pt-4 font-medium 2xl:text-xl text-[16px]">
         {InputTitle}
         <span className="text-red-500">*</span>
       </label>
