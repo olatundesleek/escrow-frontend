@@ -20,21 +20,20 @@ export const TogglePassword = ({
   const Icon = isVisible ? FaEye : FaEyeSlash;
   return (
     <>
-      <label className="block pt-4 font-medium">
-        {title} <span className="text-red-500">*</span>
-      </label>
       <div className="relative">
         <AuthInput
+          InputTitle={title}
           name={name}
           type={`${isVisible ? "password" : "text"}`}
           value={password}
           onchange={setPassword}
         />
+
         <m.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
           transition={{ duration: 0.3 }}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2"
+          className="absolute right-4 top-3/4 transform -translate-y-1/2"
           onClick={() => setIsVisible(!isVisible)}
         >
           <Icon className="text-gray-500 text-xl cursor-pointer" />

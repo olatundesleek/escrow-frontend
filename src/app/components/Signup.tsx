@@ -84,43 +84,45 @@ export default function Signup() {
       {error && <p className="text-red-500 font-medium mb-4">{error}</p>}
       {loading && <p className="text-gray-600 mb-4">Logging in...</p>}
 
-      <div className="w-full">
-        <AuthInput
-          InputTitle="First Name"
-          name="firstName"
-          type="text"
-          value={userInfo.firstName}
-          onchange={handleOnchange}
-        />
-      </div>
-      <div className="w-full">
-        <AuthInput
-          InputTitle="Last Name"
-          name="lastName"
-          type="text"
-          value={userInfo.lastName}
-          onchange={handleOnchange}
-        />
+      <div className="w-full flex gap-2">
+        <div className="w-1/2">
+          <AuthInput
+            InputTitle="First Name"
+            name="firstName"
+            type="text"
+            value={userInfo.firstName}
+            onchange={handleOnchange}
+          />
+        </div>
+        <div className="w-1/2">
+          <AuthInput
+            InputTitle="Last Name"
+            name="lastName"
+            type="text"
+            value={userInfo.lastName}
+            onchange={handleOnchange}
+          />
+        </div>
       </div>
 
-      <div className="w-full flex justify-between items-center gap-2">
-        <label className="w-1/2">
+      <div className="w-full flex gap-2">
+        <div className="w-1/2">
           <TogglePassword
             name="password"
             title="Password"
             password={userInfo.password}
             setPassword={handleOnchange}
           />
-        </label>
+        </div>
 
-        <label className="w-1/2">
+        <div className="w-1/2">
           <TogglePassword
             name="confirmPassword"
             title="Confirm Password"
             password={userInfo.confirmPassword}
             setPassword={handleOnchange}
           />
-        </label>
+        </div>
       </div>
 
       <div className="flex w-full justify-between items-center py-4">

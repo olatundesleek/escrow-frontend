@@ -40,8 +40,6 @@ export default function Login() {
   const loginContent = (
     <>
       {error && <p className="text-red-500 font-medium mb-4">{error}</p>}
-      {loading && <p className="text-gray-600 mb-4">Logging in...</p>}
-
       <div className="w-full">
         <AuthInput
           InputTitle="Username or Email Address"
@@ -73,9 +71,9 @@ export default function Login() {
         {loading ? "Logging in..." : "Log In"}
       </Button>
 
-      <div>
-        {"Don't have any account?"}
-        <Link href="#" className="text-secondary">
+      <div className="flex w-full justify-evenly p-2">
+        <p>{"Don't have any account ?"}</p>
+        <Link href="/register" className="text-secondary">
           Create Account
         </Link>
       </div>
