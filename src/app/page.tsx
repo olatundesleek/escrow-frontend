@@ -9,10 +9,11 @@ import { Testimonial } from './components/Testimonial';
 import Sponsor from './components/Sponsor';
 import BlogArticle from './components/BlogArticle';
 import About from './components/About';
+import AppLayout from './layout/layout';
 
 const Home = () => {
   return (
-    <>
+    <AppLayout>
       <HomepageBanner />
       <Section>
         <About />
@@ -41,7 +42,7 @@ const Home = () => {
       <Section style='mb-0 lg:mb-0 lg:mt-40'>
         <Sponsor />
       </Section>
-    </>
+    </AppLayout>
   );
 };
 

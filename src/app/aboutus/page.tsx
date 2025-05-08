@@ -6,15 +6,16 @@ import AboutusCards from "../components/AboutusCards";
 import Vision from "../components/Vision";
 import Faqs from "../components/Faqs";
 import { Testimonial } from "../components/Testimonial";
+import AppLayout from '../layout/layout';
 
 export default function Page() {
   return (
-    <>
+    <AppLayout>
       <PageBanner>
         <PageBannerTitle>About Us</PageBannerTitle>
       </PageBanner>
 
-      <div className="lg:mx-25 mt-15 mx-4">
+      <div className='lg:mx-25 mt-15 mx-4'>
         <Article>
           Celebrate peace of mind in every transaction with our trusted escrow
           platform. We understand the importance of trust and security in
@@ -43,6 +44,6 @@ export default function Page() {
       <Section>
         <Faqs />
       </Section>
-    </>
+    </AppLayout>
   );
 }
