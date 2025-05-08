@@ -1,16 +1,15 @@
-import PageBanner from "../components/PageBanner";
-import Article from "../components/Article";
-import PageBannerTitle from "../components/PageBannerTitle";
-import Section from "../components/Section";
-import AboutusCards from "../components/AboutusCards";
-import Vision from "../components/Vision";
-import Faqs from "../components/Faqs";
-import { Testimonial } from "../components/Testimonial";
-import AppLayout from '../layout/layout';
+import PageBanner from '../../components/PageBanner';
+import Article from '../../components/Article';
+import PageBannerTitle from '../../components/PageBannerTitle';
+import Section from '../../components/Section';
+import AboutusCards from '../../components/AboutusCards';
+import Vision from '../../components/Vision';
+import Faqs from '../../components/Faqs';
+import { Testimonial } from '../../components/Testimonial';
 
 export default function Page() {
   return (
-    <AppLayout>
+    <>
       <PageBanner>
         <PageBannerTitle>About Us</PageBannerTitle>
       </PageBanner>
@@ -44,6 +43,6 @@ export default function Page() {
       <Section>
         <Faqs />
       </Section>
-    </AppLayout>
+    </>
   );
 }
