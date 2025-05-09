@@ -1,7 +1,7 @@
-import PageBanner from "../components/PageBanner";
-import PageBannerTitle from "../components/PageBannerTitle";
-import Blogs from "../components/Blogs";
-import Section from "../components/Section";
+import PageBanner from '../../components/PageBanner';
+import PageBannerTitle from '../../components/PageBannerTitle';
+import Blogs from '../../components/Blogs';
+import Section from '../../components/Section';
 
 export default function Page() {
   return (
