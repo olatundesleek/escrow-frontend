@@ -1,4 +1,4 @@
-import PageBanner from '../../components/PageBanner';
+import StickyObserverBanner from '../../components/StickyObserverBanner';
 import Article from '../../components/Article';
 import PageBannerTitle from '../../components/PageBannerTitle';
 import Section from '../../components/Section';
@@ -10,9 +10,9 @@ import { Testimonial } from '../../components/Testimonial';
 export default function Page() {
   return (
     <>
-      <PageBanner>
+      <StickyObserverBanner>
         <PageBannerTitle>About Us</PageBannerTitle>
-      </PageBanner>
+      </StickyObserverBanner>
 
       <div className='lg:mx-25 mt-15 mx-4'>
         <Article>
