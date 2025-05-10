@@ -62,7 +62,7 @@ export default function Login() {
           <input type="checkbox" className="w-4 h-4 mr-2 cursor-pointer" />
           Remember me
         </label>
-        <Link href="#" className="text-lime-500">
+        <Link href="/forgottenpassword" className="text-lime-500">
           Forgotten Password?
         </Link>
       </div>

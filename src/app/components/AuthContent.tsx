@@ -40,7 +40,7 @@ export default function AuthContent({
             </m.a>
           </header>
 
-          <h2 className="xl:text-4xl text-2xl font-bold text-secondary">
+          <h2 className="xl:text-4xl text-2xl font-bold text-secondary tracking-wide">
             {authPageName}
           </h2>
           <p className="mt-2 text-xl text-center">{aboutAuthPage}</p>
