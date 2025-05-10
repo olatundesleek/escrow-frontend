@@ -1,20 +1,20 @@
-import PageBanner from "../components/PageBanner";
-import Article from "../components/Article";
-import PageBannerTitle from "../components/PageBannerTitle";
-import Section from "../components/Section";
-import AboutusCards from "../components/AboutusCards";
-import Vision from "../components/Vision";
-import Faqs from "../components/Faqs";
-import { Testimonial } from "../components/Testimonial";
+import StickyObserverBanner from '../../components/StickyObserverBanner';
+import Article from '../../components/Article';
+import PageBannerTitle from '../../components/PageBannerTitle';
+import Section from '../../components/Section';
+import AboutusCards from '../../components/AboutusCards';
+import Vision from '../../components/Vision';
+import Faqs from '../../components/Faqs';
+import { Testimonial } from '../../components/Testimonial';
 
 export default function Page() {
   return (
     <>
-      <PageBanner>
+      <StickyObserverBanner>
         <PageBannerTitle>About Us</PageBannerTitle>
-      </PageBanner>
+      </StickyObserverBanner>
 
-      <div className="lg:mx-25 mt-15 mx-4">
+      <div className='lg:mx-25 mt-15 mx-4'>
         <Article>
           Celebrate peace of mind in every transaction with our trusted escrow
           platform. We understand the importance of trust and security in
