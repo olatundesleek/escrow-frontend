@@ -1,4 +1,4 @@
-import PageBanner from '../../components/PageBanner';
+import StickyObserverBanner from '../../components/StickyObserverBanner';
 import PageBannerTitle from '../../components/PageBannerTitle';
 import Blogs from '../../components/Blogs';
 import Section from '../../components/Section';
@@ -6,9 +6,9 @@ import Section from '../../components/Section';
 export default function Page() {
   return (
     <>
-      <PageBanner>
+      <StickyObserverBanner>
         <PageBannerTitle>Latest Article</PageBannerTitle>
-      </PageBanner>
+      </StickyObserverBanner>
 
       <Section>
         <Blogs />
