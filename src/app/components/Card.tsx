@@ -10,10 +10,7 @@ export const Card = ({
 }: TestimonialType) => {
   return (
     <motion.section
-      className="w-full max-w-[500px] h-full rounded-2xl text-lg xl:text-xl flex justify-center items-center flex-col p-5 shadow-lg hover:shadow-2xl transition-shadow duration-300"
-      style={{
-        background: "linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70)",
-      }}
+      className="w-full max-w-[500px] h-full rounded-2xl text-lg xl:text-xl flex justify-center items-center flex-col p-5 shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-amber-200"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}

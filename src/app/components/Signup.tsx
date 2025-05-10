@@ -17,7 +17,7 @@ export default function Signup() {
     username: "",
     password: "",
     confirmPassword: "",
-    emailAddress: "",
+    email: "",
     Country: "",
     Phone: "",
   });
@@ -36,7 +36,7 @@ export default function Signup() {
       username,
       password,
       confirmPassword,
-      emailAddress,
+      email,
       Country,
       Phone,
     } = userInfo;
@@ -46,7 +46,7 @@ export default function Signup() {
       username &&
       password &&
       confirmPassword &&
-      emailAddress &&
+      email &&
       Country &&
       Phone
     ) {
@@ -67,7 +67,7 @@ export default function Signup() {
         username,
         password,
         confirmPassword,
-        emailAddress,
+        email,
         Country,
         Phone,
       });
@@ -82,10 +82,8 @@ export default function Signup() {
   const signupContent = (
     <>
       {error && <p className="text-red-500 font-medium mb-4">{error}</p>}
-      {loading && <p className="text-gray-600 mb-4">Logging in...</p>}
-
-      <div className="w-full flex gap-2">
-        <div className="w-1/2">
+      <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
+        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
           <AuthInput
             InputTitle="First Name"
             name="firstName"
@@ -94,7 +92,7 @@ export default function Signup() {
             onchange={handleOnchange}
           />
         </div>
-        <div className="w-1/2">
+        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
           <AuthInput
             InputTitle="Last Name"
             name="lastName"
@@ -104,9 +102,49 @@ export default function Signup() {
           />
         </div>
       </div>
+      <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
+        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
+          <AuthInput
+            InputTitle="Username"
+            name="username"
+            type="text"
+            value={userInfo.username}
+            onchange={handleOnchange}
+          />
+        </div>
+        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
+          <AuthInput
+            InputTitle="Email Address"
+            name="email"
+            type="email"
+            value={userInfo.email}
+            onchange={handleOnchange}
+          />
+        </div>
+      </div>
+      <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
+        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
+          <AuthInput
+            InputTitle="Country"
+            name="Country"
+            type="text"
+            value={userInfo.Country}
+            onchange={handleOnchange}
+          />
+        </div>
+        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
+          <AuthInput
+            InputTitle="Phone"
+            name="Phone"
+            type="number"
+            value={userInfo.Phone}
+            onchange={handleOnchange}
+          />
+        </div>
+      </div>
 
-      <div className="w-full flex gap-2">
-        <div className="w-1/2">
+      <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
+        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
           <TogglePassword
             name="password"
             title="Password"
@@ -115,7 +153,7 @@ export default function Signup() {
           />
         </div>
 
-        <div className="w-1/2">
+        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
           <TogglePassword
             name="confirmPassword"
             title="Confirm Password"
@@ -125,25 +163,30 @@ export default function Signup() {
         </div>
       </div>
 
-      <div className="flex w-full justify-between items-center py-4">
+      <div className="flex w-full justify-start gap-1 items-center py-4 2xl:text-xl text-[16px]">
         <label className="font-medium flex items-center">
-          <input type="checkbox" className="w-4 h-4 mr-2 cursor-pointer" />
-          Remember me
+          <input type="checkbox" className="w-4 h-4 mr-2 cursor-pointer" />I
+          agree with
         </label>
-        <Link href="#" className="text-secondary">
-          Forgotten Password?
+        <Link href="#" className="text-lime-500 font-medium">
+          privacy policy
+        </Link>
+        ,
+        <Link href="#" className="text-lime-500 font-medium">
+          Terms of Service
         </Link>
       </div>
 
-      <Button color="bg-secondary text-white font-medium w-full" type="submit">
-        {loading ? "Logging in..." : "Log In"}
+      <Button color="bg-lime-500 text-white font-medium w-full" type="submit">
+        {loading ? "Signing Up..." : "Sign Up"}
       </Button>
 
-      <div>
-        {"Don't have any account?"}
-        <Link href="#" className="text-secondary">
-          Create Account
+      <div className="flex w-full justify-center gap-2 p-2">
+        <p>{"Already have an account?"}</p>
+        <Link href="/login" className="text-lime-500 font-medium">
+          Sign In
         </Link>
+        <p>{"here."}</p>
       </div>
     </>
   );
