@@ -127,17 +127,21 @@ export default function CodeVerification() {
     </>
   );
 
+  const encriptedAddress = [email].map(
+    (text) => `${text?.split("")[0]}***gmail.com`
+  );
+
   return (
     <AuthContent
       authPageName="Code Verification"
-      aboutAuthPage={`A six-digit verification code has been sent to ${(
-        <span className="font-bold">
-          {[email].map((text) => `${text?.split("")[0]}***gmail.com`)}
-        </span>
-      )}`}
+      aboutAuthPage={`A six-digit verification code has been sent to ${encriptedAddress}`}
       handleSubmit={handleSubmit}
       formContent={codeVerification}
       formBanner={banner}
     />
   );
 }
+
+// aboutAuthPage={`A six-digit verification code has been sent to ${[
+//   email,
+// ].map((text) => `${text?.split("")[0]}***gmail.com`)}`}
