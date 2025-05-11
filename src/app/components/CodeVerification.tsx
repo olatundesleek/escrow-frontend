@@ -1,60 +1,115 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Button from "./Button";
 import { Alert } from "./Alert";
 import AuthContent from "./AuthContent";
 import banner from "../../../public/code-verification.png";
 
 export default function CodeVerification() {
-  const [error, setError] = useState("");
-  const [email, setEmail] = useState("");
+  const [error, setError] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [code, setCode] = useState<string[]>(Array(6).fill("")); // Array for 6-digit code
+  const inputRefs = useRef<HTMLInputElement[]>([]); // Refs for input fields
 
   useEffect(() => {
-    const res = sessionStorage.getItem("email");
-    if (!res) {
+    const emailFromSession = sessionStorage.getItem("email");
+    if (!emailFromSession) {
       setError("Email not found!");
+    } else {
+      setEmail(emailFromSession);
     }
-    if (res) {
-      setEmail(res);
-    }
-    return () => sessionStorage.clear();
+    setLoading(false);
+
+    return () => {
+      sessionStorage.clear();
+    };
   }, []);
+
+  const handleInputChange = (value: string, index: number) => {
+    if (!/^\d?$/.test(value)) return; // Allow only digits
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
+
+    // Focus on the next input field
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "Backspace" && !code[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (code.some((digit) => digit === "")) {
+      setError("Please enter the complete verification code.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const verificationCode = code.join("");
+      console.log("Verification Code Submitted:", verificationCode);
+
+      // Simulate API call
+      await new Promise((res) => setTimeout(res, 1500));
+
+      setError("");
+      alert("Code verified successfully!");
+      // Redirect or perform further actions here
+    } catch (err) {
+      setError("Verification failed. Please try again.");
+      console.error("Error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const codeVerification = (
     <>
-      <Alert
-        style={`${error ? "bg-error" : "bg-secondary"}`}
-        message={`${
-          error ? "An unexpected error occured" : "Enter code to verify account"
-        }`}
-      />
+      {loading && (
+        <Alert
+          style={`${error ? "bg-error" : "bg-secondary"}`}
+          message={`${
+            error
+              ? "An unexpected error occurred"
+              : "Enter code to verify account"
+          }`}
+        />
+      )}
 
-      <div className="w-full justify-center flex-col items-center py-4 2xl:text-xl text-[16px]">
+      <div className="w-full flex flex-col py-4 2xl:text-xl text-[16px]">
         <label className="block pt-4 font-medium 2xl:text-xl text-[16px]">
-          {"Verification Code"}
-          <span className="text-red-500">*</span>
+          Verification Code <span className="text-red-500">*</span>
         </label>
         <div className="w-full h-auto flex justify-center items-center gap-2">
-          {[1, 2, 3, 4, 5, 6].map((_, id) => {
-            return (
-              <input
-                key={id}
-                type="tel"
-                name="code[]"
-                maxLength={1}
-                pattern="[0-9]"
-                placeholder="*"
-                className="h-[50px] p-5 w-[50px] rounded-xl border text-center"
-                autoComplete="off"
-                required
-              />
-            );
-          })}
+          {code.map((digit, index) => (
+            <input
+              key={index}
+              type="tel"
+              name={`code-${index}`}
+              maxLength={1}
+              value={digit}
+              onChange={(e) => handleInputChange(e.target.value, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              ref={(el) => {
+                if (el) inputRefs.current[index] = el;
+              }}
+              placeholder="*"
+              className="h-[60px] w-[65px] rounded-lg border-gray-400 border-1 text-center text-xl outline-lime-400"
+              autoComplete="off"
+              required
+            />
+          ))}
         </div>
       </div>
 
@@ -62,12 +117,9 @@ export default function CodeVerification() {
         Submit
       </Button>
 
-      <div className="flex w-full justify-evenly p-2">
-        <span>
-          {
-            "Please check including your spam folder. If not found, then you can"
-          }
-        </span>
+      <div className="w-full p-2 text-center">
+        Please check your spam folder if you don’t see the email. If not found,
+        you can
         <Link href="/forgottenpassword" className="text-lime-500">
           Try Again.
         </Link>
@@ -77,8 +129,12 @@ export default function CodeVerification() {
 
   return (
     <AuthContent
-      authPageName={"Code Verification"}
-      aboutAuthPage={`A six-digit verification code has been sent to ${email}`}
+      authPageName="Code Verification"
+      aboutAuthPage={`A six-digit verification code has been sent to ${(
+        <span className="font-bold">
+          {[email].map((text) => `${text?.split("")[0]}***gmail.com`)}
+        </span>
+      )}`}
       handleSubmit={handleSubmit}
       formContent={codeVerification}
       formBanner={banner}
