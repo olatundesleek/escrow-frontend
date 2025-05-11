@@ -27,7 +27,6 @@ export const AuthInput = ({
         value={value}
         onChange={onchange}
         className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${style}`}
-        required
       />
     </>
   );

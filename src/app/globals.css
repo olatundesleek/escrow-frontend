@@ -4,6 +4,7 @@
   --color-primary-section: #fafaff;
   --color-primary: #000000;
   --color-secondary: #9af039;
+  --color-error: #fb2c36;
 }
 
 @media (max-width: 768px) {
