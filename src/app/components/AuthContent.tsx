@@ -20,9 +20,9 @@ export default function AuthContent({
   formBanner,
 }: AuthContentProps) {
   return (
-    <div className="w-full h-auto custom-gradient p-2 flex justify-center items-center text-lg">
-      <div className="w-full flex justify-center items-center">
-        <div className="md:w-1/2 w-[90%] flex flex-col items-center p-2 lg:mx-7">
+    <div className="w-full h-auto custom-gradient p-2 flex md:justify-start justify-center items-center text-lg">
+      <div className="w-full flex justify-start items-center">
+        <div className="md:w-[45%] w-full flex flex-col items-center p-2 lg:mx-7">
           <header className="flex justify-between items-center w-full py-5">
             <Logo />
             <m.a
@@ -54,7 +54,7 @@ export default function AuthContent({
         </div>
 
         <div
-          className="w-1/2 h-[100vh] hidden md:flex justify-center items-center rounded-xl"
+          className="w-1/2 h-[97vh] hidden md:flex justify-center items-center rounded-xl fixed top-[10px] right-[10px]"
           style={{
             background:
               "linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70)",

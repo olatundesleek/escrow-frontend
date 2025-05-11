@@ -57,23 +57,23 @@ export default function Login() {
         />
       </div>
 
-      <div className="flex w-full justify-between items-center py-4">
+      <div className="flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]">
         <label className="font-medium flex items-center">
           <input type="checkbox" className="w-4 h-4 mr-2 cursor-pointer" />
           Remember me
         </label>
-        <Link href="#" className="text-secondary">
+        <Link href="#" className="text-lime-500">
           Forgotten Password?
         </Link>
       </div>
 
-      <Button color="bg-secondary text-white font-medium w-full" type="submit">
+      <Button color="bg-lime-500 text-white font-medium w-full" type="submit">
         {loading ? "Logging in..." : "Log In"}
       </Button>
 
       <div className="flex w-full justify-evenly p-2">
         <p>{"Don't have any account ?"}</p>
-        <Link href="/register" className="text-secondary">
+        <Link href="/register" className="text-lime-500">
           Create Account
         </Link>
       </div>
