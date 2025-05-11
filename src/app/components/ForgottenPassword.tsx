@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import AuthContent from "./AuthContent";
 import forgottentPasswordBanner from "../../../public/forgotten-password.png";
 import { AuthInput } from "./AuthInput";
@@ -8,7 +9,7 @@ import { useState } from "react";
 export default function ForgottenPasssword() {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>();
-
+  const router = useRouter();
   const handleRecoverPassword = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -19,6 +20,9 @@ export default function ForgottenPasssword() {
     try {
       await new Promise((res) => setTimeout(res, 1500));
       console.log("password reset successfull", email);
+      sessionStorage.setItem("email", email);
+      setError("");
+      router.push("/verification");
     } catch (err) {
       setError("Password reset failed");
       console.error("Error", err);
