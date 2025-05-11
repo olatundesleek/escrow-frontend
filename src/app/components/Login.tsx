@@ -59,7 +59,11 @@ export default function Login() {
 
       <div className="flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]">
         <label className="font-medium flex items-center">
-          <input type="checkbox" className="w-4 h-4 mr-2 cursor-pointer" />
+          <input
+            type="checkbox"
+            className="w-4 h-4 mr-2 cursor-pointer"
+            required
+          />
           Remember me
         </label>
         <Link href="/forgottenpassword" className="text-lime-500">
