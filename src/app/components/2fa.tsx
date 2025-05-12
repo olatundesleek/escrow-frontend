@@ -141,7 +141,3 @@ export default function CodeVerification() {
     />
   );
 }
-
-// aboutAuthPage={`A six-digit verification code has been sent to ${[
-//   email,
-// ].map((text) => `${text?.split("")[0]}***gmail.com`)}`}

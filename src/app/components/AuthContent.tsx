@@ -22,7 +22,7 @@ export default function AuthContent({
   return (
     <div className="w-full h-auto custom-gradient p-2 flex md:justify-start justify-center items-center text-lg">
       <div className="w-full flex justify-start items-center">
-        <div className="md:w-[45%] w-full flex flex-col items-center p-2 lg:mx-7 h-auto py-10 gap-5">
+        <div className="md:w-[45%] min-h-[100vh] w-full flex flex-col items-center p-2 lg:mx-7 h-auto py-10 gap-5">
           <header className="flex justify-between items-center w-full py-5">
             <Logo />
             <m.a

@@ -4,7 +4,7 @@ import AuthContent from "./AuthContent";
 import signupBanner from "../../../public/signup-banner.png";
 import Button from "./Button";
 import Link from "next/link";
-import { TogglePassword } from "../utils/togglePassword";
+import { TogglePassword } from "./togglePassword";
 import { AuthInput } from "./AuthInput";
 
 export default function Signup() {

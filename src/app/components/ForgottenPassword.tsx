@@ -22,7 +22,7 @@ export default function ForgottenPasssword() {
       console.log("password reset successfull", email);
       sessionStorage.setItem("email", email);
       setError("");
-      router.push("/verification");
+      router.push("/confirmpassword");
     } catch (err) {
       setError("Password reset failed");
       console.error("Error", err);
