@@ -6,6 +6,7 @@ import Button from "./Button";
 import AuthContent from "./AuthContent";
 import { TogglePassword } from "../utils/togglePassword";
 import { AuthInput } from "./AuthInput";
+import { Alert } from "./Alert";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -16,12 +17,10 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     if (!username || !password) {
       setError("All fields are required.");
       return;
     }
-
     setLoading(true);
     try {
       // Simulate login request
@@ -39,6 +38,14 @@ export default function Login() {
 
   const loginContent = (
     <>
+      {loading && (
+        <Alert
+          style={`${error ? "bg-error" : "bg-secondary"}`}
+          message={`${
+            error ? "Login failed. Please try again." : "Login successfull"
+          }`}
+        />
+      )}
       {error && <p className="text-red-500 font-medium mb-4">{error}</p>}
       <div className="w-full">
         <AuthInput
@@ -59,10 +66,14 @@ export default function Login() {
 
       <div className="flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]">
         <label className="font-medium flex items-center">
-          <input type="checkbox" className="w-4 h-4 mr-2 cursor-pointer" />
+          <input
+            type="checkbox"
+            className="w-4 h-4 mr-2 cursor-pointer"
+            required
+          />
           Remember me
         </label>
-        <Link href="#" className="text-lime-500">
+        <Link href="/forgottenpassword" className="text-lime-500">
           Forgotten Password?
         </Link>
       </div>
