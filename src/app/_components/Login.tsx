@@ -17,6 +17,7 @@ export interface LoginFormInputs {
   username: string;
   password: string;
   rememberme: boolean;
+
 }
 
 export default function Login() {
