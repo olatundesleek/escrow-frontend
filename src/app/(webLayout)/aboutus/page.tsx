@@ -1,11 +1,11 @@
-import StickyObserverBanner from '../../components/StickyObserverBanner';
-import Article from '../../components/Article';
-import PageBannerTitle from '../../components/PageBannerTitle';
-import Section from '../../components/Section';
-import AboutusCards from '../../components/AboutusCards';
-import Vision from '../../components/Vision';
-import Faqs from '../../components/Faqs';
-import { Testimonial } from '../../components/Testimonial';
+import StickyObserverBanner from '../../_components/StickyObserverBanner';
+import Article from '../../_components/Article';
+import PageBannerTitle from '../../_components/PageBannerTitle';
+import Section from '../../_components/Section';
+import AboutusCards from '../../_components/AboutusCards';
+import Vision from '../../_components/Vision';
+import Faqs from '../../_components/Faqs';
+import { Testimonial } from '../../_components/Testimonial';
 
 export default function Page() {
   return (
