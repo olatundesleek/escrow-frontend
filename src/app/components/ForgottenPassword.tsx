@@ -1,16 +1,17 @@
 "use client";
-import { useRouter } from "next/navigation";
 import AuthContent from "./AuthContent";
 import forgottentPasswordBanner from "../../../public/forgotten-password.png";
 import { AuthInput } from "./AuthInput";
 import Button from "./Button";
 import { useState } from "react";
+import { Alert } from "./Alert";
 
 export default function ForgottenPasssword() {
   const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [error, setError] = useState<string>();
-  const router = useRouter();
-  const handleRecoverPassword = async (e: React.FormEvent) => {
+
+  const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email) {
@@ -18,18 +19,36 @@ export default function ForgottenPasssword() {
       return;
     }
     try {
-      await new Promise((res) => setTimeout(res, 1500));
+      const response = await fetch(
+        "https://escrow-backend-three.vercel.app/api/auth/reset-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message);
+        throw new Error(data.message || "Something went wrong");
+      }
 
       setError("");
-      router.push("/confirmpassword");
+      setMessage(data.message);
     } catch (err) {
-      setError("Password reset failed");
+      const errorMessage =
+        err instanceof Error ? err.message : "Password reset failed";
+      setError(errorMessage);
       console.error("Error", err);
     }
   };
 
   const forgottenPasswordContent = (
     <>
+      {message && <Alert message={message} style="bg-secondary" />}
       {error && <p className="text-red-500 font-medium mb-4">{error}</p>}
       <div className="w-full">
         <AuthInput
@@ -54,23 +73,9 @@ export default function ForgottenPasssword() {
       aboutAuthPage={
         "No worries! Just enter your email address below, and we'll send you a link to reset your password."
       }
-      handleSubmit={handleRecoverPassword}
+      handleSubmit={handleResetPassword}
       formContent={forgottenPasswordContent}
       formBanner={forgottentPasswordBanner}
     />
   );
 }
-
-// User submits their email on the frontend.
-
-// Frontend sends email to backend via POST /forgot-password.
-
-// Backend validates email and generates a token (or URL with user ID).
-
-// Backend sends an email to the user with a reset password link (e.g. https://your-frontend.com/reset-password/:token).
-
-// User clicks the link, which opens a Reset Password page.
-
-// User submits new password, which the frontend sends to backend via POST /reset-password/:token.
-
-// Backend verifies the token, updates the user's password, and confirms success.
