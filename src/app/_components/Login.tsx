@@ -40,7 +40,12 @@ export default function Login() {
     try {
       const res = await login(data);
 
-      console.log('Login response:', res);
+      if (!res.success && res.status === 404) {
+        // Handle login failure (e.g., show error message)
+        // Display error message
+        toast.error(res.message || 'Login failed. Please try again.');
+        return;
+      }
 
       if (!res.success && res.status === 401) {
         // Handle login failure (e.g., show error message)
@@ -73,11 +78,13 @@ export default function Login() {
         return;
       }
 
-      // Handle successful login (e.g., redirect to dashboard)
-      //Display success message
-      toast.success(res.message || 'Login successful!');
-      // Redirect to dashboard or another page
-      router.push('/dashboard');
+      if (res.success) {
+        // Handle successful login (e.g., redirect to dashboard)
+        //Display success message
+        toast.success(res.message || 'Login successful!');
+        // Redirect to dashboard or another page
+        router.push('/dashboard');
+      }
     } catch (error) {
       console.error('Error during login:', error);
     } finally {
