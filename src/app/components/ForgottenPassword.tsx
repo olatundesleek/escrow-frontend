@@ -19,8 +19,7 @@ export default function ForgottenPasssword() {
     }
     try {
       await new Promise((res) => setTimeout(res, 1500));
-      console.log("password reset successfull", email);
-      sessionStorage.setItem("email", email);
+
       setError("");
       router.push("/confirmpassword");
     } catch (err) {
@@ -61,3 +60,17 @@ export default function ForgottenPasssword() {
     />
   );
 }
+
+// User submits their email on the frontend.
+
+// Frontend sends email to backend via POST /forgot-password.
+
+// Backend validates email and generates a token (or URL with user ID).
+
+// Backend sends an email to the user with a reset password link (e.g. https://your-frontend.com/reset-password/:token).
+
+// User clicks the link, which opens a Reset Password page.
+
+// User submits new password, which the frontend sends to backend via POST /reset-password/:token.
+
+// Backend verifies the token, updates the user's password, and confirms success.
