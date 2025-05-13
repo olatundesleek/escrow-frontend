@@ -1,14 +1,14 @@
-import HomepageBanner from '../components/HomepageBanner';
-import Section from '../components/Section';
-import Workflow from '../components/Workflow';
-import Features from '../components/Features';
-import Faqs from '../components/Faqs';
-import Subscribe from '../components/Subscribe';
-import Services from '../components/Services';
-import { Testimonial } from '../components/Testimonial';
-import Sponsor from '../components/Sponsor';
-import BlogArticle from '../components/BlogArticle';
-import About from '../components/About';
+import HomepageBanner from '../_components/HomepageBanner';
+import Section from '../_components/Section';
+import Workflow from '../_components/Workflow';
+import Features from '../_components/Features';
+import Faqs from '../_components/Faqs';
+import Subscribe from '../_components/Subscribe';
+import Services from '../_components/Services';
+import { Testimonial } from '../_components/Testimonial';
+import Sponsor from '../_components/Sponsor';
+import BlogArticle from '../_components/BlogArticle';
+import About from '../_components/About';
 
 const Home = () => {
   return (

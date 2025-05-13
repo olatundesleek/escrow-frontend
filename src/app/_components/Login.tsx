@@ -7,7 +7,7 @@ import AuthContent from './AuthContent';
 import { TogglePassword } from './TogglePassword';
 import { AuthInput } from './AuthInput';
 import { useForm } from 'react-hook-form';
-import { clickToVerifyEmail, login } from '../lib/auth';
+import { clickToVerifyEmail, login } from '../_lib/auth';
 import SpinnerMini from './SpinnerMini';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';

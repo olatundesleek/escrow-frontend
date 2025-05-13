@@ -1,5 +1,5 @@
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
+import Footer from '../_components/Footer';
+import Navbar from '../_components/Navbar';
 // import { Lexend } from 'next/font/google';
 import { ReactNode } from 'react';
 
