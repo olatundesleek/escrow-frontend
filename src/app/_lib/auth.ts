@@ -25,7 +25,11 @@ export async function login({
       credentials: 'include',
     });
 
-    if ((!res.ok && res.status === 401) || res.status === 403) {
+    if (
+      (!res.ok && res.status === 401) ||
+      res.status === 403 ||
+      res.status === 404
+    ) {
       const errorData = await res.json();
       return { ...errorData, status: res.status };
     }
@@ -62,15 +66,12 @@ export async function clickToVerifyEmail({
       credentials: 'include',
     });
 
-    console.log('Click to verify email request:', res);
-
     if (!res.ok) {
       const errorData = await res.json();
       return { ...errorData };
     }
 
     const data = await res.json();
-    console.log('Click to verify email response:', data);
 
     return data;
   } catch (error) {
