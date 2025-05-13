@@ -7,10 +7,11 @@ import AuthContent from './AuthContent';
 import { TogglePassword } from './TogglePassword';
 import { AuthInput } from './AuthInput';
 import { useForm } from 'react-hook-form';
-import { login } from '../lib/auth';
+import { clickToVerifyEmail, login } from '../lib/auth';
 import SpinnerMini from './SpinnerMini';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import ToastCustom from './ToastCustom';
 
 export interface LoginFormInputs {
   username: string;
@@ -28,15 +29,46 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
+  const handleVerifyEmail = async (email: string) => {
+    const res = await clickToVerifyEmail({ email });
+    toast.success(res.message || 'Verification email sent successfully!');
+  };
+
   const onSubmit = async (data: LoginFormInputs) => {
     setIsLoading(true);
     try {
       const res = await login(data);
 
-      if (!res.success) {
+      console.log('Login response:', res);
+
+      if (!res.success && res.status === 401) {
         // Handle login failure (e.g., show error message)
         // Display error message
         toast.error(res.message || 'Login failed. Please try again.');
+        return;
+      }
+      if (!res.success && res.status === 403) {
+        // Handle login failure (e.g., show error message)
+        // Display error message
+        ToastCustom({
+          children: (
+            <>
+              <p>{res.message}</p>
+              <Button
+                color='transparent text-secondary'
+                textSize='text-base'
+                padding='p-0'
+                onClick={() =>
+                  res.email
+                    ? handleVerifyEmail(res.email)
+                    : toast.error('Email is missing,')
+                }
+              >
+                Click here to verify your email
+              </Button>
+            </>
+          ),
+        });
         return;
       }
 
