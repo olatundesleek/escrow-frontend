@@ -4,100 +4,133 @@ import { useState } from "react";
 import loginBanner from "../../../public/loginimage.png";
 import Button from "./Button";
 import AuthContent from "./AuthContent";
-import { TogglePassword } from "../utils/togglePassword";
-import { AuthInput } from "./AuthInput";
-import { Alert } from "./Alert";
+import { TogglePassword } from './TogglePassword';
+import { AuthInput } from './AuthInput';
+import { useForm } from 'react-hook-form';
+import { login } from '../lib/auth';
+import SpinnerMini from './SpinnerMini';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
+export interface LoginFormInputs {
+  username: string;
+  password: string;
+  rememberme: boolean;
+}
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    if (!username || !password) {
-      setError("All fields are required.");
-      return;
-    }
-    setLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>();
+
+  const onSubmit = async (data: LoginFormInputs) => {
+    setIsLoading(true);
     try {
-      // Simulate login request
-      await new Promise((res) => setTimeout(res, 1500));
+      const res = await login(data);
 
-      // Success logic here (e.g., redirect, context update)
-      console.log("Logged in:", { username, password });
-    } catch (err) {
-      console.error("Error:", err);
-      setError("Login failed. Please try again.");
+      if (!res.success) {
+        // Handle login failure (e.g., show error message)
+        // Display error message
+        toast.error(res.message || 'Login failed. Please try again.');
+        return;
+      }
+
+      // Handle successful login (e.g., redirect to dashboard)
+      //Display success message
+      toast.success(res.message || 'Login successful!');
+      // Redirect to dashboard or another page
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Error during login:', error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const loginContent = (
-    <>
-      {loading && (
-        <Alert
-          style={`${error ? "bg-error" : "bg-secondary"}`}
-          message={`${
-            error ? "Login failed. Please try again." : "Login successfull"
-          }`}
-        />
-      )}
-      {error && <p className="text-red-500 font-medium mb-4">{error}</p>}
-      <div className="w-full">
-        <AuthInput
-          InputTitle="Username or Email Address"
-          type="text"
-          value={username}
-          onchange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-
-      <div className="w-full">
-        <TogglePassword
-          title={"Password"}
-          password={password}
-          setPassword={(e) => setPassword(e.target.value)}
-        />
-      </div>
-
-      <div className="flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]">
-        <label className="font-medium flex items-center">
-          <input
-            type="checkbox"
-            className="w-4 h-4 mr-2 cursor-pointer"
-            required
-          />
-          Remember me
-        </label>
-        <Link href="/forgottenpassword" className="text-lime-500">
-          Forgotten Password?
-        </Link>
-      </div>
-
-      <Button color="bg-lime-500 text-white font-medium w-full" type="submit">
-        {loading ? "Logging in..." : "Log In"}
-      </Button>
-
-      <div className="flex w-full justify-evenly p-2">
-        <p>{"Don't have any account ?"}</p>
-        <Link href="/register" className="text-lime-500">
-          Create Account
-        </Link>
-      </div>
-    </>
-  );
-
   return (
     <AuthContent
-      authPageName="Login"
-      aboutAuthPage="Secure your transactions effortlessly. Log in now and experience peace of mind with our trusted platform!"
-      handleSubmit={handleSubmit}
+      authPageName='Login'
+      aboutAuthPage='Secure your transactions effortlessly. Log in now and experience peace of mind with our trusted platform!'
       formBanner={loginBanner}
-      formContent={loginContent}
-    />
+    >
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300'
+      >
+        <div className='w-full'>
+          <AuthInput InputTitle='Username' name='username'>
+            <input
+              id='username'
+              type='text'
+              autoComplete='username'
+              className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white`}
+              {...register('username', {
+                required: {
+                  value: true,
+                  message: 'Username is required',
+                },
+                minLength: {
+                  value: 3,
+                  message: 'Username must be at least 3 characters long',
+                },
+                maxLength: {
+                  value: 20,
+                  message: 'Username must be at most 20 characters long',
+                },
+              })}
+            />
+            {errors.username && (
+              <span className='text-red-500 text-sm'>
+                {errors.username.message}
+              </span>
+            )}
+          </AuthInput>
+        </div>
+
+        <div className='w-full'>
+          <TogglePassword
+            title={'Password'}
+            name='password'
+            register={register}
+            error={errors.password?.message}
+          />
+        </div>
+
+        <div className='flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]'>
+          <label className='font-medium flex items-center'>
+            <input
+              type='checkbox'
+              className='w-4 h-4 mr-2 cursor-pointer'
+              {...register('rememberme', { required: false })}
+            />
+            Remember me
+          </label>
+          <Link href='/forgottenpassword' className='text-lime-500'>
+            Forgotten Password?
+          </Link>
+        </div>
+
+        <Button
+          style='font-medium w-full flex items-center justify-center'
+          type='submit'
+          isLoading={isLoading}
+        >
+          {isLoading ? <SpinnerMini /> : 'Log In'}
+        </Button>
+
+        <div className='flex w-full justify-evenly p-2'>
+          <p>{"Don't have any account ?"}</p>
+          <Link href='/register' className='text-lime-500'>
+            Create Account
+          </Link>
+        </div>
+      </form>
+    </AuthContent>
   );
 }
+

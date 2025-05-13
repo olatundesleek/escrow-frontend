@@ -8,8 +8,9 @@ import Logo from "./Logo";
 interface AuthContentProps {
   authPageName: string;
   aboutAuthPage: string;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
-  formContent: React.ReactNode;
+  handleSubmit?: (e: React.FormEvent) => Promise<void>;
+  children?: React.ReactNode;
+  formContent?: React.ReactNode;
   formBanner: StaticImageData;
 }
 export default function AuthContent({
@@ -17,50 +18,55 @@ export default function AuthContent({
   aboutAuthPage,
   handleSubmit,
   formContent,
+  children,
   formBanner,
 }: AuthContentProps) {
   return (
-    <div className="w-full h-auto custom-gradient p-2 flex md:justify-start justify-center items-center text-lg">
-      <div className="w-full flex justify-start items-center">
-        <div className="md:w-[45%] w-full flex flex-col items-center p-2 lg:mx-7">
-          <header className="flex justify-between items-center w-full py-5">
+    <div className='w-full h-auto custom-gradient p-2 flex md:justify-start justify-center items-center text-lg'>
+      <div className='w-full flex justify-start items-center'>
+        <div className='md:w-[45%] w-full flex flex-col items-center p-2 lg:mx-7'>
+          <header className='flex justify-between items-center w-full py-5'>
             <Logo />
             <m.a
-              href="/"
-              className="p-2 rounded-full bg-white border border-secondary text-secondary"
+              href='/'
+              className='p-2 rounded-full bg-white border border-secondary text-secondary'
               whileHover={{
                 scale: 1.06,
-                backgroundColor: "#9af039",
-                color: "#f90",
+                backgroundColor: '#9af039',
+                color: '#f90',
               }}
               whileTap={{ scale: 0.9 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
               <FaHome size={20} />
             </m.a>
           </header>
 
-          <h2 className="xl:text-4xl text-2xl font-bold text-secondary tracking-wide">
+          <h2 className='xl:text-4xl text-2xl font-bold text-secondary tracking-wide'>
             {authPageName}
           </h2>
-          <p className="mt-2 text-xl text-center">{aboutAuthPage}</p>
+          <p className='mt-2 text-xl text-center'>{aboutAuthPage}</p>
 
-          <form
-            onSubmit={handleSubmit}
-            className="w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300"
-          >
-            {formContent}
-          </form>
+          {children ? (
+            children
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className='w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300'
+            >
+              {formContent}
+            </form>
+          )}
         </div>
 
         <div
-          className="w-1/2 h-[97vh] hidden md:flex justify-center items-center rounded-xl fixed top-[10px] right-[10px]"
+          className='w-1/2 h-[97vh] hidden md:flex justify-center items-center rounded-xl fixed top-[10px] right-[10px]'
           style={{
             background:
-              "linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70)",
+              'linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70)',
           }}
         >
-          <Image src={formBanner} alt="login" className="w-[80%]" />
+          <Image src={formBanner} alt='login' className='w-[80%]' />
         </div>
       </div>
     </div>
