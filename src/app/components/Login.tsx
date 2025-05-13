@@ -1,9 +1,9 @@
-"use client";
-import Link from "next/link";
-import { useState } from "react";
-import loginBanner from "../../../public/loginimage.png";
-import Button from "./Button";
-import AuthContent from "./AuthContent";
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import loginBanner from '../../../public/loginimage.png';
+import Button from './Button';
+import AuthContent from './AuthContent';
 import { TogglePassword } from './TogglePassword';
 import { AuthInput } from './AuthInput';
 import { useForm } from 'react-hook-form';
@@ -133,4 +133,3 @@ export default function Login() {
     </AuthContent>
   );
 }
-
