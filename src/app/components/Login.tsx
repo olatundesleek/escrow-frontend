@@ -4,7 +4,7 @@ import { useState } from "react";
 import loginBanner from "../../../public/loginimage.png";
 import Button from "./Button";
 import AuthContent from "./AuthContent";
-import { TogglePassword } from "../utils/togglePassword";
+import { TogglePassword } from "./togglePassword";
 import { AuthInput } from "./AuthInput";
 import { Alert } from "./Alert";
 

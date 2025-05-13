@@ -118,8 +118,8 @@ export default function CodeVerification() {
       </Button>
 
       <div className="w-full p-2 text-center">
-        Please check your spam folder if you don’t see the email. If not found,
-        you can
+        Please check your <span className="font-bold">spam</span> folder if you
+        don’t see the email. If not found, you can
         <Link href="/forgottenpassword" className="text-lime-500">
           Try Again.
         </Link>
@@ -141,7 +141,3 @@ export default function CodeVerification() {
     />
   );
 }
-
-// aboutAuthPage={`A six-digit verification code has been sent to ${[
-//   email,
-// ].map((text) => `${text?.split("")[0]}***gmail.com`)}`}

@@ -22,15 +22,15 @@ export default function AuthContent({
   return (
     <div className="w-full h-auto custom-gradient p-2 flex md:justify-start justify-center items-center text-lg">
       <div className="w-full flex justify-start items-center">
-        <div className="md:w-[45%] w-full flex flex-col items-center p-2 lg:mx-7">
+        <div className="md:w-[45%] min-h-[100vh] w-full flex flex-col items-center p-2 lg:mx-7 h-auto py-10 gap-5">
           <header className="flex justify-between items-center w-full py-5">
             <Logo />
             <m.a
               href="/"
-              className="p-2 rounded-full bg-white border border-secondary text-secondary"
+              className="p-2 rounded-full bg-white border border-#7ccf00 text-[#7ccf00]"
               whileHover={{
                 scale: 1.06,
-                backgroundColor: "#9af039",
+                backgroundColor: "#7ccf00",
                 color: "#f90",
               }}
               whileTap={{ scale: 0.9 }}
@@ -40,7 +40,7 @@ export default function AuthContent({
             </m.a>
           </header>
 
-          <h2 className="xl:text-4xl text-2xl font-bold text-secondary tracking-wide">
+          <h2 className="xl:text-4xl text-2xl font-bold text-[#7ccf00] tracking-wide">
             {authPageName}
           </h2>
           <p className="mt-2 text-xl text-center">{aboutAuthPage}</p>

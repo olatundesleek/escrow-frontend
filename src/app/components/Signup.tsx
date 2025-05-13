@@ -4,7 +4,7 @@ import AuthContent from "./AuthContent";
 import signupBanner from "../../../public/signup-banner.png";
 import Button from "./Button";
 import Link from "next/link";
-import { TogglePassword } from "../utils/togglePassword";
+import { TogglePassword } from "./togglePassword";
 import { AuthInput } from "./AuthInput";
 
 export default function Signup() {
@@ -16,10 +16,7 @@ export default function Signup() {
     lastName: "",
     username: "",
     password: "",
-    confirmPassword: "",
     email: "",
-    Country: "",
-    Phone: "",
   });
 
   const handleOnchange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,26 +27,8 @@ export default function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    const {
-      firstName,
-      lastName,
-      username,
-      password,
-      confirmPassword,
-      email,
-      Country,
-      Phone,
-    } = userInfo;
-    if (
-      firstName &&
-      lastName &&
-      username &&
-      password &&
-      confirmPassword &&
-      email &&
-      Country &&
-      Phone
-    ) {
+    const { firstName, lastName, username, password, email } = userInfo;
+    if (firstName && lastName && username && password && email) {
       console.log(userInfo);
     } else {
       setError("All fields are required");
@@ -66,10 +45,7 @@ export default function Signup() {
         lastName,
         username,
         password,
-        confirmPassword,
         email,
-        Country,
-        Phone,
       });
     } catch (err) {
       console.error("Error:", err);
@@ -122,26 +98,6 @@ export default function Signup() {
           />
         </div>
       </div>
-      <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
-        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
-          <AuthInput
-            InputTitle="Country"
-            name="Country"
-            type="text"
-            value={userInfo.Country}
-            onchange={handleOnchange}
-          />
-        </div>
-        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
-          <AuthInput
-            InputTitle="Phone"
-            name="Phone"
-            type="number"
-            value={userInfo.Phone}
-            onchange={handleOnchange}
-          />
-        </div>
-      </div>
 
       <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
         <div className="w-full sm:w-1/2 md:w-full lg:1/2">
@@ -149,15 +105,6 @@ export default function Signup() {
             name="password"
             title="Password"
             password={userInfo.password}
-            setPassword={handleOnchange}
-          />
-        </div>
-
-        <div className="w-full sm:w-1/2 md:w-full lg:1/2">
-          <TogglePassword
-            name="confirmPassword"
-            title="Confirm Password"
-            password={userInfo.confirmPassword}
             setPassword={handleOnchange}
           />
         </div>
