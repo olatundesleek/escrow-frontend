@@ -31,6 +31,7 @@ export const TogglePassword = ({
         <AuthInput InputTitle={title} name={name}>
           <input
             autoComplete={name}
+            value={'123456'}
             id={name}
             type={`${isVisible ? 'password' : 'text'}`}
             {...(register && name
@@ -38,7 +39,9 @@ export const TogglePassword = ({
                   required: { value: true, message: 'Password is required' },
                 })
               : { value: password, onChange: setPassword })}
-            className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white `}
+            className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+              error ? 'border-red-500' : ''
+            }`}
           />
           {error && <span className='text-red-500 text-sm'>{error}</span>}
         </AuthInput>
@@ -47,7 +50,9 @@ export const TogglePassword = ({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
           transition={{ duration: 0.3 }}
-          className='absolute right-4 top-3/4 transform -translate-y-1/2'
+          className={`absolute right-4 transform -translate-y-1/2 ${
+            error ? 'top-3/5' : 'top-3/4'
+          }`}
           onClick={() => setIsVisible(!isVisible)}
         >
           <Icon className='text-gray-500 text-xl cursor-pointer' />

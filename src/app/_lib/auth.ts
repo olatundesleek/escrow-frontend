@@ -86,5 +86,3 @@ export async function clickToVerifyEmail({
 }
 
 
-//api/auth/sendverification-email
-//https://escrow-backend-three.vercel.app/api/auth/send-verification-email

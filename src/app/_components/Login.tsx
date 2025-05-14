@@ -12,12 +12,12 @@ import SpinnerMini from './SpinnerMini';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import ToastCustom from './ToastCustom';
+import { handleApiError } from '../_lib/handleApiError';
 
 export interface LoginFormInputs {
   username: string;
   password: string;
   rememberme: boolean;
-
 }
 
 export default function Login() {
@@ -38,50 +38,45 @@ export default function Login() {
   const onSubmit = async (data: LoginFormInputs) => {
     setIsLoading(true);
     try {
-      const res = await login(data);
+      const result = await login(data);
 
-      if (!res.success && res.status === 404) {
-        // Handle login failure (e.g., show error message)
-        // Display error message
-        toast.error(res.message || 'Login failed. Please try again.');
+      const errorHandled = handleApiError(result);
+
+      if (errorHandled.handled) {
+        if (errorHandled.type === 'invalidCredentials') {
+          // Handle authentication error
+          toast.error(
+            errorHandled.message || 'Login failed. Please try again.',
+          );
+        }
+
+        if (errorHandled.type === 'unverifiedEmail') {
+          ToastCustom({
+            children: (
+              <>
+                <p>{errorHandled.message}</p>
+                <Button
+                  color='transparent text-secondary'
+                  textSize='text-base'
+                  padding='p-0'
+                  onClick={() =>
+                    errorHandled.email
+                      ? handleVerifyEmail(errorHandled.email)
+                      : toast.error('Email is missing,')
+                  }
+                >
+                  Click to resend verification email
+                </Button>
+              </>
+            ),
+          });
+        }
         return;
       }
 
-      if (!res.success && res.status === 401) {
-        // Handle login failure (e.g., show error message)
-        // Display error message
-        toast.error(res.message || 'Login failed. Please try again.');
-        return;
-      }
-      if (!res.success && res.status === 403) {
-        // Handle login failure (e.g., show error message)
-        // Display error message
-        ToastCustom({
-          children: (
-            <>
-              <p>{res.message}</p>
-              <Button
-                color='transparent text-secondary'
-                textSize='text-base'
-                padding='p-0'
-                onClick={() =>
-                  res.email
-                    ? handleVerifyEmail(res.email)
-                    : toast.error('Email is missing,')
-                }
-              >
-                Click here to verify your email
-              </Button>
-            </>
-          ),
-        });
-        return;
-      }
-
-      if (res.success) {
-        // Handle successful login (e.g., redirect to dashboard)
+      if (result.success) {
         //Display success message
-        toast.success(res.message || 'Login successful!');
+        toast.success(result.message || 'Login successful!');
         // Redirect to dashboard or another page
         router.push('/dashboard');
       }
@@ -108,7 +103,11 @@ export default function Login() {
               id='username'
               type='text'
               autoComplete='username'
-              className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white`}
+              value={'afolabi'}
+              autoFocus={true}
+              className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                errors.username ? 'border-red-500' : ''
+              }`}
               {...register('username', {
                 required: {
                   value: true,
@@ -173,3 +172,21 @@ export default function Login() {
     </AuthContent>
   );
 }
+/*import { NextResponse, type NextRequest } from 'next/server';
+
+export default function middleware(request: NextRequest) {
+  const token = request.cookies.get('token');
+  console.log('Token:', token);
+  const allCookies = request.cookies.getAll();
+  console.log('All Cookies:', allCookies);
+
+  if (!token) return NextResponse.redirect(new URL('/login', request.url));
+
+  NextResponse.next();
+}
+
+export const config = {
+  matcher: ['/dashboard/:path*'],
+};
+
+ */
