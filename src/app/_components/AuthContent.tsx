@@ -8,8 +8,9 @@ import Logo from "./Logo";
 interface AuthContentProps {
   authPageName: string;
   aboutAuthPage: string;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
-  formContent: React.ReactNode;
+  handleSubmit?: (e: React.FormEvent) => Promise<void>;
+  children?: React.ReactNode;
+  formContent?: React.ReactNode;
   formBanner: StaticImageData;
 }
 export default function AuthContent({
@@ -17,6 +18,7 @@ export default function AuthContent({
   aboutAuthPage,
   handleSubmit,
   formContent,
+  children,
   formBanner,
 }: AuthContentProps) {
   return (
@@ -45,12 +47,16 @@ export default function AuthContent({
           </h2>
           <p className="mt-2 text-xl text-center">{aboutAuthPage}</p>
 
-          <form
-            onSubmit={handleSubmit}
-            className="w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300"
-          >
-            {formContent}
-          </form>
+          {children ? (
+            children
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300"
+            >
+              {formContent}
+            </form>
+          )}
         </div>
 
         <div
