@@ -1,12 +1,10 @@
+import { LoginFormInputs } from '../_types/authTypes';
+
 export async function login({
   rememberme,
   username,
   password,
-}: {
-  username: string;
-  password: string;
-  rememberme: boolean;
-}): Promise<{
+}: LoginFormInputs): Promise<{
   success: boolean;
   message: string;
   status?: number;
@@ -84,7 +82,3 @@ export async function clickToVerifyEmail({
     };
   }
 }
-
-
-//api/auth/sendverification-email
-//https://escrow-backend-three.vercel.app/api/auth/send-verification-email
