@@ -1,12 +1,11 @@
-import StickyObserverBanner from '../../_components/StickyObserverBanner';
-import Article from '../../_components/Article';
-import PageBannerTitle from '../../_components/PageBannerTitle';
-import Section from '../../_components/Section';
-import AboutusCards from '../../_components/AboutusCards';
-import Vision from '../../_components/Vision';
-import Faqs from '../../_components/Faqs';
-import Chat from '../../_components/Chat';
-import { Testimonial } from '../../_components/Testimonial';
+import StickyObserverBanner from "../../_components/StickyObserverBanner";
+import Article from "../../_components/Article";
+import PageBannerTitle from "../../_components/PageBannerTitle";
+import Section from "../../_components/Section";
+import AboutusCards from "../../_components/AboutusCards";
+import Vision from "../../_components/Vision";
+import Faqs from "../../_components/Faqs";
+import { Testimonial } from "../../_components/Testimonial";
 
 export default function Page() {
   return (
@@ -15,9 +14,9 @@ export default function Page() {
         <PageBannerTitle>About Us</PageBannerTitle>
       </StickyObserverBanner>
 
-      <Chat/>
+      
 
-      <div className='lg:mx-25 mt-15 mx-4'>
+      <div className="lg:mx-25 mt-15 mx-4">
         <Article>
           Celebrate peace of mind in every transaction with our trusted escrow
           platform. We understand the importance of trust and security in

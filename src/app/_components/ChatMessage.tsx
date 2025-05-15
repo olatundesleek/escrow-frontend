@@ -11,7 +11,7 @@ interface ChatMessageProps {
 }
 
 const ChatMessage = ({ message }: ChatMessageProps) => {
-  // console.log(message);
+
 
   const isBuyer = message.sender === "buyer";
   const time = new Date(message.timestamp || Date.now()).toLocaleTimeString(

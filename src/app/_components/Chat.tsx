@@ -78,10 +78,10 @@ const Chat = () => {
 
   return (
     <div className="flex justify-center align-center">
-      <div className="w-[500px] h-[600px] shadow-md rounded-lg bg-white">
+      <div className="flex flex-col w-[500px] h-[600px] shadow-md rounded-lg bg-white">
         <ChatHeader />
         <ChatBody messages={allmessages} />
-        <ChatInput onSend={handleNewMessage} messages={ allmessages} />
+        <ChatInput onSend={handleNewMessage} messages={allmessages} />
       </div>
     </div>
   );
