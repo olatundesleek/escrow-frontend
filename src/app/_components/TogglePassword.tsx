@@ -2,40 +2,39 @@ import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import * as m from 'motion/react-client';
 import { AuthInput } from './AuthInput';
-import { UseFormRegister } from 'react-hook-form';
-import { LoginFormInputs } from './Login';
+import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
-interface TogglePasswordProps {
-  name?: keyof LoginFormInputs;
+interface TogglePasswordProps<T extends FieldValues> {
+  name?: keyof T;
   title?: string;
   password?: string;
   setPassword?: React.ChangeEventHandler<HTMLInputElement>;
   autoComplete?: string;
-  register?: UseFormRegister<LoginFormInputs>;
+  register?: UseFormRegister<T>;
   error?: string;
 }
 
-export const TogglePassword = ({
+export const TogglePassword = <T extends FieldValues>({
   name,
   title,
   password,
   setPassword,
   register,
   error,
-}: TogglePasswordProps) => {
+}: TogglePasswordProps<T>) => {
   const [isVisible, setIsVisible] = useState(true);
   const Icon = isVisible ? FaEye : FaEyeSlash;
   return (
     <>
       <div className='relative'>
-        <AuthInput InputTitle={title} name={name}>
+        <AuthInput InputTitle={title} name={name as string}>
           <input
-            autoComplete={name}
+            autoComplete={name as string}
             value={'123456'}
-            id={name}
+            id={name as string}
             type={`${isVisible ? 'password' : 'text'}`}
             {...(register && name
-              ? register(name, {
+              ? register(name as Path<T>, {
                   required: { value: true, message: 'Password is required' },
                 })
               : { value: password, onChange: setPassword })}

@@ -13,12 +13,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import ToastCustom from './ToastCustom';
 import { handleApiError } from '../_lib/handleApiError';
-
-export interface LoginFormInputs {
-  username: string;
-  password: string;
-  rememberme: boolean;
-}
+import { LoginFormInputs } from '../_types/authTypes';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
