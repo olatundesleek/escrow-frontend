@@ -167,21 +167,3 @@ export default function Login() {
     </AuthContent>
   );
 }
-/*import { NextResponse, type NextRequest } from 'next/server';
-
-export default function middleware(request: NextRequest) {
-  const token = request.cookies.get('token');
-  console.log('Token:', token);
-  const allCookies = request.cookies.getAll();
-  console.log('All Cookies:', allCookies);
-
-  if (!token) return NextResponse.redirect(new URL('/login', request.url));
-
-  NextResponse.next();
-}
-
-export const config = {
-  matcher: ['/dashboard/:path*'],
-};
-
- */
