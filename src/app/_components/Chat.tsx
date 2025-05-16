@@ -14,7 +14,10 @@ interface MessageType {
   timestamp: string;
 }
 
+// i prop drill hell here btw can be modify to any state management later sha PEACE OUT
+
 const Chat = () => {
+  // will be replaced by a dta from the backend`
   const messages = [
     {
       id: 1,
@@ -107,8 +110,17 @@ const Chat = () => {
           currentUserId={currentUserId}
         />
       </div>
+
+      {/*okay am just hardcoding so i can design the layout maybe the backend will create an endpoint that possess the detaills*/}
       <div>
-        <ChatDetails />
+        <ChatDetails
+          userName="John Doe"
+          userRole="buyer"
+          lastSeen="2 minutes ago"
+          itemName="Nike Air Max"
+          orderId="#123456"
+          userImage="/globe.svg"
+        />
       </div>
     </div>
   );
