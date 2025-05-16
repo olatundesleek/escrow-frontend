@@ -6,17 +6,22 @@ interface Message {
   id: number;
   text: string;
   sender: string;
+  userID: string;
   timestamp: string;
 }
 
-const ChatBody = ({ messages }: { messages: Message[] }) => {
+interface ChatBodyProps {
+  messages: Message[];
+  currentUserId: string;
+}
+
+const ChatBody = ({ messages, currentUserId }: ChatBodyProps) => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  
   const getLabel = (timestamp: string) => {
     const msgDate = new Date(timestamp);
     const today = new Date();
@@ -40,7 +45,7 @@ const ChatBody = ({ messages }: { messages: Message[] }) => {
         return (
           <div key={message.id}>
             <ChatDateLabel show={showLabel} label={currentLabel} />
-            <ChatMessage message={message} />
+            <ChatMessage message={message} currentUserId={currentUserId} />
           </div>
         );
       })}

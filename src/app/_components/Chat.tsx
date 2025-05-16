@@ -4,11 +4,13 @@ import { useState } from "react";
 import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
 import ChatInput from "./ChatInput";
+import ChatDetails from "./ChatDetails";
 
 interface MessageType {
   id: number;
   text: string;
   sender: string;
+  userID: string;
   timestamp: string;
 }
 
@@ -18,54 +20,70 @@ const Chat = () => {
       id: 1,
       text: "Hey, I just made the payment.",
       sender: "buyer",
+      userID: "user_bol",
       timestamp: "2025-05-13T13:23:00Z",
     },
     {
       id: 2,
       text: "Alright, I will confirm once I see it.",
       sender: "seller",
+      userID: "user_abc",
       timestamp: "2025-05-13T13:23:00Z",
     },
     {
       id: 3,
       text: "Okay, thanks.",
       sender: "buyer",
+      userID: "user_bol",
+
       timestamp: "2025-05-14T14:23:00Z",
     },
     {
       id: 4,
       text: "Alright, I will confirm once I see it.",
       sender: "seller",
+      userID: "user_abc",
+
       timestamp: "2025-05-14T14:23:00Z",
     },
     {
       id: 5,
       text: "Okay, thanks.",
       sender: "buyer",
+      userID: "user_bol",
+
       timestamp: "2025-05-14T14:23:00Z",
     },
     {
       id: 6,
       text: "Alright, I will confirm once I see it.",
       sender: "seller",
+      userID: "user_abc",
+
       timestamp: "2025-05-14T14:23:00Z",
     },
     {
       id: 7,
       text: "Okay, thanks.",
       sender: "buyer",
+      userID: "user_bol",
+
       timestamp: "2025-05-14T14:23:00Z",
     },
     {
       id: 8,
       text: "Alright, I will confirm once I see it.",
       sender: "seller",
+      userID: "user_abc",
+
       timestamp: "2025-05-15T15:23:00Z",
     },
     {
       id: 9,
       text: "Okay, thanks.",
       sender: "buyer",
+      userID: "user_bol",
+
       timestamp: "2025-05-15T15:23:00Z",
     },
   ];
@@ -76,12 +94,21 @@ const Chat = () => {
     setMessages((prevMessages) => [...prevMessages, newMessage]);
   };
 
+  const currentUserId = "user_abc"; // Replace with actual user ID from the backend i know there should be !!
+
   return (
     <div className="flex justify-center align-center">
       <div className="flex flex-col w-[500px] h-[600px] shadow-md rounded-lg bg-white">
         <ChatHeader />
-        <ChatBody messages={allmessages} />
-        <ChatInput onSend={handleNewMessage} messages={allmessages} />
+        <ChatBody messages={allmessages} currentUserId={currentUserId} />
+        <ChatInput
+          onSend={handleNewMessage}
+          messages={allmessages}
+          currentUserId={currentUserId}
+        />
+      </div>
+      <div>
+        <ChatDetails />
       </div>
     </div>
   );

@@ -8,15 +8,17 @@ interface Message {
   id: number;
   text: string;
   sender: string;
+  userID: string;
   timestamp: string;
 }
 
 interface ChatInputProps {
   onSend: (message: Message) => void;
   messages: Message[];
+  currentUserId: string;
 }
 
-const ChatInput = ({ onSend, messages }: ChatInputProps) => {
+const ChatInput = ({ onSend, messages, currentUserId }: ChatInputProps) => {
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -26,6 +28,7 @@ const ChatInput = ({ onSend, messages }: ChatInputProps) => {
       id: messages.length + 1,
       text: message,
       sender: "seller",
+      userID: currentUserId,
       timestamp: new Date().toISOString(),
     };
 

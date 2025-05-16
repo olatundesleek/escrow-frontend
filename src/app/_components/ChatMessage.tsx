@@ -6,14 +6,13 @@ interface ChatMessageProps {
     id: number;
     text: string;
     sender: string;
+    userID: string;
     timestamp: string;
   };
+  currentUserId: string;
 }
 
-const ChatMessage = ({ message }: ChatMessageProps) => {
-
-
-  const isBuyer = message.sender === "buyer";
+const ChatMessage = ({ message, currentUserId }: ChatMessageProps) => {
   const time = new Date(message.timestamp || Date.now()).toLocaleTimeString(
     [],
     {
@@ -22,13 +21,15 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
     }
   );
 
+  const isCurrentUser = message.userID === currentUserId;
+
   return (
     <div
       className={`flex gap-1 items-end mb-2 w-full ${
-        isBuyer ? "justify-start" : "justify-end"
+        isCurrentUser ? "justify-start" : "justify-end"
       } `}
     >
-      {isBuyer && (
+      {isCurrentUser && (
         <Image
           src="/globe.svg"
           alt="glo"
@@ -39,16 +40,16 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
       )}
       <div
         className={`w-auto p-2 rounded-lg shadow ${
-          isBuyer ? "bg-orange-400" : "bg-[#7ac22f]"
+          isCurrentUser ? "bg-orange-400" : "bg-[#7ac22f]"
         }`}
       >
         <h1 className="text-white text-sm">{message.text}</h1>
-        <span className="block text-[10px] text-gray-100 mt-1 text-right">
+        <span className="block text-[10px] text-gray-100  text-right">
           {time}
         </span>
       </div>
 
-      {!isBuyer && (
+      {!isCurrentUser && (
         <Image
           src="/globe.svg"
           alt="glo"
