@@ -19,7 +19,7 @@ import ToastCustom from './ToastCustom';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  const {push} = useRouter();
+  const { push } = useRouter();
 
   const {
     register,
@@ -175,4 +175,3 @@ export default function Login() {
     </AuthContent>
   );
 }
-
