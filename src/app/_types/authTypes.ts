@@ -13,4 +13,16 @@ export interface RegisterFormInputs {
   agree: boolean;
 }
 
-export type authFormInputs = LoginFormInputs | RegisterFormInputs;
+export interface LoginResponse {
+  success: boolean;
+  message: string;
+  status?: number;
+  email?: string;
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+  details?: string[];
+  status?: number;
+}

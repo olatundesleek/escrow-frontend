@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               containerStyle={{ margin: '8px' }}
               toastOptions={{
                 success: {
-                  duration: 3000,
+                  duration: 5000,
                 },
                 error: {
                   duration: 8000,

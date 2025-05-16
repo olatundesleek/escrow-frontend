@@ -1,23 +1,25 @@
 'use client';
+import { clickToVerifyEmail, login } from '../_lib/auth';
+import { LoginFormInputs } from '../_types/authTypes';
+import { handleApiError } from '../_lib/handleApiError';
+
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+
 import loginBanner from '../../../public/loginimage.png';
 import Button from './Button';
 import AuthContent from './AuthContent';
 import { TogglePassword } from './TogglePassword';
 import { AuthInput } from './AuthInput';
-import { useForm } from 'react-hook-form';
-import { clickToVerifyEmail, login } from '../_lib/auth';
 import SpinnerMini from './SpinnerMini';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
 import ToastCustom from './ToastCustom';
-import { handleApiError } from '../_lib/handleApiError';
-import { LoginFormInputs } from '../_types/authTypes';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const {push} = useRouter();
 
   const {
     register,
@@ -26,8 +28,14 @@ export default function Login() {
   } = useForm<LoginFormInputs>();
 
   const handleVerifyEmail = async (email: string) => {
+    toast.dismiss();
     const res = await clickToVerifyEmail({ email });
-    toast.success(res.message || 'Verification email sent successfully!');
+
+    if (res.success)
+      toast.success(res.message || 'Verification email sent successfully!');
+
+    if (!res.success)
+      toast.error(res.message || 'Failed to send verification email.');
   };
 
   const onSubmit = async (data: LoginFormInputs) => {
@@ -48,11 +56,11 @@ export default function Login() {
         if (errorHandled.type === 'unverifiedEmail') {
           ToastCustom({
             children: (
-              <>
+              <span className='w-full flex flex-col md:flex-row lg:flex-row gap-0.5 justify-center items-center'>
                 <p>{errorHandled.message}</p>
                 <Button
                   color='transparent text-secondary'
-                  textSize='text-base'
+                  textSize='text-base text-start'
                   padding='p-0'
                   onClick={() =>
                     errorHandled.email
@@ -62,7 +70,7 @@ export default function Login() {
                 >
                   Click to resend verification email
                 </Button>
-              </>
+              </span>
             ),
           });
         }
@@ -73,10 +81,11 @@ export default function Login() {
         //Display success message
         toast.success(result.message || 'Login successful!');
         // Redirect to dashboard or another page
-        router.push('/dashboard');
+        push('/dashboard');
       }
     } catch (error) {
       console.error('Error during login:', error);
+      toast.error('Something went wrong. Please try again later.');
     } finally {
       setIsLoading(false);
     }
@@ -98,7 +107,6 @@ export default function Login() {
               id='username'
               type='text'
               autoComplete='username'
-              value={'afolabi'}
               autoFocus={true}
               className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
                 errors.username ? 'border-red-500' : ''
@@ -167,21 +175,4 @@ export default function Login() {
     </AuthContent>
   );
 }
-/*import { NextResponse, type NextRequest } from 'next/server';
 
-export default function middleware(request: NextRequest) {
-  const token = request.cookies.get('token');
-  console.log('Token:', token);
-  const allCookies = request.cookies.getAll();
-  console.log('All Cookies:', allCookies);
-
-  if (!token) return NextResponse.redirect(new URL('/login', request.url));
-
-  NextResponse.next();
-}
-
-export const config = {
-  matcher: ['/dashboard/:path*'],
-};
-
- */

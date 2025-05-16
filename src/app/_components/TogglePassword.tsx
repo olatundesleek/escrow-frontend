@@ -30,12 +30,15 @@ export const TogglePassword = <T extends FieldValues>({
         <AuthInput InputTitle={title} name={name as string}>
           <input
             autoComplete={name as string}
-            value={'123456'}
             id={name as string}
             type={`${isVisible ? 'password' : 'text'}`}
             {...(register && name
               ? register(name as Path<T>, {
                   required: { value: true, message: 'Password is required' },
+                  minLength: {
+                    value: 6,
+                    message: 'Password must be at least 6 characters long',
+                  },
                 })
               : { value: password, onChange: setPassword })}
             className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
