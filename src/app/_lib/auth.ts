@@ -109,6 +109,41 @@ export async function signUp({
   }
 }
 
+export async function logout(): Promise<{
+  success: boolean;
+  message?: string;
+}> {
+  const logoutUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`;
+
+  try {
+    const res = await fetch(logoutUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      return { ...errorData };
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : 'An unexpected error occurred';
+
+    return {
+      success: false,
+      message,
+    };
+  }
+}
+
 //This function handles clicking to resend verification email by sending a POST request to the server with the user's email.
 // It returns a promise that resolves to an object containing the success status and message.
 export async function clickToVerifyEmail({
@@ -126,6 +161,93 @@ export async function clickToVerifyEmail({
         Accept: 'application/json',
       },
       body: JSON.stringify({ email }),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      return { ...errorData };
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : 'An unexpected error occurred';
+
+    return {
+      success: false,
+      message,
+    };
+  }
+}
+
+export async function checkIsUserAuthenticated(): Promise<{
+  authenticated: boolean;
+  message?: string;
+}> {
+  const isAuthenticatedUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/me`;
+
+  try {
+    const res = await fetch(isAuthenticatedUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (!res.ok || res.status === 403) {
+      const errorData = await res.json();
+      return { ...errorData };
+    }
+
+    const data = await res.json();
+
+    if (res.status === 200 && data.authenticated) {
+      return data;
+    }
+    return { authenticated: false };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : 'An unexpected error occurred';
+
+    return {
+      authenticated: false,
+      message,
+    };
+  }
+}
+
+export async function isExportAuthenticated() {
+  const data = await checkIsUserAuthenticated();
+  console.log('data:', data.authenticated);
+  return data.authenticated;
+}
+
+//This function gets the user profile by sending a GET request to the server.
+
+export async function getUserProfile(): Promise<{
+  success: boolean;
+  message?: string;
+  user?: {
+    id: string;
+    username: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+  };
+}> {
+  const profileUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/profile`;
+
+  try {
+    const res = await fetch(profileUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       credentials: 'include',
     });
 
