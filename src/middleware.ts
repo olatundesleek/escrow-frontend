@@ -1,50 +1,43 @@
 import { NextResponse, type NextRequest } from 'next/server';
-
+import { verifyUserToken } from './app/_lib/auth';
 
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
-  console.log('Token:', token);
+  const { pathname, search } = req.nextUrl;
+  let redirectUrl;
 
-  return NextResponse.next();
-}
+  if (pathname.startsWith('/dashboard')) {
+    if (!token) {
+      redirectUrl = new URL('/login', req.url);
+      redirectUrl.searchParams.set('redirect', pathname + search);
+      return NextResponse.redirect(redirectUrl);
+    }
 
-export const config = {
-  matcher: '/dashboard/:path*',
-};
+    const payload = await verifyUserToken(token);
+    if (!payload) {
+      redirectUrl = new URL('/login', req.url);
+      redirectUrl.searchParams.set('redirect', pathname + search);
+      return NextResponse.redirect(redirectUrl);
+    }
+  }
 
+  if (pathname === '/login' && token) {
+    const payload = await verifyUserToken(token);
+    if (!payload) {
+      redirectUrl = new URL('/login', req.url);
+      redirectUrl.searchParams.set('redirect', pathname + search);
+      return NextResponse.redirect(redirectUrl);
+    }
 
-/*
+    redirectUrl = new URL('/dashboard', req.url);
 
-export default async function middleware(req: NextRequest) {
-  const isUserAuthenticated = await isExportAuthenticated();
-  console.log('Is user authenticated:', isUserAuthenticated);
-
-  if (!isUserAuthenticated) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    return NextResponse.redirect(redirectUrl);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: '/dashboard/:path*',
-};
-*/
-/*import { NextResponse, type NextRequest } from 'next/server';
-
-export default function middleware(request: NextRequest) {
-  const token = request.cookies.get('token');
-  console.log('Token:', token);
-  const allCookies = request.cookies.getAll();
-  console.log('All Cookies:', allCookies);
-
-  if (!token) return NextResponse.redirect(new URL('/login', request.url));
-
-  NextResponse.next();
-}
-
-export const config = {
-  matcher: ['/dashboard/:path*'],
+  matcher: ['/dashboard/:path*', '/login'],
 };
 
- */
