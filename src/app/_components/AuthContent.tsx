@@ -4,6 +4,7 @@ import Image, { StaticImageData } from "next/image";
 import { FaHome } from "react-icons/fa";
 import * as m from "motion/react-client";
 import Logo from "./Logo";
+import Link from "next/link";
 
 interface AuthContentProps {
   authPageName: string;
@@ -27,8 +28,7 @@ export default function AuthContent({
         <div className="md:w-[45%] min-h-[100vh] w-full flex flex-col items-center p-2 lg:mx-7 h-auto py-10 gap-5">
           <header className="flex justify-between items-center w-full py-5">
             <Logo />
-            <m.a
-              href="/"
+            <m.div
               className="p-2 rounded-full bg-white border border-#7ccf00 text-[#7ccf00]"
               whileHover={{
                 scale: 1.06,
@@ -38,8 +38,10 @@ export default function AuthContent({
               whileTap={{ scale: 0.9 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <FaHome size={20} />
-            </m.a>
+              <Link href="/">
+                <FaHome size={20} />
+              </Link>
+            </m.div>
           </header>
 
           <h2 className="xl:text-4xl text-2xl font-bold text-[#7ccf00] tracking-wide">

@@ -1,27 +1,25 @@
 "use client";
+import { clickToVerifyEmail, login } from "../_lib/auth";
+import { LoginFormInputs } from "../_types/authTypes";
+import { handleApiError } from "../_lib/handleApiError";
+
 import Link from "next/link";
+import toast from "react-hot-toast";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+
 import loginBanner from "../../../public/loginimage.png";
 import Button from "./Button";
 import AuthContent from "./AuthContent";
 import { TogglePassword } from "./TogglePassword";
 import { AuthInput } from "./AuthInput";
-import { useForm } from "react-hook-form";
-import { clickToVerifyEmail, login } from "../_lib/auth";
 import SpinnerMini from "./SpinnerMini";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import ToastCustom from "./ToastCustom";
-
-export interface LoginFormInputs {
-  username: string;
-  password: string;
-  rememberme: boolean;
-}
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const { push } = useRouter();
 
   const {
     register,
@@ -30,62 +28,64 @@ export default function Login() {
   } = useForm<LoginFormInputs>();
 
   const handleVerifyEmail = async (email: string) => {
+    toast.dismiss();
     const res = await clickToVerifyEmail({ email });
-    toast.success(res.message || "Verification email sent successfully!");
+
+    if (res.success)
+      toast.success(res.message || "Verification email sent successfully!");
+
+    if (!res.success)
+      toast.error(res.message || "Failed to send verification email.");
   };
 
   const onSubmit = async (data: LoginFormInputs) => {
     setIsLoading(true);
     try {
-      const res = await login(data);
+      const result = await login(data);
 
-      if (!res.success && res.status === 404) {
-        // Handle login failure (e.g., show error message)
-        // Display error message
-        toast.error(res.message || "Login failed. Please try again.");
+      const errorHandled = handleApiError(result);
+
+      if (errorHandled.handled) {
+        if (errorHandled.type === "invalidCredentials") {
+          // Handle authentication error
+          toast.error(
+            errorHandled.message || "Login failed. Please try again."
+          );
+        }
+
+        if (errorHandled.type === "unverifiedEmail") {
+          ToastCustom({
+            children: (
+              <span className="w-full flex flex-col md:flex-row lg:flex-row gap-0.5 justify-center items-center">
+                <p>{errorHandled.message}</p>
+                <Button
+                  color="transparent text-secondary"
+                  textSize="text-base text-start"
+                  padding="p-0"
+                  onClick={() =>
+                    errorHandled.email
+                      ? handleVerifyEmail(errorHandled.email)
+                      : toast.error("Email is missing,")
+                  }
+                >
+                  Click to resend verification email
+                </Button>
+              </span>
+            ),
+          });
+        }
         return;
       }
 
-      if (!res.success && res.status === 401) {
-        // Handle login failure (e.g., show error message)
-        // Display error message
-        toast.error(res.message || "Login failed. Please try again.");
-        return;
-      }
-      if (!res.success && res.status === 403) {
-        // Handle login failure (e.g., show error message)
-        // Display error message
-        ToastCustom({
-          children: (
-            <>
-              <p>{res.message}</p>
-              <Button
-                color="transparent text-secondary"
-                textSize="text-base"
-                padding="p-0"
-                onClick={() =>
-                  res.email
-                    ? handleVerifyEmail(res.email)
-                    : toast.error("Email is missing,")
-                }
-              >
-                Click here to verify your email
-              </Button>
-            </>
-          ),
-        });
-        return;
-      }
-
-      if (res.success) {
-        // Handle successful login (e.g., redirect to dashboard)
+      if (result.success) {
         //Display success message
-        toast.success(res.message || "Login successful!");
+        toast.success(result.message || "Login successful!");
         // Redirect to dashboard or another page
-        router.push("/dashboard");
+        push("/dashboard");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      toast.error("Something went wrong. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -107,7 +107,10 @@ export default function Login() {
               id="username"
               type="text"
               autoComplete="username"
-              className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white`}
+              autoFocus={true}
+              className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                errors.username ? "border-red-500" : ""
+              }`}
               {...register("username", {
                 required: {
                   value: true,
