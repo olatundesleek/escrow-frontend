@@ -1,3 +1,4 @@
+import { importSPKI, jwtVerify } from "jose";
 import {
   LoginFormInputs,
   LoginResponse,
@@ -26,6 +27,7 @@ export async function login({
     });
 
     if (
+      !res.ok ||
       (!res.ok && res.status === 401) ||
       res.status === 403 ||
       res.status === 404
@@ -34,7 +36,22 @@ export async function login({
       return { ...errorData, status: res.status };
     }
 
-    const data = await res.json();
+    const { token } = await res.json();
+
+    const setCookieRes = await fetch("/api/set-auth-cookie", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    if (!setCookieRes.ok || (!setCookieRes.ok && setCookieRes.status === 400)) {
+      const errorData = await setCookieRes.json();
+      return { ...errorData, status: setCookieRes.status };
+    }
+
+    const data = await setCookieRes.json();
 
     if (data.success && res.status === 200) return data;
 
@@ -244,89 +261,29 @@ export async function clickToVerifyEmail({
   }
 }
 
-export async function checkIsUserAuthenticated(): Promise<{
-  authenticated: boolean;
-  message?: string;
-}> {
-  const isAuthenticatedUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/me`;
+export async function verifyUserToken(token: string) {
+  const secret =
+    process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, "\n") || "";
 
   try {
-    const res = await fetch(isAuthenticatedUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
+    const cryptoKey = await importSPKI(secret, "RS256");
+    console.log(
+      await jwtVerify(token, cryptoKey, {
+        algorithms: ["RS256"],
+      })
+    );
+
+    const { payload } = await jwtVerify(token, cryptoKey, {
+      algorithms: ["RS256"],
     });
 
-    if (!res.ok || res.status === 403) {
-      const errorData = await res.json();
-      return { ...errorData };
-    }
+    console.log("payload:", payload);
 
-    const data = await res.json();
+    if (!payload) return null;
 
-    if (res.status === 200 && data.authenticated) {
-      return data;
-    }
-    return { authenticated: false };
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "An unexpected error occurred";
-
-    return {
-      authenticated: false,
-      message,
-    };
-  }
-}
-
-export async function isExportAuthenticated() {
-  const data = await checkIsUserAuthenticated();
-  console.log("data:", data.authenticated);
-  return data.authenticated;
-}
-
-//This function gets the user profile by sending a GET request to the server.
-
-export async function getUserProfile(): Promise<{
-  success: boolean;
-  message?: string;
-  user?: {
-    id: string;
-    username: string;
-    email: string;
-    firstname: string;
-    lastname: string;
-  };
-}> {
-  const profileUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/profile`;
-
-  try {
-    const res = await fetch(profileUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      credentials: "include",
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      return { ...errorData };
-    }
-
-    const data = await res.json();
-
-    return data;
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "An unexpected error occurred";
-
-    return {
-      success: false,
-      message,
-    };
+    return payload;
+  } catch (err) {
+    console.error("catcherr:", err);
+    return null;
   }
 }

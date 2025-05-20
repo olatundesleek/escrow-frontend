@@ -7,7 +7,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import loginBanner from "../../../public/loginimage.png";
 import Button from "./Button";
@@ -18,8 +18,10 @@ import SpinnerMini from "./SpinnerMini";
 import ToastCustom from "./ToastCustom";
 
 export default function Login() {
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
-  const { push } = useRouter();
+  const redirect = searchParams.get("redirect");
 
   const {
     register,
@@ -80,8 +82,12 @@ export default function Login() {
       if (result.success) {
         //Display success message
         toast.success(result.message || "Login successful!");
-        // Redirect to dashboard or another page
-        push("/dashboard");
+        // Redirect to dashboard
+        if (redirect) {
+          return replace(decodeURIComponent(redirect));
+        }
+
+        return replace("/dashboard");
       }
     } catch (error) {
       console.error("Error during login:", error);
