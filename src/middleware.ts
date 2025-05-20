@@ -14,6 +14,7 @@ export default async function middleware(req: NextRequest) {
     }
 
     const payload = await verifyUserToken(token);
+    console.log('middleware line 17:', payload);
     if (!payload) {
       redirectUrl = new URL('/login', req.url);
       redirectUrl.searchParams.set('redirect', pathname + search);
@@ -23,15 +24,10 @@ export default async function middleware(req: NextRequest) {
 
   if (pathname === '/login' && token) {
     const payload = await verifyUserToken(token);
-    if (!payload) {
-      redirectUrl = new URL('/login', req.url);
-      redirectUrl.searchParams.set('redirect', pathname + search);
-      return NextResponse.redirect(redirectUrl);
+    if (payload) {
+      return NextResponse.redirect(new URL('/dashboard', req.url));
     }
-
-    redirectUrl = new URL('/dashboard', req.url);
-
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.next();
   }
 
   return NextResponse.next();
