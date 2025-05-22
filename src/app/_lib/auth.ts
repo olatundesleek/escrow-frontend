@@ -1,10 +1,10 @@
-import { importSPKI, jwtVerify } from 'jose';
+import { importSPKI, jwtVerify } from "jose";
 import {
   LoginFormInputs,
   LoginResponse,
   RegisterFormInputs,
   RegisterResponse,
-} from './../_types/authTypes';
+} from "./../_types/authTypes";
 
 // This function handles the login process by sending a POST request to the server with the user's credentials.
 // It returns a promise that resolves to an object containing the success status and message.
@@ -17,13 +17,13 @@ export async function login({
 
   try {
     const res = await fetch(loginUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({ username, password, rememberme }),
-      credentials: 'include',
+      credentials: "include",
     });
 
     if (
@@ -38,10 +38,10 @@ export async function login({
 
     const { token } = await res.json();
 
-    const setCookieRes = await fetch('/api/set-auth-cookie', {
-      method: 'POST',
+    const setCookieRes = await fetch("/api/set-auth-cookie", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ token }),
     });
@@ -57,12 +57,12 @@ export async function login({
 
     return {
       success: false,
-      message: 'Login failed',
+      message: "Login failed",
       status: res.status,
     };
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : 'An unexpected error occurred';
+      error instanceof Error ? error.message : "An unexpected error occurred";
 
     return {
       success: false,
@@ -84,9 +84,9 @@ export async function signUp({
 
   try {
     const res = await fetch(registerUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         firstname,
@@ -112,12 +112,12 @@ export async function signUp({
 
     return {
       success: false,
-      message: 'Registration failed',
+      message: "Registration failed",
       status: res.status,
     };
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : 'An unexpected error occurred';
+      error instanceof Error ? error.message : "An unexpected error occurred";
 
     return {
       success: false,
@@ -134,12 +134,12 @@ export async function logout(): Promise<{
 
   try {
     const res = await fetch(logoutUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      credentials: 'include',
+      credentials: "include",
     });
 
     if (!res.ok) {
@@ -152,7 +152,7 @@ export async function logout(): Promise<{
     return data;
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : 'An unexpected error occurred';
+      error instanceof Error ? error.message : "An unexpected error occurred";
 
     return {
       success: false,
@@ -172,13 +172,13 @@ export async function clickToVerifyEmail({
 
   try {
     const res = await fetch(verifyUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({ email }),
-      credentials: 'include',
+      credentials: "include",
     });
 
     if (!res.ok) {
@@ -187,11 +187,12 @@ export async function clickToVerifyEmail({
     }
 
     const data = await res.json();
+    console.log(data);
 
     return data;
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : 'An unexpected error occurred';
+      error instanceof Error ? error.message : "An unexpected error occurred";
 
     return {
       success: false,
@@ -202,27 +203,45 @@ export async function clickToVerifyEmail({
 
 export async function verifyUserToken(token: string) {
   const secret =
-    process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, '\n') || '';
+    process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, "\n") || "";
 
   try {
-    const cryptoKey = await importSPKI(secret, 'RS256');
-    console.log(
-      await jwtVerify(token, cryptoKey, {
-        algorithms: ['RS256'],
-      }),
-    );
+    const cryptoKey = await importSPKI(secret, "RS256");
 
     const { payload } = await jwtVerify(token, cryptoKey, {
-      algorithms: ['RS256'],
+      algorithms: ["RS256"],
     });
 
-    console.log('payload:', payload);
-
-    if (!payload) return null;
-
-    return payload;
+    return payload || null;
   } catch (err) {
-    console.error('catcherr:', err);
+    console.error("Token verification error:", err);
     return null;
+  }
+}
+
+export async function verifyToken(token: string | null) {
+  if (!token) {
+    return {
+      success: false,
+      message: "Token not received from server",
+    };
+  }
+
+  const api = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/verify-email/${token}`;
+
+  try {
+    const response = await fetch(api, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    console.log(response);
+
+    const result = await response.json();
+
+    return result;
+  } catch (error) {
+    console.error("Token verification failed:", error);
+    throw error;
   }
 }

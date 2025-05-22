@@ -1,35 +1,74 @@
 "use client";
-import { LuFacebook } from "react-icons/lu";
-import { FaLocationDot, FaInstagram, FaXTwitter } from "react-icons/fa6";
+import { useEffect, useState, useMemo } from "react";
 import { FaPhoneAlt } from "react-icons/fa";
-import { TbBrandLinkedin, TbMailFilled } from "react-icons/tb";
-import React from "react";
+import { TbMailFilled } from "react-icons/tb";
+import { FaLocationDot } from "react-icons/fa6";
 import Logo from "./Logo";
 import { FooterSection } from "./FooterSection";
 import { SocialLink } from "./SocialLink";
 import { FooterLinks } from "./FooterLinks";
 import { ContactInfo } from "./ContactInfo";
 import { usefulLinks, companyPolicies } from "./data";
+import { useSiteSetting } from "../_context/SiteSettingContext";
+import { SiteSettingData } from "../_types/siteSetting";
+import { SOCIAL_ICONS } from "../constants/socialIcons";
+import { SiteInfo } from "../_types/siteSetting";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { data } = useSiteSetting() as { data: SiteSettingData };
+  console.log(data);
+  const [siteInfo, setSiteInfo] = useState<SiteInfo>({
+    email: "",
+    description: "",
+    colors: "",
+    phone: "",
+    address: "",
+  });
+
+  // Memoize social links to avoid unnecessary re-renders
+  const socialLinks = useMemo(() => {
+    const links = data?.socialMediaLinks || {};
+    return (Object.keys(SOCIAL_ICONS) as (keyof typeof SOCIAL_ICONS)[]).reduce(
+      (acc, key) => {
+        acc[key] = links[key as keyof typeof links] || "";
+        return acc;
+      },
+      {} as Record<keyof typeof SOCIAL_ICONS, string>
+    );
+  }, [data?.socialMediaLinks]);
+
+  useEffect(() => {
+    if (!data) return;
+    setSiteInfo({
+      email: data.siteEmail || "",
+      colors: data.siteColors || "",
+      description: data.siteDescription || "",
+      phone: data.sitePhone || "",
+      address: data.siteAddress || "",
+    });
+  }, [data]);
+
   return (
-    <footer className="text-amber-100 bg-primary w-full h-auto flex flex-col gap-10 p-10 justify-center items-center">
-      {/* Logo and Description, Useful Links, Company Policies, Contact Information */}
+    <footer className="text-amber-100 bg-black w-full h-auto flex flex-col gap-10 p-10 justify-center items-center">
+      {/* Main Footer Content */}
       <section className="container flex justify-between gap-10 md:flex-nowrap flex-wrap">
         {/* Logo and Description */}
         <div className="container flex flex-col gap-2">
           <Logo />
-          <p>
-            Securing your transactions with trust and transparency. Join
-            thousands of satisfied users and experience peace of mind with our
-            reliable escrow services.
-          </p>
+          {siteInfo.description && <p>{siteInfo.description}</p>}
+          {/* Social Links */}
           <ul className="flex gap-2 mt-2">
-            <SocialLink href="#" icon={<LuFacebook size={20} />} />
-            <SocialLink href="#" icon={<FaXTwitter size={20} />} />
-            <SocialLink href="#" icon={<TbBrandLinkedin size={20} />} />
-            <SocialLink href="#" icon={<FaInstagram size={20} />} />
+            {Object.entries(socialLinks).map(
+              ([key, value]) =>
+                value && (
+                  <SocialLink
+                    key={key}
+                    href={value}
+                    icon={SOCIAL_ICONS[key as keyof typeof SOCIAL_ICONS]}
+                  />
+                )
+            )}
           </ul>
         </div>
 
@@ -45,21 +84,22 @@ const Footer = () => {
 
         {/* Contact Information */}
         <FooterSection title="Contact With Us">
-          <ContactInfo
-            Icon={FaLocationDot}
-            text="  Ojo Ayo Street, Ikorodu, Lagos State, Nigeria"
-          />
+          {siteInfo.address && (
+            <ContactInfo Icon={FaLocationDot} text={siteInfo.address} />
+          )}
           <ContactInfo
             Icon={TbMailFilled}
-            href="mailto:info@tonaescrow.com"
-            link_text="info@tonaescrow.com"
+            href={`mailto:${siteInfo.email}`}
+            link_text={`${siteInfo.email}`}
           />
-          <ContactInfo Icon={FaPhoneAlt} text="+1(909) 562 1786" />
+          {siteInfo.phone && (
+            <ContactInfo Icon={FaPhoneAlt} text={siteInfo.phone} />
+          )}
         </FooterSection>
       </section>
 
-      {/*   Copywrite */}
-      <div className="container flex flex-col gap-2 text-center py-5 border-t-1 border-secondary">
+      {/* Copyright */}
+      <div className="container flex flex-col gap-2 text-center py-5 border-t-1">
         <p>© {currentYear} Tona Escrow. All rights reserved.</p>
       </div>
     </footer>
