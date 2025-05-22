@@ -22,7 +22,7 @@ export const SocialLink = ({
       stiffness: 400,
       damping: 15,
     }}
-    className="text-secondary hover:bg-cyan-700 p-2 rounded-xl border border-secondary"
+    className="text-secondary hover:bg-secondary hover:text-black p-2 rounded-xl border border-secondary"
   >
     <Link href={href}>{icon}</Link>
   </motion.li>
