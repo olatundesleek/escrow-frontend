@@ -1,5 +1,5 @@
 "use client";
-import { siteSetting } from "../_types/siteSettingTypes";
+
 import {
   createContext,
   ReactNode,
@@ -7,6 +7,7 @@ import {
   useState,
   useEffect,
 } from "react";
+import { SiteSettingData } from "../_types/siteSetting";
 
 interface siteSettingProps {
   success: boolean;
@@ -18,7 +19,7 @@ export const siteSettingContext = createContext<siteSettingProps | undefined>(
   undefined
 );
 const SiteSetting = ({ children }: { children: ReactNode }) => {
-  const [data, setData] = useState<siteSetting>({} as siteSetting);
+  const [data, setData] = useState<SiteSettingData>({} as SiteSettingData);
   const [success, setSuccess] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
 

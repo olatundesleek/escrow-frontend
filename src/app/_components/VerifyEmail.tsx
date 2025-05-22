@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import AuthContent from "./AuthContent";
 import verificationBanner from "../../../public/code-verification.png";
 import Link from "next/link";
-import { verifyToken, clickToVerifyEmail } from "../_lib/auth";
+import { verifyToken } from "../_lib/auth";
 import toast from "react-hot-toast";
 import Spinner from "./Spinner";
 import Button from "./Button";
@@ -51,15 +51,15 @@ export default function VerifyEmail() {
     handleTokenVerification();
   }, [searchParams]);
 
-  const RetryVerification = async () => {
-    const linkSent = await clickToVerifyEmail({
-      email: "rewardstephen30@gmail.com",
-    });
-    console.log(linkSent);
-    if (linkSent) {
-      toast.success("A verification link has been sent to you email");
-    }
-  };
+  // const RetryVerification = async () => {
+  //   const linkSent = await clickToVerifyEmail({
+  //     email: "rewardstephen30@gmail.com",
+  //   });
+  //   console.log(linkSent);
+  //   if (linkSent) {
+  //     toast.success("A verification link has been sent to you email");
+  //   }
+  // };
 
   const content = (
     <>
@@ -87,7 +87,7 @@ export default function VerifyEmail() {
           {status === "error" && (
             <Button
               style="mt-3"
-              onClick={async () => await RetryVerification()}
+              // onClick={async () => await RetryVerification()}
             >
               Retry Verification
             </Button>

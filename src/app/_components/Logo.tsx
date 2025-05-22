@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSiteSetting } from "../_context/SiteSettingContext";
 
-type SiteSetting = {
+export type SiteSetting = {
   siteLogo?: string;
   siteName?: string;
 };

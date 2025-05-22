@@ -22,7 +22,11 @@ export async function login({
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ username, password, rememberme }),
+      body: JSON.stringify({
+        username: username.trim(),
+        password: password.trim(),
+        rememberme,
+      }),
       credentials: "include",
     });
 
@@ -89,11 +93,11 @@ export async function signUp({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        firstname,
-        lastname,
-        username,
-        email,
-        password,
+        firstname: firstname.trim(),
+        lastname: lastname.trim(),
+        username: username.trim(),
+        email: email.trim(),
+        password: password.trim(),
       }),
     });
 
