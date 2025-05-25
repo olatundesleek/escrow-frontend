@@ -11,7 +11,7 @@ import { ContactInfo } from "./ContactInfo";
 import { usefulLinks, companyPolicies } from "./data";
 import { useSiteSetting } from "../_context/SiteSettingContext";
 import { SiteSettingData } from "../_types/siteSetting";
-import { SOCIAL_ICONS } from "../constants/socialIcons";
+import { SOCIAL_ICONS } from '../_constants/socialIcons';
 import { SiteInfo } from "../_types/siteSetting";
 
 const Footer = () => {

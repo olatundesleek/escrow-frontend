@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { motion } from "framer-motion";
-import { TestimonialData } from "../constants/Testimonial";
+import { TestimonialData } from '../_constants/Testimonial';
 import { Card } from "./Card";
 import SectionalTitle from "./SectionalTitle";
 import PageBanner from "./PageBanner";

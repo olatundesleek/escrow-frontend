@@ -1,6 +1,6 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
-import { TestimonialType } from "@/app/constants/Testimonial";
+import { TestimonialType } from '@/app/_constants/Testimonial';
 
 export const Card = ({
   image,

@@ -1,19 +1,19 @@
 import Link from 'next/link';
-import { SidebarMenuItem } from '../constants/sidebarMenuList';
+import { SidebarMenuItem } from '@/app/_constants/sidebarMenuList';
 import ButtonIcon from './ButtonIcon';
 
 export default function SidebarMenu({
-  sidebarMenuList,
+  sidebarMenu,
   isSidebarOpen,
 }: {
-  sidebarMenuList: SidebarMenuItem[];
+  sidebarMenu: SidebarMenuItem[];
   isSidebarOpen: boolean;
 }) {
   return (
     <ul
       className={`w-full flex flex-col ${isSidebarOpen ? 'gap-2' : 'gap-0'} `}
     >
-      {sidebarMenuList.map((item) => (
+      {sidebarMenu.map((item) => (
         <li key={item.label}>
           <Link
             href={item.href}
@@ -24,9 +24,12 @@ export default function SidebarMenu({
             }`}
           >
             {isSidebarOpen ? (
-              <div className='p-2 text-xl'>
-                <item.icon />
-              </div>
+              <>
+                <div className='p-2 text-xl text-dashboard-secondary'>
+                  <item.icon />
+                </div>
+                <span>{item.label}</span>
+              </>
             ) : (
               <span className='hidden lg:block'>
                 <ButtonIcon toolTip={item.label} tipPosition='-right-1/2'>
@@ -34,7 +37,6 @@ export default function SidebarMenu({
                 </ButtonIcon>
               </span>
             )}
-            {isSidebarOpen && <span>{item.label}</span>}
           </Link>
         </li>
       ))}

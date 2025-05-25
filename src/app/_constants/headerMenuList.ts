@@ -5,12 +5,12 @@ import {
   HiOutlineViewGrid,
 } from 'react-icons/hi';
 
-export interface IconList {
+export interface HeaderMenuItem {
   label: string;
   icon: IconType;
 }
 
-export const adminIconsList: IconList[] = [
+export const adminHeaderMenuList: HeaderMenuItem[] = [
   {
     label: 'View Website',
     icon: HiOutlineGlobeAlt,
@@ -19,6 +19,18 @@ export const adminIconsList: IconList[] = [
     label: 'Menu',
     icon: HiOutlineViewGrid,
   },
+  {
+    label: 'Notifications',
+    icon: HiOutlineBell,
+  },
+];
+
+export const userHeaderMenuList: HeaderMenuItem[] = [
+  {
+    label: 'View Website',
+    icon: HiOutlineGlobeAlt,
+  },
+
   {
     label: 'Notifications',
     icon: HiOutlineBell,

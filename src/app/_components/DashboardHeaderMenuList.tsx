@@ -1,15 +1,15 @@
-import { IconList } from '../constants/dashboardHeaderMenuList';
+import { HeaderMenuItem } from '@/app/_constants/headerMenuList';
 import ButtonIcon from './ButtonIcon';
 import UserAvatar from './UserAvatar';
 
 export default function DashboardHeaderMenuList({
-  iconList,
+  headerMenu,
 }: {
-  iconList: IconList[];
+  headerMenu: HeaderMenuItem[];
 }) {
   return (
     <ul className='flex items-center gap-2'>
-      {iconList.map((icon: IconList) => {
+      {headerMenu.map((icon: HeaderMenuItem) => {
         const Icon = icon.icon;
         return (
           <li key={icon.label} className='relative'>

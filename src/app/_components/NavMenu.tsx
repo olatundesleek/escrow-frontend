@@ -1,11 +1,17 @@
-import { TbUserPlus } from 'react-icons/tb';
+import { TbUser, TbUserPlus } from 'react-icons/tb';
 
 import Button from './Button';
 import NavItem from './NavItem';
-import { navLinks } from '../constants/navLinks';
+import { navLinks } from '../_constants/navLinks';
 import Link from 'next/link';
 
-export default function NavMenu({ isToggled }: { isToggled: boolean }) {
+export default function NavMenu({
+  isToggled,
+  isLoggedIn,
+}: {
+  isToggled: boolean;
+  isLoggedIn: boolean;
+}) {
   return (
     <div
       className={`grow-1 flex flex-col-reverse lg:flex-row lg:items-center lg:mt-0 gap-2 transition-all duration-500 ease-in-out overflow-auto ${
@@ -24,10 +30,21 @@ export default function NavMenu({ isToggled }: { isToggled: boolean }) {
             style='flex justify-center items-center flex-row gap-2'
             color='bg-secondary text-white'
           >
-            <span>
-              <TbUserPlus fontSize='1.2rem' />
-            </span>
-            <span>Log In</span>
+            {isLoggedIn ? (
+              <>
+                <span>
+                  <TbUser fontSize={'1.2rem'} />
+                </span>
+                <span>Dashboard</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  <TbUserPlus fontSize='1.2rem' />
+                </span>
+                <span>Log In</span>
+              </>
+            )}
           </Button>
         </Link>
       </div>

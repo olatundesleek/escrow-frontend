@@ -1,11 +1,15 @@
-import { sidebarMenuList } from '../constants/sidebarMenuList';
+import { adminSidebarMenuList } from '@/app/_constants/sidebarMenuList';
 
 import Logo from './Logo';
 import DashboardSearchBar from './DashboardSearchBar';
 import SidebarMenu from './SidebarMenu';
 import Image from 'next/image';
 
-export default function Sidebar({ isSidebarOpen }: { isSidebarOpen: boolean }) {
+export default function AdminSidebar({
+  isSidebarOpen,
+}: {
+  isSidebarOpen: boolean;
+}) {
   return (
     <aside
       className={`lg:row-span-full border-r border-gray-300 flex flex-col gap-4 absolute lg:relative py-4 lg:py-0 ${
@@ -42,7 +46,7 @@ export default function Sidebar({ isSidebarOpen }: { isSidebarOpen: boolean }) {
       >
         <DashboardSearchBar display='flex py-2.5 md:hidden' />
         <SidebarMenu
-          sidebarMenuList={sidebarMenuList}
+          sidebarMenu={adminSidebarMenuList}
           isSidebarOpen={isSidebarOpen}
         />
       </div>
