@@ -52,7 +52,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className='bg-[#ffffffbf] w-lg h-auto rounded flex flex-col items-center p-12 backdrop:blur-xl gap-8 border border-dashboard-secondary'>
+    <div className='bg-[#ffffffbf] w-full md:w-md py-4 px-4 lg:w-lg h-auto rounded flex flex-col items-center lg:p-12 md:p-12 backdrop:blur-xl gap-8 border border-dashboard-secondary'>
       <Logo />
       <div className='relative w-[70px] h-[70px] sm:w-[70px] sm:h-[70px] md:w-[70px] md:h-[70px] lg:w-[80px] lg:h-[80px] mx-auto lg:ml-0 lg:mr-0'>
         <Image
@@ -66,7 +66,7 @@ export default function AdminLogin() {
         Please sign-in to your account
       </header>
 
-      <form onSubmit={handleSubmit(onSubmit)} className='w-full px-6'>
+      <form onSubmit={handleSubmit(onSubmit)} className='w-full lg:px-6'>
         <AuthInput InputTitle='Username' name='username'>
           <input
             type='text'
