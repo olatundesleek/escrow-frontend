@@ -1,7 +1,6 @@
 import { IconType } from 'react-icons';
 import {
   HiOutlineHome,
-  HiOutlineViewGrid,
   HiOutlineCollection,
   HiOutlineCash,
   HiOutlineCreditCard,
@@ -16,7 +15,6 @@ import {
   HiOutlineChatAlt,
   HiOutlineGlobe,
   HiOutlineShieldCheck,
-  HiOutlineTemplate,
   HiOutlineDocumentText,
   HiOutlineAdjustments,
   HiOutlineBan,
@@ -32,10 +30,10 @@ export interface SidebarMenuItem {
   href: string;
 }
 
-export const sidebarMenuList: SidebarMenuItem[] = [
-  { label: 'Dashboard', icon: HiOutlineHome, href: '/dashboard' },
+export const adminSidebarMenuList: SidebarMenuItem[] = [
+  { label: 'Dashboard', icon: HiOutlineHome, href: '/admin/dashboard' },
   { label: 'Categories', icon: HiOutlineCollection, href: '' },
-  { label: 'Escrows', icon: HiOutlineCash, href: '/dashboard/escrows' },
+  { label: 'Escrows', icon: HiOutlineCash, href: '/admin/dashboard/escrows' },
   { label: 'Milestone Payments', icon: HiOutlineReceiptRefund, href: '' },
   { label: 'Payment Methods', icon: HiOutlineCreditCard, href: '' },
   { label: 'Users', icon: HiOutlineUsers, href: '' },
@@ -44,21 +42,34 @@ export const sidebarMenuList: SidebarMenuItem[] = [
   {
     label: 'Transactions',
     icon: HiOutlineCurrencyDollar,
-    href: '/dashboard/transanctions',
+    href: '/admin/dashboard/transanctions',
   },
   { label: 'Contacts', icon: HiOutlineMail, href: '' },
   { label: 'Subscribers', icon: HiOutlineUserAdd, href: '' },
   { label: 'Basic Settings', icon: HiOutlineCog, href: '' },
   { label: 'Escrow Charge', icon: HiOutlineReceiptRefund, href: '' },
   { label: 'Email & SMS', icon: HiOutlineChatAlt, href: '' },
-  { label: 'Plugins', icon: HiOutlineViewGrid, href: '' },
   { label: 'Language', icon: HiOutlineLanguage, href: '' },
   { label: 'SEO', icon: HiOutlineGlobe, href: '' },
   { label: 'KYC', icon: HiOutlineShieldCheck, href: '' },
-  { label: 'Themes', icon: HiOutlineTemplate, href: '' },
   { label: 'Site Content', icon: HiOutlineDocumentText, href: '' },
   { label: 'GDPR Cookie', icon: HiOutlineAdjustments, href: '' },
   { label: 'Maintenance', icon: HiOutlineBan, href: '' },
   { label: 'Cache Clear', icon: HiOutlineRefresh, href: '' },
   { label: 'System Info', icon: HiOutlineInformationCircle, href: '' },
+];
+
+export const userSidebarMenuList: SidebarMenuItem[] = [
+  { label: 'Dashboard', icon: HiOutlineHome, href: '/dashboard' },
+  { label: 'Escrows', icon: HiOutlineCash, href: '/dashboard/escrows' },
+  { label: 'Payment Methods', icon: HiOutlineCreditCard, href: '' },
+  { label: 'Deposit', icon: HiOutlineArrowDown, href: '' },
+  { label: 'Withdrawals', icon: HiOutlineArrowUp, href: '' },
+  {
+    label: 'Transactions',
+    icon: HiOutlineCurrencyDollar,
+    href: '/dashboard/transanctions',
+  },
+  { label: 'Profile Settings', icon: HiOutlineCog, href: '' },
+  { label: 'KYC', icon: HiOutlineShieldCheck, href: '' },
 ];

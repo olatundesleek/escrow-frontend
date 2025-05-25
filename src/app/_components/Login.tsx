@@ -97,81 +97,82 @@ export default function Login() {
 
   return (
     <AuthContent
-      authPageName="Login"
-      aboutAuthPage="Secure your transactions effortlessly. Log in now and experience peace of mind with our trusted platform!"
+      authPageName='Login'
+      aboutAuthPage='Secure your transactions effortlessly. Log in now and experience peace of mind with our trusted platform!'
       formBanner={loginBanner}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300"
+        className='w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300'
       >
-        <div className="w-full">
-          <AuthInput InputTitle="Username" name="username">
+        <div className='w-full'>
+          <AuthInput InputTitle='Username' name='username'>
             <input
-              id="username"
-              type="text"
-              autoComplete="username"
+              id='username'
+              type='text'
+              autoComplete='username'
               autoFocus={true}
-              className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
-                errors.username ? "border-red-500" : ""
+              className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                errors.username ? 'border-red-500' : ''
               }`}
-              {...register("username", {
+              {...register('username', {
                 required: {
                   value: true,
-                  message: "Username is required",
+                  message: 'Username is required',
                 },
                 minLength: {
                   value: 3,
-                  message: "Username must be at least 3 characters long",
+                  message: 'Username must be at least 3 characters long',
                 },
                 maxLength: {
                   value: 20,
-                  message: "Username must be at most 20 characters long",
+                  message: 'Username must be at most 20 characters long',
                 },
               })}
             />
             {errors.username && (
-              <span className="text-red-500 text-sm">
+              <span className='text-red-500 text-sm'>
                 {errors.username.message}
               </span>
             )}
           </AuthInput>
         </div>
 
-        <div className="w-full">
+        <div className='w-full'>
           <TogglePassword
-            title={"Password"}
-            name="password"
+            title={'Password'}
+            name='password'
             register={register}
             error={errors.password?.message}
+            style='outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary p-4'
           />
         </div>
 
-        <div className="flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]">
-          <label className="font-medium flex items-center">
+        <div className='flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]'>
+          <label className='font-medium flex items-center'>
             <input
-              type="checkbox"
-              className="w-4 h-4 mr-2 cursor-pointer"
-              {...register("rememberme", { required: false })}
+              type='checkbox'
+              className='w-4 h-4 mr-2 cursor-pointer'
+              {...register('rememberme', { required: false })}
             />
             Remember me
           </label>
-          <Link href="/forgottenpassword" className="text-lime-500">
+          <Link href='/forgottenpassword' className='text-lime-500'>
             Forgotten Password?
           </Link>
         </div>
 
         <Button
-          style="font-medium w-full flex items-center justify-center"
-          type="submit"
+          style='font-medium w-full flex items-center justify-center'
+          type='submit'
           isLoading={isLoading}
         >
-          {isLoading ? <SpinnerMini /> : "Log In"}
+          {isLoading ? <SpinnerMini /> : 'Log In'}
         </Button>
 
-        <div className="flex w-full justify-evenly p-2">
-          <p>{"Don't have any account ?"}</p>
-          <Link href="/register" className="text-lime-500">
+        <div className='flex w-full justify-evenly p-2'>
+          <p>Don&apos;t have any account ?</p>
+          <Link href='/register' className='text-lime-500'>
             Create Account
           </Link>
         </div>

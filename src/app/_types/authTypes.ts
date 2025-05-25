@@ -18,6 +18,7 @@ export interface LoginResponse {
   message: string;
   status?: number;
   email?: string;
+  token: string;
 }
 
 export interface RegisterResponse {

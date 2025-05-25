@@ -2,9 +2,9 @@ import { HiOutlineMenu } from 'react-icons/hi';
 import ButtonIcon from './ButtonIcon';
 import DashBboardSearchBar from './DashboardSearchBar';
 import DashboardHeaderMenuList from './DashboardHeaderMenuList';
-import { adminIconsList } from '../constants/dashboardHeaderMenuList';
+import { adminHeaderMenuList } from '@/app/_constants/headerMenuList';
 
-export default function DashboardHeader({
+export default function AdminDashboardHeader({
   isSidebarOpen,
   setIsSidebarOpen,
 }: {
@@ -26,7 +26,7 @@ export default function DashboardHeader({
         <DashBboardSearchBar display='hidden lg:flex md:flex' />
       </div>
       {/* header menulist here e.g for admins grid icon, notification, globe and avartar then user are different set of icons */}
-      <DashboardHeaderMenuList iconList={adminIconsList} />
+      <DashboardHeaderMenuList headerMenu={adminHeaderMenuList} />
     </header>
   );
 }

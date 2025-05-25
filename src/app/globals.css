@@ -48,14 +48,6 @@
   -webkit-text-stroke: 1.5px #d9ff02; /* yellow-400 */
 }
 
-.form_input:focus {
-  border: 1px solid #9af039;
-  outline: 1px solid #9af039;
-}
-
-.form_input {
-  outline: none;
-}
 
 
 /* Hide scrollbar but allow scrolling */
