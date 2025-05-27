@@ -274,7 +274,7 @@ export async function verifyAdmin(
 
 // This function verifies the email token by sending a GET request to the server.
 // It returns a promise that resolves to the result of the verification process with success and message properties.
-export async function verifyToken(token: string | null) {
+export async function verifyEmailToken(token: string | null) {
   if (!token) {
     return {
       success: false,
