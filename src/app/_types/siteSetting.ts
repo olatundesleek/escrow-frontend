@@ -14,6 +14,7 @@ export type SiteSettingData = {
   siteAddress?: string;
   siteColors?: string;
   siteEmail?: string;
+  siteLogo?: string; siteName?: string;
 };
 
 export type SiteInfo = {

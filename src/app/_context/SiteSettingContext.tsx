@@ -1,81 +1,84 @@
 "use client";
 
-import {
+import React, {
   createContext,
-  ReactNode,
   useContext,
   useState,
   useEffect,
+  ReactNode,
 } from "react";
 import { SiteSettingData } from "../_types/siteSetting";
+import Spinner from "../_components/Spinner";
 
-interface siteSettingProps {
+interface SiteSettingContextProps {
   success: boolean;
-  data: object;
+  data: SiteSettingData;
   message: string;
+  loading: boolean;
 }
 
-export const siteSettingContext = createContext<siteSettingProps | undefined>(
+const SiteSettingContext = createContext<SiteSettingContextProps | undefined>(
   undefined
 );
-const SiteSetting = ({ children }: { children: ReactNode }) => {
-  const [data, setData] = useState<SiteSettingData>({} as SiteSettingData);
-  const [success, setSuccess] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
-
-  const siteSetting = async () => {
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/site/info`;
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-      });
-
-      if (!response.ok || response.status.toString().startsWith("4")) {
-        const errorData = await response.json();
-        setMessage({ ...errorData, status: errorData.status });
-        return { ...errorData, status: errorData.status };
-      }
-      const data = await response.json();
-
-      if (data && response.status === 200) {
-        setSuccess(true);
-        setMessage(data.message);
-        setData(data);
-        return data;
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "An unexpected error occured";
-      setSuccess(false);
-      setMessage(errorMessage);
-      return { success: false, message: errorMessage };
-    }
-  };
-
-  useEffect(() => {
-    (async () => await siteSetting())();
-  }, []);
-
-  return (
-    <siteSettingContext.Provider value={{ success, data, message }}>
-      {children}
-    </siteSettingContext.Provider>
-  );
-};
-
-export default SiteSetting;
 
 export const useSiteSetting = () => {
-  const context = useContext(siteSettingContext);
+  const context = useContext(SiteSettingContext);
   if (!context) {
-    throw new Error(
-      "useSiteSetting must be used within a siteSettingContext Provider"
-    );
+    throw new Error("useSiteSetting must be used within SiteSettingProvider");
   }
   return context;
+};
+
+export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
+  const [data, setData] = useState<SiteSettingData>({} as SiteSettingData);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/site/info`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          }
+        );
+
+        const result = await res.json();
+        if (!res.ok) {
+          setSuccess(false);
+          setMessage(result.message || "Failed to load site settings");
+        } else {
+          setSuccess(true);
+          setMessage(result.message || "");
+          setData(result);
+        }
+      } catch (err) {
+        const errMsg = err instanceof Error ? err.message : "Unexpected error";
+        setSuccess(false);
+        setMessage(errMsg);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white">
+        <Spinner />
+      </div>
+    );
+  }
+
+  return (
+    <SiteSettingContext.Provider value={{ success, data, message, loading }}>
+      {children}
+    </SiteSettingContext.Provider>
+  );
 };

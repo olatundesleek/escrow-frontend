@@ -4,52 +4,35 @@ import forgottentPasswordBanner from "../../../public/forgotten-password.png";
 import { AuthInput } from "./AuthInput";
 import Button from "./Button";
 import { useState } from "react";
-import { Alert } from "./Alert";
+import SpinnerMini from "./SpinnerMini";
+import { forgottenPassword } from "../_lib/auth";
+import toast from "react-hot-toast";
 
 export default function ForgottenPasssword() {
   const [email, setEmail] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
-  const [error, setError] = useState<string>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!email) {
-      setError("Email is required");
-      return;
-    }
     try {
-      const response = await fetch(
-        "https://escrow-backend-three.vercel.app/api/auth/reset-password",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-          credentials: "include",
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message);
-        throw new Error(data.message || "Something went wrong");
+      setIsLoading(true);
+      const res = await forgottenPassword(email);
+      if (!res.success) {
+        toast.error(res.message || "Something went wrong");
       }
-
-      setError("");
-      setMessage(data.message);
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Password reset failed";
-      setError(errorMessage);
-      console.error("Error", err);
+      if (res.success) {
+        toast.success(res.message || "A link has been sent to your email");
+      }
+    } catch (error) {
+      const errMessage = error as Error;
+      toast.error(errMessage.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const forgottenPasswordContent = (
     <>
-      {message && <Alert message={message} style="bg-secondary" />}
-      {error && <p className="text-red-500 font-medium mb-4">{error}</p>}
       <div className="w-full">
         <AuthInput
           InputTitle="Username or Email Address"
@@ -60,8 +43,11 @@ export default function ForgottenPasssword() {
       </div>
 
       <div className="flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]">
-        <Button color="bg-lime-500 text-white font-medium w-full" type="submit">
-          Next
+        <Button
+          color="bg-lime-500 text-white font-medium w-full flex justify-center"
+          type="submit"
+        >
+          {isLoading ? <SpinnerMini /> : "Next"}
         </Button>
       </div>
     </>
