@@ -12,6 +12,7 @@ interface TogglePasswordProps<T extends FieldValues> {
   autoComplete?: string;
   register?: UseFormRegister<T>;
   error?: string;
+  style?: string;
 }
 
 export const TogglePassword = <T extends FieldValues>({
@@ -21,6 +22,7 @@ export const TogglePassword = <T extends FieldValues>({
   setPassword,
   register,
   error,
+  style = 'p-4',
 }: TogglePasswordProps<T>) => {
   const [isVisible, setIsVisible] = useState(true);
   const Icon = isVisible ? FaEye : FaEyeSlash;
@@ -29,6 +31,7 @@ export const TogglePassword = <T extends FieldValues>({
       <div className='relative'>
         <AuthInput InputTitle={title} name={name as string}>
           <input
+            placeholder='Password'
             autoComplete={name as string}
             id={name as string}
             type={`${isVisible ? 'password' : 'text'}`}
@@ -41,7 +44,7 @@ export const TogglePassword = <T extends FieldValues>({
                   },
                 })
               : { value: password, onChange: setPassword })}
-            className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+            className={` w-full ${style} pr-12 border border-gray-300 rounded-sm bg-white ${
               error ? 'border-red-500' : ''
             }`}
           />

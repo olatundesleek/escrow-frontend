@@ -75,7 +75,7 @@ export default function Signup() {
                 autoComplete="firstname"
                 id="firstname"
                 autoFocus={true}
-                className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
                   errors.firstname ? "border-red-500" : ""
                 }`}
                 {...register("firstname", {
@@ -108,7 +108,7 @@ export default function Signup() {
                 autoComplete="lastname"
                 id="lastname"
                 autoFocus={true}
-                className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
                   errors.lastname ? "border-red-500" : ""
                 }`}
                 {...register("lastname", {
@@ -142,7 +142,7 @@ export default function Signup() {
                 autoComplete="username"
                 id="username"
                 autoFocus={true}
-                className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
                   errors.username ? "border-red-500" : ""
                 }`}
                 {...register("username", {
@@ -175,7 +175,7 @@ export default function Signup() {
                 autoComplete="email"
                 id="email"
                 autoFocus={true}
-                className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
                   errors.email ? "border-red-500" : ""
                 }`}
                 {...register("email", {
@@ -209,6 +209,7 @@ export default function Signup() {
                   ? errors.password?.message
                   : undefined
               }
+              style="outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary p-4"
             />
           </div>
         </div>

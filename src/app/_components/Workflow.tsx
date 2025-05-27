@@ -1,4 +1,4 @@
-import { workflow } from '../constants/workFlow';
+import { workflow } from '../_constants/workFlow';
 import SectionalTitle from './SectionalTitle';
 import WorkflowCard from './WorkflowCard';
 

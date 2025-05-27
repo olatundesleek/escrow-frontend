@@ -38,7 +38,7 @@ export const AuthInput = ({
           type={type}
           value={value}
           onChange={onchange}
-          className={`form_input w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${style}`}
+          className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${style}`}
         />
       )}
     </>

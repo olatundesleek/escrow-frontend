@@ -9,7 +9,13 @@ import { usePathname } from 'next/navigation';
 import { useStickyContext } from '../_context/StickyContext';
 import useNavbarHeight from '../_hooks/useNavbarHeight';
 
-export default function Navbar() {
+export default function Navbar({
+  isLoggedIn,
+  redirectRole,
+}: {
+  isLoggedIn: boolean;
+  redirectRole?: string;
+}) {
   const [isToggled, setIsToggled] = useState<boolean>(false);
   const pathname = usePathname();
   const { isIntersecting } = useStickyContext();
@@ -39,7 +45,11 @@ export default function Navbar() {
           onClick={() => setIsToggled(!isToggled)}
         />
       </div>
-      <NavMenu isToggled={isToggled} />
+      <NavMenu
+        isToggled={isToggled}
+        isLoggedIn={isLoggedIn}
+        redirectRole={redirectRole}
+      />
     </nav>
   );
 }

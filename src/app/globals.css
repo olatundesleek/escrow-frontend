@@ -5,6 +5,8 @@
   --color-primary: #000000;
   --color-secondary: #9af039;
   --color-error: #fb2c36;
+  --color-dashboard-primary:#ffffff;
+  --color-dashboard-secondary:#671ce9;
 }
 
 @media (max-width: 768px) {
@@ -46,11 +48,13 @@
   -webkit-text-stroke: 1.5px #d9ff02; /* yellow-400 */
 }
 
-.form_input:focus {
-  border: 1px solid #9af039;
-  outline: 1px solid #9af039;
-}
 
-.form_input {
-  outline: none;
+
+/* Hide scrollbar but allow scrolling */
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }

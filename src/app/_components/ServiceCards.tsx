@@ -1,4 +1,4 @@
-import { services } from '../constants/services';
+import { services } from '../_constants/services';
 import ServiceCard from './ServiceCard';
 const ServiceCards = () => {
   return (
@@ -20,6 +20,5 @@ const ServiceCards = () => {
 };
 
 export default ServiceCards;
-
 
 //className={i === 3 ? 'col-start-2 row-start-2' : '' }

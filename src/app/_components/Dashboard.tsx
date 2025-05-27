@@ -1,9 +1,9 @@
 'use client';
 import toast from 'react-hot-toast';
-import { logout } from '../../_lib/auth';
+import { logout } from '../_lib/auth';
 import { useRouter } from 'next/navigation';
 
-export default function Page() {
+export default function Dashboard() {
   const { push } = useRouter();
 
   const handleLogout = async () => {
@@ -17,9 +17,8 @@ export default function Page() {
       console.error('Logout error:', error);
     }
   };
-
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
+    <div className='flex flex-col items-center justify-center'>
       <h1 className='text-4xl font-bold'>Dashboard</h1>
       <p className='mt-4 text-lg'>Welcome to the dashboard!</p>
       <button onClick={handleLogout}> Logout</button>
