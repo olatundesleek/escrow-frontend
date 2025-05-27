@@ -10,7 +10,7 @@ export default function MenuButton({
   return (
     <div
       onClick={onClick}
-      className='text-white bg-secondary p-1 rounded lg:hidden'
+      className='text-white bg-secondary p-1 rounded lg:hidden cursor-pointer'
     >
       {!isToggled ? <TbMenu2 fontSize='2rem' /> : <TbX fontSize='2rem' />}
     </div>

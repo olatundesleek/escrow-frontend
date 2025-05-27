@@ -9,6 +9,12 @@ export default async function middleware(req: NextRequest) {
   let payload = null;
   let redirectUrl;
 
+  //Validating user token
+  // If the token is not present, payload will remain null
+  // If the token is present, it will be verified and payload will contain user data
+  // If the token is invalid, payload will be set to null
+  // If the token is expired, payload will be set to null
+  // If the token is valid, payload will contain user data
   if (token) {
     try {
       payload = await verifyUserToken(token);
@@ -18,12 +24,15 @@ export default async function middleware(req: NextRequest) {
     }
   }
 
+  //Accessing Verify Email page
+  // If the user is trying to access the verify email page without a token, redirect to register page
   if (pathname.startsWith('/verify-email') && !emailToken) {
     redirectUrl = new URL('/register', req.url);
     return NextResponse.redirect(redirectUrl);
   }
 
   //Accessing admin routes
+  // If the user is trying to access admin routes without a valid token, redirect to admin login page
   if (
     pathname.startsWith('/admin') &&
     !payload &&
@@ -34,18 +43,16 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (
-    pathname.startsWith('/admin') &&
-    payload &&
-    !pathname.startsWith('/admin/login')
-  ) {
+  //Accessing admin routes with valid token
+  // If the user is trying to access admin routes with a valid token, check if the user is an admin
+  // If the user is an admin, allow access
+  // If the user is not an admin, redirect to login page
+  if (pathname.startsWith('/admin') && payload) {
     if (payload.role === 'user') {
       redirectUrl = new URL('/login', req.url);
       redirectUrl.searchParams.set('redirect', pathname + search);
       return NextResponse.redirect(redirectUrl);
     }
-
-    console.log('middleware running:', payload);
 
     if (payload.role === 'admin') return NextResponse.next();
   }
@@ -64,6 +71,7 @@ export default async function middleware(req: NextRequest) {
 
   const res = NextResponse.next();
   res.headers.set('x-user-authenticated', (!!payload).toString());
+  res.headers.set('x-user-role', String(payload?.role) || 'user');
   return res;
 }
 

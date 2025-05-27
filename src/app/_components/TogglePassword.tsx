@@ -31,6 +31,7 @@ export const TogglePassword = <T extends FieldValues>({
       <div className='relative'>
         <AuthInput InputTitle={title} name={name as string}>
           <input
+            placeholder='Password'
             autoComplete={name as string}
             id={name as string}
             type={`${isVisible ? 'password' : 'text'}`}

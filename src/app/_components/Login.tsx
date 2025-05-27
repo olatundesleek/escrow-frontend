@@ -1,25 +1,25 @@
 "use client";
-import { clickToVerifyEmail, login } from "../_lib/auth";
-import { LoginFormInputs } from "../_types/authTypes";
-import { handleApiError } from "../_lib/handleApiError";
-import Link from "next/link";
-import toast from "react-hot-toast";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
-import loginBanner from "../../../public/loginimage.png";
-import Button from "./Button";
-import AuthContent from "./AuthContent";
-import { TogglePassword } from "./TogglePassword";
-import { AuthInput } from "./AuthInput";
-import SpinnerMini from "./SpinnerMini";
-import ToastCustom from "./ToastCustom";
+import { resendVerificationEmail, login } from '../_lib/auth';
+import { LoginFormInputs } from '../_types/authTypes';
+import { handleApiError } from '../_lib/handleApiError';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useRouter, useSearchParams } from 'next/navigation';
+import loginBanner from '../../../public/loginimage.png';
+import Button from './Button';
+import AuthContent from './AuthContent';
+import { TogglePassword } from './TogglePassword';
+import { AuthInput } from './AuthInput';
+import SpinnerMini from './SpinnerMini';
+import ToastCustom from './ToastCustom';
 
 export default function Login() {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
-  const redirect = searchParams.get("redirect");
+  const redirect = searchParams.get('redirect');
 
   const {
     register,
@@ -29,13 +29,13 @@ export default function Login() {
 
   const handleVerifyEmail = async (email: string) => {
     toast.dismiss();
-    const res = await clickToVerifyEmail({ email });
+    const res = await resendVerificationEmail({ email });
 
     if (res.success)
-      toast.success(res.message || "Verification email sent successfully!");
+      toast.success(res.message || 'Verification email sent successfully!');
 
     if (!res.success)
-      toast.error(res.message || "Failed to send verification email.");
+      toast.error(res.message || 'Failed to send verification email.');
   };
 
   const onSubmit = async (data: LoginFormInputs) => {
@@ -46,26 +46,26 @@ export default function Login() {
       const errorHandled = handleApiError(result);
 
       if (errorHandled.handled) {
-        if (errorHandled.type === "invalidCredentials") {
+        if (errorHandled.type === 'invalidCredentials') {
           // Handle authentication error
           toast.error(
-            errorHandled.message || "Login failed. Please try again."
+            errorHandled.message || 'Login failed. Please try again.',
           );
         }
 
-        if (errorHandled.type === "unverifiedEmail") {
+        if (errorHandled.type === 'unverifiedEmail') {
           ToastCustom({
             children: (
-              <span className="w-full flex flex-col md:flex-row lg:flex-row gap-0.5 justify-center items-center">
+              <span className='w-full flex flex-col md:flex-row lg:flex-row gap-0.5 justify-center items-center'>
                 <p>{errorHandled.message}</p>
                 <Button
-                  color="transparent text-secondary"
-                  textSize="text-base text-start"
-                  padding="p-0"
+                  color='transparent text-secondary'
+                  textSize='text-base text-start'
+                  padding='p-0'
                   onClick={() =>
                     errorHandled.email
                       ? handleVerifyEmail(errorHandled.email)
-                      : toast.error("Email is missing,")
+                      : toast.error('Email is missing,')
                   }
                 >
                   Click to resend verification email
@@ -79,17 +79,17 @@ export default function Login() {
 
       if (result.success) {
         //Display success message
-        toast.success(result.message || "Login successful!");
+        toast.success(result.message || 'Login successful!');
         // Redirect to dashboard
         if (redirect) {
           return replace(decodeURIComponent(redirect));
         }
 
-        return replace("/dashboard");
+        return replace('/dashboard');
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      toast.error("Something went wrong. Please try again later.");
+      console.error('Error during login:', error);
+      toast.error('Something went wrong. Please try again later.');
     } finally {
       setIsLoading(false);
     }
@@ -110,6 +110,7 @@ export default function Login() {
             <input
               id='username'
               type='text'
+              placeholder='Username'
               autoComplete='username'
               autoFocus={true}
               className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${

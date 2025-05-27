@@ -7,6 +7,7 @@ export default function ButtonIcon({
   style = '',
   toolTip,
   tipPosition = '-left-8',
+  isLoading = false,
 }: {
   children: React.ReactNode;
   onClick?: React.Dispatch<boolean> | (() => void);
@@ -14,6 +15,7 @@ export default function ButtonIcon({
   style?: string;
   toolTip?: string;
   tipPosition?: string;
+  isLoading?: boolean;
 }) {
   return (
     <>
@@ -24,7 +26,10 @@ export default function ButtonIcon({
           isActive
             ? 'bg-dashboard-secondary text-dashboard-primary'
             : 'bg-transparent  text-dashboard-secondary'
-        } ${style} relative group overflow-y-visible`}
+        } ${style} relative group overflow-y-visible ${
+          isLoading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+        disabled={isLoading}
       >
         {children}
         {toolTip && (

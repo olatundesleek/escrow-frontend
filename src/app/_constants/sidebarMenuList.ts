@@ -27,36 +27,37 @@ import { HiOutlineLanguage } from 'react-icons/hi2';
 export interface SidebarMenuItem {
   label: string;
   icon: IconType;
-  href: string;
+  href?: string;
+  actionType?: string; // Optional, can be used for actions like 'logout', 'delete', etc.
 }
 
 export const adminSidebarMenuList: SidebarMenuItem[] = [
   { label: 'Dashboard', icon: HiOutlineHome, href: '/admin/dashboard' },
-  { label: 'Categories', icon: HiOutlineCollection, href: '' },
+  { label: 'Categories', icon: HiOutlineCollection, href: '/admin/categories' },
   { label: 'Escrows', icon: HiOutlineCash, href: '/admin/dashboard/escrows' },
-  { label: 'Milestone Payments', icon: HiOutlineReceiptRefund, href: '' },
-  { label: 'Payment Methods', icon: HiOutlineCreditCard, href: '' },
-  { label: 'Users', icon: HiOutlineUsers, href: '' },
-  { label: 'Deposit', icon: HiOutlineArrowDown, href: '' },
-  { label: 'Withdrawals', icon: HiOutlineArrowUp, href: '' },
+  { label: 'Milestone Payments', icon: HiOutlineReceiptRefund },
+  { label: 'Payment Methods', icon: HiOutlineCreditCard },
+  { label: 'Users', icon: HiOutlineUsers },
+  { label: 'Deposit', icon: HiOutlineArrowDown },
+  { label: 'Withdrawals', icon: HiOutlineArrowUp },
   {
     label: 'Transactions',
     icon: HiOutlineCurrencyDollar,
     href: '/admin/dashboard/transanctions',
   },
-  { label: 'Contacts', icon: HiOutlineMail, href: '' },
-  { label: 'Subscribers', icon: HiOutlineUserAdd, href: '' },
-  { label: 'Basic Settings', icon: HiOutlineCog, href: '' },
-  { label: 'Escrow Charge', icon: HiOutlineReceiptRefund, href: '' },
-  { label: 'Email & SMS', icon: HiOutlineChatAlt, href: '' },
-  { label: 'Language', icon: HiOutlineLanguage, href: '' },
-  { label: 'SEO', icon: HiOutlineGlobe, href: '' },
-  { label: 'KYC', icon: HiOutlineShieldCheck, href: '' },
-  { label: 'Site Content', icon: HiOutlineDocumentText, href: '' },
-  { label: 'GDPR Cookie', icon: HiOutlineAdjustments, href: '' },
-  { label: 'Maintenance', icon: HiOutlineBan, href: '' },
-  { label: 'Cache Clear', icon: HiOutlineRefresh, href: '' },
-  { label: 'System Info', icon: HiOutlineInformationCircle, href: '' },
+  { label: 'Contacts', icon: HiOutlineMail },
+  { label: 'Subscribers', icon: HiOutlineUserAdd },
+  { label: 'Basic Settings', icon: HiOutlineCog },
+  { label: 'Escrow Charge', icon: HiOutlineReceiptRefund },
+  { label: 'Email & SMS', icon: HiOutlineChatAlt },
+  { label: 'Language', icon: HiOutlineLanguage },
+  { label: 'SEO', icon: HiOutlineGlobe },
+  { label: 'KYC', icon: HiOutlineShieldCheck },
+  { label: 'Site Content', icon: HiOutlineDocumentText },
+  { label: 'GDPR Cookie', icon: HiOutlineAdjustments },
+  { label: 'Maintenance', icon: HiOutlineBan },
+  { label: 'Cache Clear', icon: HiOutlineRefresh },
+  { label: 'System Info', icon: HiOutlineInformationCircle },
 ];
 
 export const userSidebarMenuList: SidebarMenuItem[] = [
