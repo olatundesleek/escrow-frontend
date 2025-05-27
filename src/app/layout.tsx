@@ -3,13 +3,17 @@ import Head from "next/head";
 import { ReactNode } from "react";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import SiteSetting from "./_context/SiteSettingContext";
+import { SiteSettingProvider } from "./_context/SiteSettingContext";
 export const metadata = {
   title: "Escrow App",
   description: "Hey there",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang="en">
       <Head>
@@ -19,7 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </Head>
       <body>
-        <SiteSetting>
+        <SiteSettingProvider>
           <StickyContextProvider>
             <main>
               {children}
@@ -47,7 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               />
             </main>
           </StickyContextProvider>
-        </SiteSetting>
+        </SiteSettingProvider>
       </body>
     </html>
   );

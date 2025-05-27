@@ -26,3 +26,14 @@ export interface RegisterResponse {
   details?: string[];
   status?: number;
 }
+
+export interface ResetPasswordTypes {
+  token: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  message: string;
+}

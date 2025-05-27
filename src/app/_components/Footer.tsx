@@ -17,7 +17,6 @@ import { SiteInfo } from "../_types/siteSetting";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { data } = useSiteSetting() as { data: SiteSettingData };
-  console.log(data);
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
     email: "",
     description: "",

@@ -7,6 +7,12 @@ export default async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
   let redirectUrl;
 
+  // if (pathname.startsWith("/resetpassword")) {
+  //   if (!emailToken) {
+  //     redirectUrl = new URL("/forgottenpassword", req.url);
+  //     return NextResponse.redirect(redirectUrl);
+  //   }
+  // }
   if (pathname.startsWith("/verify-email")) {
     if (!emailToken) {
       redirectUrl = new URL("/register", req.url);
@@ -42,5 +48,5 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/verify-email"],
+  matcher: ["/dashboard/:path*", "/login"],
 };

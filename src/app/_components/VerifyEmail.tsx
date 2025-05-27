@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import AuthContent from "./AuthContent";
 import verificationBanner from "../../../public/code-verification.png";
 import Link from "next/link";
-import { verifyToken } from "../_lib/auth";
+import { verifyEmailToken } from "../_lib/auth";
 import toast from "react-hot-toast";
 import Spinner from "./Spinner";
 import Button from "./Button";
@@ -20,7 +20,7 @@ export default function VerifyEmail() {
 
     const handleTokenVerification = async () => {
       try {
-        const result = await verifyToken(token);
+        const result = await verifyEmailToken(token);
         const { message, success } = result;
 
         if (success) {
@@ -77,11 +77,8 @@ export default function VerifyEmail() {
             </p>
           )}
           {status === "success" && (
-            <Link
-              className="text-green-600 font-medium underline mt-4 block text-center"
-              href={"/login"}
-            >
-              Go to Login
+            <Link href={"/login"}>
+              <Button> Go to Login</Button>
             </Link>
           )}
           {status === "error" && (

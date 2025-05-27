@@ -4,6 +4,8 @@ import {
   LoginResponse,
   RegisterFormInputs,
   RegisterResponse,
+  ResetPasswordResponse,
+  ResetPasswordTypes,
 } from "./../_types/authTypes";
 
 // This function handles the login process by sending a POST request to the server with the user's credentials.
@@ -223,7 +225,7 @@ export async function verifyUserToken(token: string) {
   }
 }
 
-export async function verifyToken(token: string | null) {
+export async function verifyEmailToken(token: string | null) {
   if (!token) {
     return {
       success: false,
@@ -249,3 +251,97 @@ export async function verifyToken(token: string | null) {
     throw error;
   }
 }
+
+export async function forgottenPassword(email: string) {
+  if (!email) {
+    return { success: false, message: "Email is required" };
+  }
+  const api = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/forgot-password`;
+  try {
+    const response = await fetch(api, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ email }),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      return { success: false, message: error.message };
+    }
+    const data = await response.json();
+    return { success: true, ...data };
+  } catch (error) {
+    console.error(error);
+    const errMessage = error as Error;
+    return { success: false, message: errMessage.message };
+  }
+}
+
+export const confirmResetPassword = async (token: string | null) => {
+  if (!token) {
+    return { success: false, message: "Invalid or token not found" };
+  }
+  const api = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/confirm-reset-token/${token}`;
+  try {
+    const res = await fetch(api, {
+      method: "GET",
+      headers: { "Context-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      return { success: false, message: error.message };
+    }
+
+    const data = await res.json();
+    if (res.ok && data.token) {
+      return { success: true, ...data };
+    } else {
+      return {
+        message: data.message || "Invalid token.",
+        success: false,
+      };
+    }
+  } catch (err) {
+    const errMessage = err as Error;
+    return {
+      message: errMessage || "Failed to validate token.",
+      success: false,
+    };
+  }
+};
+
+export const resetPassword = async ({
+  token,
+  password,
+  confirmPassword,
+}: ResetPasswordTypes): Promise<ResetPasswordResponse> => {
+  const api = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/reset-password`;
+  try {
+    const res = await fetch(api, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        token,
+        password,
+        confirmPassword,
+      }),
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      return {
+        success: false,
+        message: error.message || "Password reset failed",
+      };
+    }
+    const data = await res.json();
+    return { success: true, ...data };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    return { success: false, message };
+  }
+};
