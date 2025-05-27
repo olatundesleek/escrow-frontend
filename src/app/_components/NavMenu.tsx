@@ -1,17 +1,26 @@
+import Link from 'next/link';
 import { TbUser, TbUserPlus } from 'react-icons/tb';
+
+import { navLinks } from '../_constants/navLinks';
 
 import Button from './Button';
 import NavItem from './NavItem';
-import { navLinks } from '../_constants/navLinks';
-import Link from 'next/link';
 
 export default function NavMenu({
   isToggled,
   isLoggedIn,
+  redirectRole = 'user',
 }: {
   isToggled: boolean;
   isLoggedIn: boolean;
+  redirectRole?: string;
 }) {
+  const href = redirectRole
+    ? redirectRole === 'admin'
+      ? '/admin/dashboard'
+      : '/dashboard'
+    : '/login';
+
   return (
     <div
       className={`grow-1 flex flex-col-reverse lg:flex-row lg:items-center lg:mt-0 gap-2 transition-all duration-500 ease-in-out overflow-auto ${
@@ -24,7 +33,7 @@ export default function NavMenu({
         ))}
       </ul>
       <div className='grow-1 flex justify-end'>
-        <Link href='/login'>
+        <Link href={href}>
           <Button
             padding='px-2 py-2'
             style='flex justify-center items-center flex-row gap-2'

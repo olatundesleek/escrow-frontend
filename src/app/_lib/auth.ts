@@ -1,10 +1,14 @@
 import { importSPKI, jwtVerify } from "jose";
 import {
+  ResendVerificationEmailResponse,
   LoginFormInputs,
   LoginResponse,
+  LogoutResponse,
   RegisterFormInputs,
   RegisterResponse,
-} from "./../_types/authTypes";
+  VerifyUserTokenResponse,
+  VerifyAdminResponse,
+} from './../_types/authTypes';
 
 // This function handles the login process by sending a POST request to the server with the user's credentials.
 // It returns a promise that resolves to an object containing the success status and message.
@@ -132,11 +136,10 @@ export async function signUp({
   }
 }
 
-export async function logout(): Promise<{
-  success: boolean;
-  message?: string;
-}> {
-  const logoutUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`;
+// This function handles the logout process by sending a POST request to the server to clear the user's session.
+// It returns a promise that resolves to an object containing the success status, message, and user role.
+export async function logout(): Promise<LogoutResponse> {
+  const logoutUrl = `/api/logout`;
 
   try {
     const res = await fetch(logoutUrl, {
@@ -163,17 +166,18 @@ export async function logout(): Promise<{
     return {
       success: false,
       message,
+      userRole: 'user',
     };
   }
 }
 
 //This function handles clicking to resend verification email by sending a POST request to the server with the user's email.
 // It returns a promise that resolves to an object containing the success status and message.
-export async function clickToVerifyEmail({
+export async function resendVerificationEmail({
   email,
 }: {
   email: string;
-}): Promise<{ success: boolean; message: string }> {
+}): Promise<ResendVerificationEmailResponse> {
   const verifyUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/send-verification-email`;
 
   try {
@@ -193,7 +197,6 @@ export async function clickToVerifyEmail({
     }
 
     const data = await res.json();
-    console.log(data);
 
     return data;
   } catch (error) {
@@ -207,16 +210,22 @@ export async function clickToVerifyEmail({
   }
 }
 
-export async function verifyUserToken(token: string) {
+// This function verifies the user's token by importing the public key and using it to verify the JWT.
+// It returns a promise that resolves to the payload of the verified token or null if verification fails.
+export async function verifyUserToken(
+  token: string,
+): Promise<VerifyUserTokenResponse | null> {
   const secret =
     process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, '\n') || '';
 
   try {
     const cryptoKey = await importSPKI(secret, 'RS256');
 
-    const { payload } = await jwtVerify(token, cryptoKey, {
+    const { payload: typedPayload } = await jwtVerify(token, cryptoKey, {
       algorithms: ['RS256'],
     });
+
+    const payload = typedPayload as unknown as VerifyUserTokenResponse;
 
     return payload || null;
   } catch (err) {
@@ -225,11 +234,18 @@ export async function verifyUserToken(token: string) {
   }
 }
 
-export async function verifyAdmin(token: string) {
+// This function verifies if the user is an admin by checking the role in the token payload.
+// It returns an object indicating whether the user is authorized and a message.
+// If the user is not an admin, it returns a forbidden message and authorized as false.
+// If the token is invalid or expired, it returns null.
+// If the token is valid and the user is an admin, it returns authorized as true and a success message.
+export async function verifyAdmin(
+  token: string,
+): Promise<VerifyAdminResponse | null> {
   const secret =
     process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, '\n') || '';
 
-  if (!token) return { message: 'Unauthorized' };
+  if (!token) return { authorized: false, message: 'Unauthorized' };
 
   try {
     const cryptoKey = await importSPKI(secret, 'RS256');
@@ -237,7 +253,6 @@ export async function verifyAdmin(token: string) {
     const { payload } = await jwtVerify(token, cryptoKey, {
       algorithms: ['RS256'],
     });
-    console.log('verifyadmin for login running', payload);
 
     if (payload.role === 'user')
       return {
@@ -247,12 +262,17 @@ export async function verifyAdmin(token: string) {
 
     if (payload.role === 'admin')
       return { authorized: true, message: 'User is an admin' };
+
+    return { authorized: false, message: 'Unauthorized' };
   } catch (err) {
     console.error('Token verification error:', err);
     return null;
   }
 }
 
+
+// This function verifies the email token by sending a GET request to the server.
+// It returns a promise that resolves to the result of the verification process with success and message properties.
 export async function verifyToken(token: string | null) {
   if (!token) {
     return {

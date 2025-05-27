@@ -16,6 +16,7 @@ export function handleApiError(res: {
   status?: number;
   email?: string;
   details?: string[];
+  userRole?: 'user' | 'admin';
 }): ApiErrorResponse {
   const { success, message, status, email, details } = res;
 

@@ -1,18 +1,21 @@
 'use client';
+
+import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+
+import { login, verifyAdmin } from '../_lib/auth';
+import { LoginFormInputs } from '../_types/authTypes';
+import { handleApiError } from '../_lib/handleApiError';
+
 import Logo from './Logo';
+import Button from './Button';
 import { AuthInput } from './AuthInput';
 import { TogglePassword } from './TogglePassword';
-import Link from 'next/link';
-import Button from './Button';
 import SpinnerMini from './SpinnerMini';
-import { useForm } from 'react-hook-form';
-import { LoginFormInputs } from '../_types/authTypes';
-import { login, verifyAdmin } from '../_lib/auth';
-import { handleApiError } from '../_lib/handleApiError';
-import toast from 'react-hot-toast';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function AdminLogin() {
   const [isLoading, setIsLoading] = useState(false);
@@ -71,6 +74,9 @@ export default function AdminLogin() {
           <input
             type='text'
             id='username'
+            placeholder='Username'
+            autoComplete='username'
+            autoFocus
             className={`w-full p-2 pr-12 border border-gray-300 rounded-sm bg-white outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-dashboard-secondary ${
               errors.username?.message ? 'border-red-500' : ''
             }`}

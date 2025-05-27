@@ -1,6 +1,8 @@
 import { HeaderMenuItem } from '@/app/_constants/headerMenuList';
+
 import ButtonIcon from './ButtonIcon';
 import UserAvatar from './UserAvatar';
+import Logout from './Logout';
 
 export default function DashboardHeaderMenuList({
   headerMenu,
@@ -19,6 +21,9 @@ export default function DashboardHeaderMenuList({
           </li>
         );
       })}
+      <li>
+        <Logout />
+      </li>
       <li>
         <UserAvatar />
       </li>

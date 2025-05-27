@@ -10,6 +10,7 @@ export default function AdminSidebar({
 }: {
   isSidebarOpen: boolean;
 }) {
+
   return (
     <aside
       className={`lg:row-span-full border-r border-gray-300 flex flex-col gap-4 absolute lg:relative py-4 lg:py-0 ${

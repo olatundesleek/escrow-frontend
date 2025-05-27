@@ -27,3 +27,29 @@ export interface RegisterResponse {
   details?: string[];
   status?: number;
 }
+
+export interface LogoutResponse {
+  success: boolean;
+  message: string;
+  userRole: 'user' | 'admin';
+}
+
+export interface ResendVerificationEmailResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface VerifyUserTokenResponse {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+  subRole: string;
+  iat: number;
+  exp: number;
+}
+
+export interface VerifyAdminResponse {
+  authorized: boolean;
+  message: string;
+}
