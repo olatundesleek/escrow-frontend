@@ -21,7 +21,7 @@ export default function DashboardHeaderMenuList({
           </li>
         );
       })}
-      <li>
+      <li className='hidden lg:block'>
         <Logout />
       </li>
       <li>

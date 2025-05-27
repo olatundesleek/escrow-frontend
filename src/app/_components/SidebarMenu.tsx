@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { SidebarMenuItem } from '@/app/_constants/sidebarMenuList';
 import ButtonIcon from './ButtonIcon';
+import Logout from './Logout';
 
 export default function SidebarMenu({
   sidebarMenu,
@@ -77,6 +78,12 @@ export default function SidebarMenu({
           </li>
         );
       })}
+      <li className='flex cursor-pointer  py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300 lg:hidden '>
+        <div className='p-2 text-xl text-dashboard-secondary'>
+          <Logout />
+        </div>
+        <span>Logout</span>
+      </li>
     </ul>
   );
 }
