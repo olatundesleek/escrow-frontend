@@ -70,6 +70,10 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
+  if(pathname.startsWith("/dashboard") && payload){
+    return NextResponse.next()
+  }
+
   //Accessing login while logged in
   if (pathname === "/login" && payload) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
