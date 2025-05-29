@@ -1,5 +1,5 @@
-import { NextResponse, type NextRequest } from "next/server";
-import { verifyUserToken } from "./app/_lib/auth";
+import { NextResponse, type NextRequest } from 'next/server';
+import { verifyUserToken } from './app/_lib/auth';
 
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
@@ -70,6 +70,10 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
+  if (pathname.startsWith('/dashboard') && payload) {
+    return NextResponse.next();
+  }
+
   //Accessing login while logged in
   if (pathname === '/login' && payload) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
@@ -79,17 +83,20 @@ export default async function middleware(req: NextRequest) {
   console.log('payload role from middleware:', payload?.role);
   const res = NextResponse.next();
   res.headers.set('x-user-authenticated', (!!payload).toString());
-  res.headers.set('x-user-role', String(payload?.role) || 'user');
+  res.headers.set(
+    'x-user-role',
+    payload?.role ? String(payload?.role) : 'user',
+  );
   return res;
 }
 
 export const config = {
   matcher: [
-    "/",
-    "/dashboard/:path*",
-    "/admin/:path*",
-    "/login",
-    "/verify-email",
-    "/((?!_next|favicon.ico).*)",
+    '/',
+    '/dashboard/:path*',
+    '/admin/:path*',
+    '/login',
+    '/verify-email',
+    '/((?!_next|favicon.ico).*)',
   ],
 };

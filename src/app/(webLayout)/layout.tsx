@@ -10,6 +10,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   console.log('isLoggedIn:', isLoggedIn);
   console.log('userRole:', userRole);
 
+  console.log('isLoggedIn:',isLoggedIn)
+  console.log('userRole:',userRole)
+
   return (
     <>
       <header>

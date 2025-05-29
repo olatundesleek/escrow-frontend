@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { resendVerificationEmail, login } from '../_lib/auth';
 import { LoginFormInputs } from '../_types/authTypes';
 import { handleApiError } from '../_lib/handleApiError';
@@ -78,16 +78,19 @@ export default function Login() {
       }
 
       if (result.success) {
-        console.log('result:', result);
+        console.log('result', result);
         //Display success message
         toast.success(result.message || 'Login successful!');
         console.log('redirect:', redirect);
         // Redirect to dashboard
+        console.log('redirect', redirect);
         if (redirect) {
+          console.log('redirecting:', redirect);
           return replace(decodeURIComponent(redirect));
+        } else {
+          console.log('no redirect:', 'moving to default /dashboard');
+          return replace('/dashboard');
         }
-
-        return replace('/dashboard');
       }
     } catch (error) {
       console.error('Error during login:', error);
