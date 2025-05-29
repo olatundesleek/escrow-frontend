@@ -71,6 +71,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   if (pathname.startsWith('/dashboard') && payload) {
+    console.log('middleware:', 'logging:in');
     return NextResponse.next();
   }
 

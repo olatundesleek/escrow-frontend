@@ -16,7 +16,7 @@ import SpinnerMini from './SpinnerMini';
 import ToastCustom from './ToastCustom';
 
 export default function Login() {
-  const { replace } = useRouter();
+  const { push } = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const redirect = searchParams.get('redirect');
@@ -86,11 +86,11 @@ export default function Login() {
         console.log('redirect', redirect);
         if (redirect) {
           console.log('redirecting:', redirect);
-          return replace(decodeURIComponent(redirect));
-        } else {
-          console.log('no redirect:', 'moving to default /dashboard');
-          return replace('/dashboard');
+          return push(decodeURIComponent(redirect));
         }
+
+        console.log('no redirect:', 'moving to default /dashboard');
+        return push('/dashboard');
       }
     } catch (error) {
       console.error('Error during login:', error);
