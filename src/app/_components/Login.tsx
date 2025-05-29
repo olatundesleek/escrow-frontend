@@ -78,9 +78,11 @@ export default function Login() {
       }
 
       if (result.success) {
+        console.log('result',result)
         //Display success message
         toast.success(result.message || 'Login successful!');
         // Redirect to dashboard
+        console.log('redirect',redirect)
         if (redirect) {
           return replace(decodeURIComponent(redirect));
         }
