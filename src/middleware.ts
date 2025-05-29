@@ -77,7 +77,7 @@ export default async function middleware(req: NextRequest) {
 
   const res = NextResponse.next();
   res.headers.set("x-user-authenticated", (!!payload).toString());
-  res.headers.set("x-user-role", String(payload?.role) || "user");
+  res.headers.set("x-user-role",  payload?.role ? String(payload?.role) : 'user');
   return res;
 }
 
