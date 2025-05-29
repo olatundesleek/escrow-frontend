@@ -84,10 +84,13 @@ export default function Login() {
         // Redirect to dashboard
         console.log('redirect',redirect)
         if (redirect) {
+          console.log('redirecting:',redirect)
           return replace(decodeURIComponent(redirect));
+        }else{
+          console.log("no redirect:",'moving to default /dashboard')
+        return replace('/dashboard');
         }
 
-        return replace('/dashboard');
       }
     } catch (error) {
       console.error('Error during login:', error);
