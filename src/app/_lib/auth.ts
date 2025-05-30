@@ -48,12 +48,13 @@ export async function login({
 
     const { token } = await res.json();
 
-    const setCookieRes = await fetch("/api/set-auth-cookie", {
-      method: "POST",
+    const setCookieRes = await fetch('/api/set-auth-cookie', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token }),
+      credentials: 'include',
     });
 
     if (!setCookieRes.ok || (!setCookieRes.ok && setCookieRes.status === 400)) {

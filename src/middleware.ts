@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { verifyUserToken } from './app/_lib/auth';
 
 export default async function middleware(req: NextRequest) {
+  console.log('middleware:', 'running from document');
   const token = req.cookies.get('token')?.value;
   const emailToken = req.nextUrl.searchParams.get('token');
   const { pathname, search } = req.nextUrl;
