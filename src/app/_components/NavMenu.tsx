@@ -15,12 +15,14 @@ export default function NavMenu({
   isLoggedIn: boolean;
   redirectRole?: string;
 }) {
+  console.log('redirectRole:', redirectRole);
   const href = redirectRole
     ? redirectRole === 'admin'
       ? '/admin/dashboard'
       : '/dashboard'
     : '/login';
 
+  console.log('href:', href);
   return (
     <div
       className={`grow-1 flex flex-col-reverse lg:flex-row lg:items-center lg:mt-0 gap-2 transition-all duration-500 ease-in-out overflow-auto ${
