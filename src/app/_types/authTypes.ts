@@ -28,10 +28,21 @@ export interface RegisterResponse {
   status?: number;
 }
 
+export interface ResetPasswordTypes {
+  token: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  message: string;
+}
+
 export interface LogoutResponse {
   success: boolean;
   message: string;
-  userRole: 'user' | 'admin';
+  userRole: "user" | "admin";
 }
 
 export interface ResendVerificationEmailResponse {

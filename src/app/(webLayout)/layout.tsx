@@ -8,6 +8,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   const isLoggedIn = (await headers()).get('x-user-authenticated') === 'true';
   const userRole = await(await headers()).get('x-user-role') || 'user';
 
+  console.log('isLoggedIn:',isLoggedIn)
+  console.log('userRole:',userRole)
+
   return (
     <>
       <header>
