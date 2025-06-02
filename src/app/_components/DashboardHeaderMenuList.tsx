@@ -5,12 +5,17 @@ import UserAvatar from './UserAvatar';
 import Logout from './Logout';
 import { useRouter } from 'next/navigation';
 import { HiOutlineGlobeAlt } from 'react-icons/hi2';
+import { MdAdminPanelSettings } from 'react-icons/md';
 
 export default function DashboardHeaderMenuList({
   headerMenu,
 }: {
   headerMenu: HeaderMenuItem[];
 }) {
+  // useQuery({
+  //   queryKey: ['isAdmin'],
+  // });
+
   const { push } = useRouter();
   return (
     <ul className='flex items-center gap-2'>
@@ -34,6 +39,16 @@ export default function DashboardHeaderMenuList({
       })}
       <li className='hidden lg:block'>
         <Logout />
+      </li>
+      <li>
+        <ButtonIcon
+          style='lg:text-2xl'
+          toolTip='Admin'
+          tipPosition='-right-8'
+          onClick={() => push('/admin/dashboard')}
+        >
+          <MdAdminPanelSettings />
+        </ButtonIcon>
       </li>
       <li>
         <UserAvatar />

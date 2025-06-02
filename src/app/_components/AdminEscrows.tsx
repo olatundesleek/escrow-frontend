@@ -1,11 +1,18 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+import { getPageTitleFromPathname } from '../_utils/helpers';
+import DashboardPageTitle from './DashboardPageTitle';
+import { adminSidebarMenuList } from '../_constants/sidebarMenuList';
+
 export default function AdminEscrows() {
+  const pathname = usePathname();
+
   return (
     <div className='flex flex-col items-center justify-center'>
-      <h1 className='text-4xl font-bold'>Escrows</h1>
-      <p className='mt-4 text-lg'>
-        You don&apos;t have any escrows yet. Click on new escrow to create one
-        😉
-      </p>
+      <DashboardPageTitle>
+        {getPageTitleFromPathname(pathname, adminSidebarMenuList)}
+      </DashboardPageTitle>
     </div>
   );
 }

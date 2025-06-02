@@ -35,10 +35,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           setIsSidebarOpen={setIsSidebarOpen}
         />
         <AdminSidebar isSidebarOpen={isSidebarOpen} />
-        <main>
-          <div className='lg:max-w-[120rem] lg:my-0 lg:mx-auto lg:flex lg:flex-col lg:gap-4'>
-            {children}
-          </div>
+        <main className='lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 py-5 '>
+          {children}
         </main>
       </div>
     </QueryClientProvider>

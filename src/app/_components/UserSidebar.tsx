@@ -12,11 +12,11 @@ export default function UserSidebar({
 }) {
   return (
     <aside
-      className={`lg:row-span-full border-r border-gray-300 flex flex-col gap-4 absolute lg:relative py-4 lg:py-0 ${
+      className={`lg:row-span-full border-r border-dashboard-border flex flex-col gap-4 absolute lg:relative py-4 lg:py-0 ${
         isSidebarOpen ? 'lg:w-[18rem] w-full' : 'lg:w-[5rem] w-0'
       } transition-[width] duration-300 z-50 bg-white overflow-auto`}
     >
-      <div className='w-full hidden relative lg:flex items-center justify-center py-4 border-b border-gray-300 '>
+      <div className='w-full hidden relative lg:flex items-center justify-center py-4 border-b border-dashboard-border '>
         <Image
           src={'/logo_dark.png'}
           alt='logo'

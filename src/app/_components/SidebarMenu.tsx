@@ -13,7 +13,7 @@ export default function SidebarMenu({
   isSidebarOpen: boolean;
 }) {
   return (
-    <ul className={`w-full flex flex-col ${isSidebarOpen ? 'gap-2' : 'gap-0'}`}>
+    <ul className={`w-full flex flex-col ${isSidebarOpen ? 'gap-2' : 'gap-5'}`}>
       {sidebarMenu.map((item) => {
         const Icon = item.icon;
 
@@ -24,8 +24,8 @@ export default function SidebarMenu({
                 href={item.href}
                 className={`${
                   isSidebarOpen
-                    ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300'
-                    : 'flex py-2.5 rounded-full hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
+                    ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-dashboard-border'
+                    : 'flex rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
                 }`}
               >
                 {isSidebarOpen ? (
@@ -54,8 +54,8 @@ export default function SidebarMenu({
             <div
               className={`cursor-pointer ${
                 isSidebarOpen
-                  ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300'
-                  : 'flex py-2.5 rounded-full hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
+                  ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-dashboard-border'
+                  : 'flex rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
               }`}
             >
               {isSidebarOpen ? (
@@ -78,7 +78,7 @@ export default function SidebarMenu({
           </li>
         );
       })}
-      <li className='flex cursor-pointer  py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300 lg:hidden '>
+      <li className='flex cursor-pointer  py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-dashboard-border lg:hidden '>
         <div className='p-2 text-xl text-dashboard-secondary'>
           <Logout />
         </div>
@@ -99,7 +99,7 @@ export default function SidebarMenu({
               onClick={() => toggleDropdown(item.label)}
               className={`cursor-pointer ${
                 isSidebarOpen
-                  ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300'
+                  ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-dashboard-border'
                   : 'flex py-2.5 rounded-full hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
               }`}
             >

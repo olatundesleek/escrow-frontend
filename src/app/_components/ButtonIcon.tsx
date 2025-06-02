@@ -22,7 +22,7 @@ export default function ButtonIcon({
       <button
         onClick={() => onClick && onClick(!isActive)}
         type='button'
-        className={`p-2 border border-gray-300 cursor-pointer hover:bg-dashboard-secondary hover:text-dashboard-primary rounded transition-colors duration-300 ease-in mx-0.5 ${
+        className={`p-2 border border-dashboard-border cursor-pointer hover:bg-dashboard-secondary hover:text-dashboard-primary rounded transition-colors duration-300 ease-in mx-0.5 ${
           isActive
             ? 'bg-dashboard-secondary text-dashboard-primary'
             : 'bg-transparent  text-dashboard-secondary'
