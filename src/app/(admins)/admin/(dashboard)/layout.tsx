@@ -1,60 +1,47 @@
 'use client';
 
 import { useState } from 'react';
-import DashboardHeader from '@/app/_components/AdminDashboardHeader';
-import Sidebar from '@/app/_components/AdminSidebar';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import AdminSidebar from '@/app/_components/AdminSidebar';
+import AdminDashboardHeader from '@/app/_components/AdminDashboardHeader';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      refetchOnReconnect: 'always',
+      refetchOnWindowFocus: true,
+      staleTime: 1000 * 60 * 1, // 1 minute
+      gcTime: 1000 * 60 * 10, // 10 minutes
+    },
+    mutations: {
+      retry: 1,
+    },
+  },
+});
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   return (
-    <div
-      className={`lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr] lg:h-screen`}
-    >
-      <DashboardHeader
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-      />
-      <Sidebar isSidebarOpen={isSidebarOpen} />
-      <main>
-        <div className='lg:max-w-[120rem] lg:my-0 lg:mx-auto lg:flex lg:flex-col lg:gap-4'>
-          {children}
-        </div>
-      </main>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <div
+        className={`lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr] lg:h-screen`}
+      >
+        <AdminDashboardHeader
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
+        <AdminSidebar isSidebarOpen={isSidebarOpen} />
+        <main>
+          <div className='lg:max-w-[120rem] lg:my-0 lg:mx-auto lg:flex lg:flex-col lg:gap-4'>
+            {children}
+          </div>
+        </main>
+      </div>
+    </QueryClientProvider>
   );
 }
 
-//------------------------------------------------------
-// 'use client';
-
-// import { useState } from 'react';
-// import DashboardHeader from '../_components/DashboardHeader';
-// import Sidebar from '../_components/Sidebar';
-
-// export default function Layout({ children }: { children: React.ReactNode }) {
-//   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-//   return (
-//     <div
-//       className={`lg:grid ${
-//         isSidebarOpen
-//           ? 'lg:grid-cols-[clamp(18rem,18vw,20rem)_1fr]'
-//           : 'lg:grid-cols-[clamp(5rem,5vw,5rem)_1fr]'
-//       } lg:grid-rows-[auto_1fr] lg:h-screen`}
-//     >
-//       <DashboardHeader
-//         isSidebarOpen={isSidebarOpen}
-//         setIsSidebarOpen={setIsSidebarOpen}
-//       />
-//       <Sidebar isSidebarOpen={isSidebarOpen} />
-//       <main>
-//         <div className='lg:max-w-[120rem] lg:my-0 lg:mx-auto lg:flex lg:flex-col lg:gap-4'>
-//           {children}
-//         </div>
-//       </main>
-//     </div>
-//   );
-// }
-// ---------------------------------
-// ? 'grid-cols-[clamp(18rem,18vw,20rem)_1fr]'
-// : 'grid-cols-[clamp(5rem,5vw,5rem)_1fr]'
-//'grid-cols-[18rem_1fr]' : 'grid-cols-[5rem_1fr]'
