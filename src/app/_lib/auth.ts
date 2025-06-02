@@ -23,17 +23,17 @@ export async function login({
 
   try {
     const res = await fetch(loginUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({
         username: username.trim(),
         password: password.trim(),
         rememberme,
       }),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (
@@ -48,7 +48,7 @@ export async function login({
 
     const { token } = await res.json();
 
-    const setCookieRes = await fetch('/api/set-auth-cookie', {
+    const setCookieRes = await fetch('/api/auth/set-auth-cookie', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,18 +68,18 @@ export async function login({
 
     return {
       success: false,
-      message: "Login failed",
+      message: 'Login failed',
       status: res.status,
-      token: "",
+      token: '',
     };
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "An unexpected error occurred";
+      error instanceof Error ? error.message : 'An unexpected error occurred';
 
     return {
       success: false,
       message,
-      token: "",
+      token: '',
     };
   }
 }
@@ -97,9 +97,9 @@ export async function signUp({
 
   try {
     const res = await fetch(registerUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         firstname: firstname.trim(),
@@ -125,12 +125,12 @@ export async function signUp({
 
     return {
       success: false,
-      message: "Registration failed",
+      message: 'Registration failed',
       status: res.status,
     };
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "An unexpected error occurred";
+      error instanceof Error ? error.message : 'An unexpected error occurred';
 
     return {
       success: false,
@@ -142,16 +142,16 @@ export async function signUp({
 // This function handles the logout process by sending a POST request to the server to clear the user's session.
 // It returns a promise that resolves to an object containing the success status, message, and user role.
 export async function logout(): Promise<LogoutResponse> {
-  const logoutUrl = `/api/logout`;
+  const logoutUrl = `/api/auth/logout`;
 
   try {
     const res = await fetch(logoutUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -164,12 +164,12 @@ export async function logout(): Promise<LogoutResponse> {
     return data;
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "An unexpected error occurred";
+      error instanceof Error ? error.message : 'An unexpected error occurred';
 
     return {
       success: false,
       message,
-      userRole: "user",
+      userRole: 'user',
     };
   }
 }
@@ -185,13 +185,13 @@ export async function resendVerificationEmail({
 
   try {
     const res = await fetch(verifyUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({ email }),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -204,7 +204,7 @@ export async function resendVerificationEmail({
     return data;
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "An unexpected error occurred";
+      error instanceof Error ? error.message : 'An unexpected error occurred';
 
     return {
       success: false,
@@ -216,23 +216,23 @@ export async function resendVerificationEmail({
 // This function verifies the user's token by importing the public key and using it to verify the JWT.
 // It returns a promise that resolves to the payload of the verified token or null if verification fails.
 export async function verifyUserToken(
-  token: string
+  token: string,
 ): Promise<VerifyUserTokenResponse | null> {
   const secret =
-    process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, "\n") || "";
+    process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, '\n') || '';
 
   try {
-    const cryptoKey = await importSPKI(secret, "RS256");
+    const cryptoKey = await importSPKI(secret, 'RS256');
 
     const { payload: typedPayload } = await jwtVerify(token, cryptoKey, {
-      algorithms: ["RS256"],
+      algorithms: ['RS256'],
     });
 
     const payload = typedPayload as unknown as VerifyUserTokenResponse;
 
     return payload || null;
   } catch (err) {
-    console.error("Token verification error:", err);
+    console.error('Token verification error:', err);
     return null;
   }
 }
@@ -243,32 +243,32 @@ export async function verifyUserToken(
 // If the token is invalid or expired, it returns null.
 // If the token is valid and the user is an admin, it returns authorized as true and a success message.
 export async function verifyAdmin(
-  token: string
+  token: string,
 ): Promise<VerifyAdminResponse | null> {
   const secret =
-    process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, "\n") || "";
+    process.env.NEXT_PUBLIC_JWT_VERIFY_SECRET?.replace(/\\n/g, '\n') || '';
 
-  if (!token) return { authorized: false, message: "Unauthorized" };
+  if (!token) return { authorized: false, message: 'Unauthorized' };
 
   try {
-    const cryptoKey = await importSPKI(secret, "RS256");
+    const cryptoKey = await importSPKI(secret, 'RS256');
 
     const { payload } = await jwtVerify(token, cryptoKey, {
-      algorithms: ["RS256"],
+      algorithms: ['RS256'],
     });
 
-    if (payload.role === "user")
+    if (payload.role === 'user')
       return {
         authorized: false,
-        message: "Forbidden: You are not allowed to view this page",
+        message: 'Forbidden: You are not allowed to view this page',
       };
 
-    if (payload.role === "admin")
-      return { authorized: true, message: "User is an admin" };
+    if (payload.role === 'admin')
+      return { authorized: true, message: 'User is an admin' };
 
-    return { authorized: false, message: "Unauthorized" };
+    return { authorized: false, message: 'Unauthorized' };
   } catch (err) {
-    console.error("Token verification error:", err);
+    console.error('Token verification error:', err);
     return null;
   }
 }
@@ -279,7 +279,7 @@ export async function verifyEmailToken(token: string | null) {
   if (!token) {
     return {
       success: false,
-      message: "Token not received from server",
+      message: 'Token not received from server',
     };
   }
 
@@ -287,17 +287,16 @@ export async function verifyEmailToken(token: string | null) {
 
   try {
     const response = await fetch(api, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
     });
-    console.log(response);
 
     const result = await response.json();
 
     return result;
   } catch (error) {
-    console.error("Token verification failed:", error);
+    console.error('Token verification failed:', error);
     throw error;
   }
 }

@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { verifyUserToken } from './app/_lib/auth';
 
 export default async function middleware(req: NextRequest) {
-  console.log('middleware:', 'running from document');
+
   const token = req.cookies.get('token')?.value;
   const emailToken = req.nextUrl.searchParams.get('token');
   const { pathname, search } = req.nextUrl;
@@ -71,25 +71,12 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (pathname.startsWith('/dashboard') && payload) {
-    console.log('middleware:', 'logging:in');
-    return NextResponse.next();
-  }
-
   //Accessing login while logged in
   if (pathname === '/login' && payload) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
-  console.log('payload from middleware:', payload);
-  console.log('payload role from middleware:', payload?.role);
-  const res = NextResponse.next();
-  res.headers.set('x-user-authenticated', (!!payload).toString());
-  res.headers.set(
-    'x-user-role',
-    payload?.role ? String(payload?.role) : 'user',
-  );
-  return res;
+  return NextResponse.next();
 }
 
 export const config = {
