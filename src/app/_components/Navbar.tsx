@@ -9,17 +9,13 @@ import { usePathname } from 'next/navigation';
 import { useStickyContext } from '../_context/StickyContext';
 import useNavbarHeight from '../_hooks/useNavbarHeight';
 
-export default function Navbar({
-  isLoggedIn,
-  redirectRole,
-}: {
-  isLoggedIn: boolean;
-  redirectRole?: string;
-}) {
+export default function Navbar() {
   const [isToggled, setIsToggled] = useState<boolean>(false);
   const pathname = usePathname();
   const { isIntersecting } = useStickyContext();
   const navRef = useNavbarHeight();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(false);
 
   useEffect(
     function () {
@@ -28,6 +24,31 @@ export default function Navbar({
 
     [pathname],
   );
+
+  useEffect(() => {
+    setIsAuthLoading(true);
+    let isCanceled = false;
+
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/status');
+
+        if (!isCanceled && res.ok) {
+          const data = await res.json();
+          setIsLoggedIn(data.isLoggedIn);
+        }
+      } catch (error) {
+        console.error('Error fetching auth status:', error);
+        setIsLoggedIn(false);
+      } finally {
+        setIsAuthLoading(false);
+      }
+    })();
+
+    return () => {
+      isCanceled = true;
+    };
+  }, []);
 
   return (
     <nav
@@ -48,7 +69,7 @@ export default function Navbar({
       <NavMenu
         isToggled={isToggled}
         isLoggedIn={isLoggedIn}
-        redirectRole={redirectRole}
+        isAuthLoading={isAuthLoading}
       />
     </nav>
   );
