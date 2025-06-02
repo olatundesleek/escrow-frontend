@@ -5,21 +5,18 @@ import { navLinks } from '../_constants/navLinks';
 
 import Button from './Button';
 import NavItem from './NavItem';
+import SpinnerMini from './SpinnerMini';
 
 export default function NavMenu({
   isToggled,
   isLoggedIn,
-  redirectRole = 'user',
+  isAuthLoading,
 }: {
   isToggled: boolean;
   isLoggedIn: boolean;
-  redirectRole?: string;
+  isAuthLoading: boolean;
 }) {
-  const href = redirectRole
-    ? redirectRole === 'admin'
-      ? '/admin/dashboard'
-      : '/dashboard'
-    : '/login';
+  const href = isLoggedIn ? '/dashboard' : '/login';
 
   return (
     <div
@@ -39,7 +36,9 @@ export default function NavMenu({
             style='flex justify-center items-center flex-row gap-2'
             color='bg-secondary text-white'
           >
-            {isLoggedIn ? (
+            {isAuthLoading ? (
+              <SpinnerMini />
+            ) : isLoggedIn && !isAuthLoading ? (
               <>
                 <span>
                   <TbUser fontSize={'1.2rem'} />
@@ -60,3 +59,20 @@ export default function NavMenu({
     </div>
   );
 }
+
+
+/* (
+              <>
+                <span>
+                  <TbUser fontSize={'1.2rem'} />
+                </span>
+                <span>Dashboard</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  <TbUserPlus fontSize='1.2rem' />
+                </span>
+                <span>Log In</span>
+              </>
+            )*/
