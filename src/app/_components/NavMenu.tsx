@@ -1,28 +1,23 @@
 import Link from 'next/link';
-import { TbUser, TbUserPlus } from 'react-icons/tb';
+import {
+  // TbUser,
+  TbUserPlus,
+} from 'react-icons/tb';
 
 import { navLinks } from '../_constants/navLinks';
 
 import Button from './Button';
 import NavItem from './NavItem';
 
-export default function NavMenu({
-  isToggled,
-  isLoggedIn,
-  redirectRole = 'user',
-}: {
-  isToggled: boolean;
-  isLoggedIn: boolean;
-  redirectRole?: string;
-}) {
-  console.log('redirectRole:', redirectRole);
-  const href = redirectRole
-    ? redirectRole === 'admin'
-      ? '/admin/dashboard'
-      : '/dashboard'
-    : '/login';
+export default function NavMenu({ isToggled }: { isToggled: boolean }) {
+  // console.log('redirectRole:', redirectRole);
+  // const href = redirectRole
+  //   ? redirectRole === 'admin'
+  //     ? '/admin/dashboard'
+  //     : '/dashboard'
+  //   : '/login';
 
-  console.log('href:', href);
+  // console.log('href:', href);
   return (
     <div
       className={`grow-1 flex flex-col-reverse lg:flex-row lg:items-center lg:mt-0 gap-2 transition-all duration-500 ease-in-out overflow-auto ${
@@ -35,27 +30,16 @@ export default function NavMenu({
         ))}
       </ul>
       <div className='grow-1 flex justify-end'>
-        <Link href={href}>
+        <Link href={'/login'}>
           <Button
             padding='px-2 py-2'
             style='flex justify-center items-center flex-row gap-2'
             color='bg-secondary text-white'
           >
-            {isLoggedIn ? (
-              <>
-                <span>
-                  <TbUser fontSize={'1.2rem'} />
-                </span>
-                <span>Dashboard</span>
-              </>
-            ) : (
-              <>
-                <span>
-                  <TbUserPlus fontSize='1.2rem' />
-                </span>
-                <span>Log In</span>
-              </>
-            )}
+            <span>
+              <TbUserPlus fontSize='1.2rem' />
+            </span>
+            <span>Log In</span>
           </Button>
         </Link>
       </div>
