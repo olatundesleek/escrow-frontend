@@ -1,7 +1,7 @@
-const Spinner = () => {
+const Spinner = ({ color = 'text-secondary' }: { color?: string }) => {
   return (
     <div
-      className='w-16 aspect-square rounded-full mx-auto animate-spin'
+      className={`w-16 aspect-square rounded-full mx-auto animate-spin ${color}`}
       style={{
         background: `radial-gradient(farthest-side, #65a30d 94%, #0000) top/10px 10px no-repeat,
                      conic-gradient(#0000 30%, #65a30d)`,

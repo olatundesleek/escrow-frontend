@@ -4,15 +4,18 @@ import DashBboardSearchBar from './DashboardSearchBar';
 import DashboardHeaderMenuList from './DashboardHeaderMenuList';
 import { userHeaderMenuList } from '@/app/_constants/headerMenuList';
 
+
 export default function UserDashboardHeader({
   isSidebarOpen,
   setIsSidebarOpen,
-}: {
+}: // role,
+{
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<boolean>;
+  // role: 'user' | 'admin';
 }) {
   return (
-    <header className='w-full border-b border-gray-300 flex justify-between items-center px-5 py-1'>
+    <header className='w-full border-b border-dashboard-border flex justify-between items-center px-5 py-1 lg:min-h-[4.3rem] lg:max-h-[4.3rem]'>
       <div className='flex gap-x-4 w-full'>
         <ButtonIcon
           style='lg:text-2xl'

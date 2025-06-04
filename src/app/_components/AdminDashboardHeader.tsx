@@ -12,7 +12,7 @@ export default function AdminDashboardHeader({
   setIsSidebarOpen: React.Dispatch<boolean>;
 }) {
   return (
-    <header className='w-full border-b border-gray-300 flex justify-between items-center px-5 py-1'>
+    <header className='w-full border-b border-dashboard-border flex justify-between items-center px-5 py-1 lg:min-h-[4.3rem] lg:max-h-[4.3rem]'>
       <div className='flex gap-x-4 w-full'>
         <ButtonIcon
           style='lg:text-2xl'

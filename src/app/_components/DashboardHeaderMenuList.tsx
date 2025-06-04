@@ -1,10 +1,18 @@
+'use client';
+
+import { usePathname, useRouter } from 'next/navigation';
+import { HiOutlineGlobeAlt } from 'react-icons/hi2';
+import { MdAdminPanelSettings } from 'react-icons/md';
 import { HeaderMenuItem } from '@/app/_constants/headerMenuList';
 
-import ButtonIcon from './ButtonIcon';
-import UserAvatar from './UserAvatar';
 import Logout from './Logout';
-import { useRouter } from 'next/navigation';
-import { HiOutlineGlobeAlt } from 'react-icons/hi2';
+import UserAvatar from './UserAvatar';
+import ButtonIcon from './ButtonIcon';
+
+import { useQuery } from '@tanstack/react-query';
+import { getUserRole } from '../_lib/auth';
+
+import SpinnerMini from './SpinnerMini';
 
 export default function DashboardHeaderMenuList({
   headerMenu,
@@ -12,6 +20,18 @@ export default function DashboardHeaderMenuList({
   headerMenu: HeaderMenuItem[];
 }) {
   const { push } = useRouter();
+  const pathname = usePathname();
+
+  const { data, isLoading: isUserRoleLoading } = useQuery({
+    queryKey: ['userRole'],
+    queryFn: getUserRole,
+  });
+
+  if (isUserRoleLoading)
+    return <SpinnerMini color='text-dashboard-secondary' />;
+
+  const role = data.role;
+
   return (
     <ul className='flex items-center gap-2'>
       <li onClick={() => push('/')} className='relative group'>
@@ -32,6 +52,18 @@ export default function DashboardHeaderMenuList({
           </li>
         );
       })}
+      {role === 'admin' && !pathname.startsWith('/admin') && (
+        <li>
+          <ButtonIcon
+            style='lg:text-2xl'
+            toolTip='Admin'
+            tipPosition='-right-8'
+            onClick={() => push('/admin/dashboard')}
+          >
+            <MdAdminPanelSettings />
+          </ButtonIcon>
+        </li>
+      )}
       <li className='hidden lg:block'>
         <Logout />
       </li>

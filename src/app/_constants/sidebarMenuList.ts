@@ -1,7 +1,6 @@
 import { IconType } from 'react-icons';
 import {
   HiOutlineHome,
-  HiOutlineCollection,
   HiOutlineCash,
   HiOutlineCreditCard,
   HiOutlineUsers,
@@ -33,7 +32,6 @@ export interface SidebarMenuItem {
 
 export const adminSidebarMenuList: SidebarMenuItem[] = [
   { label: 'Dashboard', icon: HiOutlineHome, href: '/admin/dashboard' },
-  { label: 'Categories', icon: HiOutlineCollection, href: '/admin/categories' },
   { label: 'Escrows', icon: HiOutlineCash, href: '/admin/dashboard/escrows' },
   { label: 'Milestone Payments', icon: HiOutlineReceiptRefund },
   { label: 'Payment Methods', icon: HiOutlineCreditCard },

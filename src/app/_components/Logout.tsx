@@ -8,10 +8,12 @@ import { handleApiError } from '../_lib/handleApiError';
 
 import ButtonIcon from './ButtonIcon';
 import SpinnerMini from './SpinnerMini';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function Logout() {
   const { replace } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleLogout = async function () {
     setIsLoading(true);
@@ -25,10 +27,10 @@ export default function Logout() {
         toast.error(errorHandle.message);
       }
 
-      const { userRole } = result;
-
       if (result.success) {
+        queryClient.removeQueries({ queryKey: ['userRole'] });
         toast.success(result.message);
+        const { userRole } = result;
         if (userRole === 'user') replace('/login');
         if (userRole === 'admin') replace('/admin/login');
       }
@@ -47,7 +49,11 @@ export default function Logout() {
       isLoading={isLoading}
       onClick={handleLogout}
     >
-      {isLoading ? <SpinnerMini /> : <HiArrowRightOnRectangle />}
+      {isLoading ? (
+        <SpinnerMini color='text-dashboard-secondary' />
+      ) : (
+        <HiArrowRightOnRectangle />
+      )}
     </ButtonIcon>
   );
 }

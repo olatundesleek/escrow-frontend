@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { SidebarMenuItem } from '@/app/_constants/sidebarMenuList';
 import ButtonIcon from './ButtonIcon';
 import Logout from './Logout';
+import { usePathname } from 'next/navigation';
 
 export default function SidebarMenu({
   sidebarMenu,
@@ -12,8 +13,10 @@ export default function SidebarMenu({
   sidebarMenu: SidebarMenuItem[];
   isSidebarOpen: boolean;
 }) {
+  const pathname = usePathname();
+
   return (
-    <ul className={`w-full flex flex-col ${isSidebarOpen ? 'gap-2' : 'gap-0'}`}>
+    <ul className={`w-full flex flex-col ${isSidebarOpen ? 'gap-2' : 'gap-5'}`}>
       {sidebarMenu.map((item) => {
         const Icon = item.icon;
 
@@ -24,13 +27,23 @@ export default function SidebarMenu({
                 href={item.href}
                 className={`${
                   isSidebarOpen
-                    ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300'
-                    : 'flex py-2.5 rounded-full hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
-                }`}
+                    ? `flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-all duration-500 items-center text-gray-700 text-base  ${
+                        pathname === item.href
+                          ? 'bg-dashboard-secondary font-black text-white  hover:bg-dashboard-secondary'
+                          : 'bg-transparent  hover:bg-dashboard-border'
+                      }`
+                    : 'flex rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
+                } `}
               >
                 {isSidebarOpen ? (
                   <>
-                    <div className='p-2 text-xl text-dashboard-secondary'>
+                    <div
+                      className={`p-2 text-xl  ${
+                        pathname === item.href
+                          ? 'text-white'
+                          : 'text-dashboard-secondary'
+                      }`}
+                    >
                       <Icon />
                     </div>
                     <span>{item.label}</span>
@@ -40,6 +53,7 @@ export default function SidebarMenu({
                     toolTip={item.label}
                     tipPosition='-right-1/2'
                     style='hidden lg:block'
+                    isActive={pathname === item.href}
                   >
                     <Icon className='text-xl' />
                   </ButtonIcon>
@@ -54,8 +68,8 @@ export default function SidebarMenu({
             <div
               className={`cursor-pointer ${
                 isSidebarOpen
-                  ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300'
-                  : 'flex py-2.5 rounded-full hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
+                  ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-dashboard-border'
+                  : 'flex rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
               }`}
             >
               {isSidebarOpen ? (
@@ -78,7 +92,7 @@ export default function SidebarMenu({
           </li>
         );
       })}
-      <li className='flex cursor-pointer  py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300 lg:hidden '>
+      <li className='flex cursor-pointer  py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-dashboard-border lg:hidden '>
         <div className='p-2 text-xl text-dashboard-secondary'>
           <Logout />
         </div>
@@ -99,7 +113,7 @@ export default function SidebarMenu({
               onClick={() => toggleDropdown(item.label)}
               className={`cursor-pointer ${
                 isSidebarOpen
-                  ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-gray-300'
+                  ? 'flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium hover:bg-dashboard-border'
                   : 'flex py-2.5 rounded-full hover:font-black transition-colors duration-500 items-center text-gray-700 text-base font-medium w-full h-full justify-center'
               }`}
             >
