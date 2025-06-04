@@ -16,7 +16,7 @@ export default function UserSidebar({
         isSidebarOpen ? 'lg:w-[18rem] w-full' : 'lg:w-[5rem] w-0'
       } transition-[width] duration-300 z-50 bg-white overflow-auto`}
     >
-      <div className='w-full hidden relative lg:flex items-center justify-center py-4 border-b border-dashboard-border '>
+      <div className='w-full hidden relative lg:flex items-center justify-center py-4 border-b border-dashboard-border lg:min-h-[4.3rem] lg:max-h-[4.3rem]'>
         <Image
           src={'/logo_dark.png'}
           alt='logo'

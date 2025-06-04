@@ -1,6 +1,6 @@
-type MenuItem = {
+export type MenuItem = {
   label: string;
-  href?: string;
+  href: string;
 };
 
 export function getPageTitleFromPathname(
@@ -8,5 +8,24 @@ export function getPageTitleFromPathname(
   menuList: MenuItem[],
 ): string {
   const exactMatch = menuList.find((menuItem) => menuItem.href === pathname);
-  return exactMatch ? exactMatch.label : 'Page';
+  if (exactMatch) return exactMatch.label;
+
+  const startsWithMatch = menuList.find((menuItem) =>
+    pathname.startsWith(menuItem.href),
+  );
+  if (startsWithMatch) return startsWithMatch.label;
+
+  return formatFromPath(pathname);
+}
+
+export function formatFromPath(path: string): string {
+  const segments = path.split('/').filter(Boolean);
+
+  const lastPath = [...segments]
+    .reverse()
+    .find((segment) => isNaN(Number(segment)));
+
+  if (!lastPath) return '';
+
+  return lastPath.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }

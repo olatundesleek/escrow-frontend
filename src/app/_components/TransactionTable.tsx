@@ -72,12 +72,12 @@ const transactions: Transaction[] = [
 
 const TransactionTable = () => {
   return (
-    <div className='flex flex-col gap-4 w-full'>
+    <div className='flex flex-col gap-4 w-full h-full'>
       <h2 className='text-lg font-semibold text-gray-700'>
         Latest Transactions
       </h2>
       {/* Large screen table */}
-      <div className='bg-white h-full lg:flex lg:flex-col overflow-hidden border-2 border-black rounded-lg shadow-md hidden '>
+      <div className='bg-white h-full lg:flex lg:flex-col overflow-hidden border-2 border-dashboard-border rounded-lg shadow-md hidden '>
         <table className='min-w-full text-sm'>
           <thead className='bg-gray-300'>
             <tr className='text-left text-gray-600'>
@@ -90,11 +90,13 @@ const TransactionTable = () => {
           <tbody>
             {transactions.map((trx, index) => (
               <tr key={index} className='border-b hover:bg-gray-50'>
-                <td className='p-3 text-purple-600'>{trx.user}</td>
+                <td className='p-3 text-purple-600 whitespace-nowrap'>
+                  {trx.user}
+                </td>
                 <td className='p-3'>{trx.trx}</td>
-                <td className='p-3'>{trx.time}</td>
+                <td className='p-3 whitespace-nowrap'>{trx.time}</td>
                 <td
-                  className={`p-3 font-medium ${
+                  className={`p-3 font-medium whitespace-nowrap ${
                     trx.amount < 0
                       ? 'text-red-500'
                       : trx.amount > 0

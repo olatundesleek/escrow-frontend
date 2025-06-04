@@ -15,9 +15,12 @@ export async function POST(req: NextRequest) {
       message: 'Login successful',
     });
 
+    // const isDev = process.env.NODE_ENV === 'development';
+    // console.log(process.env.NODE_ENV === 'production');
+
     response.cookies.set('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: 'strict',
       path: '/',
     });

@@ -142,6 +142,7 @@ export async function signUp({
 // This function handles the logout process by sending a POST request to the server to clear the user's session.
 // It returns a promise that resolves to an object containing the success status, message, and user role.
 export async function logout(): Promise<LogoutResponse> {
+  // const logoutUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`;
   const logoutUrl = `/api/auth/logout`;
 
   try {
@@ -270,6 +271,19 @@ export async function verifyAdmin(
   } catch (err) {
     console.error('Token verification error:', err);
     return null;
+  }
+}
+
+export async function getUserRole() {
+  try {
+    const res = await fetch(`/api/auth/status`, {
+      credentials: 'include',
+    });
+
+    if (res.ok) return await res.json();
+  } catch (error) {
+    console.error('Error:', error);
+    return { isLoggedIn: false, role: 'user' };
   }
 }
 

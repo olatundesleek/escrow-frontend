@@ -1,18 +1,33 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-import { getPageTitleFromPathname } from '../_utils/helpers';
-import DashboardPageTitle from './DashboardPageTitle';
-import { adminSidebarMenuList } from '../_constants/sidebarMenuList';
+
+import { useQuery } from '@tanstack/react-query';
+import AdminDashboardPageTitle from './AdminDashboardPageTitle';
+import { getAdminAllEscrows } from '../_lib/dashboardServices';
+import FullPageLoader from './FullPageLoader';
+import toast from 'react-hot-toast';
 
 export default function AdminEscrows() {
-  const pathname = usePathname();
+  const {
+    data: allEscrows,
+    isLoading: isEscrowLoading,
+    error: escrowError,
+  } = useQuery({
+    queryKey: ['allAdminEscrow'],
+    queryFn: getAdminAllEscrows,
+  });
+
+  if (isEscrowLoading) return <FullPageLoader />;
+
+  if (escrowError) return toast.error(escrowError.message);
+
+  if (!allEscrows) return null;
+
+  console.log(allEscrows);
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      <DashboardPageTitle>
-        {getPageTitleFromPathname(pathname, adminSidebarMenuList)}
-      </DashboardPageTitle>
+      <AdminDashboardPageTitle />
     </div>
   );
 }
