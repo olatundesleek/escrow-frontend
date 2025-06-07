@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { SiteSettingData } from "../_types/siteSetting";
 import Spinner from "../_components/Spinner";
+import { useRouter } from "next/navigation";
 
 interface SiteSettingContextProps {
   success: boolean;
@@ -34,6 +35,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -48,6 +50,11 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
         );
 
         const result = await res.json();
+        if (result.maintenanceMode.enabled === true) {
+          router.push("/maintenance");
+        } else {
+          router.push("/");
+        }
         if (!res.ok) {
           setSuccess(false);
           setMessage(result.message || "Failed to load site settings");
@@ -66,7 +73,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchSettings();
-  }, []);
+  }, [router]);
 
   if (loading) {
     return (
