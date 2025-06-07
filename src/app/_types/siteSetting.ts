@@ -8,13 +8,15 @@ export type SocialMediaLinks = {
 };
 
 export type SiteSettingData = {
+  maintenanceMode: { enabled: boolean };
   socialMediaLinks: SocialMediaLinks;
   siteDescription?: string;
   sitePhone?: string;
   siteAddress?: string;
   siteColors?: string;
   siteEmail?: string;
-  siteLogo?: string; siteName?: string;
+  siteLogo?: string;
+  siteName?: string;
 };
 
 export type SiteInfo = {

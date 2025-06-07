@@ -7,6 +7,7 @@ interface InputProps {
   style?: string;
   children?: React.ReactNode;
   autoComplete?: string;
+  placeholder?: string;
 }
 
 export const AuthInput = ({
@@ -18,27 +19,29 @@ export const AuthInput = ({
   style,
   children,
   autoComplete,
+  placeholder,
 }: InputProps) => {
   return (
     <>
       <label
         htmlFor={name}
-        className='block pt-4 font-medium 2xl:text-xl text-[16px]'
+        className="block pt-4 font-medium 2xl:text-xl text-md"
       >
         {InputTitle}
-        <span className='text-red-500'>*</span>
+        <span className="text-red-500">*</span>
       </label>
       {children ? (
         children
       ) : (
         <input
-          autoComplete={autoComplete || 'on'}
+          autoComplete={autoComplete || "on"}
           id={name}
           name={name}
           type={type}
           value={value}
           onChange={onchange}
-          className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${style}`}
+          placeholder={placeholder}
+          className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full sm:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${style}`}
         />
       )}
     </>

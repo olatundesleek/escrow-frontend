@@ -62,12 +62,13 @@ export default function Signup() {
       aboutAuthPage="Join our secure platform today. Register now and unlock the power of safe transactions with ease!"
       formBanner={signupBanner}
     >
+      <div className=" border-t border-gray-300 w-full"></div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full pt-5 my-10 xl:px-20 flex flex-col justify-center items-center border-t border-gray-300"
+        className="w-full max-w-md my-10 flex flex-col justify-center items-center"
       >
         {/* {error && <p className='text-red-500 font-medium mb-4'>{error}</p>} */}
-        <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
+        <div className="w-full flex gap-2 flex-col sm:flex-row md:flex-col lg:flex-row">
           <div className="w-full sm:w-1/2 md:w-full lg:1/2">
             <AuthInput InputTitle="First Name" name="firstName">
               <input
@@ -75,7 +76,7 @@ export default function Signup() {
                 autoComplete="firstname"
                 id="firstname"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${
                   errors.firstname ? "border-red-500" : ""
                 }`}
                 {...register("firstname", {
@@ -108,7 +109,7 @@ export default function Signup() {
                 autoComplete="lastname"
                 id="lastname"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${
                   errors.lastname ? "border-red-500" : ""
                 }`}
                 {...register("lastname", {
@@ -134,7 +135,7 @@ export default function Signup() {
             </AuthInput>
           </div>
         </div>
-        <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
+        <div className="w-full flex gap-2 flex-col sm:flex-row md:flex-col lg:flex-row">
           <div className="w-full sm:w-1/2 md:w-full lg:1/2">
             <AuthInput InputTitle="Username" name="username">
               <input
@@ -142,7 +143,7 @@ export default function Signup() {
                 autoComplete="username"
                 id="username"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${
                   errors.username ? "border-red-500" : ""
                 }`}
                 {...register("username", {
@@ -175,7 +176,7 @@ export default function Signup() {
                 autoComplete="email"
                 id="email"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full p-4 pr-12 border border-gray-300 rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${
                   errors.email ? "border-red-500" : ""
                 }`}
                 {...register("email", {
@@ -209,7 +210,7 @@ export default function Signup() {
                   ? errors.password?.message
                   : undefined
               }
-              style="outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary p-4"
+              style="outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary md:p-4 p-2"
             />
           </div>
         </div>
@@ -224,7 +225,7 @@ export default function Signup() {
               className={`w-4 h-4 mr-2 cursor-pointer`}
               {...register("agree", { required: true })}
             />
-            <p>
+            <p className="sm:text-md text-sm">
               I agree with{" "}
               {
                 <Link href="#" className="text-lime-500 font-medium">
@@ -255,7 +256,7 @@ export default function Signup() {
           {isLoading ? <SpinnerMini /> : "Sign Up"}
         </Button>
 
-        <div className="flex w-full justify-center gap-2 p-2">
+        <div className="flex w-full justify-center gap-2 p-2 sm:text-md text-sm">
           <p>
             Already have an account?{" "}
             {
