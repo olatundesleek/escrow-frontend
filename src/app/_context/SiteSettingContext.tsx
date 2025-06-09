@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { SiteSettingData } from "../_types/siteSetting";
 import Spinner from "../_components/Spinner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 interface SiteSettingContextProps {
   success: boolean;
@@ -35,7 +35,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const { replace } = useRouter();
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -51,7 +51,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
 
         const result = await res.json();
         if (result.maintenanceMode.enabled === true) {
-          router.push("/maintenance");
+          replace("/maintenance");
         }
         if (!res.ok) {
           setSuccess(false);
@@ -71,7 +71,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchSettings();
-  }, [router]);
+  }, [replace]);
 
   if (loading) {
     return (
