@@ -48,7 +48,7 @@ export default function ForgottenPasssword() {
           color="bg-lime-500 text-white font-medium w-full flex justify-center"
           type="submit"
         >
-          {isLoading ? <SpinnerMini /> : "Next"}
+          {isLoading ? <SpinnerMini /> : "Submit"}
         </Button>
       </div>
     </>

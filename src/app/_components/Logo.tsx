@@ -28,7 +28,7 @@ export default function Logo() {
         />
       ) : (
         <h1 className="text-3xl font-bold text-secondary">
-          {data?.siteName || "Website"}
+          {data?.siteName || "Safe Transaction"}
         </h1>
       )}
     </Link>
