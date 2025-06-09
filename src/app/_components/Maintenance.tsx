@@ -18,11 +18,17 @@ export default function Maintenance() {
       <FaTools size={64} className="mb-6 text-amber-400 animate-bounce" />
       <h1 className="text-4xl font-bold mb-4">We&#39;ll Be Back Soon!</h1>
       <p className="text-lg mb-6 max-w-xl">
-        Our site is currently undergoing scheduled maintenance.
-        <br />
-        We appreciate your patience and understanding.
-        <br />
-        Please check back later.
+        {data.maintenanceMode.message ? (
+          data.maintenanceMode.message
+        ) : (
+          <>
+            Our site is currently undergoing scheduled maintenance.
+            <br />
+            We appreciate your patience and understanding.
+            <br />
+            Please check back later.
+          </>
+        )}
       </p>
       <div className="text-sm text-gray-400">
         &copy; {new Date().getFullYear()} {siteName || "escrow website"} All

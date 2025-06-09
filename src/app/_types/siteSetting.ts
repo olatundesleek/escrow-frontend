@@ -8,7 +8,7 @@ export type SocialMediaLinks = {
 };
 
 export type SiteSettingData = {
-  maintenanceMode: { enabled: boolean };
+  maintenanceMode: { enabled: boolean; message: string };
   socialMediaLinks: SocialMediaLinks;
   siteDescription?: string;
   sitePhone?: string;
