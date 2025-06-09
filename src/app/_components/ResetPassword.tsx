@@ -93,7 +93,7 @@ export default function ResetPassword() {
         color="bg-lime-500 my-5 text-white font-medium w-full"
         type="submit"
       >
-        {isLoading ? "Creating..." : "Create Password"}
+        {isLoading ? "reseting password..." : "Submit"}
       </Button>
     </>
   );
