@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { SiteSettingData } from "../_types/siteSetting";
 import Spinner from "../_components/Spinner";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface SiteSettingContextProps {
   success: boolean;
