@@ -52,8 +52,6 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
         const result = await res.json();
         if (result.maintenanceMode.enabled === true) {
           router.push("/maintenance");
-        } else {
-          router.push("/");
         }
         if (!res.ok) {
           setSuccess(false);
