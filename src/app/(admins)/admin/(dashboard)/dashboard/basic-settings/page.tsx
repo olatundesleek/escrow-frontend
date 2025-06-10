@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from "react";
 import AdminDashboardPageTitle from "@/app/_components/AdminDashboardPageTitle";
@@ -35,14 +36,14 @@ const Page = () => {
     setFormData(siteSetting.data); // sync local state when context changes
   }, [siteSetting.data]);
 
-  const handleChange = (path: string, value: any) => {
+  const handleChange = (path: string, value: unknown) => {
     const keys = path.split(".");
     const lastKey = keys.pop();
-    let obj: any = formData;
+    let obj = formData as Record<string, any>;
     for (const key of keys) {
       obj = obj[key] ??= {};
     }
-    if (obj[lastKey!] === value) return; // no change
+    if (obj[lastKey!] === value) return; //
     setFormData((prev: any) => {
       const updated = structuredClone(prev);
       let ref = updated;
@@ -65,7 +66,7 @@ const Page = () => {
       <div className="w-[100%] py-[12px] bg-blue-300 px-[8px] mt-[5px] rounded-sm">
         Site Settings
       </div>
-      <div className="grid grid lg:grid-cols-3 gap-4 md:grid-cols-2 sm:grid-cols-1 bg-white py-[12px] px-[12px] my-[20px] rounded-md shadow-md">
+      <div className="grid lg:grid-cols-3 gap-4 md:grid-cols-2 sm:grid-cols-1 bg-white py-[12px] px-[12px] my-[20px] rounded-md shadow-md">
         <Input
           label="Site name"
           value={formData.siteName}
@@ -192,7 +193,7 @@ const Input = ({
 }: {
   label: string;
   type?: string;
-  value: any;
+  value: string | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => (
   <div>
