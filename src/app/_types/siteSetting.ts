@@ -31,7 +31,7 @@ export type SiteSettingData = {
 export type SiteInfo = {
   email: string;
   description: string;
-  colors: string;
+  colors: TColor;
   phone: string;
   address: string;
 };

@@ -11,7 +11,7 @@ import { ContactInfo } from "./ContactInfo";
 import { usefulLinks, companyPolicies } from "./data";
 import { useSiteSetting } from "../_context/SiteSettingContext";
 import { SiteSettingData } from "../_types/siteSetting";
-import { SOCIAL_ICONS } from '../_constants/socialIcons';
+import { SOCIAL_ICONS } from "../_constants/socialIcons";
 import { SiteInfo } from "../_types/siteSetting";
 
 const Footer = () => {
@@ -20,7 +20,7 @@ const Footer = () => {
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
     email: "",
     description: "",
-    colors: "",
+    colors: { background: "", primary: "", secondary: "", text_color: "" },
     phone: "",
     address: "",
   });
@@ -41,7 +41,12 @@ const Footer = () => {
     if (!data) return;
     setSiteInfo({
       email: data.siteEmail || "",
-      colors: data.siteColors || "",
+      colors: data.siteColors || {
+        background: "",
+        primary: "",
+        secondary: "",
+        text_color: "",
+      },
       description: data.siteDescription || "",
       phone: data.sitePhone || "",
       address: data.siteAddress || "",
