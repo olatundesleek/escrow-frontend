@@ -6,23 +6,32 @@ export type SocialMediaLinks = {
   tiktok?: string;
   youtube?: string;
 };
-
+type TColor = {
+  primary: string;
+  secondary: string;
+  background: string;
+  text_color: string;
+};
 export type SiteSettingData = {
-  maintenanceMode: { enabled: boolean; message: string };
   socialMediaLinks: SocialMediaLinks;
   siteDescription?: string;
   sitePhone?: string;
   siteAddress?: string;
-  siteColors?: string;
+  siteColors?: TColor;
+  siteUrl?: string;
   siteEmail?: string;
   siteLogo?: string;
   siteName?: string;
+  maintenanceMode: {
+    enabled: boolean;
+    message: string;
+  };
 };
 
 export type SiteInfo = {
   email: string;
   description: string;
-  colors: string;
+  colors: TColor;
   phone: string;
   address: string;
 };

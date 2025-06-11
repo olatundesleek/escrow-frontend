@@ -59,7 +59,24 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
         } else {
           setSuccess(true);
           setMessage(result.message || "");
-          setData(result);
+          const {
+            __v,
+            _id,
+            maintenanceMode,
+            createdAt,
+            updatedAt,
+            ...siteData
+          } = result;
+
+          console.log(
+            __v,
+            _id,
+            maintenanceMode,
+            createdAt,
+            updatedAt,
+            "Not needed"
+          );
+          setData(siteData);
         }
       } catch (err) {
         const errMsg = err instanceof Error ? err.message : "Unexpected error";
