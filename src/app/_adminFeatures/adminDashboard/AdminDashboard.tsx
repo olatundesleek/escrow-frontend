@@ -1,25 +1,22 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import AdminDashboardPageTitle from './AdminDashboardPageTitle';
-import { getAdminDashboardData } from '../_lib/dashboardServices';
 import toast from 'react-hot-toast';
-import DashboardUserDisplay from './DashboardUserDisplay';
-import DashboardEscrowDisplay from './DashboardEscrowDisplay';
-import DashboardWalletDisplay from './DashboardWalletDisplay';
-import TransactionTable from './TransactionTable';
-import TransactionChart from './TransactionChart';
-import FullPageLoader from './FullPageLoader';
+
+import AdminDashboardPageTitle from '@/app/_components/AdminDashboardPageTitle';
+import DashboardUserDisplay from '@/app/_components/DashboardUserDisplay';
+import DashboardEscrowDisplay from '@/app/_components/DashboardEscrowDisplay';
+import DashboardWalletDisplay from '@/app/_components/DashboardWalletDisplay';
+import TransactionTable from '@/app/_components/TransactionTable';
+import TransactionChart from '@/app/_components/TransactionChart';
+import FullPageLoader from '@/app/_components/FullPageLoader';
+import useAdminDashboard from './useAdminDashboard';
 
 export default function AdminDashboard() {
   const {
-    data: adminDashboardData,
-    isLoading: isLoadindAdminDashboardData,
-    error: adminDashboardError,
-  } = useQuery({
-    queryKey: ['adminDashboard'],
-    queryFn: getAdminDashboardData,
-  });
+    isLoadindAdminDashboardData,
+    adminDashboardError,
+    adminDashboardData,
+  } = useAdminDashboard();
 
   if (isLoadindAdminDashboardData) return <FullPageLoader />;
 
@@ -27,7 +24,12 @@ export default function AdminDashboard() {
 
   console.log(adminDashboardData);
 
-  if (!adminDashboardData) return null;
+  if (!adminDashboardData)
+    return (
+      <div className='w-full h-screen flex justify-center items-center text-2xl text-dashboard-secondary'>
+        No data was found!
+      </div>
+    );
 
   const {
     dashboardDetails: {
@@ -41,7 +43,6 @@ export default function AdminDashboard() {
       },
     },
   } = adminDashboardData;
-  // const { data} = dashboardDetails;
 
   return (
     <div className='flex flex-col items-center justify-center '>

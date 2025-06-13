@@ -7,15 +7,15 @@ import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
-import { login, verifyAdmin } from '../_lib/auth';
-import { LoginFormInputs } from '../_types/authTypes';
-import { handleApiError } from '../_lib/handleApiError';
+import { login, verifyAdmin } from '@/app/_lib/auth';
+import { LoginFormInputs } from '@/app/_types/authTypes';
+import { handleApiError } from '@/app/_lib/handleApiError';
 
-import Logo from './Logo';
-import Button from './Button';
-import { AuthInput } from './AuthInput';
-import { TogglePassword } from './TogglePassword';
-import SpinnerMini from './SpinnerMini';
+import Logo from '@/app/_components/Logo';
+import Button from '@/app/_components/Button';
+import { AuthInput } from '@/app/_components/AuthInput';
+import { TogglePassword } from '@/app/_components/TogglePassword';
+import SpinnerMini from '@/app/_components/SpinnerMini';
 
 export default function AdminLogin() {
   const [isLoading, setIsLoading] = useState(false);
