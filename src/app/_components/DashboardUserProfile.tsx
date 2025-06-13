@@ -18,6 +18,16 @@ type FormValues = {
   confirmPassword: string;
 };
 
+import { UseFormRegisterReturn } from "react-hook-form";
+
+interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  id: string;
+  register: UseFormRegisterReturn;
+  error?: { message?: string };
+  type?: string;
+}
+
 const InputField = ({
   label,
   id,
@@ -25,7 +35,7 @@ const InputField = ({
   error,
   type = "text",
   ...props
-}: any) => (
+}: InputFieldProps) => (
   <div>
     <label htmlFor={id} className="block font-medium text-gray-700">
       {label}
@@ -41,6 +51,15 @@ const InputField = ({
   </div>
 );
 
+interface PasswordFieldProps {
+  id: string;
+  label: string;
+  register: UseFormRegisterReturn;
+  error?: { message?: string };
+  show: boolean;
+  toggleShow: () => void;
+}
+
 const PasswordField = ({
   id,
   label,
@@ -48,7 +67,7 @@ const PasswordField = ({
   error,
   show,
   toggleShow,
-}: any) => (
+}: PasswordFieldProps) => (
   <div>
     <label htmlFor={id} className="block font-medium text-gray-700">
       {label}

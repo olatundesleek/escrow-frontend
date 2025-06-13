@@ -1,3 +1,5 @@
+import { formatDistance, parseISO } from 'date-fns';
+
 export type MenuItem = {
   label: string;
   href: string;
@@ -29,3 +31,10 @@ export function formatFromPath(path: string): string {
 
   return lastPath.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
+
+export const formatDistanceFromNow = (dateStr: string) =>
+  formatDistance(parseISO(dateStr), new Date(), {
+    addSuffix: true,
+  })
+    .replace('about ', '')
+    .replace('in', 'In');

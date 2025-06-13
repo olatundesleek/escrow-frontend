@@ -1,3 +1,8 @@
+type EscrowStatus = 'pending' | 'active' | 'completed' | 'disputed';
+type PaymentStatus = 'unpaid' | 'paid' | 'pending';
+type EscrowFeePayment = 'buyer' | 'counterparty';
+type CreatorRole = 'buyer' | 'seller';
+
 export interface AdminDashboardDataResponse {
   message: string;
   dashboardDetails: {
@@ -25,13 +30,13 @@ export interface AdminDashboardDataResponse {
 
 export interface EscrowItem {
   terms: string[];
-  status: 'pending' | 'active' | 'completed' | 'disputed';
-  paymentStatus: 'unpaid' | 'paid';
-  escrowfeepayment: 'buyer' | 'counterparty';
+  status: EscrowStatus;
+  paymentStatus: PaymentStatus;
+  escrowfeepayment: EscrowFeePayment;
   chatActive: boolean;
   _id: string;
   creator: null | string; // adjust if creator is later an object
-  creatorRole: 'buyer' | 'seller';
+  creatorRole: CreatorRole;
   counterpartyEmail: string;
   amount: number;
   category: string;
@@ -53,4 +58,9 @@ export interface AllEscrowsDataResponse {
   escrowDetails: {
     data: EscrowDetails;
   };
+}
+
+export interface EscrowResponse {
+  message: string;
+  escrow: EscrowItem;
 }
