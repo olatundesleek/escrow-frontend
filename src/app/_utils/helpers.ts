@@ -1,4 +1,4 @@
-import { formatDistance, parseISO } from 'date-fns';
+import { formatDistance, parseISO } from "date-fns";
 
 export type MenuItem = {
   label: string;
@@ -7,13 +7,13 @@ export type MenuItem = {
 
 export function getPageTitleFromPathname(
   pathname: string,
-  menuList: MenuItem[],
+  menuList: MenuItem[]
 ): string {
   const exactMatch = menuList.find((menuItem) => menuItem.href === pathname);
   if (exactMatch) return exactMatch.label;
 
   const startsWithMatch = menuList.find((menuItem) =>
-    pathname.startsWith(menuItem.href),
+    pathname.startsWith(menuItem.href)
   );
   if (startsWithMatch) return startsWithMatch.label;
 
@@ -21,20 +21,20 @@ export function getPageTitleFromPathname(
 }
 
 export function formatFromPath(path: string): string {
-  const segments = path.split('/').filter(Boolean);
+  const segments = path.split("/").filter(Boolean);
 
   const lastPath = [...segments]
     .reverse()
     .find((segment) => isNaN(Number(segment)));
 
-  if (!lastPath) return '';
+  if (!lastPath) return "";
 
-  return lastPath.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  return lastPath.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export const formatDistanceFromNow = (dateStr: string) =>
   formatDistance(parseISO(dateStr), new Date(), {
     addSuffix: true,
   })
-    .replace('about ', '')
-    .replace('in', 'In');
+    .replace("about ", "")
+    .replace("in", "In");
