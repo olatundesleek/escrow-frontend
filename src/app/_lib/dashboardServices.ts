@@ -1,3 +1,4 @@
+import { EscrowResponse } from './../_types/dashboardServicesTypes';
 import {
   AdminDashboardDataResponse,
   AllEscrowsDataResponse,
@@ -46,6 +47,29 @@ export async function getAdminAllEscrows(): Promise<AllEscrowsDataResponse> {
     console.error('Error:', error);
     throw new Error(
       error instanceof Error ? error.message : 'Something went wrong!',
+    );
+  }
+}
+
+export async function getEscrowDetails(id: string): Promise<EscrowResponse> {
+  const escrowDetailUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow/${id}`;
+  console.log(escrowDetailUrl);
+
+  try {
+    const res = await fetch(escrowDetailUrl, { credentials: 'include' });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
     );
   }
 }
