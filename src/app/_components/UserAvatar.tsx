@@ -1,16 +1,48 @@
-import Image from 'next/image';
-import React from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import { LuUserRound } from "react-icons/lu";
+import { TbSettingsCog } from "react-icons/tb";
 
-export default function UserAvatar() {
+interface UserAvatarProps {
+  dropdown: boolean;
+  setDropdown: (value: boolean) => void;
+}
+
+export default function UserAvatar({ dropdown, setDropdown }: UserAvatarProps) {
   return (
-    <div className='relative w-[60px] h-[60px] sm:w-[60px] sm:h-[60px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] mx-auto lg:ml-0 lg:mr-0 rounded-full'>
-      <Image
-        src='/useravartar.png'
-        alt='user avartar/profile image'
-        fill
-        className='object-contain'
-        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-      />
+    <div className="relative">
+      <div
+        onClick={() => setDropdown(!dropdown)}
+        className="cursor-pointer w-[60px] h-[60px] mx-auto rounded-full"
+      >
+        <Image
+          src="/useravartar.png"
+          alt="user avatar/profile image"
+          fill
+          className="object-contain rounded-full"
+          sizes="60px"
+        />
+      </div>
+      {dropdown && (
+        <ul className="absolute right-0 mt-2 p-2 bg-white rounded-xl shadow-lg z-10 min-w-[130px]">
+          <Link
+            href="/dashboard/profile"
+            className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded cursor-pointer"
+          >
+            <LuUserRound className="text-blue-500" />
+            <span>Profile</span>
+          </Link>
+          <li>
+            <Link
+              href="/dashboard/settings"
+              className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded cursor-pointer"
+            >
+              <TbSettingsCog className="text-purple-600" />
+              <span>Settings</span>
+            </Link>
+          </li>
+        </ul>
+      )}
     </div>
   );
 }
