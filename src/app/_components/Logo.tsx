@@ -20,14 +20,15 @@ export default function Logo() {
         <Image
           src={displayLogo}
           alt={data?.siteName || "Logo"}
-          width={40}
-          height={40}
+          width={100}
+          height={100}
           priority
           unoptimized
+          className="rounded-md"
         />
       ) : (
         <h1 className="text-3xl font-bold text-secondary">
-          {data?.siteName || "Website"}
+          {data?.siteName || "Safe Transaction"}
         </h1>
       )}
     </Link>

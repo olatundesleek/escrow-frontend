@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { SiteSettingData } from "../_types/siteSetting";
 import Spinner from "../_components/Spinner";
+import { useRouter } from "next/navigation";
 
 interface SiteSettingContextProps {
   success: boolean;
@@ -34,6 +35,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const { replace } = useRouter();
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -48,13 +50,33 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
         );
 
         const result = await res.json();
+        if (result.maintenanceMode.enabled === true) {
+          replace("/maintenance");
+        }
         if (!res.ok) {
           setSuccess(false);
           setMessage(result.message || "Failed to load site settings");
         } else {
           setSuccess(true);
           setMessage(result.message || "");
-          setData(result);
+          const {
+            __v,
+            _id,
+            maintenanceMode,
+            createdAt,
+            updatedAt,
+            ...siteData
+          } = result;
+
+          console.log(
+            __v,
+            _id,
+            maintenanceMode,
+            createdAt,
+            updatedAt,
+            "Not needed"
+          );
+          setData(siteData);
         }
       } catch (err) {
         const errMsg = err instanceof Error ? err.message : "Unexpected error";
@@ -66,7 +88,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchSettings();
-  }, []);
+  }, [replace]);
 
   if (loading) {
     return (

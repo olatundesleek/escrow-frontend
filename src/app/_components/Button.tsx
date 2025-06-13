@@ -4,19 +4,19 @@ interface ButtonProps {
   textSize?: string;
   padding?: string;
   style?: string;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   onClick?: () => void;
   isLoading?: boolean;
 }
 
 const Button = ({
   children,
-  color = 'bg-secondary text-white',
-  textSize = 'text-xl',
-  padding = 'px-5 py-3',
-  style = '',
+  color = "bg-secondary text-white",
+  textSize = "text-md",
+  padding = "p-2",
+  style = "",
   onClick,
-  type = 'button',
+  type = "button",
   isLoading = false,
 }: ButtonProps) => {
   const baseStyle = `${padding} ${textSize} rounded-md transition duration-300 ${style}`;
