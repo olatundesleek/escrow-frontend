@@ -1,7 +1,7 @@
-type EscrowStatus = 'pending' | 'active' | 'completed' | 'disputed';
-type PaymentStatus = 'unpaid' | 'paid' | 'pending';
-type EscrowFeePayment = 'buyer' | 'counterparty';
-type CreatorRole = 'buyer' | 'seller';
+type EscrowStatus = "pending" | "active" | "completed" | "disputed";
+type PaymentStatus = "unpaid" | "paid" | "pending";
+type EscrowFeePayment = "buyer" | "counterparty";
+type CreatorRole = "buyer" | "seller";
 
 export interface AdminDashboardDataResponse {
   message: string;
@@ -63,4 +63,17 @@ export interface AllEscrowsDataResponse {
 export interface EscrowResponse {
   message: string;
   escrow: EscrowItem;
+}
+
+export interface FormValues {
+  name: string;
+  phone: string;
+  password?: string;
+  confirmPassword?: string;
+  address: {
+    address: string;
+    city: string;
+    country: string;
+    postalCode: string;
+  };
 }
