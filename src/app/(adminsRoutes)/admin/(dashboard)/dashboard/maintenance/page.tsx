@@ -1,10 +1,10 @@
-"use client";
-import AdminDashboardPageTitle from "@/app/_components/AdminDashboardPageTitle";
-import MaintaianceSwitch from "@/app/_components/MaintainanceSwitchLabel";
-import { useSiteSetting } from "@/app/_context/SiteSettingContext";
-import { useMutation } from "@tanstack/react-query";
-import { useCallback, useRef, useState } from "react";
-import axios from "axios";
+'use client';
+import AdminDashboardPageTitle from '@/app/_components/AdminDashboardPageTitle';
+import MaintaianceSwitch from '@/app/_components/MaintainanceSwitchLabel';
+import { useSiteSetting } from '@/app/_context/SiteSettingContext';
+import { useMutation } from '@tanstack/react-query';
+import { useCallback, useRef, useState } from 'react';
+import axios from 'axios';
 
 type TMaintenanceReqBody = {
   enabled: boolean;
@@ -18,7 +18,7 @@ const updateMaintenance = async (payload: TMaintenanceReqBody) => {
       payload,
       {
         withCredentials: true,
-      }
+      },
     );
     return res.data;
   } catch (e) {
@@ -28,19 +28,19 @@ const updateMaintenance = async (payload: TMaintenanceReqBody) => {
 const Page = () => {
   const siteSetting = useSiteSetting();
   const { mutateAsync } = useMutation({
-    mutationKey: ["maintenance"],
+    mutationKey: ['maintenance'],
     mutationFn: updateMaintenance,
   });
 
   const [value, setValue] = useState<string>(
-    siteSetting ? siteSetting.data.maintenanceMode.message : ""
+    siteSetting ? siteSetting.data.maintenanceMode?.message : '',
   );
 
   const focusRef = useRef<HTMLInputElement | null>(null);
   // const [enabled, setEnabled] = useState<boolean>(
 
   const [checked, setChecked] = useState<boolean>(
-    siteSetting.data.maintenanceMode.enabled
+    siteSetting.data.maintenanceMode?.enabled,
   );
 
   const updateCheck = useCallback(setChecked, [setChecked]);
@@ -60,35 +60,35 @@ const Page = () => {
         enabled: checked,
         message: value,
       });
-    console.log("go");
+    console.log('go');
   };
 
   return (
     <div>
       <AdminDashboardPageTitle />
-      <div className="w-full h-[40%] p-4">
+      <div className='w-full h-[40%] p-4'>
         <MaintaianceSwitch
-          label={"Maintainance"}
+          label={'Maintainance'}
           setChecked={updateCheck}
           checked={checked}
           focusRef={focusRef.current}
         />
-        <div className="description-cont flex py-8">
-          <div className="w-[150px]">Details:</div>
+        <div className='description-cont flex py-8'>
+          <div className='w-[150px]'>Details:</div>
           {/* <div className="w-">{siteSetting.data.maintenanceMode.message} </div> */}
           <input
-            type="text"
+            type='text'
             disabled={!checked}
             onChange={handleInputChange}
-            placeholder="Details"
+            placeholder='Details'
             value={value}
-            className="px-[10px] py-[8px]"
+            className='px-[10px] py-[8px]'
             ref={focusRef}
           />
         </div>
 
         <button
-          className="w-[100px] bg-blue-500 text-white rounded-sm p-[4px]"
+          className='w-[100px] bg-blue-500 text-white rounded-sm p-[4px]'
           onClick={handleBtnClick}
         >
           save
