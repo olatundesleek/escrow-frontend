@@ -1,4 +1,5 @@
-import { formatDistance, parseISO } from "date-fns";
+import { parseISO } from "date-fns/parseISO";
+import { formatDistance } from "date-fns/formatDistance";
 
 export type MenuItem = {
   label: string;
