@@ -7,9 +7,16 @@ type TSwitch = {
   setChecked: Dispatch<SetStateAction<boolean>>;
   checked: boolean;
   focusRef: HTMLInputElement | null;
+  bg?: string;
 };
 
-const SwitchWithLabel = ({ label, setChecked, checked, focusRef }: TSwitch) => {
+const SwitchWithLabel = ({
+  label,
+  setChecked,
+  checked,
+  focusRef,
+  bg = 'bg-blue-600',
+}: TSwitch) => {
   useEffect(() => {
     if (focusRef && checked === true) {
       focusRef.focus();
@@ -20,17 +27,17 @@ const SwitchWithLabel = ({ label, setChecked, checked, focusRef }: TSwitch) => {
   };
 
   return (
-    <div className="flex items-center space-x-4">
-      <span className="text-sm font-medium text-gray-700">{label}</span>
+    <div className='flex items-center space-x-4'>
+      <span className='text-sm font-medium text-gray-700'>{label}</span>
       <button
         onClick={toggleSwitch}
-        className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
-          checked ? "bg-blue-600" : "bg-gray-300"
+        className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors duration-300 cursor-pointer ${
+          checked ? bg : 'bg-gray-300'
         }`}
       >
         <div
           className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            checked ? "translate-x-5" : "translate-x-0"
+            checked ? 'translate-x-5' : 'translate-x-0'
           }`}
         />
       </button>

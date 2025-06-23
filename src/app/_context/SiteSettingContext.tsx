@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { SiteSettingData } from "../_types/siteSetting";
 import Spinner from "../_components/Spinner";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from 'next/navigation';
 
 interface SiteSettingContextProps {
   success: boolean;
@@ -19,21 +19,22 @@ interface SiteSettingContextProps {
 }
 
 const SiteSettingContext = createContext<SiteSettingContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export const useSiteSetting = () => {
   const context = useContext(SiteSettingContext);
   if (!context) {
-    throw new Error("useSiteSetting must be used within SiteSettingProvider");
+    throw new Error('useSiteSetting must be used within SiteSettingProvider');
   }
   return context;
 };
 
 export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
+  const pathname = usePathname();
   const [data, setData] = useState<SiteSettingData>({} as SiteSettingData);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const { replace } = useRouter();
 
@@ -43,43 +44,39 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/site/info`,
           {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          }
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+          },
         );
 
         const result = await res.json();
-        if (result.maintenanceMode.enabled === true) {
-          replace("/maintenance");
+
+        if (
+          result.maintenanceMode.enabled === true &&
+          !pathname.startsWith('/admin')
+        ) {
+          replace('/maintenance');
         }
         if (!res.ok) {
           setSuccess(false);
-          setMessage(result.message || "Failed to load site settings");
+          setMessage(result.message || 'Failed to load site settings');
         } else {
           setSuccess(true);
-          setMessage(result.message || "");
+          setMessage(result.message || '');
           const {
-            __v,
-            _id,
+            // __v,
+            // _id,
             maintenanceMode,
-            createdAt,
-            updatedAt,
+            // createdAt,
+            // updatedAt,
             ...siteData
           } = result;
 
-          console.log(
-            __v,
-            _id,
-            maintenanceMode,
-            createdAt,
-            updatedAt,
-            "Not needed"
-          );
-          setData(siteData);
+          setData({ ...siteData, maintenanceMode });
         }
       } catch (err) {
-        const errMsg = err instanceof Error ? err.message : "Unexpected error";
+        const errMsg = err instanceof Error ? err.message : 'Unexpected error';
         setSuccess(false);
         setMessage(errMsg);
       } finally {
@@ -92,7 +89,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white">
+      <div className='fixed inset-0 flex items-center justify-center bg-white'>
         <Spinner />
       </div>
     );
