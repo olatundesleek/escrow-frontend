@@ -78,19 +78,13 @@ export default function Login() {
       }
 
       if (result.success) {
-        console.log("result", result);
         //Display success message
-        toast.success(result.message || "Login successful!");
-        console.log("redirect:", redirect);
+        toast.success(result.message || 'Login successful!');
         // Redirect to dashboard
-        console.log("redirect", redirect);
         if (redirect) {
-          console.log("redirecting:", redirect);
           return replace(decodeURIComponent(redirect));
         }
-
-        console.log("no redirect:", "moving to default /dashboard");
-        return replace("/dashboard");
+        return replace('/dashboard');
       }
     } catch (error) {
       console.error("Error during login:", error);

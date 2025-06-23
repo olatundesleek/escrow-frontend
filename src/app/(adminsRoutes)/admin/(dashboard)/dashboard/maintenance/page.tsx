@@ -5,6 +5,7 @@ import { useSiteSetting } from '@/app/_context/SiteSettingContext';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useRef, useState } from 'react';
 import axios from 'axios';
+import SpinnerMini from '@/app/_components/SpinnerMini';
 
 type TMaintenanceReqBody = {
   enabled: boolean;
@@ -27,7 +28,7 @@ const updateMaintenance = async (payload: TMaintenanceReqBody) => {
 };
 const Page = () => {
   const siteSetting = useSiteSetting();
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ['maintenance'],
     mutationFn: updateMaintenance,
   });
@@ -52,15 +53,12 @@ const Page = () => {
 
   const handleBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (value === siteSetting.data.maintenanceMode.message) {
-      return;
-    }
-    if (value && checked)
+
+    if (value)
       mutateAsync({
         enabled: checked,
         message: value,
       });
-    console.log('go');
   };
 
   return (
@@ -72,6 +70,7 @@ const Page = () => {
           setChecked={updateCheck}
           checked={checked}
           focusRef={focusRef.current}
+          bg='bg-dashboard-secondary'
         />
         <div className='description-cont flex py-8'>
           <div className='w-[150px]'>Details:</div>
@@ -82,16 +81,16 @@ const Page = () => {
             onChange={handleInputChange}
             placeholder='Details'
             value={value}
-            className='px-[10px] py-[8px]'
+            className='px-[10px] py-[8px] text-dashboard-secondary'
             ref={focusRef}
           />
         </div>
 
         <button
-          className='w-[100px] bg-blue-500 text-white rounded-sm p-[4px]'
+          className='w-[100px] bg-dashboard-secondary text-white rounded-sm p-[4px] flex justify-center'
           onClick={handleBtnClick}
         >
-          save
+          {isPending ? <SpinnerMini /> : 'Save'}
         </button>
       </div>
     </div>
