@@ -70,7 +70,7 @@ export const userSidebarMenuList: SidebarMenuItem[] = [
   { label: "Dashboard", icon: HiOutlineHome, href: "/dashboard" },
   { label: "Escrows", icon: HiOutlineCash, href: "/dashboard/escrows" },
   {
-    label: "Payment Methods",
+    label: "Wallet",
     icon: HiOutlineCreditCard,
     href: "/dashboard/wallet",
   },

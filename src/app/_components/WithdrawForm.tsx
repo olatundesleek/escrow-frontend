@@ -1,9 +1,10 @@
 "use client";
 
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaUniversity } from "react-icons/fa";
 import Image from "next/image";
 import type { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { type Bank, type PaymentFormData } from "../_hooks/useCardData";
+import SpinnerMini from "./SpinnerMini";
 
 type WithdrawFormProps = {
   handleSubmit: UseFormHandleSubmit<PaymentFormData, PaymentFormData>;
@@ -41,52 +42,61 @@ export const WithdrawForm = ({
   status,
 }: WithdrawFormProps) => {
   return (
-    <section className="bg-white border-gray-400 p-8 rounded-2xl shadow-xl max-w-xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        Add/Update Bank Account
+    <section className="bg-gradient-to-br from-white via-blue-50 to-blue-100 border border-blue-100 p-10 rounded-xl shadow-xl max-w-xl mx-auto">
+      <h2 className="text-3xl font-bold text-blue-900 mb-8 flex items-center gap-3">
+        <FaUniversity className="text-blue-600" /> Add/Update Bank Account
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+        {/* Search Field */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Search Bank
           </label>
           <div className="relative">
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Start typing bank name..."
-              className="w-full pl-10 border rounded-lg p-3 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+              className="w-full pl-10 border border-blue-200 rounded-xl p-4 text-base focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+              autoComplete="off"
             />
           </div>
         </div>
 
+        {/* Bank Dropdown */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Bank
           </label>
           <div className="relative">
             <select
               {...register("bankCode", { required: "Bank is required" })}
-              className="w-full border rounded-lg p-3 pr-10 appearance-none focus:ring-2 focus:ring-blue-300 focus:outline-none"
+              className="w-full border border-blue-200 rounded-xl p-4 pr-12 appearance-none focus:ring-2 focus:ring-blue-400 focus:outline-none text-base"
               value={selectedBankCode ?? ""}
               onChange={(e) => setSelectedBankCode(e.target.value)}
             >
               <option value="">-- Select a bank --</option>
+              {filteredBanks.length === 0 && (
+                <option value="" disabled>
+                  No banks found
+                </option>
+              )}
               {filteredBanks.map((bank: Bank) => (
                 <option key={bank.id} value={bank.code}>
                   {bank.name}
                 </option>
               ))}
             </select>
+            {/* Show logo if selected */}
             {selectedBank?.logo ? (
               <Image
                 src={selectedBank.logo}
                 alt={selectedBank.name}
-                width={28}
-                height={28}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-7 h-7 rounded-full border bg-white object-contain"
+                width={32}
+                height={32}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border bg-white object-contain"
               />
             ) : (
               selectedBankCode && (
@@ -103,17 +113,23 @@ export const WithdrawForm = ({
           )}
         </div>
 
+        {/* Account Number */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Account Number
           </label>
           <input
             type="text"
             {...register("accountNumber", {
               required: "Account number required",
+              pattern: {
+                value: /^\d{10}$/,
+                message: "Account number must be 10 digits",
+              },
             })}
-            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+            className="w-full border border-blue-200 rounded-xl p-4 text-base focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
             placeholder="0123456789"
+            maxLength={10}
           />
           {errors.accountNumber?.message && (
             <span className="text-red-600 text-xs mt-1 block">
@@ -122,9 +138,10 @@ export const WithdrawForm = ({
           )}
         </div>
 
+        {/* Status Message */}
         {status.message && (
           <div
-            className={`text-sm font-medium mt-2 ${
+            className={`text-base font-medium mt-2 ${
               status.type === "success" ? "text-green-600" : "text-red-600"
             }`}
           >
@@ -135,9 +152,9 @@ export const WithdrawForm = ({
         <button
           type="submit"
           disabled={status.isSaving || !isDirty || !isValid}
-          className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 disabled:opacity-50"
+          className="w-full bg-gradient-to-r from-blue-600 to-green-500 flex items-center justify-center text-white py-4 rounded-xl font-semibold text-lg shadow hover:from-blue-700 hover:to-green-600 transition duration-200 disabled:opacity-50"
         >
-          {status.isSaving ? "Saving..." : "Save Bank Info"}
+          {status.isSaving ? <SpinnerMini /> : "Save Bank Info"}
         </button>
       </form>
     </section>

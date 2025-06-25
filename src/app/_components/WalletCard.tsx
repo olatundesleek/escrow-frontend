@@ -3,7 +3,6 @@ import { useCardData } from "../_hooks/useCardData";
 
 export const WalletCard = () => {
   const { cardData } = useCardData();
-  console.log(cardData);
   return (
     <section className="grid sm:grid-cols-3 gap-6 my-8">
       {cardData.map(({ label, value, icon: Icon, color }) => {

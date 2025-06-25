@@ -1,5 +1,5 @@
-import PaymentMethod from "@/app/_components/PaymentMethod";
+import Wallet from "@/app/_components/Wallet";
 
 export default function Page() {
-  return <PaymentMethod />;
+  return <Wallet />;
 }

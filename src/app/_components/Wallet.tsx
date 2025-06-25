@@ -7,7 +7,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { WithdrawForm } from "./WithdrawForm";
 import { type Bank, type PaymentFormData } from "../_hooks/useCardData";
-export default function PaymentDashboard() {
+export default function Wallet() {
   const [status, setStatus] = useState({
     isSaving: false,
     message: "",
@@ -26,7 +26,8 @@ export default function PaymentDashboard() {
   } | null>(null);
   const [userBankInfo, setUserBankInfo] = useState<{
     bankName: string;
-    account: string;
+    accountNumber: string;
+    accountName: string;
   } | null>(null);
 
   const {
@@ -44,24 +45,40 @@ export default function PaymentDashboard() {
       });
   }, []);
 
-  const onSubmit = (data: PaymentFormData) => {
+  const onSubmit = async (data: PaymentFormData) => {
     setStatus({ isSaving: true, message: "", type: "" });
 
-    setTimeout(() => {
-      setBankSet(true);
-      console.log(bankSet);
+    try {
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Simulated resolved account name from backend
+      const simulatedResult = {
+        accountNumber: data.accountNumber,
+        accountName: "Stephen Reward", // Fake name for demo
+      };
+
       setStatus({
         isSaving: false,
         message: "Payment method updated successfully",
         type: "success",
       });
+
+      reset();
+      setSelectedBankCode(null);
       setUserBankInfo({
         bankName: banks.find((b) => b.code === data.bankCode)?.name || "",
-        account: data.accountNumber,
+        accountNumber: simulatedResult.accountNumber,
+        accountName: simulatedResult.accountName,
       });
-      setSelectedBankCode(null);
-      reset();
-    }, 1500);
+      setBankSet(true);
+    } catch {
+      setStatus({
+        isSaving: false,
+        message: "Failed to update bank info.",
+        type: "error",
+      });
+    }
   };
 
   const handleWithdraw = async () => {
