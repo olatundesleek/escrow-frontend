@@ -3,6 +3,25 @@ type PaymentStatus = 'unpaid' | 'paid' | 'pending';
 type EscrowFeePayment = 'buyer' | 'counterparty';
 type CreatorRole = 'buyer' | 'seller';
 
+export interface AdminEscrowCreator {
+  kyc: {
+    status: 'verified' | 'unverified';
+  };
+  isVerified: boolean;
+  status: 'active' | 'inactive';
+  escrows: string[];
+  disputes: [];
+  transactions: [];
+  _id: string;
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  createdAt: string;
+  _v: string;
+  wallet: string;
+}
+
 export interface AdminDashboardDataResponse {
   message: string;
   dashboardDetails: {
@@ -28,15 +47,16 @@ export interface AdminDashboardDataResponse {
   };
 }
 
-export interface EscrowItem {
+export interface AdminEscrowItem {
   terms: string[];
   status: EscrowStatus;
   paymentStatus: PaymentStatus;
   escrowfeepayment: EscrowFeePayment;
   chatActive: boolean;
   _id: string;
-  creator: null | string; // adjust if creator is later an object
+  creator: AdminEscrowCreator;
   creatorRole: CreatorRole;
+  creatorEmail: string;
   counterpartyEmail: string;
   amount: number;
   category: string;
@@ -45,9 +65,13 @@ export interface EscrowItem {
   updatedAt: string;
   __v: number;
 }
+export interface AdminEscrowDetailResponse {
+  message: string;
+  escrow: AdminEscrowItem;
+}
 
-export interface EscrowDetails {
-  escrows: EscrowItem[];
+export interface AdminEscrowDetails {
+  escrows: AdminEscrowItem[];
   totalPages: number;
   currentPage: number;
 }
@@ -56,11 +80,7 @@ export interface AllEscrowsDataResponse {
   success: boolean;
   message: string;
   escrowDetails: {
-    data: EscrowDetails;
+    data: AdminEscrowDetails;
   };
 }
 
-export interface EscrowResponse {
-  message: string;
-  escrow: EscrowItem;
-}

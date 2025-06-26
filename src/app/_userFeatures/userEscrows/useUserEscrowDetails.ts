@@ -1,18 +1,18 @@
-import { getEscrowDetails } from '@/app/_lib/dashboardServices';
 import { useQuery } from '@tanstack/react-query';
+import { getUserEscrowDetails } from '@/app/_lib/userDashboardServices';
 
-function useEscrowDetails(id: string) {
+function useUserEscrowDetails(id: string) {
   const {
     data: escrowDetail,
     isLoading: isLoadingEscrowDetail,
     error: escrowDetailError,
   } = useQuery({
     queryKey: ['escrowDetails', id],
-    queryFn: () => getEscrowDetails(id as string),
+    queryFn: () => getUserEscrowDetails(id as string),
     enabled: !!id,
   });
 
   return { escrowDetail, isLoadingEscrowDetail, escrowDetailError };
 }
 
-export default useEscrowDetails;
+export default useUserEscrowDetails;

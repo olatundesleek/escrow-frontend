@@ -4,16 +4,20 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 
 import Button from '@/app/_components/Button';
 import DataTable from '@/app/_components/DataTable';
-import { AdminEscrowItem } from '@/app/_types/dashboardServicesTypes';
+import { UserEscrowItem } from '@/app/_types/userDashboardServicesTypes';
 
-const columnHelper = createColumnHelper<AdminEscrowItem>();
+const columnHelper = createColumnHelper<UserEscrowItem>();
 
-export default function AdminEscrowTable({ escrowData }: { escrowData: AdminEscrowItem[] }) {
+export default function UserEscrowTable({
+  escrowData,
+}: {
+  escrowData: UserEscrowItem[];
+}) {
   const { push } = useRouter();
 
-  const columns: ColumnDef<AdminEscrowItem>[] = useMemo(() => {
+  const columns: ColumnDef<UserEscrowItem>[] = useMemo(() => {
     /*base columns*/
-    const base: ColumnDef<AdminEscrowItem>[] = [
+    const base: ColumnDef<UserEscrowItem>[] = [
       {
         header: 'Category',
         accessorKey: 'category',
@@ -58,5 +62,5 @@ export default function AdminEscrowTable({ escrowData }: { escrowData: AdminEscr
     return [...base, actions];
   }, [push]);
 
-  return <DataTable<AdminEscrowItem> data={escrowData} columns={columns} />;
+  return <DataTable<UserEscrowItem> data={escrowData} columns={columns} />;
 }

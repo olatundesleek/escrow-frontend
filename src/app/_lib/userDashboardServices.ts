@@ -1,11 +1,11 @@
 import {
-  AdminDashboardDataResponse,
-  AllEscrowsDataResponse,
-  AdminEscrowDetailResponse,
-} from '../_types/dashboardServicesTypes';
+  UserDashboardDataResponse,
+  AllUserEscrowsDataResponse,
+  UserEscrowDetailResponse,
+} from '../_types/userDashboardServicesTypes';
 
-export async function getAdminDashboardData(): Promise<AdminDashboardDataResponse> {
-  const dashboardUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/dashboard`;
+export async function getUserDashboardData(): Promise<UserDashboardDataResponse> {
+  const dashboardUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboard`;
   try {
     const res = await fetch(dashboardUrl, {
       credentials: 'include',
@@ -27,8 +27,8 @@ export async function getAdminDashboardData(): Promise<AdminDashboardDataRespons
   }
 }
 
-export async function getAdminAllEscrows(): Promise<AllEscrowsDataResponse> {
-  const allEscrowsUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/escrows`;
+export async function getUserAllEscrows(): Promise<AllUserEscrowsDataResponse> {
+  const allEscrowsUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow`;
 
   try {
     const res = await fetch(allEscrowsUrl, {
@@ -51,11 +51,10 @@ export async function getAdminAllEscrows(): Promise<AllEscrowsDataResponse> {
   }
 }
 
-export async function getEscrowDetails(
+export async function getUserEscrowDetails(
   id: string,
-): Promise<AdminEscrowDetailResponse> {
-  const escrowDetailUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/escrow/${id}`;
-  console.log(escrowDetailUrl);
+): Promise<UserEscrowDetailResponse> {
+  const escrowDetailUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow/${id}`;
 
   try {
     const res = await fetch(escrowDetailUrl, { credentials: 'include' });

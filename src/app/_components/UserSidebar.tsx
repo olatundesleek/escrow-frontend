@@ -12,9 +12,9 @@ export default function UserSidebar({
 }) {
   return (
     <aside
-      className={`lg:row-span-full border-r border-dashboard-border flex flex-col gap-4 absolute lg:relative py-4 lg:py-0 ${
+      className={`lg:row-span-full border-r border-dashboard-border flex flex-col absolute lg:relative py-4 lg:py-0 ${
         isSidebarOpen ? 'lg:w-[18rem] w-full' : 'lg:w-[5rem] w-0'
-      } transition-[width] duration-300 z-50 bg-white overflow-auto`}
+      } transition-[width] duration-300 z-50 bg-white gap-2.5`}
     >
       <div className='w-full hidden relative lg:flex items-center justify-center py-4 border-b border-dashboard-border lg:min-h-[4.3rem] lg:max-h-[4.3rem]'>
         <Image
@@ -42,7 +42,7 @@ export default function UserSidebar({
       <div
         className={`w-full ${
           isSidebarOpen ? 'px-5' : 'px-0 scrollbar-hidden'
-        }  flex flex-col gap-2 overflow-y-auto`}
+        }  flex flex-col gap-2 overflow-y-auto py-2.5`}
       >
         <DashboardSearchBar display='flex py-2.5 md:hidden' />
         <SidebarMenu
