@@ -84,3 +84,15 @@ export interface AllEscrowsDataResponse {
   };
 }
 
+export interface FormValues {
+  name: string;
+  phone: string;
+  password?: string;
+  confirmPassword?: string;
+  address: {
+    address: string;
+    city: string;
+    country: string;
+    postalCode: string;
+  };
+}
