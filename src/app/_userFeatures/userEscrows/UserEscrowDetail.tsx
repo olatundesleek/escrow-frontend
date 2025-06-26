@@ -3,20 +3,21 @@
 import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-import AdminDashboardPageTitle from '@/app/_components/AdminDashboardPageTitle';
+import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
 import FullPageLoader from '@/app/_components/FullPageLoader';
-import useAdminEscrowDetails from './useAdminEscrowDetails';
+import useUserEscrowDetails from './useUserEscrowDetails';
 
-import AdminEscrowStatusTable from './AdminEscrowStatusTable';
-import AdminEscrowTermsList from './AdminEscrowTermsList';
-import AdminEscrowChatInfo from './AdminEscrowChatInfo';
-import AdminEscrowMoreDetails from './AdminEscrowMoreDetails';
+import Button from '@/app/_components/Button';
+import UserEscrowChatInfo from './UserEscrowChatInfo';
+import UserEscrowTermsList from './UserEscrowTermsList';
+import UserEscrowStatusTable from './UserEscrowStatusTable';
+import UserEscrowMoreDetails from './UserEscrowMoreDetails';
 
-export default function AdminEscrowDetail() {
+export default function UserEscrowDetail() {
   const { back } = useRouter();
   const { id } = useParams();
   const { escrowDetail, isLoadingEscrowDetail, escrowDetailError } =
-    useAdminEscrowDetails(id as string);
+    useUserEscrowDetails(id as string);
 
   if (isLoadingEscrowDetail) return <FullPageLoader />;
 
@@ -35,42 +36,38 @@ export default function AdminEscrowDetail() {
   return (
     <>
       <div className='flex flex-col justify-center'>
-        <AdminDashboardPageTitle title={`Esrow #${id}`}>
+        <UserDashboardPageTitle title={`Esrow #${id}`}>
           <div className='sm:flex sm:justify-end gap-4 w-2xs hidden'>
-            <span className='bg-dashboard-secondary text-dashboard-primary text-sm px-4 rounded justify-center items-center font-bold capitalize flex'>
+            <span className='bg-dashboard-secondary text-dashboard-primary text-sm px-4 rounded flex justify-center items-center font-bold capitalize'>
               {escrow.status}
             </span>
-            <button
+            <Button
               type='button'
+              color='bg-transparent text-dashboard-secondary'
               onClick={() => back()}
-              className='bg-transparent text-dashboard-secondary text-lg cursor-pointer'
+              padding='p-0'
             >
-              &larr; <span>Back</span>
-            </button>
+              &larr; Back
+            </Button>
           </div>
-        </AdminDashboardPageTitle>
+        </UserDashboardPageTitle>
 
         <div className='flex mt-8 gap-8'>
           <div className='w-full flex gap-4 flex-col'>
-            <AdminEscrowStatusTable
+            <UserEscrowStatusTable
               status={escrow.status}
               paymentStatus={escrow.paymentStatus}
               escrowfeepayment={escrow.escrowfeepayment}
             />
 
-            <AdminEscrowTermsList
+            <UserEscrowTermsList
               createdAt={escrow.createdAt}
               terms={escrow.terms}
             />
 
-            <AdminEscrowChatInfo
-              chatActive={escrow.chatActive}
-              creatorRole={escrow.creatorRole}
-              creatorEmail={escrow.creatorEmail}
-              counterpartyEmail={escrow.counterpartyEmail}
-            />
+            <UserEscrowChatInfo chatActive={escrow.chatActive} />
 
-            <AdminEscrowMoreDetails
+            <UserEscrowMoreDetails
               category={escrow.category}
               description={escrow.description}
               amount={escrow.amount.toString()}

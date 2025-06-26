@@ -14,17 +14,15 @@ export default function UserDashboardLayout({
 
   return (
     <div
-      className={`lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr] lg:h-screen`}
+      className={`lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr] lg:h-screen bg-white`}
     >
       <UserDashboardHeader
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
       <UserSidebar isSidebarOpen={isSidebarOpen} />
-      <main>
-        <div className='lg:max-w-[120rem] lg:my-0 lg:mx-auto lg:flex lg:flex-col lg:gap-4'>
-          {children}
-        </div>
+      <main className='lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 py-5 overflow-y-auto'>
+        {children}
       </main>
     </div>
   );
