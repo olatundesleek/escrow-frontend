@@ -1,4 +1,4 @@
-import { parseISO } from 'date-fns';
+import { parseISO } from 'date-fns/parseISO';
 import { formatDistance } from 'date-fns/formatDistance';
 
 import { SidebarMenuItem } from '../_constants/sidebarMenuList';
