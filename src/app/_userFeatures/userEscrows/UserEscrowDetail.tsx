@@ -65,12 +65,7 @@ export default function UserEscrowDetail() {
               terms={escrow.terms}
             />
 
-            <UserEscrowChatInfo
-              chatActive={escrow.chatActive}
-              creatorRole={escrow.creatorRole}
-              creatorEmail={'creator@email'}
-              counterpartyEmail={'counterparty@Email'}
-            />
+            <UserEscrowChatInfo chatActive={escrow.chatActive} />
 
             <UserEscrowMoreDetails
               category={escrow.category}

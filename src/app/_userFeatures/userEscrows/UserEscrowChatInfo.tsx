@@ -1,16 +1,9 @@
 import { HiOutlineChat } from 'react-icons/hi';
-import UserAvatar from '@/app/_components/UserAvatar';
 
 export default function UserEscrowChatInfo({
   chatActive,
-  creatorRole,
-  counterpartyEmail,
-  creatorEmail,
 }: {
   chatActive: boolean;
-  creatorRole: string;
-  counterpartyEmail: string;
-  creatorEmail: string;
 }) {
   return (
     <div className='rounded-lg overflow-hidden flex flex-col gap-4'>
@@ -20,19 +13,6 @@ export default function UserEscrowChatInfo({
           <span>Chat</span>
         </span>
         <span>{chatActive ? 'Active' : 'Inactive'}</span>
-      </div>
-      <div className='flex gap-3 border border-dashboard-border'>
-        <UserAvatar />
-        <table className='w-full mt-2'>
-          <tbody>
-            <tr>
-              <th className='text-start flex flex-col'>
-                <span>Creator Role</span>
-              </th>
-              <td className='capitalize'>{creatorRole}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   );
