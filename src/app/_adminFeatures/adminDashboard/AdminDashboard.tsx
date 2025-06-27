@@ -22,8 +22,6 @@ export default function AdminDashboard() {
 
   if (adminDashboardError) return toast.error(adminDashboardError.message);
 
-  console.log(adminDashboardData);
-
   if (!adminDashboardData)
     return (
       <div className='w-full h-screen flex justify-center items-center text-2xl text-dashboard-secondary'>
