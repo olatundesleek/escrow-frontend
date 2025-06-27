@@ -6,12 +6,12 @@ import {
 import { MobileCard } from './MobileTable';
 import DesktopTable from './DesktopTable';
 
-interface DataTableProps<TData> {
+interface DataTableProps<TData extends { _id: string }> {
   data: TData[];
   columns: ColumnDef<TData>[];
 }
 
-export default function DataTable<TData>({
+export default function DataTable<TData extends { _id: string }>({
   data,
   columns,
 }: DataTableProps<TData>) {
