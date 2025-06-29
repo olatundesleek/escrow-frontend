@@ -45,7 +45,7 @@ export default function ForgottenPasssword() {
 
       <div className="flex w-full justify-between items-center py-4 2xl:text-xl text-[16px]">
         <Button
-          color="bg-lime-500 text-white font-medium w-full flex justify-center"
+          color="bg-secondary text-white font-medium w-full flex justify-center"
           type="submit"
         >
           {isLoading ? <SpinnerMini /> : "Submit"}

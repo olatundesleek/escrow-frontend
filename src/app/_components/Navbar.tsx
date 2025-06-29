@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import Logo from './Logo';
-import MenuButton from './MenuButton';
-import NavMenu from './NavMenu';
-import { usePathname } from 'next/navigation';
-import { useStickyContext } from '../_context/StickyContext';
-import useNavbarHeight from '../_hooks/useNavbarHeight';
+import Logo from "./Logo";
+import MenuButton from "./MenuButton";
+import NavMenu from "./NavMenu";
+import { usePathname } from "next/navigation";
+import { useStickyContext } from "../_context/StickyContext";
+import useNavbarHeight from "../_hooks/useNavbarHeight";
 
 export default function Navbar() {
   const [isToggled, setIsToggled] = useState<boolean>(false);
@@ -22,7 +22,7 @@ export default function Navbar() {
       setIsToggled(false);
     },
 
-    [pathname],
+    [pathname]
   );
 
   useEffect(() => {
@@ -31,14 +31,14 @@ export default function Navbar() {
 
     (async () => {
       try {
-        const res = await fetch('/api/auth/status');
+        const res = await fetch("/api/auth/status");
 
         if (!isCanceled && res.ok) {
           const data = await res.json();
           setIsLoggedIn(data.isLoggedIn);
         }
       } catch (error) {
-        console.error('Error fetching auth status:', error);
+        console.error("Error fetching auth status:", error);
         setIsLoggedIn(false);
       } finally {
         setIsAuthLoading(false);
@@ -55,11 +55,11 @@ export default function Navbar() {
       ref={navRef}
       className={`${
         !isIntersecting
-          ? 'fixed shadow-md bg-amber-50 text-gray-600'
-          : 'absolute lg:relative  bg-primary text-amber-100'
-      } transition-all duration-500 ease-in-out w-full top-0 left-0 lg:flex items-center justify-around  px-4 py-2 lg:p-6 lg:px-32 lg:py-6 border-b border-secondary gap-4 z-50 `}
+          ? "fixed shadow-md text-accent bg-primary"
+          : "absolute lg:relative  bg-primary text-accent"
+      } transition-all duration-500 ease-in-out w-full top-0 left-0 lg:flex items-center justify-around  px-4 py-2 lg:p-6 xl:px-32 lg:py-6 shadow-md gap-4 z-50 `}
     >
-      <div className='grow-8 flex justify-between items-center lg:mb-0'>
+      <div className="grow-8 flex justify-between items-center lg:mb-0">
         <Logo />
         <MenuButton
           isToggled={isToggled}
@@ -74,4 +74,3 @@ export default function Navbar() {
     </nav>
   );
 }
-

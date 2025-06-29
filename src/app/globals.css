@@ -1,19 +1,23 @@
 @import "tailwindcss";
 
+/* Modernized color palette for a financial banking application */
 @theme {
-  --color-primary-section: #fafaff;
-  --color-primary: #000000;
-  --color-secondary: #9af039;
-  --color-error: #fb2c36;
-  --color-dashboard-primary:#ffffff;
-  --color-dashboard-secondary:#671ce9;
-  --color-dashboard-border: #d1d5dc;
+  --color-primary-section: #f5f8fa;
+  --color-primary: #e3f2fd;
+  --color-secondary: #043889;
+  --color-error: #e53935;
+  --color-accent: #2ecc71;
+  --color-dashboard-primary: #ffffff;
+  --color-dashboard-secondary: #5f27cd;
+  --color-dashboard-border: #e0e3eb;
+  --color-warning: #f1b366;
+  --color-info: #2196f3;
+  --color-success: #43a047;
 }
-/* --color-dashboard-border: #d1d5dc; */
 
 @media (max-width: 768px) {
   .custom-gradient {
-    background: linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70);
+    background: linear-gradient(58deg, #e3f2fd 0%, #f5f8fa 50%, #e3f2fd 100%);
   }
 }
 
@@ -32,7 +36,7 @@
 }
 
 .top-navbar {
-  top: "var(--navbar-height)";
+  top: var(--navbar-height);
 }
 
 .bg-clip-text {
@@ -42,15 +46,13 @@
 
 .outline-text {
   color: transparent;
-  -webkit-text-stroke: 2px #d9ff02; /* yellow-400 */
+  -webkit-text-stroke: 2px var(--color-accent);
 }
 
 .outline-text-title {
   color: transparent;
-  -webkit-text-stroke: 1.5px #d9ff02; /* yellow-400 */
+  -webkit-text-stroke: 1.5px var(--color-accent);
 }
-
-
 
 /* Hide scrollbar but allow scrolling */
 .scrollbar-hidden {

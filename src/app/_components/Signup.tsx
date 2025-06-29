@@ -62,12 +62,12 @@ export default function Signup() {
       aboutAuthPage="Join our secure platform today. Register now and unlock the power of safe transactions with ease!"
       formBanner={signupBanner}
     >
-      <div className=" border-t border-gray-300 w-full"></div>
+      <div className=" border-t border-primary-section w-full"></div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-md my-10 flex flex-col justify-center items-center"
       >
-        {/* {error && <p className='text-red-500 font-medium mb-4'>{error}</p>} */}
+        {/* {error && <p className='text-error font-medium mb-4'>{error}</p>} */}
         <div className="w-full flex gap-2 flex-col sm:flex-row md:flex-col lg:flex-row">
           <div className="w-full sm:w-1/2 md:w-full lg:1/2">
             <AuthInput InputTitle="First Name" name="firstName">
@@ -76,8 +76,8 @@ export default function Signup() {
                 autoComplete="firstname"
                 id="firstname"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${
-                  errors.firstname ? "border-red-500" : ""
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+                  errors.firstname ? "border-error" : ""
                 }`}
                 {...register("firstname", {
                   required: {
@@ -95,7 +95,7 @@ export default function Signup() {
                 })}
               />
               {errors.firstname && (
-                <span className="text-red-500 text-sm">
+                <span className="text-error text-sm">
                   {String(errors.firstname.message)}
                 </span>
               )}
@@ -109,8 +109,8 @@ export default function Signup() {
                 autoComplete="lastname"
                 id="lastname"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${
-                  errors.lastname ? "border-red-500" : ""
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+                  errors.lastname ? "border-error" : ""
                 }`}
                 {...register("lastname", {
                   required: {
@@ -128,7 +128,7 @@ export default function Signup() {
                 })}
               />
               {errors.lastname && (
-                <span className="text-red-500 text-sm">
+                <span className="text-error text-sm">
                   {String(errors.lastname.message)}
                 </span>
               )}
@@ -143,8 +143,8 @@ export default function Signup() {
                 autoComplete="username"
                 id="username"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${
-                  errors.username ? "border-red-500" : ""
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+                  errors.username ? "border-error" : ""
                 }`}
                 {...register("username", {
                   required: {
@@ -162,7 +162,7 @@ export default function Signup() {
                 })}
               />
               {errors.username && (
-                <span className="text-red-500 text-sm">
+                <span className="text-error text-sm">
                   {String(errors.username.message)}
                 </span>
               )}
@@ -176,8 +176,8 @@ export default function Signup() {
                 autoComplete="email"
                 id="email"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${
-                  errors.email ? "border-red-500" : ""
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+                  errors.email ? "border-error" : ""
                 }`}
                 {...register("email", {
                   required: {
@@ -191,7 +191,7 @@ export default function Signup() {
                 })}
               />
               {errors.email && (
-                <span className="text-red-500 text-sm">
+                <span className="text-error text-sm">
                   {String(errors.email.message)}
                 </span>
               )}
@@ -228,13 +228,13 @@ export default function Signup() {
             <p className="sm:text-md text-sm">
               I agree with{" "}
               {
-                <Link href="#" className="text-lime-500 font-medium">
+                <Link href="#" className="text-accent font-medium">
                   {" "}
                   privacy policy
                 </Link>
               }
               ,
-              <Link href="#" className="text-lime-500 font-medium">
+              <Link href="#" className="text-accent font-medium">
                 {" "}
                 Terms of Service
               </Link>
@@ -242,7 +242,7 @@ export default function Signup() {
           </label>
 
           {errors.agree && (
-            <span className="text-red-500 text-sm">
+            <span className="text-error text-sm">
               {String(errors.agree.message)}
             </span>
           )}
@@ -260,7 +260,7 @@ export default function Signup() {
           <p>
             Already have an account?{" "}
             {
-              <Link href="/login" className="text-lime-500 font-medium">
+              <Link href="/login" className="text-accent font-medium">
                 Sign In
               </Link>
             }{" "}

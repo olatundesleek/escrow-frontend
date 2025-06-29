@@ -33,7 +33,7 @@ export default async function RootLayout({
       <body>
         <SiteSettingProvider>
           <StickyContextProvider>
-            <main>
+            <main className="bg-primary-section">
               {children}
               <AppToaster />
             </main>

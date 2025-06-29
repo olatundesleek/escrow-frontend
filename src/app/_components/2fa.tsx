@@ -89,7 +89,7 @@ export default function CodeVerification() {
 
       <div className="w-full flex flex-col py-4 2xl:text-xl text-[16px]">
         <label className="block pt-4 font-medium 2xl:text-xl text-[16px]">
-          Verification Code <span className="text-red-500">*</span>
+          Verification Code <span className="text-error">*</span>
         </label>
         <div className="w-full h-auto flex justify-center items-center gap-2">
           {code.map((digit, index) => (
@@ -113,14 +113,14 @@ export default function CodeVerification() {
         </div>
       </div>
 
-      <Button color="bg-lime-500 text-white font-medium w-full" type="submit">
+      <Button color="bg-accent text-white font-medium w-full" type="submit">
         Submit
       </Button>
 
       <div className="w-full p-2 text-center">
         Please check your <span className="font-bold">spam</span> folder if you
         don’t see the email. If not found, you can
-        <Link href="/forgottenpassword" className="text-lime-500">
+        <Link href="/forgottenpassword" className="text-accent">
           Try Again.
         </Link>
       </div>

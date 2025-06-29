@@ -1,50 +1,48 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
-import { TestimonialType } from '@/app/_constants/Testimonial';
+import { TestimonialType } from "@/app/_constants/Testimonial";
 
-export const Card = ({
-  image,
+export default function Card({
   remark,
   clientname,
   profession,
-}: TestimonialType) => {
+  image,
+}: TestimonialType) {
   return (
-    <motion.section
-      className="w-full max-w-[500px] h-full rounded-2xl text-lg xl:text-xl flex justify-center items-center flex-col p-5 shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-amber-200"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 1 }}
+    <motion.figure
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.3 }}
+      className="
+        backdrop-blur-xl border border-secondary bg-white dark:border-white/10
+        rounded-xl p-6 shadow-md hover:shadow-lg hover:border-accent transition-all duration-300
+        flex flex-col justify-between h-full
+      "
+      role="figure"
+      aria-label={`Testimonial from ${clientname}, ${profession}`}
     >
-      <motion.h2
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -50 }}
-        transition={{ duration: 0.5 }}
-        className="text-center text-primary leading-relaxed"
-      >
-        {remark}
-      </motion.h2>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -50 }}
-        transition={{ duration: 0.5 }}
-        className="flex justify-center items-center w-full h-auto p-2 gap-5"
-      >
-        <div className="image w-20 h-20">
+      {/* Accent Bar */}
+      <div className="h-1 w-16 bg-accent rounded mb-4" aria-hidden="true"></div>
+
+      {/* Remark */}
+      <blockquote className="text-sm text-secondary italic leading-relaxed mb-6 line-clamp-5">
+        “{remark}”
+      </blockquote>
+
+      {/* Footer */}
+      <figcaption className="flex items-center gap-4 mt-auto">
+        <div className="w-12 h-12 relative rounded-full overflow-hidden border-2 border-secondary">
           <Image
             src={image}
-            alt="profile_image"
-            className="w-full h-full rounded-full border-4 border-primary  bg-primary"
+            alt={`${clientname}'s photo`}
+            fill
+            className="object-cover"
           />
         </div>
-        <div className="info flex justify-center items-start flex-col">
-          <h2 className="name text-xl xl:text-3xl text-orange-500 font-bold">
-            {clientname}
-          </h2>
-          <p className="profession text-primary">{profession}</p>
+        <div>
+          <p className="text-base font-semibold text-secondary">{clientname}</p>
+          <p className="text-xs text-gray-500">{profession}</p>
         </div>
-      </motion.div>
-    </motion.section>
+      </figcaption>
+    </motion.figure>
   );
-};
+}

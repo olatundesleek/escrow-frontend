@@ -1,4 +1,4 @@
-import { TbMenu2, TbX } from 'react-icons/tb';
+import { TbMenu2, TbX } from "react-icons/tb";
 
 export default function MenuButton({
   isToggled,
@@ -10,9 +10,9 @@ export default function MenuButton({
   return (
     <div
       onClick={onClick}
-      className='text-white bg-secondary p-1 rounded lg:hidden cursor-pointer'
+      className="bg-none text-secondary border-1 border-secondary p-1 rounded-md lg:hidden cursor-pointer"
     >
-      {!isToggled ? <TbMenu2 fontSize='2rem' /> : <TbX fontSize='2rem' />}
+      {!isToggled ? <TbMenu2 fontSize="1.5rem" /> : <TbX fontSize="1.5rem" />}
     </div>
   );
 }

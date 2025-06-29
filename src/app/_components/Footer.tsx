@@ -54,15 +54,16 @@ const Footer = () => {
   }, [data]);
 
   return (
-    <footer className="text-amber-100 bg-black w-full h-auto flex flex-col gap-10 p-10 justify-center items-center">
-      {/* Main Footer Content */}
-      <section className="container flex justify-between gap-10 md:flex-nowrap flex-wrap">
+    <footer className="w-full bg-primary border-t border-dashboard-border text-accent pt-10">
+      <div className="flex flex-col md:flex-row justify-between gap-10 xl:px-32 px-4">
         {/* Logo and Description */}
-        <div className="container flex flex-col gap-2">
+        <div className="flex flex-col gap-2 max-w-xs">
           <Logo />
-          {siteInfo.description && <p>{siteInfo.description}</p>}
+          {siteInfo.description && (
+            <p className="text-sm mt-2">{siteInfo.description}</p>
+          )}
           {/* Social Links */}
-          <ul className="flex gap-2 mt-2">
+          <ul className="flex gap-2 mt-4" aria-label="Social media links">
             {Object.entries(socialLinks).map(
               ([key, value]) =>
                 value && (
@@ -77,33 +78,35 @@ const Footer = () => {
         </div>
 
         {/* Useful Links */}
-        <FooterSection title="Useful Links">
-          <FooterLinks links={usefulLinks} />
-        </FooterSection>
-
-        {/* Company Policies */}
-        <FooterSection title="Company Policies">
-          <FooterLinks links={companyPolicies} />
-        </FooterSection>
-
-        {/* Contact Information */}
-        <FooterSection title="Contact With Us">
-          {siteInfo.address && (
-            <ContactInfo Icon={FaLocationDot} text={siteInfo.address} />
-          )}
-          <ContactInfo
-            Icon={TbMailFilled}
-            href={`mailto:${siteInfo.email}`}
-            link_text={`${siteInfo.email}`}
-          />
-          {siteInfo.phone && (
-            <ContactInfo Icon={FaPhoneAlt} text={siteInfo.phone} />
-          )}
-        </FooterSection>
-      </section>
-
+        <nav
+          aria-label="Footer Navigation"
+          className="flex flex-col gap-6 md:flex-row md:gap-10"
+        >
+          <FooterSection title="Useful Links">
+            <FooterLinks links={usefulLinks} />
+          </FooterSection>
+          <FooterSection title="Company Policies">
+            <FooterLinks links={companyPolicies} />
+          </FooterSection>
+          <FooterSection title="Contact With Us">
+            <address className="not-italic flex flex-col gap-2">
+              {siteInfo.address && (
+                <ContactInfo Icon={FaLocationDot} text={siteInfo.address} />
+              )}
+              <ContactInfo
+                Icon={TbMailFilled}
+                href={`mailto:${siteInfo.email}`}
+                link_text={`${siteInfo.email}`}
+              />
+              {siteInfo.phone && (
+                <ContactInfo Icon={FaPhoneAlt} text={siteInfo.phone} />
+              )}
+            </address>
+          </FooterSection>
+        </nav>
+      </div>
       {/* Copyright */}
-      <div className="container flex flex-col gap-2 text-center py-5 border-t-1">
+      <div className="max-w-7xl mx-auto text-center py-5 text-xs text-gray-500 border-t border-dashboard-border mt-10">
         <p>© {currentYear} Tona Escrow. All rights reserved.</p>
       </div>
     </footer>
