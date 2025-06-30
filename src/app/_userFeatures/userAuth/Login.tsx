@@ -1,19 +1,19 @@
 "use client";
-import { resendVerificationEmail, login } from "../_lib/auth";
-import { LoginFormInputs } from "../_types/authTypes";
-import { handleApiError } from "../_lib/handleApiError";
+import { resendVerificationEmail, login } from "@/app/_lib/auth";
+import { LoginFormInputs } from "@/app/_types/authTypes";
+import { handleApiError } from "@/app/_lib/handleApiError";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import loginBanner from "../../../public/loginimage.png";
-import Button from "./Button";
-import AuthContent from "./AuthContent";
-import { TogglePassword } from "./TogglePassword";
-import { AuthInput } from "./AuthInput";
-import SpinnerMini from "./SpinnerMini";
-import ToastCustom from "./ToastCustom";
+import loginBanner from "../../../../public/loginimage.png";
+import Button from "@/app/_components/Button";
+import AuthContent from "@/app/_components/AuthContent";
+import { TogglePassword } from "@/app/_components/TogglePassword";
+import { AuthInput } from "@/app/_components/AuthInput";
+import SpinnerMini from "@/app/_components/SpinnerMini";
+import ToastCustom from "@/app/_components/ToastCustom";
 
 export default function Login() {
   const { replace } = useRouter();

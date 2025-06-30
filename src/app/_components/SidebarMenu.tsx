@@ -5,6 +5,7 @@ import { SidebarMenuItem } from '@/app/_constants/sidebarMenuList';
 import ButtonIcon from './ButtonIcon';
 import Logout from './Logout';
 import { usePathname } from 'next/navigation';
+import { pickActiveHref } from '../_utils/helpers';
 
 export default function SidebarMenu({
   sidebarMenu,
@@ -14,10 +15,12 @@ export default function SidebarMenu({
   isSidebarOpen: boolean;
 }) {
   const pathname = usePathname();
+  const activeHref = pickActiveHref(sidebarMenu, pathname);
 
   return (
     <ul className={`w-full flex flex-col ${isSidebarOpen ? 'gap-2' : 'gap-5'}`}>
       {sidebarMenu.map((item) => {
+        const active = item.href === activeHref;
         const Icon = item.icon;
 
         if (item.href) {
@@ -28,7 +31,7 @@ export default function SidebarMenu({
                 className={`${
                   isSidebarOpen
                     ? `flex py-2.5 px-3 text-start gap-2 rounded hover:font-black transition-all duration-500 items-center text-gray-700 text-base  ${
-                        pathname === item.href
+                        active
                           ? 'bg-dashboard-secondary font-black text-white  hover:bg-dashboard-secondary'
                           : 'bg-transparent  hover:bg-dashboard-border'
                       }`
@@ -39,9 +42,7 @@ export default function SidebarMenu({
                   <>
                     <div
                       className={`p-2 text-xl  ${
-                        pathname === item.href
-                          ? 'text-white'
-                          : 'text-dashboard-secondary'
+                        active ? 'text-white' : 'text-dashboard-secondary'
                       }`}
                     >
                       <Icon />
@@ -53,7 +54,7 @@ export default function SidebarMenu({
                     toolTip={item.label}
                     tipPosition='-right-1/2'
                     style='hidden lg:block'
-                    isActive={pathname === item.href}
+                    isActive={active}
                   >
                     <Icon className='text-xl' />
                   </ButtonIcon>

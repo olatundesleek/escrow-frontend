@@ -1,6 +1,6 @@
-import { usePathname } from "next/navigation";
-import { getPageTitleFromPathname, MenuItem } from "../_utils/helpers";
-import { adminSidebarMenuList } from "../_constants/sidebarMenuList";
+import { usePathname } from 'next/navigation';
+import { getPageTitleFromPathname, MenuItem } from '../_utils/helpers';
+import { userSidebarMenuList } from '../_constants/sidebarMenuList';
 
 interface DashboardPageTitleProps {
   title?: string;
@@ -11,14 +11,14 @@ interface DashboardPageTitleProps {
 export default function UserDashboardPageTitle({
   title,
   children,
-  padding = "p-4",
+  padding = 'p-4',
 }: DashboardPageTitleProps) {
   const pathname = usePathname();
   const pageTitle =
     title ||
     getPageTitleFromPathname(
       pathname,
-      adminSidebarMenuList.filter((item) => item.href) as MenuItem[]
+      userSidebarMenuList.filter((item) => item.href) as MenuItem[],
     );
 
   return (

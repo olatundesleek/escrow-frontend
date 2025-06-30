@@ -2,30 +2,31 @@
 
 import toast from 'react-hot-toast';
 
-import AdminDashboardPageTitle from '@/app/_components/AdminDashboardPageTitle';
+import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
 import DashboardUserDisplay from '@/app/_components/DashboardUserDisplay';
 import DashboardEscrowDisplay from '@/app/_components/DashboardEscrowDisplay';
 import DashboardWalletDisplay from '@/app/_components/DashboardWalletDisplay';
 import TransactionTable from '@/app/_components/TransactionTable';
 import TransactionChart from '@/app/_components/TransactionChart';
 import FullPageLoader from '@/app/_components/FullPageLoader';
-import useAdminDashboard from './useAdminDashboard';
+import useUserDashboard from './useUserDashboard';
 
-export default function AdminDashboard() {
-  const {
-    isLoadindAdminDashboardData,
-    adminDashboardError,
-    adminDashboardData,
-  } = useAdminDashboard();
+export default function UserDashboard() {
+  const { isLoadindUserDashboardData, userDashboardError } = useUserDashboard();
 
-  if (isLoadindAdminDashboardData) return <FullPageLoader />;
+  const userDashboardData = null;
 
-  if (adminDashboardError) return toast.error(adminDashboardError.message);
+  if (isLoadindUserDashboardData) return <FullPageLoader />;
 
-  if (!adminDashboardData)
+  if (userDashboardError) return toast.error(userDashboardError.message);
+
+  console.log(userDashboardData);
+
+  if (!userDashboardData)
     return (
-      <div className='w-full h-screen flex justify-center items-center text-2xl text-dashboard-secondary'>
-        No data was found!
+      <div className='w-full h-screen flex flex-col items-center text-2xl text-dashboard-secondary'>
+        <UserDashboardPageTitle />
+        <p className='text-center mt-8'> No data was found!</p>
       </div>
     );
 
@@ -40,11 +41,11 @@ export default function AdminDashboard() {
         wallet,
       },
     },
-  } = adminDashboardData;
+  } = userDashboardData;
 
   return (
     <div className='flex flex-col items-center justify-center '>
-      <AdminDashboardPageTitle />
+      <UserDashboardPageTitle />
       <DashboardUserDisplay
         totalDisputes={totalDisputes}
         totalEscrows={totalEscrows}
