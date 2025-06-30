@@ -3,14 +3,17 @@
 import { useState } from "react";
 import Button from "./Button";
 import { Listbox } from "@headlessui/react";
-import { FaChevronDown, FaMoneyBillWave, FaTags } from "react-icons/fa";
+import { FaChevronDown, FaMoneyBillWave } from "react-icons/fa";
 
 const options = [
   {
     label: "Selling",
     icon: <FaMoneyBillWave className="mr-2 text-green-600" />,
   },
-  { label: "Buying", icon: <FaMoneyBillWave className="mr-2 text-blue-600" /> },
+  {
+    label: "Buying",
+    icon: <FaMoneyBillWave className="mr-2 text-blue-600" />,
+  },
 ];
 
 const categories = [
@@ -33,23 +36,24 @@ const EscrowAction = () => {
 
   return (
     <form
-      className="w-full h-full max-w-lg p-6 bg-gradient-to-br from-primary-section via-blue-50 to-primary border border-blue-200 rounded-3xl shadow-2xl flex flex-col gap-6"
+      className="w-full max-w-lg p-5 bg-white border border-secondary/10 rounded-2xl shadow-2xl flex flex-col gap-6 overflow-visible"
       aria-label="Escrow Action Form"
     >
+      {/* Purpose Selection */}
       <div>
-        <h3 className="text-2xl text-secondary font-bold mb-3 flex items-center gap-2">
-          <FaTags className="text-blue-600" /> Select Purpose
+        <h3 className="text-xl font-semibold text-secondary mb-2">
+          Select Purpose
         </h3>
         <Listbox value={selected} onChange={setSelected}>
           <div className="relative">
-            <Listbox.Button className="border flex items-center justify-between text-lg border-blue-200 text-secondary w-full h-14 px-4 rounded-xl bg-primary-section focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+            <Listbox.Button className="w-full h-14 px-4 flex justify-between items-center text-lg text-secondary bg-primary-section border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
               <span className="flex items-center">
                 {selected.icon}
                 {selected.label}
               </span>
               <FaChevronDown />
             </Listbox.Button>
-            <Listbox.Options className="w-full absolute z-10 mt-2 bg-primary-section border border-blue-200 rounded-xl shadow-lg">
+            <Listbox.Options className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-primary-section border border-blue-200 rounded-xl shadow-lg">
               {options.map((option) => (
                 <Listbox.Option
                   key={option.label}
@@ -69,17 +73,18 @@ const EscrowAction = () => {
         </Listbox>
       </div>
 
+      {/* Category Selection */}
       <div>
-        <h3 className="text-2xl text-secondary font-bold mb-3 flex items-center gap-2">
-          <FaTags className="text-blue-600" /> Select Category
+        <h3 className="text-xl font-semibold text-secondary mb-2">
+          Select Category
         </h3>
         <Listbox value={selectedCat} onChange={setSelectedCat}>
           <div className="relative">
-            <Listbox.Button className="border flex items-center justify-between text-lg border-blue-200 text-secondary w-full h-14 px-4 rounded-xl bg-primary-section focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+            <Listbox.Button className="w-full h-14 px-4 flex justify-between items-center text-lg text-secondary bg-primary-section border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
               <span>{selectedCat}</span>
               <FaChevronDown />
             </Listbox.Button>
-            <Listbox.Options className="w-full absolute z-10 mt-2 bg-primary-section border border-blue-200 rounded-xl shadow-lg">
+            <Listbox.Options className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-primary-section border border-blue-200 rounded-xl shadow-lg">
               {categories.map((option) => (
                 <Listbox.Option
                   key={option}
@@ -98,12 +103,13 @@ const EscrowAction = () => {
         </Listbox>
       </div>
 
+      {/* Amount Input */}
       <div>
         <label htmlFor="amount" className="sr-only">
-          Amount
+          Transaction Amount
         </label>
-        <div className="flex rounded-xl border border-blue-200 text-lg items-center text-secondary bg-primary-section h-14">
-          <span className="bg-blue-50 px-4 py-2 min-w-[7rem] text-center shrink-0 h-full flex items-center rounded-l-xl">
+        <div className="flex items-center h-14 text-lg text-secondary border border-blue-200 rounded-xl bg-primary-section overflow-hidden">
+          <span className="bg-blue-50 px-4 py-2 min-w-[7rem] text-center flex items-center">
             Amount of
           </span>
           <input
@@ -113,19 +119,20 @@ const EscrowAction = () => {
             required
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            placeholder="Enter the amount"
-            className="h-full px-4 py-2 flex-1 bg-transparent text-secondary placeholder:text-primary outline-none border-none w-full"
+            placeholder="Enter amount"
+            className="flex-1 h-full px-4 py-2 bg-white text-secondary placeholder:text-gray-300 outline-none border-none"
           />
-          <span className="bg-blue-50 px-4 py-2 text-center shrink-0 h-full flex items-center rounded-r-xl">
+          <span className="bg-blue-50 px-4 py-2 text-center flex items-center">
             NGN
           </span>
         </div>
       </div>
 
+      {/* Submit Button */}
       <Button
-        color="bg-gradient-to-r from-secondary to-accent text-primary-section"
+        color="bg-secondary text-primary-section"
         textSize="text-xl w-full"
-        style="mt-4 py-4 rounded-xl font-semibold shadow hover:to-secondary hover:from-accent transition"
+        style="mt-4 py-4 rounded-xl font-semibold shadow transition"
         isLoading={!amount || Number(amount) <= 0}
       >
         Proceed To Next

@@ -18,7 +18,7 @@ const Subscribe = () => {
           placeholder="Enter Your Email Address"
         />
         <Button
-          color="bg-orange-400 hover:opacity-90 text-white"
+          color="bg-accent hover:opacity-90 text-white"
           textSize="text-2xl"
           style="flex gap-3 items-center lg:py-4"
         >

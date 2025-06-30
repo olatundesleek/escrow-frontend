@@ -9,13 +9,13 @@ const ServiceCards = () => {
     >
       <div className="flex flex-col gap-10 items-center justify-center px-4">
         <ul className="w-full flex flex-wrap justify-center gap-8">
-          {services.map((service, i) => (
+          {services.map(({ title, goods, Icon, description }, i) => (
             <li key={i} className="flex-shrink-0">
               <ServiceCard
-                title={service.title}
-                goods={service.goods}
-                image={service.image}
-                description={service.description}
+                title={title}
+                goods={goods}
+                Icon={Icon}
+                description={description}
               />
             </li>
           ))}

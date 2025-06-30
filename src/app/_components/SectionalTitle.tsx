@@ -26,7 +26,7 @@ const SectionalTitle = ({
     <header className={`flex flex-col gap-6 justify-center ${conAlignment}`}>
       <HomeBannerSubtitle style={style}>{title}</HomeBannerSubtitle>
       <Header
-        textSize={`${desSize} ${destextAlign} w-[22rem] lg:w-[45rem] ${textColor}`}
+        textSize={`${desSize} ${destextAlign} w-full lg:w-[45rem] ${textColor}`}
       >
         {description}
       </Header>

@@ -54,8 +54,8 @@ export const Testimonial = () => {
         />
       </motion.section>
 
-      <section
-        className="relative w-full max-w-7xl px-2 py-6 bg-gradient-to-br rounded-2xl"
+      <div
+        className="relative w-full px-2 xl:px-32 py-6 bg-gradient-to-br rounded-2xl"
         aria-label="Customer Testimonials"
         aria-live="polite"
       >
@@ -76,7 +76,7 @@ export const Testimonial = () => {
             )
           )}
         </Slider>
-      </section>
+      </div>
 
       <nav
         className="w-full mt-5 flex justify-center gap-10 text-3xl items-center"
