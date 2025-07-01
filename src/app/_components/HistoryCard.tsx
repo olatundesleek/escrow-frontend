@@ -31,8 +31,8 @@ const HistoryCard = ({ image, number, title }: HistoryCardProps) => {
         ([entry]) => {
           if (entry.isIntersecting) {
             const start = 0;
-            const duration = 5000;
-            const stepTime = Math.max(Math.floor(duration / target), 20);
+            const duration = 1500;
+            const stepTime = Math.max(Math.floor(duration / target), 12);
             let current = start;
 
             const timer = setInterval(() => {
@@ -67,26 +67,39 @@ const HistoryCard = ({ image, number, title }: HistoryCardProps) => {
   return (
     <div
       ref={ref}
-      className="flex items-center gap-4 bg-white w-[18rem] md:w-[20rem] border border-secondary rounded-xl p-5 shadow hover:shadow-lg transition-all duration-200"
+      className="flex items-center gap-4 bg-white w-full max-w-sm border border-background rounded-3xl p-2 shadow-xl hover:shadow-2xl transition-all duration-300 group"
     >
       <div className="flex flex-col items-center">
-        <Image
-          src={image}
-          alt={title}
-          height={64}
-          width={64}
-          className="rounded-full border border-dashboard-border"
-        />
-        <div className="h-8 w-px bg-secondary mt-2" aria-hidden="true"></div>
-      </div>
-      <div className="flex flex-col justify-center pl-2">
-        <h2 className="text-3xl md:text-4xl text-secondary font-bold pb-1">
-          {display}
-          {suffix}
-        </h2>
-        <p className="text-lg md:text-xl text-gray-600">{title}</p>
+        <div className="relative w-14 h-14 rounded-full border-4 border-accent bg-gradient-to-br from-accent/20 to-primary/10 shadow-inner group-hover:scale-110 transition-transform overflow-hidden flex items-center justify-center">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover rounded-full"
+            sizes="30px"
+            priority
+          />
+        </div>
         <div
-          className="h-1 w-10 bg-orange-400 rounded mt-2"
+          className="h-10 w-px bg-accent mt-2 opacity-30"
+          aria-hidden="true"
+        ></div>
+      </div>
+
+      <div className="flex flex-col justify-center pl-2">
+        <h2 className="text-3xl md:text-4xl text-secondary font-black pb-1 tracking-tight flex items-end">
+          <span className="transition-colors duration-300 group-hover:text-accent drop-shadow">
+            {display}
+          </span>
+          <span className="ml-1 text-2xl md:text-3xl text-accent">
+            {suffix}
+          </span>
+        </h2>
+        <p className="text-lg md:text-xl text-gray-700 font-semibold">
+          {title}
+        </p>
+        <div
+          className="h-1 w-16 bg-gradient-to-r from-accent to-secondary rounded-full mt-4"
           aria-hidden="true"
         ></div>
       </div>

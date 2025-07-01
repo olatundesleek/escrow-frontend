@@ -1,5 +1,6 @@
-import * as motion from "motion/react-client";
+import { motion } from "framer-motion";
 import Link from "next/link";
+
 export const SocialLink = ({
   href,
   icon,
@@ -8,22 +9,21 @@ export const SocialLink = ({
   icon: React.ReactNode;
 }) => (
   <motion.li
-    whileHover={{ scale: 1.05 }}
+    whileHover={{ scale: 1.1 }}
     whileTap={{
-      scale: 0.9,
-      transition: {
-        type: "spring",
-        stiffness: 500,
-        damping: 10,
-      },
+      scale: 0.95,
+      transition: { type: "spring", stiffness: 500, damping: 10 },
     }}
-    transition={{
-      type: "spring",
-      stiffness: 400,
-      damping: 15,
-    }}
-    className="text-secondary hover:bg-secondary hover:text-primary p-2 rounded-xl border border-secondary"
+    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+    className="text-secondary bg-secondary/10 hover:bg-accent hover:text-white p-2 rounded-xl border border-accent transition-colors"
   >
-    <Link href={href}>{icon}</Link>
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Social link"
+    >
+      {icon}
+    </Link>
   </motion.li>
 );

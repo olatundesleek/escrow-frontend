@@ -18,6 +18,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { data } = useSiteSetting() as { data: SiteSettingData };
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
+    name: "",
     email: "",
     description: "",
     colors: { background: "", primary: "", secondary: "", text_color: "" },
@@ -40,6 +41,7 @@ const Footer = () => {
   useEffect(() => {
     if (!data) return;
     setSiteInfo({
+      name: data.siteName || "",
       email: data.siteEmail || "",
       colors: data.siteColors || {
         background: "",
@@ -54,16 +56,16 @@ const Footer = () => {
   }, [data]);
 
   return (
-    <footer className="w-full bg-primary border-t border-dashboard-border text-accent pt-10">
-      <div className="flex flex-col md:flex-row justify-between gap-10 xl:px-32 px-4">
+    <footer className="w-full bg-primary border-t border-dashboard-border text-accent pt-12">
+      <div className="flex flex-col md:flex-row justify-between gap-12 xl:px-32 px-4">
         {/* Logo and Description */}
-        <div className="flex flex-col gap-2 max-w-xs">
+        <div className="flex flex-col gap-3 max-w-xs">
           <Logo />
           {siteInfo.description && (
-            <p className="text-sm mt-2">{siteInfo.description}</p>
+            <p className="text-base text-text mt-2">{siteInfo.description}</p>
           )}
           {/* Social Links */}
-          <ul className="flex gap-2 mt-4" aria-label="Social media links">
+          <ul className="flex gap-3 mt-5" aria-label="Social media links">
             {Object.entries(socialLinks).map(
               ([key, value]) =>
                 value && (
@@ -77,10 +79,10 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Useful Links */}
+        {/* Useful Links & Contact */}
         <nav
           aria-label="Footer Navigation"
-          className="flex flex-col gap-6 md:flex-row md:gap-10"
+          className="flex flex-col gap-8 md:flex-row md:gap-14"
         >
           <FooterSection title="Useful Links">
             <FooterLinks links={usefulLinks} />
@@ -89,7 +91,7 @@ const Footer = () => {
             <FooterLinks links={companyPolicies} />
           </FooterSection>
           <FooterSection title="Contact With Us">
-            <address className="not-italic flex flex-col gap-2">
+            <address className="not-italic flex flex-col gap-3">
               {siteInfo.address && (
                 <ContactInfo Icon={FaLocationDot} text={siteInfo.address} />
               )}
@@ -106,8 +108,12 @@ const Footer = () => {
         </nav>
       </div>
       {/* Copyright */}
-      <div className="max-w-7xl mx-auto text-center py-5 text-xs text-gray-500 border-t border-dashboard-border mt-10">
-        <p>© {currentYear} Tona Escrow. All rights reserved.</p>
+      <div className="xl:px-32 px-4 text-center py-6 text-sm text-gray-500 border-t border-dashboard-border mt-12">
+        <p>
+          © {currentYear}{" "}
+          <span className="font-semibold text-secondary">{siteInfo.name}</span>.
+          All rights reserved.
+        </p>
       </div>
     </footer>
   );

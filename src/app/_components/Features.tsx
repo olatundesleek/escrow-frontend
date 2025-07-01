@@ -16,7 +16,7 @@ const Features = () => {
         <div className="lg:flex gap-8 mt-8 justify-center items-center">
           <div className="relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] mx-auto lg:mr-0">
             <Image
-              src="/confidence.png"
+              src="/financial-security.png"
               alt="Platform features illustration"
               fill
               className="object-contain"

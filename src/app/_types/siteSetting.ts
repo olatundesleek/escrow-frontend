@@ -29,6 +29,7 @@ export type SiteSettingData = {
 };
 
 export type SiteInfo = {
+  name: string;
   email: string;
   description: string;
   colors: TColor;

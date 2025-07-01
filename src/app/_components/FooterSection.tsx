@@ -5,10 +5,11 @@ export const FooterSection = ({
   title: string;
   children: React.ReactNode;
 }) => (
-  <div className="container flex flex-col gap-2">
-    <h2 className="text-2xl font-bold w-full flex flex-col gap-2 mb-2 text-secondary">
-      {title} <span className="w-10 bg-secondary h-1"></span>
+  <section className="flex flex-col gap-3 min-w-[180px]">
+    <h2 className="text-xl font-semibold flex items-center gap-3 text-secondary mb-1">
+      <span>{title}</span>
+      <span className="flex-1 h-0.5 bg-accent rounded-full max-w-[40px]" />
     </h2>
-    {children}
-  </div>
+    <div>{children}</div>
+  </section>
 );

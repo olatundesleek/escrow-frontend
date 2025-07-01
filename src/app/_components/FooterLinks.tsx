@@ -4,10 +4,15 @@ export const FooterLinks = ({
 }: {
   links: { href: string; label: string }[];
 }) => (
-  <ul>
+  <ul className="flex flex-col gap-2">
     {links.map(({ href, label }, index) => (
       <li key={index}>
-        <Link href={href}>{label}</Link>
+        <Link
+          href={href}
+          className="text-base text-text/90 hover:text-accent transition font-medium"
+        >
+          {label}
+        </Link>
       </li>
     ))}
   </ul>
