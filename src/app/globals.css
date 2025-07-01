@@ -2,11 +2,12 @@
 
 /* Modernized color palette for a financial banking application */
 :root {
-  --color-primary-section: #f5f8fa;
   --color-primary: #e3f2fd;
   --color-secondary: #043889;
-  --color-error: #e53935;
   --color-accent: #2ecc71;
+  --color-background: #f5f8fa;
+  --color-text: #000000;
+  --color-error: #e53935;
   --color-dashboard-primary: #ffffff;
   --color-dashboard-secondary: #5f27cd;
   --color-dashboard-border: #e0e3eb;
@@ -17,7 +18,8 @@
 
 /* Optional Theme Layer (for tooling that supports @theme) */
 @theme {
-  --color-primary-section: var(--color-primary-section);
+  --color-background: var(--color-background);
+  --color-text: var(--color-text);
   --color-primary: var(--color-primary);
   --color-secondary: var(--color-secondary);
   --color-error: var(--color-error);

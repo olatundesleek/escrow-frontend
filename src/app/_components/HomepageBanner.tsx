@@ -16,7 +16,7 @@ export default function HomepageBanner() {
   return (
     <header
       ref={ref}
-      className="relative w-full bg-primary-section text-white overflow-hidden"
+      className="relative w-full text-white overflow-hidden"
       aria-label="Homepage Financial Banner"
     >
       {/* Decorative Background Icons */}

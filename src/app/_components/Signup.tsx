@@ -62,7 +62,7 @@ export default function Signup() {
       aboutAuthPage="Join our secure platform today. Register now and unlock the power of safe transactions with ease!"
       formBanner={signupBanner}
     >
-      <div className=" border-t border-primary-section w-full"></div>
+      <div className=" border-t border-background w-full"></div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-md my-10 flex flex-col justify-center items-center"
@@ -76,7 +76,7 @@ export default function Signup() {
                 autoComplete="firstname"
                 id="firstname"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-background rounded-sm bg-white ${
                   errors.firstname ? "border-error" : ""
                 }`}
                 {...register("firstname", {
@@ -109,7 +109,7 @@ export default function Signup() {
                 autoComplete="lastname"
                 id="lastname"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-background rounded-sm bg-white ${
                   errors.lastname ? "border-error" : ""
                 }`}
                 {...register("lastname", {
@@ -143,7 +143,7 @@ export default function Signup() {
                 autoComplete="username"
                 id="username"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-background rounded-sm bg-white ${
                   errors.username ? "border-error" : ""
                 }`}
                 {...register("username", {
@@ -176,7 +176,7 @@ export default function Signup() {
                 autoComplete="email"
                 id="email"
                 autoFocus={true}
-                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+                className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full md:p-4 p-2 pr-12 border border-background rounded-sm bg-white ${
                   errors.email ? "border-error" : ""
                 }`}
                 {...register("email", {

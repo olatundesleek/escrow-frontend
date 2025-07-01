@@ -100,7 +100,7 @@ export default function Login() {
       aboutAuthPage="Secure your transactions effortlessly. Log in now and experience peace of mind with our trusted platform!"
       formBanner={loginBanner}
     >
-      <div className=" border-t border-primary-section w-full"></div>
+      <div className=" border-t border-background w-full"></div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-md my-10 flex flex-col justify-center items-center"
@@ -113,7 +113,7 @@ export default function Login() {
               placeholder="Username"
               autoComplete="username"
               autoFocus={true}
-              className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full sm:p-4 p-2 pr-12 border border-primary-section rounded-sm bg-white ${
+              className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full sm:p-4 p-2 pr-12 border border-background rounded-sm bg-white ${
                 errors.username ? "border-error" : ""
               }`}
               {...register("username", {

@@ -4,10 +4,7 @@ import { sponsors } from "../_constants/sponsors";
 
 const Sponsor = () => {
   return (
-    <section
-      className="w-full bg-primary-section py-6 lg:py-10"
-      aria-label="Our Sponsors"
-    >
+    <section className="w-full py-6 lg:py-10" aria-label="Our Sponsors">
       <div className="max-w-6xl mx-auto flex flex-col items-center">
         <h2 className="text-lg lg:text-2xl font-semibold text-secondary mb-4 tracking-wide uppercase">
           Trusted by Leading Brands

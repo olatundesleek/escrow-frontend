@@ -46,14 +46,14 @@ const EscrowAction = () => {
         </h3>
         <Listbox value={selected} onChange={setSelected}>
           <div className="relative">
-            <Listbox.Button className="w-full h-14 px-4 flex justify-between items-center text-lg text-secondary bg-primary-section border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+            <Listbox.Button className="w-full h-14 px-4 flex justify-between items-center text-lg text-secondary bg-background border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
               <span className="flex items-center">
                 {selected.icon}
                 {selected.label}
               </span>
               <FaChevronDown />
             </Listbox.Button>
-            <Listbox.Options className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-primary-section border border-blue-200 rounded-xl shadow-lg">
+            <Listbox.Options className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-background border border-blue-200 rounded-xl shadow-lg">
               {options.map((option) => (
                 <Listbox.Option
                   key={option.label}
@@ -80,11 +80,11 @@ const EscrowAction = () => {
         </h3>
         <Listbox value={selectedCat} onChange={setSelectedCat}>
           <div className="relative">
-            <Listbox.Button className="w-full h-14 px-4 flex justify-between items-center text-lg text-secondary bg-primary-section border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+            <Listbox.Button className="w-full h-14 px-4 flex justify-between items-center text-lg text-secondary bg-background border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
               <span>{selectedCat}</span>
               <FaChevronDown />
             </Listbox.Button>
-            <Listbox.Options className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-primary-section border border-blue-200 rounded-xl shadow-lg">
+            <Listbox.Options className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-background border border-blue-200 rounded-xl shadow-lg">
               {categories.map((option) => (
                 <Listbox.Option
                   key={option}
@@ -108,7 +108,7 @@ const EscrowAction = () => {
         <label htmlFor="amount" className="sr-only">
           Transaction Amount
         </label>
-        <div className="flex items-center h-14 text-lg text-secondary border border-blue-200 rounded-xl bg-primary-section overflow-hidden">
+        <div className="flex items-center h-14 text-lg text-secondary border border-blue-200 rounded-xl bg-background overflow-hidden">
           <span className="bg-blue-50 px-4 py-2 min-w-[7rem] text-center flex items-center">
             Amount of
           </span>
@@ -130,7 +130,7 @@ const EscrowAction = () => {
 
       {/* Submit Button */}
       <Button
-        color="bg-secondary text-primary-section"
+        color="bg-accent text-background"
         textSize="text-xl w-full"
         style="mt-4 py-4 rounded-xl font-semibold shadow transition"
         isLoading={!amount || Number(amount) <= 0}

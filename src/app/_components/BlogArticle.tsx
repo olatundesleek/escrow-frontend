@@ -6,10 +6,7 @@ import Link from "next/link";
 
 const BlogArticle = () => {
   return (
-    <section
-      className="w-full bg-primary-section py-12"
-      aria-label="Latest Blog Articles"
-    >
+    <section className="w-full py-12" aria-label="Latest Blog Articles">
       <div className="xl:px-32 px-4">
         <header className="flex flex-col lg:flex-row lg:justify-between items-center mb-8 gap-4">
           <SectionalTitle

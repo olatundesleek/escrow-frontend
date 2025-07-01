@@ -6,10 +6,7 @@ import Offers from "./Offers";
 
 const Features = () => {
   return (
-    <section
-      className="w-full bg-primary-section py-12"
-      aria-label="Platform Features"
-    >
+    <section className="w-full py-12" aria-label="Platform Features">
       <div className="xl:p-32 px-4 [&>div>header]:text-base md:[&>div>header]:text-lg lg:[&>div>header]:text-2xl">
         <SectionalTitle
           title="FEATURES"

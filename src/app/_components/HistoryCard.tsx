@@ -57,7 +57,6 @@ const HistoryCard = ({ image, number, title }: HistoryCardProps) => {
     return () => {
       if (observer) observer.disconnect();
     };
-    // eslint-disable-next-line
   }, [number, hasAnimated]);
 
   // Add "+" or "k+" if present in original number

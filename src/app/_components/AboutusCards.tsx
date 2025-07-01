@@ -1,6 +1,8 @@
 import AboutusCard from "./AboutusCard";
-import { RiSecurePaymentFill } from "react-icons/ri";
-import { FaUserShield, FaIdCard, FaBalanceScale } from "react-icons/fa";
+const video1 = "/vid/payment.mp4";
+const video2 = "/vid/follow.mp4";
+const video3 = "/vid/data-safety.mp4";
+const video4 = "/vid/conversation.mp4";
 import { HandShakeShieldIcon } from "./HandShakeSheildIcon";
 
 const AboutusCards = () => {
@@ -8,12 +10,12 @@ const AboutusCards = () => {
     <section className="flex flex-col lg:flex-row lg:justify-between items-center gap-10 lg:gap-0 xl:p-32 px-4">
       <div className="flex flex-col gap-5">
         <AboutusCard
-          Icon={RiSecurePaymentFill}
+          video={video1}
           title="Secure Transactions"
           description="Stay secure with advanced encryption and protection."
         />
         <AboutusCard
-          Icon={FaIdCard}
+          video={video2}
           title="User Friendly Interface"
           description="Enjoy escrow protection that secures funds until all requirements are met."
         />
@@ -23,12 +25,12 @@ const AboutusCards = () => {
 
       <div className="flex flex-col gap-5">
         <AboutusCard
-          Icon={FaUserShield}
+          video={video3}
           title="Escrow Protection"
           description="Enjoy escrow protection that secures funds until all requirements are met."
         />
         <AboutusCard
-          Icon={FaBalanceScale}
+          video={video4}
           title="Dispute Resolution"
           description="Resolve disputes swiftly and fairly with our efficient resolution services."
         />
