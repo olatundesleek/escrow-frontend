@@ -6,7 +6,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import loginBanner from "../../../public/loginimage.png";
 import Button from "./Button";
 import AuthContent from "./AuthContent";
@@ -16,7 +16,6 @@ import SpinnerMini from "./SpinnerMini";
 import ToastCustom from "./ToastCustom";
 
 export default function Login() {
-  const { replace } = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const redirect = searchParams.get("redirect");
@@ -47,7 +46,6 @@ export default function Login() {
 
       if (errorHandled.handled) {
         if (errorHandled.type === "invalidCredentials") {
-          // Handle authentication error
           toast.error(
             errorHandled.message || "Login failed. Please try again."
           );
@@ -78,13 +76,14 @@ export default function Login() {
       }
 
       if (result.success) {
-        //Display success message
         toast.success(result.message || "Login successful!");
-        // Redirect to dashboard
+        // Use window.location.href for instant redirect and session sync
         if (redirect) {
-          return replace(decodeURIComponent(redirect));
+          window.location.href = decodeURIComponent(redirect);
+        } else {
+          window.location.href = "/dashboard";
         }
-        return replace("/dashboard");
+        return;
       }
     } catch (error) {
       console.error("Error during login:", error);
