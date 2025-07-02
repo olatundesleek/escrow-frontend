@@ -1,12 +1,12 @@
 "use client";
 
-import Lists from './Lists';
-import { useState } from 'react';
-import Image from 'next/image';
-import Article from './Article';
-import { FiArrowUpRight } from 'react-icons/fi';
-import Button from './Button';
-import Link from 'next/link';
+import Lists from "./Lists";
+import { useState } from "react";
+import Image from "next/image";
+import Article from "./Article";
+import { FiArrowUpRight } from "react-icons/fi";
+import Button from "./Button";
+import Link from "next/link";
 
 interface FAQ {
   question: string;
@@ -32,7 +32,7 @@ const Accordian = ({ faqs }: { faqs: FAQ[] }) => {
         </div>
         <div className="relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] mx-auto lg:ml-0 lg:mr-0">
           <Image
-            src="/qa.png"
+            src="/faqs.png"
             alt="qa"
             fill
             className="object-contain"
@@ -46,13 +46,13 @@ const Accordian = ({ faqs }: { faqs: FAQ[] }) => {
         </Article>
 
         <Button
-          color='bg-secondary hover:opacity-90 text-white'
-          textSize='text-xl'
-          style='flex gap-3 items-center justify-center w-[10rem]'
+          color="bg-secondary hover:opacity-90 text-white"
+          textSize="text-xl"
+          style="flex gap-3 items-center justify-center w-[10rem]"
         >
           <Link
-            href={'/contact'}
-            className='flex gap-3 items-center justify-center w-[10rem]'
+            href={"/contact"}
+            className="flex gap-3 items-center justify-center w-[10rem]"
           >
             Ask More <FiArrowUpRight />
           </Link>

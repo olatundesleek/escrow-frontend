@@ -3,8 +3,19 @@
 import { useState } from "react";
 import Button from "./Button";
 import { Listbox } from "@headlessui/react";
+import { FaChevronDown, FaMoneyBillWave } from "react-icons/fa";
 
-const options = ["Selling", "Buying"];
+const options = [
+  {
+    label: "Selling",
+    icon: <FaMoneyBillWave className="mr-2 text-green-600" />,
+  },
+  {
+    label: "Buying",
+    icon: <FaMoneyBillWave className="mr-2 text-blue-600" />,
+  },
+];
+
 const categories = [
   "Real Estate",
   "Vehicle",
@@ -21,31 +32,40 @@ const categories = [
 const EscrowAction = () => {
   const [selected, setSelected] = useState(options[0]);
   const [selectedCat, setSelectedCat] = useState(categories[0]);
+  const [amount, setAmount] = useState("");
 
   return (
-    <form className='w-full h-full max-w-[30rem] p-2 lg:px-9 sm:p-6 lg:w-[30rem] lg:h-[30rem] bg-amber-500/10 backdrop-blur-lg border border-yellow-300 rounded-xl shadow-lg'>
-      <div className='py-3'>
-        <h3 className='text-xl text-white font-bold py-3 relative'>
+    <form
+      className="w-full max-w-lg p-5 bg-white border border-secondary/10 rounded-2xl shadow-2xl flex flex-col gap-6 overflow-visible"
+      aria-label="Escrow Action Form"
+    >
+      {/* Purpose Selection */}
+      <div>
+        <h3 className="text-xl font-semibold text-secondary mb-2">
           Select Purpose
         </h3>
-
         <Listbox value={selected} onChange={setSelected}>
-          <Listbox.Button className='border flex justify-between lg:text-xl border-white text-white w-full lg:h-13 p-2 rounded-md border-xl focus:outline-none focus:ring-2 focus:border-none focus:ring-amber-500'>
-            {selected} <span>&#9662;</span>
-          </Listbox.Button>
-          <div className='relative w-full'>
-            <Listbox.Options className='w-full absolute bg-white shadow-lg'>
+          <div className="relative">
+            <Listbox.Button className="w-full h-14 px-4 flex justify-between items-center text-lg text-secondary bg-background border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+              <span className="flex items-center">
+                {selected.icon}
+                {selected.label}
+              </span>
+              <FaChevronDown />
+            </Listbox.Button>
+            <Listbox.Options className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-background border border-blue-200 rounded-xl shadow-lg">
               {options.map((option) => (
                 <Listbox.Option
-                  key={option}
+                  key={option.label}
                   value={option}
                   className={({ active }) =>
-                    `cursor-pointer select-none py-2 px-4 ${
-                      active ? 'bg-secondary text-white' : 'text-gray-900'
+                    `cursor-pointer select-none py-3 px-5 flex items-center gap-2 ${
+                      active ? "bg-blue-100 text-secondary" : "text-gray-900"
                     }`
                   }
                 >
-                  {option}
+                  {option.icon}
+                  {option.label}
                 </Listbox.Option>
               ))}
             </Listbox.Options>
@@ -53,22 +73,25 @@ const EscrowAction = () => {
         </Listbox>
       </div>
 
-      <div className='py-3'>
-        <h3 className='text-xl text-white font-bold py-2'>Select Category</h3>
-
+      {/* Category Selection */}
+      <div>
+        <h3 className="text-xl font-semibold text-secondary mb-2">
+          Select Category
+        </h3>
         <Listbox value={selectedCat} onChange={setSelectedCat}>
-          <Listbox.Button className='border flex justify-between lg:text-xl border-white text-white w-full lg:h-13 p-2 rounded-md border-xl focus:outline-none focus:ring-2 focus:border-none focus:ring-amber-500'>
-            {selectedCat} <span>&#9662;</span>
-          </Listbox.Button>
-          <div className='relative w-full'>
-            <Listbox.Options className='w-full absolute bg-white shadow-lg'>
+          <div className="relative">
+            <Listbox.Button className="w-full h-14 px-4 flex justify-between items-center text-lg text-secondary bg-background border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+              <span>{selectedCat}</span>
+              <FaChevronDown />
+            </Listbox.Button>
+            <Listbox.Options className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-background border border-blue-200 rounded-xl shadow-lg">
               {categories.map((option) => (
                 <Listbox.Option
                   key={option}
                   value={option}
                   className={({ active }) =>
-                    `cursor-pointer select-none py-2 px-4 ${
-                      active ? 'bg-secondary text-white' : 'text-gray-900'
+                    `cursor-pointer select-none py-3 px-5 ${
+                      active ? "bg-blue-100 text-secondary" : "text-gray-900"
                     }`
                   }
                 >
@@ -80,23 +103,38 @@ const EscrowAction = () => {
         </Listbox>
       </div>
 
-      <div className='flex rounded-md border border-white text-base lg:h-13 text-md items-center text-white'>
-        <span className='bg-stone-200/10 px-2 py-2 min-w-[6rem] text-center shrink-0 h-full flex items-center'>
-          Amount of
-        </span>
-
-        <input
-          type='number'
-          placeholder='Enter the amount'
-          className='h-full px-2 py-2 flex-1 bg-transparent text-white placeholder:text-gray-300 outline-none border-none w-full'
-        />
-
-        <span className='bg-stone-200/10 px-2 py-2 text-center shrink-0 h-full flex items-center'>
-          NGN
-        </span>
+      {/* Amount Input */}
+      <div>
+        <label htmlFor="amount" className="sr-only">
+          Transaction Amount
+        </label>
+        <div className="flex items-center h-14 text-lg text-secondary border border-blue-200 rounded-xl bg-background overflow-hidden">
+          <span className="bg-blue-50 px-4 py-2 min-w-[7rem] text-center flex items-center">
+            Amount of
+          </span>
+          <input
+            id="amount"
+            type="number"
+            min={0}
+            required
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder="Enter amount"
+            className="flex-1 h-full px-4 py-2 bg-white text-secondary placeholder:text-gray-300 outline-none border-none"
+          />
+          <span className="bg-blue-50 px-4 py-2 text-center flex items-center">
+            NGN
+          </span>
+        </div>
       </div>
 
-      <Button color='bg-secondary text-white' textSize='lg:text-xl w-full mt-4'>
+      {/* Submit Button */}
+      <Button
+        color="bg-accent text-background"
+        textSize="text-xl w-full"
+        style="mt-4 py-4 rounded-xl font-semibold shadow transition"
+        isLoading={!amount || Number(amount) <= 0}
+      >
         Proceed To Next
       </Button>
     </form>

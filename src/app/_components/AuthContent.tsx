@@ -29,11 +29,11 @@ export default function AuthContent({
           <header className="flex justify-between items-center w-full py-5">
             <Logo />
             <m.div
-              className="p-2 rounded-full bg-white border border-#7ccf00 text-[#7ccf00]"
+              className="p-2 rounded-full bg-white border border-secondary text-secondary"
               whileHover={{
                 scale: 1.06,
-                backgroundColor: "#7ccf00",
-                color: "#f90",
+                backgroundColor: "#043889",
+                color: "#e3f2fd",
               }}
               whileTap={{ scale: 0.9 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -44,7 +44,7 @@ export default function AuthContent({
             </m.div>
           </header>
 
-          <h2 className="sm:text-4xl text-2xl font-bold text-[#7ccf00] tracking-wide">
+          <h2 className="sm:text-4xl text-2xl font-bold text-secondary tracking-wide">
             {authPageName}
           </h2>
           <p className="mt-2 sm:text-xl text-md text-center">{aboutAuthPage}</p>
@@ -67,8 +67,7 @@ export default function AuthContent({
         <div
           className="w-1/2 h-[97vh] hidden md:flex justify-center items-center rounded-xl fixed top-[10px] right-[10px]"
           style={{
-            background:
-              "linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70)",
+            background: "linear-gradient(135deg, #043889, #2ecc71)",
           }}
         >
           <Image src={formBanner} alt="login" className="w-[80%]" />

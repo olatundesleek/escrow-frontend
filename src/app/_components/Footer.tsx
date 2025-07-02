@@ -18,6 +18,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { data } = useSiteSetting() as { data: SiteSettingData };
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
+    name: "",
     email: "",
     description: "",
     colors: { background: "", primary: "", secondary: "", text_color: "" },
@@ -40,6 +41,7 @@ const Footer = () => {
   useEffect(() => {
     if (!data) return;
     setSiteInfo({
+      name: data.siteName || "",
       email: data.siteEmail || "",
       colors: data.siteColors || {
         background: "",
@@ -54,15 +56,16 @@ const Footer = () => {
   }, [data]);
 
   return (
-    <footer className="text-amber-100 bg-black w-full h-auto flex flex-col gap-10 p-10 justify-center items-center">
-      {/* Main Footer Content */}
-      <section className="container flex justify-between gap-10 md:flex-nowrap flex-wrap">
+    <footer className="w-full bg-primary border-t border-dashboard-border text-accent pt-12">
+      <div className="flex flex-col md:flex-row justify-between gap-12 xl:px-32 px-4">
         {/* Logo and Description */}
-        <div className="container flex flex-col gap-2">
+        <div className="flex flex-col gap-3 max-w-xs">
           <Logo />
-          {siteInfo.description && <p>{siteInfo.description}</p>}
+          {siteInfo.description && (
+            <p className="text-base text-text mt-2">{siteInfo.description}</p>
+          )}
           {/* Social Links */}
-          <ul className="flex gap-2 mt-2">
+          <ul className="flex gap-3 mt-5" aria-label="Social media links">
             {Object.entries(socialLinks).map(
               ([key, value]) =>
                 value && (
@@ -76,35 +79,41 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Useful Links */}
-        <FooterSection title="Useful Links">
-          <FooterLinks links={usefulLinks} />
-        </FooterSection>
-
-        {/* Company Policies */}
-        <FooterSection title="Company Policies">
-          <FooterLinks links={companyPolicies} />
-        </FooterSection>
-
-        {/* Contact Information */}
-        <FooterSection title="Contact With Us">
-          {siteInfo.address && (
-            <ContactInfo Icon={FaLocationDot} text={siteInfo.address} />
-          )}
-          <ContactInfo
-            Icon={TbMailFilled}
-            href={`mailto:${siteInfo.email}`}
-            link_text={`${siteInfo.email}`}
-          />
-          {siteInfo.phone && (
-            <ContactInfo Icon={FaPhoneAlt} text={siteInfo.phone} />
-          )}
-        </FooterSection>
-      </section>
-
+        {/* Useful Links & Contact */}
+        <nav
+          aria-label="Footer Navigation"
+          className="flex flex-col gap-8 md:flex-row md:gap-14"
+        >
+          <FooterSection title="Useful Links">
+            <FooterLinks links={usefulLinks} />
+          </FooterSection>
+          <FooterSection title="Company Policies">
+            <FooterLinks links={companyPolicies} />
+          </FooterSection>
+          <FooterSection title="Contact With Us">
+            <address className="not-italic flex flex-col gap-3">
+              {siteInfo.address && (
+                <ContactInfo Icon={FaLocationDot} text={siteInfo.address} />
+              )}
+              <ContactInfo
+                Icon={TbMailFilled}
+                href={`mailto:${siteInfo.email}`}
+                link_text={`${siteInfo.email}`}
+              />
+              {siteInfo.phone && (
+                <ContactInfo Icon={FaPhoneAlt} text={siteInfo.phone} />
+              )}
+            </address>
+          </FooterSection>
+        </nav>
+      </div>
       {/* Copyright */}
-      <div className="container flex flex-col gap-2 text-center py-5 border-t-1">
-        <p>© {currentYear} Tona Escrow. All rights reserved.</p>
+      <div className="xl:px-32 px-4 text-center py-6 text-sm text-gray-500 border-t border-dashboard-border mt-12">
+        <p>
+          © {currentYear}{" "}
+          <span className="font-semibold text-secondary">{siteInfo.name}</span>.
+          All rights reserved.
+        </p>
       </div>
     </footer>
   );

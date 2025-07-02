@@ -28,7 +28,7 @@ export const AuthInput = ({
         className="block pt-4 font-medium 2xl:text-xl text-md"
       >
         {InputTitle}
-        <span className="text-red-500">*</span>
+        <span className="text-error">*</span>
       </label>
       {children ? (
         children
@@ -41,7 +41,7 @@ export const AuthInput = ({
           value={value}
           onChange={onchange}
           placeholder={placeholder}
-          className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full sm:p-4 p-2 pr-12 border border-gray-300 rounded-sm bg-white ${style}`}
+          className={`outline-0 focus-within:border-0 focus-within:ring-1 focus:ring-secondary w-full sm:p-4 p-2 pr-12 border border-primary rounded-sm bg-white ${style}`}
         />
       )}
     </>
