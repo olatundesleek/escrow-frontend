@@ -1,7 +1,7 @@
 import { getUserAllEscrows } from '@/app/_lib/userDashboardServices';
 import { useQuery } from '@tanstack/react-query';
 
-export default function useAdminEscrows() {
+export default function useUserEscrows() {
   const {
     data: allUserEscrows,
     isLoading: isUserEscrowLoading,

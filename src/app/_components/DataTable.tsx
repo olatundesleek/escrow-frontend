@@ -23,7 +23,7 @@ export default function DataTable<TData extends { _id: string }>({
 
   return (
     <>
-      <div className='w-full overflow-x-auto border border-dashboard-border rounded-md mt-4 hidden md:block'>
+      <div className='w-full border border-dashboard-border rounded-md mt-4 hidden sm:block'>
         <DesktopTable table={table} />
       </div>
       <div className='w-full overflow-x-auto rounded-md mt-4 sm:hidden space-y-4'>

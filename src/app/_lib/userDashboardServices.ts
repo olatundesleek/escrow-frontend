@@ -2,6 +2,9 @@ import {
   UserDashboardDataResponse,
   AllUserEscrowsDataResponse,
   UserEscrowDetailResponse,
+  RejectEscrowResponse,
+  AcceptEscrowResponse,
+  ApiError,
 } from '../_types/userDashboardServicesTypes';
 
 export async function getUserDashboardData(): Promise<UserDashboardDataResponse> {
@@ -12,8 +15,8 @@ export async function getUserDashboardData(): Promise<UserDashboardDataResponse>
     });
 
     if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData);
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
     }
 
     const data = await res.json();
@@ -36,8 +39,8 @@ export async function getUserAllEscrows(): Promise<AllUserEscrowsDataResponse> {
     });
 
     if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData);
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
     }
 
     const data = await res.json();
@@ -60,8 +63,74 @@ export async function getUserEscrowDetails(
     const res = await fetch(escrowDetailUrl, { credentials: 'include' });
 
     if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData);
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function acceptEscrowApi({
+  escrowId,
+}: {
+  escrowId: string;
+}): Promise<AcceptEscrowResponse> {
+  const acceptEscrowUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/acceptescrow`;
+
+  try {
+    const res = await fetch(acceptEscrowUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ escrowId }),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function rejectEscrowApi({
+  escrowId,
+}: {
+  escrowId: string;
+}): Promise<RejectEscrowResponse> {
+  const rejectEscrowUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/rejectescrow`;
+
+  try {
+    const res = await fetch(rejectEscrowUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ escrowId }),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
     }
 
     const data = await res.json();

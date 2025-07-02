@@ -280,6 +280,11 @@ export async function getUserRole() {
       credentials: 'include',
     });
 
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData);
+    }
+
     if (res.ok) return await res.json();
   } catch (error) {
     console.error('Error:', error);

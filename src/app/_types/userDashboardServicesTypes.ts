@@ -1,4 +1,4 @@
-type UserEscrowStatus = 'pending' | 'active' | 'completed' | 'disputed';
+type UserEscrowStatus = 'pending' | 'accepted' | 'rejected' | 'disputed';
 type UserPaymentStatus = 'unpaid' | 'paid' | 'pending';
 type UserEscrowFeePayment = 'buyer' | 'counterparty';
 type UserCreatorRole = 'buyer' | 'seller';
@@ -67,4 +67,18 @@ export interface UserDashboardDataResponse {
       };
     };
   };
+}
+
+export interface AcceptEscrowResponse {
+  message: string;
+  escrow: UserEscrowItem;
+}
+
+export interface RejectEscrowResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface ApiError {
+  message: string;
 }

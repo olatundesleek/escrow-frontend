@@ -7,8 +7,10 @@ import Image from 'next/image';
 
 export default function UserSidebar({
   isSidebarOpen,
+  onCloseSidebar,
 }: {
   isSidebarOpen: boolean;
+  onCloseSidebar: () => void;
 }) {
   return (
     <aside
@@ -48,6 +50,7 @@ export default function UserSidebar({
         <SidebarMenu
           sidebarMenu={userSidebarMenuList}
           isSidebarOpen={isSidebarOpen}
+          onCloseSidebar={onCloseSidebar}
         />
       </div>
     </aside>
