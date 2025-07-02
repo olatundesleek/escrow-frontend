@@ -26,6 +26,7 @@
   --color-accent: var(--color-accent);
   --color-dashboard-primary: var(--color-dashboard-primary);
   --color-dashboard-secondary: var(--color-dashboard-secondary);
+  --color-dashboard-border: var(--color-dashboard-border);
   --color-warning: var(--color-warning);
   --color-info: var(--color-info);
   --color-success: var(--color-success);

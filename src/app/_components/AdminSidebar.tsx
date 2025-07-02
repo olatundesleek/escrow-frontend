@@ -7,10 +7,11 @@ import Image from 'next/image';
 
 export default function AdminSidebar({
   isSidebarOpen,
+  onCloseSidebar,
 }: {
   isSidebarOpen: boolean;
+  onCloseSidebar: () => void;
 }) {
-
   return (
     <aside
       className={`lg:row-span-full border-r border-dashboard-border flex flex-col absolute lg:relative py-4 lg:py-0 ${
@@ -49,6 +50,7 @@ export default function AdminSidebar({
         <SidebarMenu
           sidebarMenu={adminSidebarMenuList}
           isSidebarOpen={isSidebarOpen}
+          onCloseSidebar={onCloseSidebar}
         />
       </div>
     </aside>

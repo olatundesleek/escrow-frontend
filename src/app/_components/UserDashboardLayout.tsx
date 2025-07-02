@@ -16,6 +16,10 @@ export default function UserDashboardLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const { isGetCurrentUserLoading, isError } = useGetCurrentUser();
 
+  const handleCloseSidebar = function () {
+    setIsSidebarOpen(false);
+  };
+
   if (isGetCurrentUserLoading) {
     return (
       <div
@@ -25,7 +29,10 @@ export default function UserDashboardLayout({
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
-        <UserSidebar isSidebarOpen={isSidebarOpen} />
+        <UserSidebar
+          isSidebarOpen={isSidebarOpen}
+          onCloseSidebar={handleCloseSidebar}
+        />
         <main className='lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 py-5 overflow-y-auto'>
           <FullPageLoader />
         </main>
@@ -43,7 +50,10 @@ export default function UserDashboardLayout({
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
-        <UserSidebar isSidebarOpen={isSidebarOpen} />
+        <UserSidebar
+          isSidebarOpen={isSidebarOpen}
+          onCloseSidebar={handleCloseSidebar}
+        />
         <main className='lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 py-5 overflow-y-auto'>
           <FullPageLoader />
         </main>
@@ -59,7 +69,10 @@ export default function UserDashboardLayout({
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
-      <UserSidebar isSidebarOpen={isSidebarOpen} />
+      <UserSidebar
+        isSidebarOpen={isSidebarOpen}
+        onCloseSidebar={handleCloseSidebar}
+      />
       <main className='lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 py-5 overflow-y-auto'>
         {children}
       </main>

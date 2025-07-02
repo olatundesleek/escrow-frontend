@@ -24,6 +24,11 @@ const queryClient = new QueryClient({
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  const handleCloseSidebar = function () {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
@@ -34,7 +39,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
-        <AdminSidebar isSidebarOpen={isSidebarOpen} />
+        <AdminSidebar
+          isSidebarOpen={isSidebarOpen}
+          onCloseSidebar={handleCloseSidebar}
+        />
         <main className='lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 py-5 overflow-y-auto'>
           {children}
         </main>

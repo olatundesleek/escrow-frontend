@@ -6,16 +6,30 @@ import ButtonIcon from './ButtonIcon';
 import Logout from './Logout';
 import { usePathname } from 'next/navigation';
 import { pickActiveHref } from '../_utils/helpers';
+import { useEffect, useRef } from 'react';
 
 export default function SidebarMenu({
   sidebarMenu,
   isSidebarOpen,
+  onCloseSidebar,
 }: {
   sidebarMenu: SidebarMenuItem[];
   isSidebarOpen: boolean;
+  onCloseSidebar: () => void;
 }) {
   const pathname = usePathname();
   const activeHref = pickActiveHref(sidebarMenu, pathname);
+
+  const previousPathnameRef = useRef(pathname);
+
+  useEffect(() => {
+    // Only close if the pathname has actually changed AND the sidebar is open
+    if (pathname !== previousPathnameRef.current && isSidebarOpen) {
+      onCloseSidebar();
+    }
+    // Update the ref with the current pathname after the effect runs
+    previousPathnameRef.current = pathname;
+  }, [pathname, isSidebarOpen, onCloseSidebar]);
 
   return (
     <ul className={`w-full flex flex-col ${isSidebarOpen ? 'gap-2' : 'gap-5'}`}>
