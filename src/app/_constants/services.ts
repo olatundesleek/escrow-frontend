@@ -1,37 +1,42 @@
+import { IconType } from "react-icons";
+import { TbHomeShield } from "react-icons/tb";
+import { IoCarSportOutline } from "react-icons/io5";
+import { CiGift } from "react-icons/ci";
+import { SlBriefcase } from "react-icons/sl";
 interface Service {
   title: string;
   goods: string;
-  image: string;
+  Icon: IconType;
   description: string;
 }
 
 export const services: Service[] = [
   {
-    title: 'Harmony',
-    goods: 'Home',
-    image: '/house.png',
+    title: "Harmony",
+    goods: "Home",
+    Icon: TbHomeShield,
     description:
-      'Facilitate secure real estate transactions with ease and confidence using our platform.',
+      "Facilitate secure real estate transactions with ease and confidence using our platform.",
   },
   {
-    title: 'Vehicle',
-    goods: 'Ease',
-    image: '/car.png',
+    title: "Vehicle",
+    goods: "Ease",
+    Icon: IoCarSportOutline,
     description:
-      'Ensure smooth and secure vehicle transactions, whether buying or selling.',
+      "Ensure smooth and secure vehicle transactions, whether buying or selling.",
   },
   {
-    title: 'Precious',
-    goods: 'Items',
-    image: '/item.png',
+    title: "Precious",
+    goods: "Items",
+    Icon: CiGift,
     description:
-      'Safeguard valuable assets such as jewelry, artwork, or collectibles with our secure platform.',
+      "Safeguard valuable assets such as jewelry, artwork, or collectibles with our secure platform.",
   },
   {
-    title: 'Business',
-    goods: 'Transfer',
-    image: '/transfer.png',
+    title: "Business",
+    goods: "Transfer",
+    Icon: SlBriefcase,
     description:
-      'Streamline the transfer of business assets or intellectual property securely and efficiently.',
+      "Streamline the transfer of business assets or intellectual property securely and efficiently.",
   },
 ];

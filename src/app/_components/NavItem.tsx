@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-
-import Link from 'next/link';
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function NavItem({
   href,
@@ -12,23 +11,33 @@ export default function NavItem({
   label: string;
 }) {
   const pathname = usePathname();
-
   const isActive = pathname === href;
 
   return (
-    <li
-      className={`border-b border-gray-500 text-lg py-2 lg:py-0 lg:border-0 relative group ${
-        isActive ? 'text-secondary lg:text-secondary' : ''
-      }`}
-    >
-      <Link href={href}>
+    <div className="relative group list-none">
+      <Link
+        href={href}
+        className={`
+          inline-block px-2 py-2 text-base transition-colors duration-300
+          ${
+            isActive
+              ? "text-secondary font-semibold"
+              : "text-accent hover:text-secondary"
+          }
+        `}
+        aria-current={isActive ? "page" : undefined}
+      >
         {label}
+        {/* Animated underline */}
         <span
-          className={`hidden lg:block absolute bottom-0 left-1/2 w-full h-[2px] bg-secondary transform -translate-x-1/2 scale-x-0 transition-transform duration-300 origin-center ${
-            isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-          }`}
-        ></span>
+          className={`
+            hidden lg:block absolute bottom-1 left-0 w-full h-[2px] bg-secondary
+            transform scale-x-0 group-hover:scale-x-100
+            transition-transform duration-300 origin-center
+            ${isActive ? "scale-x-100" : ""}
+          `}
+        />
       </Link>
-    </li>
+    </div>
   );
 }

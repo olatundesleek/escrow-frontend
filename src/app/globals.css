@@ -1,19 +1,44 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary-section: #fafaff;
-  --color-primary: #000000;
-  --color-secondary: #9af039;
-  --color-error: #fb2c36;
-  --color-dashboard-primary:#ffffff;
-  --color-dashboard-secondary:#671ce9;
-  --color-dashboard-border: #d1d5dc;
+/* Modernized color palette for a financial banking application */
+:root {
+  --color-primary: #e3f2fd;
+  --color-secondary: #043889;
+  --color-accent: #2ecc71;
+  --color-background: #f5f8fa;
+  --color-text: #000000;
+  --color-error: #e53935;
+  --color-dashboard-primary: #ffffff;
+  --color-dashboard-secondary: #5f27cd;
+  --color-dashboard-border: #e0e3eb;
+  --color-warning: #f1b366;
+  --color-info: #2196f3;
+  --color-success: #43a047;
 }
-/* --color-dashboard-border: #d1d5dc; */
+
+/* Optional Theme Layer (for tooling that supports @theme) */
+@theme {
+  --color-background: var(--color-background);
+  --color-text: var(--color-text);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-error: var(--color-error);
+  --color-accent: var(--color-accent);
+  --color-dashboard-primary: var(--color-dashboard-primary);
+  --color-dashboard-secondary: var(--color-dashboard-secondary);
+  --color-warning: var(--color-warning);
+  --color-info: var(--color-info);
+  --color-success: var(--color-success);
+}
 
 @media (max-width: 768px) {
   .custom-gradient {
-    background: linear-gradient(58deg, #aeebae70, #f1b36679, #aeebae70);
+    background: linear-gradient(
+      58deg,
+      var(--color-primary) 0%,
+      var(--color-primary-section) 50%,
+      var(--color-primary) 100%
+    );
   }
 }
 
@@ -32,7 +57,7 @@
 }
 
 .top-navbar {
-  top: "var(--navbar-height)";
+  top: var(--navbar-height);
 }
 
 .bg-clip-text {
@@ -42,15 +67,13 @@
 
 .outline-text {
   color: transparent;
-  -webkit-text-stroke: 2px #d9ff02; /* yellow-400 */
+  -webkit-text-stroke: 2px var(--color-accent);
 }
 
 .outline-text-title {
   color: transparent;
-  -webkit-text-stroke: 1.5px #d9ff02; /* yellow-400 */
+  -webkit-text-stroke: 1.5px var(--color-accent);
 }
-
-
 
 /* Hide scrollbar but allow scrolling */
 .scrollbar-hidden {

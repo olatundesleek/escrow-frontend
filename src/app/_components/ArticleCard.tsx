@@ -20,7 +20,7 @@ const ArticleCard = ({ title, image, description }: ArticleCardProps) => {
   const formattedDate = today.toLocaleDateString("en-US", options);
 
   return (
-    <div className="flex flex-col gap-6 w-80 h-[36rem]  border border-gray-300 hover:border-[#9af039] duration-500 bg-primary-section rounded-lg p-7 m-3">
+    <div className="flex flex-col gap-6 w-72 lg:w-80 h-[36rem]  border border-gray-300 hover:border-accent duration-500 bg-white rounded-lg p-7 m-3">
       <Image
         src={image}
         alt={title}
@@ -29,7 +29,7 @@ const ArticleCard = ({ title, image, description }: ArticleCardProps) => {
         className="rounded-lg w-full cursor-pointer object-cover"
       />
 
-      <div className="flex  gap-4 items-center justify-start w-50 p-2 rounded-4xl bg-orange-400 text-white">
+      <div className="flex  gap-4 items-center justify-start w-50 p-2 rounded-4xl bg-orange-500 text-white">
         <HiCalendarDateRange className="text-2xl" />
         <p>{formattedDate}</p>
       </div>

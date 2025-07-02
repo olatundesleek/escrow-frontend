@@ -69,7 +69,11 @@ export const adminSidebarMenuList: SidebarMenuItem[] = [
 export const userSidebarMenuList: SidebarMenuItem[] = [
   { label: "Dashboard", icon: HiOutlineHome, href: "/dashboard" },
   { label: "Escrows", icon: HiOutlineCash, href: "/dashboard/escrows" },
-  { label: "Payment Methods", icon: HiOutlineCreditCard, href: "" },
+  {
+    label: "Wallet",
+    icon: HiOutlineCreditCard,
+    href: "/dashboard/wallet",
+  },
   { label: "Deposit", icon: HiOutlineArrowDown, href: "" },
   { label: "Withdrawals", icon: HiOutlineArrowUp, href: "" },
   {
@@ -77,6 +81,6 @@ export const userSidebarMenuList: SidebarMenuItem[] = [
     icon: HiOutlineCurrencyDollar,
     href: "/dashboard/transanctions",
   },
-  { label: "Profile Settings", icon: HiOutlineCog, href: "" },
+  { label: "Profile Settings", icon: HiOutlineCog, href: "/dashboard/profile" },
   { label: "KYC", icon: HiOutlineShieldCheck, href: "" },
 ];

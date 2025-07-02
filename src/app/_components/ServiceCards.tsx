@@ -1,24 +1,25 @@
-import { services } from '../_constants/services';
-import ServiceCard from './ServiceCard';
+import { services } from "../_constants/services";
+import ServiceCard from "./ServiceCard";
+
 const ServiceCards = () => {
   return (
-    <div className='flex flex-col gap-7 items-center justify-center mt-10'>
-      <div className='lg:grid lg:grid-cols-3 gap-6 flex flex-col'>
-        {services.map((service, i) => (
-          <div key={i} className={i === 3 ? 'col-start-2 row-start-2' : ''}>
-            <ServiceCard
-              title={service.title}
-              goods={service.goods}
-              image={service.image}
-              description={service.description}
-            />
-          </div>
-        ))}
+    <section className="w-full py-12" aria-label="Our Services">
+      <div className="flex flex-col gap-10 items-center justify-center px-4">
+        <ul className="w-full flex flex-wrap justify-center gap-8">
+          {services.map(({ title, goods, Icon, description }, i) => (
+            <li key={i} className="flex-shrink-0">
+              <ServiceCard
+                title={title}
+                goods={goods}
+                Icon={Icon}
+                description={description}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
+    </section>
   );
 };
 
 export default ServiceCards;
-
-//className={i === 3 ? 'col-start-2 row-start-2' : '' }

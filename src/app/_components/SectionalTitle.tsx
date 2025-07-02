@@ -1,5 +1,7 @@
-import HomeBannerSubtitle from './HomeBannerSubtitle';
-import Header from './Header';
+"use client";
+
+import HomeBannerSubtitle from "./HomeBannerSubtitle";
+import Header from "./Header";
 
 interface SectionalTitleProps {
   title: string;
@@ -8,22 +10,27 @@ interface SectionalTitleProps {
   style?: string;
   conAlignment?: string;
   destextAlign?: string;
+  textColor?: string;
 }
+
 const SectionalTitle = ({
   title,
   description,
-  desSize = 'text-2xl',
-  destextAlign = 'text-center',
+  desSize = "text-2xl",
+  destextAlign = "text-center",
   style,
-  conAlignment = 'items-center',
+  conAlignment = "items-center",
+  textColor,
 }: SectionalTitleProps) => {
   return (
-    <div className={`flex flex-col gap-6 justify-center ${conAlignment}  `}>
+    <header className={`flex flex-col gap-6 justify-center ${conAlignment}`}>
       <HomeBannerSubtitle style={style}>{title}</HomeBannerSubtitle>
-      <Header textSize={`  ${desSize} ${destextAlign} w-[22rem] lg:w-[45rem]`}>
+      <Header
+        textSize={`${desSize} ${destextAlign} w-full lg:w-[45rem] ${textColor}`}
+      >
         {description}
       </Header>
-    </div>
+    </header>
   );
 };
 
