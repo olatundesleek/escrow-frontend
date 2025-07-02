@@ -2,13 +2,13 @@
 
 import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
 import UserEscrowTable from './UserEscrowTable';
-import useAdminEscrows from './useUserEscrows';
+import useUserEscrows from './useUserEscrows';
 import FullPageLoader from '@/app/_components/FullPageLoader';
 import toast from 'react-hot-toast';
 
 export default function AdminEscrows() {
   const { isUserEscrowLoading, userEscrowError, allUserEscrows } =
-    useAdminEscrows();
+    useUserEscrows();
 
   if (isUserEscrowLoading) return <FullPageLoader />;
 
