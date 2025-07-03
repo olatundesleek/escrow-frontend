@@ -43,7 +43,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           isSidebarOpen={isSidebarOpen}
           onCloseSidebar={handleCloseSidebar}
         />
-        <main className='lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 py-5 overflow-y-auto'>
+        <main className='w-full lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 overflow-y-auto pt-[calc(var(--header-height)+1rem)] lg:py-5'>
           {children}
         </main>
       </div>
