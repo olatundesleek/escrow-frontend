@@ -119,6 +119,10 @@ export default function UserEscrowTable({
         accessorKey: 'paymentStatus',
       },
       {
+        header: 'Escrow ID',
+        accessorKey: '_id',
+      },
+      {
         header: 'Date',
         accessorKey: 'createdAt',
       },
