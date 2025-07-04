@@ -23,8 +23,6 @@ export default function UserDashboard() {
 
   if (userDashboardError) return toast.error(userDashboardError.message);
 
-  console.log(userDashboardData);
-
   if (!userDashboardData)
     return (
       <div className='w-full h-screen flex flex-col items-center text-2xl text-dashboard-secondary'>
@@ -53,9 +51,9 @@ export default function UserDashboard() {
   return (
     <div className='flex flex-col items-center justify-center '>
       <UserDashboardPageTitle>
-        <div className='flex items-center gap-2 mt-2'>
+        <div className='lg:flex-row items-center gap-2 hidden'>
           <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${
+            className={`px-3 py-1 rounded-full text-xs font-extralight ${
               status === 'verified'
                 ? 'bg-green-100 text-green-600'
                 : 'bg-yellow-100 text-yellow-600'
@@ -64,7 +62,7 @@ export default function UserDashboard() {
             {status.toUpperCase()}
           </span>
           <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${
+            className={`px-3 py-1 rounded-full text-xs font-extralight ${
               userDashboardData.dashboardDetails.data.status === 'active'
                 ? 'bg-blue-100 text-blue-600'
                 : 'bg-gray-200 text-gray-600'
@@ -79,8 +77,8 @@ export default function UserDashboard() {
       <div className='flex flex-col items-start w-full mt-5'>
         <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4'>
           <div>
-            <div className='flex'>
-              <div className='relative w-[70px] h-[70px] sm:w-[70px] sm:h-[70px] md:w-[70px] md:h-[70px] lg:w-[45px] lg:h-[45px] mx-auto lg:ml-0 lg:mr-0'>
+            <div className='flex items-start gap-1'>
+              <div className='relative w-[25px] h-[25px] sm:w-[25px] sm:h-[25px] md:w-[25px] md:h-[25px] lg:w-[45px] lg:h-[45px] mx-auto lg:ml-0 lg:mr-0 hidden lg:block'>
                 <Image
                   src={'/images/wave.gif'}
                   alt='waving hand'
@@ -89,18 +87,55 @@ export default function UserDashboard() {
                 />
               </div>
               <div>
-                <h1 className='text-2xl font-semibold text-dashboard-secondary'>
-                  Welcome back,{' '}
-                  {userDashboardData.dashboardDetails.data.firstname}!
-                </h1>
+                <div className='flex items-start gap-1'>
+                  <h1 className='lg:text-2xl font-semibold text-dashboard-secondary'>
+                    Welcome back,{' '}
+                    {userDashboardData.dashboardDetails.data.firstname}!
+                  </h1>
+                  <div className='relative w-[25px] h-[25px] sm:w-[25px] sm:h-[25px] md:w-[25px] md:h-[25px] lg:w-[45px] lg:h-[45px] lg:hidden'>
+                    <Image
+                      src={'/images/wave.gif'}
+                      alt='waving hand'
+                      fill
+                      className=' object-contain'
+                    />
+                  </div>
+                </div>
                 <p className='text-sm text-dashboard-secondary'>
                   @{userDashboardData.dashboardDetails.data.username} —{' '}
                   {userDashboardData.dashboardDetails.data.email}
                 </p>
+                <p className='text-sm text-dashboard-secondary lg:hidden'>
+                  Joined:{' '}
+                  {new Date(
+                    userDashboardData.dashboardDetails.data.createdAt,
+                  ).toLocaleDateString()}
+                </p>
+                <div className='flex-col flex items-start gap-2 lg:hidden'>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      status === 'verified'
+                        ? 'bg-green-100 text-green-600'
+                        : 'bg-yellow-100 text-yellow-600'
+                    }`}
+                  >
+                    {status.toUpperCase()}
+                  </span>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      userDashboardData.dashboardDetails.data.status ===
+                      'active'
+                        ? 'bg-blue-100 text-blue-600'
+                        : 'bg-gray-200 text-gray-600'
+                    }`}
+                  >
+                    {userDashboardData.dashboardDetails.data.status.toUpperCase()}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-          <p className='text-sm text-dashboard-secondary'>
+          <p className='text-sm text-dashboard-secondary hidden lg:block'>
             Joined:{' '}
             {new Date(
               userDashboardData.dashboardDetails.data.createdAt,
@@ -171,7 +206,7 @@ export default function UserDashboard() {
         <TransactionChart />
         <TransactionTable />
       </div>
-      <div className='w-full max-w-8xl px-7 mt-10'>
+      <div className='w-full lg:max-w-8xl mt-10'>
         <h2 className='text-lg font-semibold mb-4 text-dashboard-secondary'>
           Recent Escrows
         </h2>

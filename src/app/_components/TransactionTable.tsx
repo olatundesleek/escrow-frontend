@@ -72,39 +72,39 @@ const transactions: Transaction[] = [
 
 const TransactionTable = () => {
   return (
-    <div className="flex flex-col gap-4 w-full h-full">
-      <h2 className="text-lg font-semibold text-gray-700">
+    <div className='flex flex-col gap-4 w-full h-full'>
+      <h2 className='text-lg font-semibold text-dashboard-secondary'>
         Latest Transactions
       </h2>
       {/* Large screen table */}
-      <div className="bg-white h-full lg:flex lg:flex-col overflow-hidden border-2 border-dashboard-border rounded-lg shadow-md hidden ">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-300">
-            <tr className="text-left text-gray-600">
-              <th className="p-3">User</th>
-              <th className="p-3">TRX</th>
-              <th className="p-3">Initiated</th>
-              <th className="p-3">Amount</th>
+      <div className='bg-white h-full lg:flex lg:flex-col overflow-hidden border-2 border-dashboard-border rounded-lg shadow-md hidden '>
+        <table className='min-w-full text-sm'>
+          <thead className='bg-gray-300'>
+            <tr className='text-left text-gray-600'>
+              <th className='p-3'>User</th>
+              <th className='p-3'>TRX</th>
+              <th className='p-3'>Initiated</th>
+              <th className='p-3'>Amount</th>
             </tr>
           </thead>
           <tbody>
             {transactions.map((trx, index) => (
-              <tr key={index} className="border-b hover:bg-gray-50">
-                <td className="p-3 text-purple-600 whitespace-nowrap">
+              <tr key={index} className='border-b hover:bg-gray-50'>
+                <td className='p-3 text-purple-600 whitespace-nowrap'>
                   {trx.user}
                 </td>
-                <td className="p-3">{trx.trx}</td>
-                <td className="p-3 whitespace-nowrap">{trx.time}</td>
+                <td className='p-3'>{trx.trx}</td>
+                <td className='p-3 whitespace-nowrap'>{trx.time}</td>
                 <td
                   className={`p-3 font-medium whitespace-nowrap ${
                     trx.amount < 0
-                      ? "text-red-500"
+                      ? 'text-red-500'
                       : trx.amount > 0
-                      ? "text-green-600"
-                      : "text-gray-500"
+                      ? 'text-green-600'
+                      : 'text-gray-500'
                   }`}
                 >
-                  {trx.amount >= 0 ? "+" : "-"}
+                  {trx.amount >= 0 ? '+' : '-'}
                   {Math.abs(trx.amount).toFixed(2)} USD
                 </td>
               </tr>
@@ -114,36 +114,36 @@ const TransactionTable = () => {
       </div>
 
       {/* Mobile stacked cards */}
-      <div className="lg:hidden flex flex-col shadow-md overflow-hidden border-2 border-black rounded-lg">
+      <div className='lg:hidden flex flex-col shadow-md overflow-hidden border-2 border-black rounded-lg'>
         {transactions.map((trx, index) => (
           <div
             key={index}
-            className="bg-white  border-b-2 border-black  p-4 text-sm flex flex-col gap-2"
+            className='bg-white  border-b-2 border-black  p-4 text-sm flex flex-col gap-2'
           >
-            <div className="flex justify-between">
-              <span className="font-semibold text-gray-500">User </span>
-              <span className="text-purple-600">{trx.user}</span>
+            <div className='flex justify-between'>
+              <span className='font-semibold text-gray-500'>User </span>
+              <span className='text-purple-600'>{trx.user}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold text-gray-500">TRX </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold text-gray-500'>TRX </span>
               <span>{trx.trx}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold text-gray-500">Initiated </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold text-gray-500'>Initiated </span>
               <span>{trx.time}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold text-gray-500">Amount </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold text-gray-500'>Amount </span>
               <span
                 className={`font-semibold ${
                   trx.amount < 0
-                    ? "text-red-500"
+                    ? 'text-red-500'
                     : trx.amount > 0
-                    ? "text-green-600"
-                    : "text-gray-500"
+                    ? 'text-green-600'
+                    : 'text-gray-500'
                 }`}
               >
-                {trx.amount >= 0 ? "+" : "-"}
+                {trx.amount >= 0 ? '+' : '-'}
                 {Math.abs(trx.amount).toFixed(2)} USD
               </span>
             </div>
