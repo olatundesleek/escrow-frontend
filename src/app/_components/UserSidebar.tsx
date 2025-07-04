@@ -14,7 +14,7 @@ export default function UserSidebar({
 }) {
   return (
     <aside
-      className={`lg:row-span-full border-r border-dashboard-border lg:flex lg:flex-col lg:relative lg:py-0 lg:transition-[width] lg:z-50 bg-white lg:gap-2.5 z-sidebar fixed
+      className={`lg:row-span-full border-r border-dashboard-border lg:flex lg:flex-col lg:relative lg:py-0 lg:transition-[width] bg-white lg:gap-2.5 z-100 fixed
       top-header-height left-0 lg:top-0
       w-4/5 max-w-[18rem]
       h-[calc(100vh-theme(spacing.header))] lg:h-auto

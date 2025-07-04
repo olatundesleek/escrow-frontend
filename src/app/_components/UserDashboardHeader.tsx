@@ -13,7 +13,7 @@ export default function UserDashboardHeader({
   setIsSidebarOpen: React.Dispatch<boolean>;
 }) {
   return (
-    <header className='w-full border-b border-dashboard-border flex justify-between items-center px-5 py-1 h-header-height min-h-header-height max-h-header-height fixed lg:relative bg-dashboard-primary'>
+    <header className='w-full border-b border-dashboard-border flex justify-between items-center px-5 py-1 h-header-height min-h-header-height max-h-header-height fixed lg:relative bg-dashboard-primary z-100'>
       <div className='flex gap-x-4 w-full'>
         <ButtonIcon
           style='lg:text-2xl'
