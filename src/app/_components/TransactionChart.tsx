@@ -43,7 +43,7 @@ const data: MonthlyData[] = [
 const TransactionChart = () => {
   return (
     <div className='flex flex-col gap-4 w-full h-full'>
-      <h2 className='text-lg font-semibold text-gray-700 mb-4'>
+      <h2 className='text-lg font-semibold text-dashboard-secondary mb-4'>
         Deposit & Withdrawal
       </h2>
       <div className='w-full bg-white h-full overflow-hidden flex flex-col border-2 border-dashboard-border rounded-lg shadow-md'>

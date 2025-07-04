@@ -16,21 +16,21 @@ const DashboardWalletDisplay = ({
     <div className='w-full grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 overflow-hidden shadow-md rounded-lg m-7'>
       <WalletDetailsCard
         title='Total Wallet'
-        value={total}
+        value={total || 0}
         bg='bg-green-100 text-green-500 border-1 border-green-200'
         icon={<TbWallet />}
         border='border-r-1  border-gray-400'
       />
       <WalletDetailsCard
         title='Total Available'
-        value={totalAvailable}
+        value={totalAvailable || 0}
         bg='bg-orange-100 text-orange-500 border-1 border-orange-200'
         icon={<LuPiggyBank />}
         border='border-r-1  border-gray-400'
       />
       <WalletDetailsCard
         title='Total Locked'
-        value={totalLocked}
+        value={totalLocked || 0}
         bg='bg-red-100 text-red-500 border-1 border-red-200'
         icon={<TbWalletOff />}
       />
