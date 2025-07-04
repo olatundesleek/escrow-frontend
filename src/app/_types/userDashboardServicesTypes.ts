@@ -1,4 +1,4 @@
-type UserEscrowStatus = 'pending' | 'accepted' | 'rejected' | 'disputed';
+type UserEscrowStatus = 'pending' | 'active' | 'rejected' | 'disputed';
 type UserPaymentStatus = 'unpaid' | 'paid' | 'pending';
 type UserEscrowFeePayment = 'buyer' | 'counterparty';
 type UserCreatorRole = 'buyer' | 'seller';
