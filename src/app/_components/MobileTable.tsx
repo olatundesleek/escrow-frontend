@@ -23,19 +23,17 @@ export function MobileCard<TData extends { _id: string }>({
     rejected: 'bg-red-600',
   };
 
-  console.log(get('createdAt')?.toString().split('T').join().slice(0, -8));
 
   return (
     <div className='border border-dashboard-border p-4 rounded-lg shadow- bg-white'>
       <div className='flex justify-between'>
         <div>
           <p className='font-light text-lg mb-1'>
-            {get('createdAt')
-              ?.toString()
-              .split('T')
-              .join()
-              .slice(0, -8)
-              .replace(',', ' | ')}
+            {new Date(String(get('createdAt'))).toLocaleDateString('en-NG', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
           </p>
         </div>
         <div className='flex flex-col justify-center items-center'>
@@ -68,7 +66,11 @@ export function MobileCard<TData extends { _id: string }>({
         <div>
           <p className='text-gray-500'>Amount</p>
           <p className='font-light text-lg mb-1'>
-            ₦{Number(get('amount')).toLocaleString()}
+            {Number(get('amount')).toLocaleString('en-NG', {
+              style: 'currency',
+              currency: 'NGN',
+              minimumFractionDigits: 2,
+            })}
           </p>
         </div>
         <div className='flex flex-col justify-center items-center'>
@@ -87,7 +89,7 @@ export function MobileCard<TData extends { _id: string }>({
       </div>
       <div className='flex justify-between mb-4 items-center'>
         <p className='text-gray-500'>Escrow ID</p>
-        <p className='text-xs text-center'>{get('_id')}</p>
+        <p className='text-sm text-center'>{get('_id')}</p>
       </div>
       {get('status') === 'active' && (
         <div className='flex justify-between mb-4 items-center'>

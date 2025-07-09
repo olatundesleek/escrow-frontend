@@ -82,3 +82,18 @@ export interface RejectEscrowResponse {
 export interface ApiError {
   message: string;
 }
+
+export interface CreateEscrowFormInputs {
+  creatorRole: '' | 'buyer' | 'seller';
+  counterpartyEmail: string;
+  amount: number;
+  category: string;
+  escrowFeePayment: '' | 'buyer' | 'seller' | 'split';
+  description: string;
+  terms: string[];
+}
+
+export interface CreateEscrowResponse {
+  message: string;
+  escrow: UserEscrowItem;
+}
