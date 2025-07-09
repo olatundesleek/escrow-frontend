@@ -8,6 +8,7 @@ export default function ButtonIcon({
   toolTip,
   tipPosition = '-left-8',
   isLoading = false,
+  ariaLabel = '',
 }: {
   children: React.ReactNode;
   onClick?: React.Dispatch<boolean> | (() => void);
@@ -16,6 +17,7 @@ export default function ButtonIcon({
   toolTip?: string;
   tipPosition?: string;
   isLoading?: boolean;
+  ariaLabel?: string;
 }) {
   return (
     <>
@@ -30,6 +32,7 @@ export default function ButtonIcon({
           isLoading ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         disabled={isLoading}
+        aria-label={ariaLabel}
       >
         {children}
         {toolTip && (

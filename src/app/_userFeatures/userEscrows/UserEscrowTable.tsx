@@ -11,6 +11,7 @@ import useAcceptEscrow from './useAcceptEscrow';
 import useRejectEscrow from './useRejectEscrow';
 import ConfirmModal from '@/app/_components/ConfirmModal';
 import useConfirmModal from '@/app/_hooks/useConfirmModal';
+import { getEscrowTypeForUser } from '@/app/_utils/helpers';
 
 interface BaseEscrow {
   _id: string;
@@ -99,6 +100,30 @@ export default function UserEscrowTable({
     /*base columns*/
     const base: ColumnDef<UserEscrowItem>[] = [
       {
+        header: 'Escrow ID',
+        accessorKey: '_id',
+      },
+      {
+        header: 'Type',
+        id: 'type',
+        cell: ({ row }) => {
+          const escrow = row.original;
+          const type = getEscrowTypeForUser(escrow, currentUserId);
+
+          return (
+            <span
+              className={`px-2 py-1 rounded-md text-sm font-medium ${
+                type === 'Buy'
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-blue-100 text-blue-700'
+              }`}
+            >
+              {type}
+            </span>
+          );
+        },
+      },
+      {
         header: 'Category',
         accessorKey: 'category',
       },
@@ -109,6 +134,14 @@ export default function UserEscrowTable({
       {
         header: 'Amount',
         accessorKey: 'amount',
+        cell: ({ getValue }) => {
+          const amount = getValue<number>();
+          return amount.toLocaleString('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+            minimumFractionDigits: 2,
+          });
+        },
       },
       {
         header: 'Status',
@@ -119,12 +152,16 @@ export default function UserEscrowTable({
         accessorKey: 'paymentStatus',
       },
       {
-        header: 'Escrow ID',
-        accessorKey: '_id',
-      },
-      {
         header: 'Date',
         accessorKey: 'createdAt',
+        cell: ({ getValue }) => {
+          const rawDate = getValue<number>();
+          return new Date(rawDate).toLocaleDateString('en-NG', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+        },
       },
     ];
 
@@ -136,7 +173,7 @@ export default function UserEscrowTable({
     });
 
     return [...base, actionsColumn];
-  }, [buildActions]);
+  }, [buildActions, currentUserId]);
 
   return (
     <>

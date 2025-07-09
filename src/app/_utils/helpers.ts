@@ -57,3 +57,49 @@ export function pickActiveHref(menu: SidebarMenuItem[], current: string) {
   }
   return winner;
 }
+
+export const formatCurrency = (value: number) =>
+  new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(
+    value,
+  );
+
+export function formatCurrencyInput(value: string): string {
+  // Remove non-digits and dots
+  const clean = value.replace(/[^0-9.]/g, '');
+
+  // Parse to float and reformat with commas
+  const num = parseFloat(clean);
+
+  if (isNaN(num)) return '';
+
+  return num.toLocaleString('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 2,
+  });
+}
+
+export function parseCurrencyFormatted(value: string): number {
+  // Remove commas and currency symbol (₦)
+  const numeric = value.replace(/₦|,/g, '');
+
+  return parseFloat(numeric) || 0;
+}
+
+interface Escrow {
+  creatorRole: 'seller' | 'buyer';
+  creator: string;
+}
+
+export function getEscrowTypeForUser<Tdata extends Escrow>(
+  escrow: Tdata,
+  currentUserId: string,
+): 'Buy' | 'Sell' {
+  const { creatorRole, creator } = escrow;
+
+  if (currentUserId === creator) {
+    return creatorRole === 'buyer' ? 'Buy' : 'Sell';
+  }
+
+  return creatorRole === 'buyer' ? 'Sell' : 'Buy';
+}

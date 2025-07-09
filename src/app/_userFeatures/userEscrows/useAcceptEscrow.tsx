@@ -19,7 +19,7 @@ export default function useAcceptEscrow() {
     mutationFn: acceptEscrowApi,
     onMutate: () => {
       toastId.current = toast.loading(
-        'Accepting escrow. Please exercise patient...',
+        'Accepting escrow. Please exercise patience...',
       );
     },
     onSuccess: (data) => {
