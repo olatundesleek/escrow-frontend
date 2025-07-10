@@ -21,22 +21,28 @@ export default function UserEscrowMoreDetails({
               Category
               <span className='text-sm text-gray-500'>(of item)</span>
             </th>
-            <td className='capitalize'>{category}</td>
+            <td className='capitalize flex justify-end pr-2 text-end'>
+              {category}
+            </td>
           </tr>
           <tr className='border-b border-dashboard-border'>
             <th className='text-start px-4 py-2'>
               Description
               <span className='text-sm text-gray-500'>(of item)</span>
             </th>
-            <td className='capitalize'>{description}</td>
+            <td className='capitalize flex text-end justify-end pr-2'>
+              {description}
+            </td>
           </tr>
           <tr className='border-b border-dashboard-border'>
             <th className='text-start px-4 py-2'>Amount</th>
-            <td className='capitalize'>{amount}</td>
+            <td className='capitalize flex justify-end pr-2 text-end'>
+              {amount}
+            </td>
           </tr>
           <tr className='border-b border-dashboard-border'>
             <th className='text-start px-4 py-2'>Updated At</th>
-            <td className='capitalize'>{updatedAt}</td>
+            <td className='capitalize text-end pr-2'>{updatedAt}</td>
           </tr>
         </tbody>
       </table>

@@ -22,8 +22,11 @@ export default function useRejectEscrow() {
         'Rejecting escrow. Please exercise patience...',
       );
     },
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       toast.success(data.message, { id: toastId.current });
+      queryClient.invalidateQueries({
+        queryKey: ['escrowDetails', variables.escrowId],
+      });
       queryClient.invalidateQueries({ queryKey: ['allUserEscrow'] });
     },
     onError: (err) => {

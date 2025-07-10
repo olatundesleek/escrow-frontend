@@ -23,7 +23,7 @@ export default function UserDashboardPageTitle({
 
   return (
     <div
-      className={`w-full flex items-center justify-between ${padding} bg-transparent text-dashboard-secondary text-xl border border-dashboard-border rounded shadow-md `}
+      className={`w-full flex items-center justify-between ${padding} lg:top-0  text-dashboard-secondary text-xl border border-dashboard-border rounded shadow-md fixed top-header-height lg:relative bg-dashboard-primary z-[60] lg:z-0`}
     >
       <h1>{pageTitle}</h1>
       {children}

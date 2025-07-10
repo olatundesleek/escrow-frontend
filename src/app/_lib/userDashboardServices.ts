@@ -185,7 +185,7 @@ export async function createEscrowApi(
 
     return data;
   } catch (error) {
-    console.log('Error:', error);
+    console.error('Error:', error);
     throw new Error(
       error instanceof Error ? error.message : 'Something went wrong!',
     );
