@@ -12,12 +12,34 @@ import UserEscrowChatInfo from './UserEscrowChatInfo';
 import UserEscrowTermsList from './UserEscrowTermsList';
 import UserEscrowStatusTable from './UserEscrowStatusTable';
 import UserEscrowMoreDetails from './UserEscrowMoreDetails';
+import ConfirmModal from '@/app/_components/ConfirmModal';
+import useConfirmModal from '@/app/_hooks/useConfirmModal';
+import useAcceptEscrow from './useAcceptEscrow';
+import useRejectEscrow from './useRejectEscrow';
+import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
 
 export default function UserEscrowDetail() {
+  const {
+    currentUserData: { id: currentUserId },
+  } = useGetCurrentUser();
   const { back } = useRouter();
   const { id } = useParams();
   const { escrowDetail, isLoadingEscrowDetail, escrowDetailError } =
     useUserEscrowDetails(id as string);
+  const {
+    isOpen: isAcceptOpen,
+    open: openAccept,
+    close: closeAccept,
+  } = useConfirmModal();
+
+  const {
+    isOpen: isRejectOpen,
+    open: openReject,
+    close: closeReject,
+  } = useConfirmModal();
+
+  const { acceptEscrow } = useAcceptEscrow();
+  const { rejectEscrow } = useRejectEscrow();
 
   if (isLoadingEscrowDetail) return <FullPageLoader />;
 
@@ -32,9 +54,29 @@ export default function UserEscrowDetail() {
   }
 
   const { escrow } = escrowDetail;
+  const { _id: escrowId, creator } = escrow;
 
   return (
     <>
+      <ConfirmModal
+        isOpen={isAcceptOpen}
+        onClose={closeAccept}
+        onConfirm={() => acceptEscrow({ escrowId })}
+        title='Confirm Accept'
+        message='Are you sure you want to accept this trade?'
+        variant='success'
+        confirmText='Accept'
+      />
+
+      <ConfirmModal
+        isOpen={isRejectOpen}
+        onClose={closeReject}
+        onConfirm={() => rejectEscrow({ escrowId })}
+        title='Confirm Reject'
+        message='Are you sure you want to reject this trade?'
+        variant='danger'
+        confirmText='Reject'
+      />
       <div className='flex flex-col justify-center'>
         <UserDashboardPageTitle title={`Esrow #${id}`}>
           <div className='sm:flex sm:justify-end gap-4 w-2xs hidden'>
@@ -58,6 +100,10 @@ export default function UserEscrowDetail() {
               status={escrow.status}
               paymentStatus={escrow.paymentStatus}
               escrowfeepayment={escrow.escrowfeepayment}
+              openAcceptConfirmModal={openAccept}
+              openRejectConfirmModal={openReject}
+              currentUserId={currentUserId}
+              creator={creator}
             />
 
             <UserEscrowTermsList

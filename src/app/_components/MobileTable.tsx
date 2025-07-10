@@ -113,20 +113,3 @@ export function MobileCard<TData extends { _id: string }>({
   );
 }
 
-/*<div className='flex justify-between mb-4'>
-        <div>
-          <p className='text-gray-500'>Amount</p>
-          <p className='font-light text-lg mb-1'>
-            ₦{Number(get('amount')).toLocaleString()}
-          </p>
-        </div>
-        <div className='flex flex-col justify-center items-center'>
-          <div className='flex items-center gap-1 text-sm'>
-            <span className='h-2 w-2 rounded-full bg-yellow-400' />
-            <span className='capitalize'>{get('status')}</span>
-          </div>
-          <div className='text-sm font-medium text-red-600 capitalize'>
-            {get('paymentStatus')}
-          </div>
-        </div>
-      </div> */
