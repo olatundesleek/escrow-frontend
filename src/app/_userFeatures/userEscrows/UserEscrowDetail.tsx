@@ -17,6 +17,10 @@ import useConfirmModal from '@/app/_hooks/useConfirmModal';
 import useAcceptEscrow from './useAcceptEscrow';
 import useRejectEscrow from './useRejectEscrow';
 import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
+import UserEscrowPaymentStatus from './UserEscrowPaymentStatus';
+import { getEscrowTypeForUser } from '@/app/_utils/helpers';
+import Modal from '@/app/_components/Modal';
+import UserPaymentForm from './UserPaymentForm';
 
 export default function UserEscrowDetail() {
   const {
@@ -38,6 +42,12 @@ export default function UserEscrowDetail() {
     close: closeReject,
   } = useConfirmModal();
 
+  const {
+    isOpen: isPaymentModalOpen,
+    open: openPaymentModal,
+    close: closePaymentModal,
+  } = useConfirmModal();
+
   const { acceptEscrow } = useAcceptEscrow();
   const { rejectEscrow } = useRejectEscrow();
 
@@ -55,9 +65,23 @@ export default function UserEscrowDetail() {
 
   const { escrow } = escrowDetail;
   const { _id: escrowId, creator } = escrow;
+  const type = getEscrowTypeForUser(escrow, currentUserId);
 
   return (
     <>
+      <Modal
+        isOpen={isPaymentModalOpen}
+        onClose={closePaymentModal}
+        title='Make Payment'
+        width='w-full lg:max-w-lg max-w-lg'
+      >
+        <UserPaymentForm
+          escrowId={escrowId}
+          feePayer={escrow.escrowfeepayment}
+          amount={escrow.amount}
+          closePaymentModal={closePaymentModal}
+        />
+      </Modal>
       <ConfirmModal
         isOpen={isAcceptOpen}
         onClose={closeAccept}
@@ -98,12 +122,17 @@ export default function UserEscrowDetail() {
           <div className='w-full flex gap-4 flex-col'>
             <UserEscrowStatusTable
               status={escrow.status}
-              paymentStatus={escrow.paymentStatus}
-              escrowfeepayment={escrow.escrowfeepayment}
               openAcceptConfirmModal={openAccept}
               openRejectConfirmModal={openReject}
               currentUserId={currentUserId}
               creator={creator}
+            />
+            <UserEscrowPaymentStatus
+              escrowfeepayment={escrow.escrowfeepayment}
+              paymentStatus={escrow.paymentStatus}
+              status={escrow.status}
+              type={type}
+              openPaymentModal={openPaymentModal}
             />
 
             <UserEscrowTermsList

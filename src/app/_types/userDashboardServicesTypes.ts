@@ -97,3 +97,18 @@ export interface CreateEscrowResponse {
   message: string;
   escrow: UserEscrowItem;
 }
+
+export interface PayEscrowBillResponse {
+  success: boolean;
+  message: string;
+  paymentDetails: {
+    status: true;
+    message: 'Authorization URL created';
+    data: {
+      authorization_url: string;
+      access_code: string;
+      reference: string;
+    };
+  };
+}
+
