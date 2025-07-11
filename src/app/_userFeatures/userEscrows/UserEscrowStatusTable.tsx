@@ -3,16 +3,12 @@ import { IoCheckmarkDone, IoCloseSharp } from 'react-icons/io5';
 
 export default function UserEscrowStatusTable({
   status,
-  paymentStatus,
-  escrowfeepayment,
   openAcceptConfirmModal,
   openRejectConfirmModal,
   currentUserId,
   creator,
 }: {
   status: string;
-  paymentStatus: string;
-  escrowfeepayment: string;
   openAcceptConfirmModal: () => void;
   openRejectConfirmModal: () => void;
   currentUserId: string;
@@ -53,9 +49,7 @@ export default function UserEscrowStatusTable({
         <tbody>
           <tr className='border-b border-dashboard-border'>
             <td className='py-2 px-6'>Escrow Status</td>
-            <td className='py-2 pr-2 capitalize flex justify-end text-end'>
-              {status}
-            </td>
+            <td className='py-2 pr-2 capitalize text-end'>{status}</td>
             {status === 'pending' && currentUserId !== creator && (
               <td className='py-2 px-6 capitalize lg:flex justify-start lg:justify-end hidden'>
                 <ButtonIcon
@@ -76,20 +70,9 @@ export default function UserEscrowStatusTable({
               </td>
             )}
           </tr>
-          <tr className='border-b border-dashboard-border'>
-            <td className='py-2 px-6'>Payment Status</td>
-            <td className='py-2 pr-2 capitalize flex justify-end text-end'>
-              {paymentStatus}
-            </td>
-          </tr>
-          <tr className='border-b border-dashboard-border'>
-            <td className='py-2 px-6'>Escrow Fee Payment</td>
-            <td className='py-2 pr-2 capitalize flex justify-end text-end'>
-              {escrowfeepayment}
-            </td>
-          </tr>
         </tbody>
       </table>
     </div>
   );
 }
+

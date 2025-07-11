@@ -14,6 +14,7 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  width?: string;
 }
 
 export default function Modal({
@@ -21,6 +22,7 @@ export default function Modal({
   onClose,
   title,
   children,
+  width = 'w-full lg:max-w-3xl max-w-lg',
 }: ModalProps) {
   return (
     <Transition appear as={Fragment} show={isOpen}>
@@ -42,9 +44,11 @@ export default function Modal({
           <div className='bg-slate-200/20 fixed inset-0 backdrop-blur-sm' />
         </TransitionChild>
 
-        <div className='fixed inset-0 overflow-y-auto top-header-height'>
+        <div className='fixed inset-0 overflow-y-auto lg:top-header-height top-[calc(var(--header-height)+4rem)]'>
           <div className='flex items-center justify-center p-4 min-h-full'>
-            <DialogPanel className='w-full lg:max-w-3xl max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+            <DialogPanel
+              className={`${width} transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all`}
+            >
               <DialogTitle className='text-lg font-semibold text-dashboard-secondary mb-4 flex justify-between items-center'>
                 <span>{title}</span>
                 <ButtonIcon
