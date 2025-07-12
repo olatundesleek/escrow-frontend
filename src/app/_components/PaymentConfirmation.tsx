@@ -12,18 +12,24 @@ export default function PaymentConfirmation() {
     "loading" | "success" | "pending" | "failed"
   >("loading");
   const [retries, setRetries] = useState(0);
-  const maxRetries = 3;
+  const maxRetries = 5;
 
   const fetchStatus = async () => {
     try {
-      if (!reference) return;
-      const res = await fetch(`/api/confirm-payment/${reference}`);
-      // /confirm-payment?reference=6871874384e6ff0004d7fd30 e.g_of_url
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/confirm-payment/${reference}`,
+        {
+          credentials: "include",
+        }
+      );
+
       const data = await res.json();
+      console.log("API Response:", data);
+
       if (data.status === "success") {
         const type = data.transaction?.type;
 
-        if (type === "escrow" || "escrows") {
+        if (type === "escrow" || type === "escrows") {
           const escrowId = data.escrowId;
           router.push(`/dashboard/escrows/${escrowId}`);
         } else if (type === "addfunds") {
@@ -35,8 +41,7 @@ export default function PaymentConfirmation() {
         if (retries < maxRetries) {
           setTimeout(() => {
             setRetries((prev) => prev + 1);
-            console.log("Retried:", retries, maxRetries);
-            fetchStatus();
+            fetchStatus(); // Retry after delay
           }, 2000);
         } else {
           setStatus("failed");
@@ -44,8 +49,8 @@ export default function PaymentConfirmation() {
       } else {
         setStatus("failed");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error("Error fetching payment status:", error);
       setStatus("failed");
     }
   };
