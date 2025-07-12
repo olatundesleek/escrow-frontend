@@ -1,4 +1,7 @@
-import { CreateEscrowResponse } from './../_types/userDashboardServicesTypes';
+import {
+  CreateEscrowResponse,
+  PayEscrowBillResponse,
+} from './../_types/userDashboardServicesTypes';
 import {
   UserDashboardDataResponse,
   AllUserEscrowsDataResponse,
@@ -188,6 +191,41 @@ export async function createEscrowApi(
     console.error('Error:', error);
     throw new Error(
       error instanceof Error ? error.message : 'Something went wrong!',
+    );
+  }
+}
+
+export async function payEscrowBillApi(payload: {
+  escrowId: string;
+  method: 'wallet' | 'gateway';
+}): Promise<PayEscrowBillResponse> {
+  const payEscrowBillUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/pay`;
+
+  const { escrowId, method: userMethod } = payload;
+
+  const method = userMethod === 'wallet' ? 'wallet' : 'paymentgateway';
+
+  try {
+    const res = await fetch(payEscrowBillUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ escrowId, method }),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
     );
   }
 }

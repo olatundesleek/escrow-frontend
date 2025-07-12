@@ -94,12 +94,12 @@ interface Escrow {
 export function getEscrowTypeForUser<Tdata extends Escrow>(
   escrow: Tdata,
   currentUserId: string,
-): 'Buy' | 'Sell' {
+): 'buy' | 'sell' {
   const { creatorRole, creator } = escrow;
 
   if (currentUserId === creator) {
-    return creatorRole === 'buyer' ? 'Buy' : 'Sell';
+    return creatorRole === 'buyer' ? 'buy' : 'sell';
   }
 
-  return creatorRole === 'buyer' ? 'Sell' : 'Buy';
+  return creatorRole === 'buyer' ? 'sell' : 'buy';
 }

@@ -113,7 +113,7 @@ export default function UserEscrowTable({
           return (
             <span
               className={`px-2 py-1 rounded-md text-sm font-medium ${
-                type === 'Buy'
+                type === 'buy'
                   ? 'bg-green-100 text-green-700'
                   : 'bg-blue-100 text-blue-700'
               }`}
