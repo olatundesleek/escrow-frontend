@@ -1,6 +1,7 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 export default function PaymentConfirmation() {
   const searchParams = useSearchParams();
@@ -15,15 +16,22 @@ export default function PaymentConfirmation() {
 
   const fetchStatus = async () => {
     try {
-      const res = await fetch(`/api/payment-status?reference=${reference}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/confirm-payment/${reference}`,
+        {
+          credentials: "include",
+        }
+      );
+
       const data = await res.json();
+      console.log("API Response:", data);
 
       if (data.status === "success") {
         const type = data.transaction?.type;
 
-        if (type === "escrow") {
+        if (type === "escrow" || type === "escrows") {
           const escrowId = data.escrowId;
-          router.push(`/dashboard/sescrow/${escrowId}`);
+          router.push(`/dashboard/escrows/${escrowId}`);
         } else if (type === "addfunds") {
           router.push(`/dashboard/wallet`);
         } else {
@@ -33,7 +41,7 @@ export default function PaymentConfirmation() {
         if (retries < maxRetries) {
           setTimeout(() => {
             setRetries((prev) => prev + 1);
-            fetchStatus();
+            fetchStatus(); // Retry after delay
           }, 2000);
         } else {
           setStatus("failed");
@@ -41,8 +49,8 @@ export default function PaymentConfirmation() {
       } else {
         setStatus("failed");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error("Error fetching payment status:", error);
       setStatus("failed");
     }
   };
@@ -57,7 +65,7 @@ export default function PaymentConfirmation() {
     <div className="min-h-screen flex flex-col items-center justify-center text-center px-4">
       {status === "loading" || status === "pending" ? (
         <div>
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-accent mx-auto mb-4"></div>
           <p className="text-lg font-semibold">Verifying your payment...</p>
         </div>
       ) : status === "failed" ? (

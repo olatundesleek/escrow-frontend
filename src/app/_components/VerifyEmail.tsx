@@ -51,16 +51,6 @@ export default function VerifyEmail() {
     handleTokenVerification();
   }, [searchParams]);
 
-  // const RetryVerification = async () => {
-  //   const linkSent = await clickToVerifyEmail({
-  //     email: "rewardstephen30@gmail.com",
-  //   });
-  //   console.log(linkSent);
-  //   if (linkSent) {
-  //     toast.success("A verification link has been sent to you email");
-  //   }
-  // };
-
   const content = (
     <>
       {loading ? (
