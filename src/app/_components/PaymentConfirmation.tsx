@@ -19,29 +19,38 @@ export default function PaymentConfirmation() {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/confirm-payment/${reference}`,
         {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
         }
       );
 
       const data = await res.json();
-      console.log("API Response:", data);
+      console.log("API Response updated:", data);
 
-      if (data.status === "success") {
+      // ✅ Check based on paymentStatus field
+      if (data.paymentStatus === "paid") {
+        setStatus("success");
+
         const type = data.transaction?.type;
+        const escrowId = data.escrowId;
 
-        if (type === "escrow" || type === "escrows") {
-          const escrowId = data.escrowId;
-          router.push(`/dashboard/escrows/${escrowId}`);
-        } else if (type === "addfunds") {
-          router.push(`/dashboard/wallet`);
-        } else {
-          setStatus("failed");
-        }
-      } else if (data.status === "pending") {
+        // ✅ Redirect after 3s
+        setTimeout(() => {
+          if (type === "escrow" || type === "escrows") {
+            router.push(`/dashboard/escrows/${escrowId}`);
+          } else if (type === "addfunds") {
+            router.push(`/dashboard/wallet`);
+          } else {
+            setStatus("failed");
+          }
+        }, 3000);
+      } else if (data.paymentStatus === "unpaid" || data.status === "pending") {
+        // ⏳ Retry if still pending
         if (retries < maxRetries) {
           setTimeout(() => {
             setRetries((prev) => prev + 1);
-            fetchStatus(); // Retry after delay
+            fetchStatus();
           }, 2000);
         } else {
           setStatus("failed");
@@ -68,14 +77,19 @@ export default function PaymentConfirmation() {
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-accent mx-auto mb-4"></div>
           <p className="text-lg font-semibold">Verifying your payment...</p>
         </div>
-      ) : status === "failed" ? (
+      ) : status === "success" ? (
+        <div className="text-green-600">
+          <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
+          <p>Redirecting you to your dashboard...</p>
+        </div>
+      ) : (
         <div className="text-yellow-600">
           <h2 className="text-2xl font-bold mb-2">Still Processing</h2>
           <p>
             Please check your dashboard for the latest update on your payment.
           </p>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
