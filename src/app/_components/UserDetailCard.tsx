@@ -1,26 +1,45 @@
 import React from "react";
 
 interface UserDetailCardProps {
+  cardColor: string;
   title: string;
   value: number;
   icon: React.ReactNode;
-  bg: string;
+  bg: string; // Tailwind bg utility
 }
 
-const UserDetailCard = ({ title, value, icon, bg }: UserDetailCardProps) => {
+const UserDetailCard = ({
+  title,
+  value,
+  icon,
+  bg,
+  cardColor,
+}: UserDetailCardProps) => {
   return (
-    <div className='flex flex-row gap-4 h-auto bg-white shadow-md rounded-lg p-4'>
-      <div
-        className={`flex items-center justify-center ${bg} rounded-lg p-4 text-4xl font-bold`}
-      >
-        {icon}
+    <div
+      className={`${cardColor} animate-float flex flex-col justify-between gap-4 p-4 rounded-2xl bg-dashboard-primary border border-dashboard-border hover:shadow-md hover:-translate-y-[2px] transition-all duration-300 group cursor-pointer`}
+    >
+      {/* Top: Icon + Title */}
+      <div className="sm:flex items-center gap-2 w-full flex-col">
+        <div
+          className={`flex items-center justify-center w-12 h-12 ${bg} rounded-full text-xl text-primary group-hover:scale-105 transition-transform duration-300`}
+        >
+          {icon}
+        </div>
+        <span
+          className={`text-sm font-medium uppercase tracking-wide text-white text-center`}
+        >
+          {title}
+        </span>
       </div>
 
-      <div className='flex flex-col gap-3 w-full'>
-        <h2 className='text-3xl opacity-60 font-bold'>{value}</h2>
-        <p className='text-sm opacity-60 w-full whitespace-nowrap font-bold'>
-          {title}
-        </p>
+      {/* Bottom: Value */}
+      <div className="sm:text-center">
+        <span
+          className={`sm:text-4xl text-2xl font-bold tabular-nums text-white tracking-tight`}
+        >
+          {value.toLocaleString()}
+        </span>
       </div>
     </div>
   );

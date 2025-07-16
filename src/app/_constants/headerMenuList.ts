@@ -1,5 +1,5 @@
-import { IconType } from 'react-icons';
-import { HiOutlineBell, HiOutlineViewGrid } from 'react-icons/hi';
+import { IconType } from "react-icons";
+import { HiOutlineBell, HiOutlineViewGrid } from "react-icons/hi";
 
 export interface HeaderMenuItem {
   label: string;
@@ -9,21 +9,21 @@ export interface HeaderMenuItem {
 
 export const adminHeaderMenuList: HeaderMenuItem[] = [
   {
-    label: 'Menu',
+    label: "Menu",
     icon: HiOutlineViewGrid,
-    actionType: 'openMenu',
+    actionType: "openMenu",
   },
   {
-    label: 'Notifications',
+    label: "Notifications",
     icon: HiOutlineBell,
-    actionType: 'openNotifications',
+    actionType: "openNotifications",
   },
 ];
 
 export const userHeaderMenuList: HeaderMenuItem[] = [
   {
-    label: 'Notifications',
+    label: "Notifications",
     icon: HiOutlineBell,
-    actionType: 'openNotifications',
+    actionType: "openNotifications",
   },
 ];

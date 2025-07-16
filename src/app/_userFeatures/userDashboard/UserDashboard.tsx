@@ -1,19 +1,21 @@
 "use client";
 
 import toast from "react-hot-toast";
+import useUserDashboard from "./useUserDashboard";
+import { HiOutlineCash, HiOutlineCurrencyDollar } from "react-icons/hi";
+import { TbMessage2Bolt, TbWallet, TbWalletOff } from "react-icons/tb";
+import { IoReload, IoAdd, IoRemove } from "react-icons/io5";
+import { LuPiggyBank } from "react-icons/lu";
+import { RiVisaLine } from "react-icons/ri";
+import { CiNoWaitingSign } from "react-icons/ci";
 
 import UserDashboardPageTitle from "@/app/_components/UserDashboardPageTitle";
-import TransactionTable from "@/app/_components/TransactionTable";
-import TransactionChart from "@/app/_components/TransactionChart";
-import FullPageLoader from "@/app/_components/FullPageLoader";
-import useUserDashboard from "./useUserDashboard";
+import WelcomeHeader from "@/app/_components/WelcomeHeader";
 import UserDetailCard from "@/app/_components/UserDetailCard";
-import { TbMessage2Bolt, TbWallet, TbWalletOff } from "react-icons/tb";
-import { HiOutlineCash, HiOutlineCurrencyDollar } from "react-icons/hi";
-import { IoReload } from "react-icons/io5";
 import WalletDetailsCard from "@/app/_components/WalletDetailsCard";
-import { LuPiggyBank } from "react-icons/lu";
-import Image from "next/image";
+import TransactionChart from "@/app/_components/TransactionChart";
+import TransactionTable from "@/app/_components/TransactionTable";
+import FullPageLoader from "@/app/_components/FullPageLoader";
 
 export default function UserDashboard() {
   const { userDashboardData, isLoadindUserDashboardData, userDashboardError } =
@@ -21,226 +23,192 @@ export default function UserDashboard() {
 
   if (isLoadindUserDashboardData) return <FullPageLoader />;
 
-  if (userDashboardError) return toast.error(userDashboardError.message);
+  if (userDashboardError) {
+    toast.error(userDashboardError.message);
+    return null;
+  }
 
-  if (!userDashboardData)
+  // Handle case where userDashboardData might be null or incomplete after loading
+  if (!userDashboardData || !userDashboardData.dashboardDetails?.data) {
     return (
-      <div className="w-full h-screen flex flex-col items-center text-2xl text-dashboard-secondary">
+      <div className="flex h-screen w-full flex-col items-center justify-center text-xl text-gray-700 p-4 text-center">
         <UserDashboardPageTitle />
-        <p className="text-center mt-8"> No data was found!</p>
+        <p className="mt-8 text-lg font-medium">No dashboard data was found.</p>
+        <p className="text-sm text-gray-500">Please try refreshing the page.</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-lg"
+        >
+          Reload Dashboard
+        </button>
       </div>
     );
+  }
 
   const {
     dashboardDetails: {
-      data: {
-        disputes,
-        escrows,
-        transactions,
-        kyc: { status },
-
-        wallet,
-      },
+      data: { disputes, escrows, transactions, wallet }, // Destructure 'user' specifically for WelcomeHeader
     },
   } = userDashboardData;
 
-  const pendingEscrows = escrows.reduce((acc, escrows) => {
-    return escrows.status === "pending" ? acc + 1 : acc;
-  }, 0);
+  const pendingEscrows = escrows.filter((e) => e.status === "pending").length;
 
   return (
-    <div className="flex flex-col items-center justify-center ">
-      <UserDashboardPageTitle>
-        <div className="lg:flex-row items-center gap-2 hidden">
-          <span
-            className={`px-3 py-1 rounded-full text-xs font-extralight ${
-              status === "verified"
-                ? "bg-green-100 text-green-600"
-                : "bg-red-100 text-yellow-600"
-            }`}
-          >
-            {status.toUpperCase()}
-          </span>
-          <span
-            className={`px-3 py-1 rounded-full text-xs font-extralight ${
-              userDashboardData.dashboardDetails.data.status === "active"
-                ? "bg-blue-100 text-blue-600"
-                : "bg-gray-200 text-gray-600"
-            }`}
-          >
-            {userDashboardData.dashboardDetails.data.status.toUpperCase()}
-          </span>
-        </div>
-      </UserDashboardPageTitle>
+    <div className="w-full space-y-12 pb-16 fade-in">
+      <UserDashboardPageTitle title="Dashboard" />
+      {/* Pass the entire user object directly */}
+      <WelcomeHeader user={userDashboardData.dashboardDetails.data} />
 
-      {/* ------------------ */}
-      <div className="flex flex-col items-start w-full mt-5">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
-          <div>
-            <div className="flex items-start gap-1">
-              <div className="relative w-[25px] h-[25px] sm:w-[25px] sm:h-[25px] md:w-[25px] md:h-[25px] lg:w-[45px] lg:h-[45px] mx-auto lg:ml-0 lg:mr-0 hidden lg:block">
-                <Image
-                  src={"/images/wave.gif"}
-                  alt="waving hand"
-                  fill
-                  className=" object-contain"
-                />
-              </div>
+      {/* --- Financial Overview Section --- */}
+      <section className="space-y-8">
+        <h2 className="text-2xl font-bold text-gray-800">Financial Overview</h2>
+
+        {/* Main Balance Card (Elevated & Refined) */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-700 to-indigo-900 p-8 text-white shadow-2xl transition-all duration-300 hover:shadow-purple-500/30">
+          {/* Enhanced Subtle background graphics with more distinct shapes */}
+          <div className="absolute -top-16 -right-16 h-64 w-64 rounded-full bg-purple-500 opacity-15 blur-3xl pointer-events-none"></div>
+          <div className="absolute -bottom-12 -left-12 h-56 w-56 rounded-full bg-blue-400 opacity-10 blur-3xl pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-white opacity-5 blur-3xl pointer-events-none"></div>
+
+          <div className="relative z-10 flex flex-col justify-between h-full">
+            {/* Card Header and Balance */}
+            <div className="mb-8 flex flex-col justify-between sm:flex-row sm:items-start">
               <div>
-                <div className="flex items-start gap-1">
-                  <h1 className="lg:text-2xl font-semibold text-dashboard-secondary">
-                    Welcome back,{" "}
-                    {userDashboardData.dashboardDetails.data.firstname}!
-                  </h1>
-                  <div className="relative w-[25px] h-[25px] sm:w-[25px] sm:h-[25px] md:w-[25px] md:h-[25px] lg:w-[45px] lg:h-[45px] lg:hidden">
-                    <Image
-                      src={"/images/wave.gif"}
-                      alt="waving hand"
-                      fill
-                      className=" object-contain"
-                    />
-                  </div>
-                </div>
-                <p className="text-sm text-dashboard-secondary">
-                  @{userDashboardData.dashboardDetails.data.username} —{" "}
-                  {userDashboardData.dashboardDetails.data.email}
+                <p className="mb-2 text-base text-white/80 font-medium">
+                  Current Balance
                 </p>
-                <p className="text-sm text-dashboard-secondary lg:hidden">
-                  Joined:{" "}
-                  {new Date(
-                    userDashboardData.dashboardDetails.data.createdAt
-                  ).toLocaleDateString()}
-                </p>
-                <div className="flex-col flex items-start gap-2 lg:hidden">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      status === "verified"
-                        ? "bg-green-100 text-green-600"
-                        : "bg-yellow-100 text-yellow-600"
-                    }`}
-                  >
-                    {status.toUpperCase()}
-                  </span>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      userDashboardData.dashboardDetails.data.status ===
-                      "active"
-                        ? "bg-blue-100 text-blue-600"
-                        : "bg-gray-200 text-gray-600"
-                    }`}
-                  >
-                    {userDashboardData.dashboardDetails.data.status.toUpperCase()}
-                  </span>
-                </div>
+                <h2 className="text-5xl font-extrabold tracking-tight leading-none md:text-6xl">
+                  ${(wallet.balance || 0).toLocaleString()}.
+                  <span className="text-3xl text-white/70">00</span>
+                </h2>
+              </div>
+              <div className="mt-6 flex items-center gap-2 rounded-full bg-white/20 px-5 py-2.5 text-base font-medium shadow-lg backdrop-blur-md sm:mt-0">
+                <RiVisaLine className="h-6 w-6 text-white/95" />
+                <span className="tracking-wide text-white/95">Escrow Card</span>
               </div>
             </div>
+
+            {/* Transaction Buttons */}
+            <div className="mb-8 flex flex-col sm:flex-row justify-around gap-4">
+              <button className="flex-1 flex items-center justify-center gap-3 rounded-xl bg-white/15 px-4 py-4 text-base font-semibold shadow-xl transition-all duration-300 hover:bg-white/25 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/50">
+                <IoAdd className="h-6 w-6 text-green-300" />
+                Deposit
+              </button>
+              <button className="flex-1 flex items-center justify-center gap-3 rounded-xl bg-white/15 px-4 py-4 text-base font-semibold shadow-xl transition-all duration-300 hover:bg-white/25 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/50">
+                <IoRemove className="h-6 w-6 text-red-300" />
+                Withdraw
+              </button>
+            </div>
+
+            {/* Footer */}
+            <div className="pt-4 text-center text-sm text-white/70">
+              Your financial details at a glance.
+            </div>
           </div>
-          <p className="text-sm text-dashboard-secondary hidden lg:block">
-            Joined:{" "}
-            {new Date(
-              userDashboardData.dashboardDetails.data.createdAt
-            ).toLocaleDateString()}
-          </p>
         </div>
-      </div>
-
-      {/* ---------------------- */}
-
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 m-7 w-full">
-        <UserDetailCard
-          title="Total Escrows"
-          value={escrows.length}
-          icon={<HiOutlineCash className="text-dashboard-secondary" />}
-          bg="bg-purple-100 border-1 border-purple-200"
-        />
-        <UserDetailCard
-          title="Total Transactions"
-          value={transactions.length}
-          icon={<HiOutlineCurrencyDollar className="text-green-500" />}
-          bg="bg-green-100 border-1 border-green-200"
-        />
-        <UserDetailCard
-          title="Total Pending"
-          value={pendingEscrows}
-          icon={<IoReload className="text-orange-500" />}
-          bg="bg-orange-100 border-1 border-orange-200"
-        />
-        <UserDetailCard
-          title="Total Disputes"
-          value={disputes.length}
-          icon={<TbMessage2Bolt className=" text-red-500" />}
-          bg="bg-red-100 border-1 border-red-200"
-        />
-      </div>
-
-      <div className="w-full grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 overflow-hidden shadow-md rounded-lg m-7">
-        <WalletDetailsCard
-          title="Total Wallet"
-          value={wallet.balance || 0}
-          bg="bg-green-100 text-green-500 border-1 border-green-200"
-          icon={<TbWallet />}
-          border="border-r-1  border-gray-400"
-        />
-        <WalletDetailsCard
-          title="Total Available"
-          value={wallet.balance - wallet.locked || 0}
-          bg="bg-orange-100 text-orange-500 border-1 border-orange-200"
-          icon={<LuPiggyBank />}
-          border="border-r-1  border-gray-400"
-        />
-        <WalletDetailsCard
-          title="Total Locked"
-          value={wallet.locked || 0}
-          bg="bg-red-100 text-red-500 border-1 border-red-200"
-          icon={<TbWalletOff />}
-        />
-        {/* <WalletDetailsCard
-        title='Withdrawal Charges'
-        value='$6.40'
-        bg='bg-blue-100 text-blue-500 border-1 border-blue-200'
-        icon={<BsDatabaseDash />}
-      /> */}
-      </div>
-
-      <div className="w-full flex flex-col gap-4 items-center justify-between">
+        {/* Wallet Details Cards */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+          <WalletDetailsCard
+            title="Total Wallet"
+            value={wallet.balance || 0}
+            color={"text-green-800"}
+            bg="bg-green-50 text-green-800 border-green-200"
+            icon={<TbWallet className="text-green-600" />}
+          />
+          <WalletDetailsCard
+            title="Available Balance"
+            value={wallet.balance - wallet.locked || 0}
+            color={"text-blue-800"}
+            bg="bg-blue-50 text-blue-800 border-blue-200"
+            icon={<LuPiggyBank className="text-blue-600" />}
+          />
+          <WalletDetailsCard
+            title="Locked Funds"
+            value={wallet.locked || 0}
+            color={"text-red-800"}
+            bg="bg-red-50 text-red-800 border-red-200"
+            icon={<TbWalletOff className="text-red-600" />}
+          />
+        </div>
+      </section>
+      {/* --- Key Metrics Section --- */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800">Key Metrics</h2>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
+          <UserDetailCard
+            cardColor="bg-purple-500"
+            title="Total Escrows"
+            value={escrows.length}
+            icon={<HiOutlineCash className="text-purple-600" />}
+            bg="bg-purple-50 border border-purple-200"
+          />
+          <UserDetailCard
+            cardColor="bg-green-500"
+            title="Total Transactions"
+            value={transactions.length}
+            icon={<HiOutlineCurrencyDollar className="text-green-600" />}
+            bg="bg-green-50 border border-green-200"
+          />
+          <UserDetailCard
+            cardColor="bg-orange-500"
+            title="Pending Escrows"
+            value={pendingEscrows}
+            icon={<IoReload className="animate-spin-slow text-orange-600" />}
+            bg="bg-orange-50 border border-orange-200"
+          />
+          <UserDetailCard
+            cardColor="bg-red-500"
+            title="Disputes"
+            value={disputes.length}
+            icon={<TbMessage2Bolt className="text-red-600" />}
+            bg="bg-red-50 border border-red-200"
+          />
+        </div>
+      </section>
+      {/* --- Transaction History and Charts --- */}
+      <section className="flex flex-col gap-8">
+        <h2 className="text-2xl font-bold text-gray-800">Activity Overview</h2>
         <TransactionChart />
         <TransactionTable />
-      </div>
-      <div className="w-full lg:max-w-8xl mt-10">
-        <h2 className="text-lg font-semibold mb-4 text-dashboard-secondary">
-          Recent Escrows
-        </h2>
+      </section>
+      {/* --- Recent Escrows Table --- */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800">Recent Escrows</h2>
         {escrows.length > 0 ? (
-          <div className="bg-white rounded-lg shadow-md overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-lg">
+            <table className="min-w-full text-left text-sm divide-y divide-gray-200">
+              <thead className="bg-gray-50 uppercase text-gray-600">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Escrow Id
+                  <th className="px-6 py-3 font-semibold tracking-wider">
+                    Escrow ID
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 font-semibold tracking-wider text-right">
                     Amount
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 font-semibold tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Created
+                  <th className="px-6 py-3 font-semibold tracking-wider whitespace-nowrap">
+                    Created Date
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200">
                 {escrows.slice(0, 5).map((escrow) => (
-                  <tr key={escrow._id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <tr key={escrow._id} className="transition hover:bg-gray-50">
+                    <td className="px-6 py-4 font-semibold text-indigo-700">
                       {escrow._id || "N/A"}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {escrow.amount || "—"}
+                    <td className="px-6 py-4 text-right text-gray-800 font-medium">
+                      $
+                      {(escrow.amount || 0).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <td className="px-6 py-4">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase ${
                           escrow.status === "pending"
                             ? "bg-yellow-100 text-yellow-800"
                             : escrow.status === "active"
@@ -251,8 +219,12 @@ export default function UserDashboard() {
                         {escrow.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(escrow.createdAt).toLocaleDateString()}
+                    <td className="px-6 py-4 text-gray-600 whitespace-nowrap">
+                      {new Date(escrow.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
                     </td>
                   </tr>
                 ))}
@@ -260,11 +232,12 @@ export default function UserDashboard() {
             </table>
           </div>
         ) : (
-          <p className="text-dashboard-secondary text-sm">
-            No recent escrows yet.
-          </p>
+          <div className="flex items-center justify-center p-6 text-gray-500 bg-gray-50 rounded-xl border border-gray-200 shadow-sm">
+            <CiNoWaitingSign className="h-6 w-6 mr-2 text-gray-400" />
+            <p className="text-sm">No recent escrows to display.</p>
+          </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }
