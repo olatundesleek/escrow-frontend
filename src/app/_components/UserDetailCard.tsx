@@ -1,7 +1,7 @@
 import React from "react";
 
 interface UserDetailCardProps {
-  cardColor: string;
+  cardColor?: string;
   title: string;
   value: number;
   icon: React.ReactNode;
