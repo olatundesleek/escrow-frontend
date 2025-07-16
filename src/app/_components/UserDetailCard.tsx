@@ -9,11 +9,11 @@ interface UserDetailCardProps {
 }
 
 const UserDetailCard = ({
+  cardColor,
   title,
   value,
   icon,
   bg,
-  cardColor,
 }: UserDetailCardProps) => {
   return (
     <div
