@@ -4,7 +4,7 @@ interface WalletDetailsCardProps {
   value: number;
   title: string;
   icon: React.ReactNode;
-  color: string;
+  color?: string;
   bg: string; // Tailwind bg utility (e.g., "bg-blue-100")
   border?: string; // Optional border class, defaults to "border border-dashboard-border"
 }
