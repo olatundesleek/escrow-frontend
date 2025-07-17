@@ -22,11 +22,9 @@ const WalletDetailsCard = ({
       className={`
         flex justify-between items-center p-6
         rounded-2xl
-        animate-float
         ${bg}
         ${border}
-        shadow-xl                             
-        hover:shadow-2xl                      
+        hover:shadow-sm                      
         hover:-translate-y-[2px]             
         transition-all duration-300
         cursor-pointer                       

@@ -31,18 +31,7 @@ export default function WelcomeHeader({ user }: { user: userData }) {
   });
 
   return (
-    <div className="relative w-full p-0  rounded-xl border border-white/30">
-      {/* --- Subtle Background Glows (Enhanced for Dreamy Effect) --- */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none  rounded-xl border border-white/30">
-        {/* Added pointer-events-none */}
-        <div className="absolute -top-16 -left-16 h-80 w-80 rounded-full bg-purple-400 opacity-15 blur-[100px]" />
-        {/* Slightly stronger color, more blur */}
-        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-indigo-500 opacity-15 blur-[150px]" />
-        {/* Slightly stronger color, more blur */}
-        <div className="absolute top-1/3 left-1/2 h-72 w-72 -translate-x-1/2 bg-white opacity-8 rounded-full blur-3xl" />
-        {/* Adjusted opacity */}
-      </div>
-
+    <div className="relative w-full p-0  rounded-xl border border-white/30 bg-gradient-to-br from-blue-50 via-gray-50 to-blue-50">
       {/* --- Glass Panel (Refined for Clarity and Depth) --- */}
       <div
         className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8
