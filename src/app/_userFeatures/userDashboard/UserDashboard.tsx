@@ -9,7 +9,7 @@ import TransactionTable from "@/app/_components/TransactionTable";
 import FullPageLoader from "@/app/_components/FullPageLoader";
 import UserBalanceCard from "@/app/_components/UserBalanceCard";
 import UserRecentEscrowTable from "@/app/_components/UserRecentEscrowTable";
-import { UserDetailCard } from "@/app/_components/UserDetailCard";
+import UserDetailCard from "@/app/_components/UserDetailCard";
 import { HiOutlineCash, HiOutlineCurrencyDollar } from "react-icons/hi";
 import { IoReload } from "react-icons/io5";
 import { TbMessage2Bolt } from "react-icons/tb";
