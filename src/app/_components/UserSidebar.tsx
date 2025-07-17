@@ -1,9 +1,9 @@
-import { userSidebarMenuList } from '@/app/_constants/sidebarMenuList';
+import { userSidebarMenuList } from "@/app/_constants/sidebarMenuList";
 
-import Logo from './Logo';
-import DashboardSearchBar from './DashboardSearchBar';
-import SidebarMenu from './SidebarMenu';
-import Image from 'next/image';
+import Logo from "./Logo";
+import DashboardSearchBar from "./DashboardSearchBar";
+import SidebarMenu from "./SidebarMenu";
+import Image from "next/image";
 
 export default function UserSidebar({
   isSidebarOpen,
@@ -22,29 +22,29 @@ export default function UserSidebar({
       h-screen overflow-y-auto
       ${
         isSidebarOpen
-          ? 'translate-x-0 lg:w-[18rem]'
-          : '-translate-x-full lg:translate-x-0 lg:w-[5rem]'
+          ? "translate-x-0 lg:w-[18rem]"
+          : "-translate-x-full lg:translate-x-0 lg:w-[5rem]"
       }
       flex flex-col
     `}
     >
-      <div className='w-full hidden relative lg:flex items-center justify-center py-4 border-b border-dashboard-border lh-header-height min-h-header-height max-h-header-height'>
+      <div className="w-full hidden relative lg:flex items-center justify-center py-4 border-b border-dashboard-border lh-header-height min-h-header-height max-h-header-height">
         <Image
-          src={'/logo_dark.png'}
-          alt='logo'
+          src={"/logo_dark.png"}
+          alt="logo"
           width={52}
           height={52}
           className={`absolute transition-all duration-300  ${
             isSidebarOpen
-              ? 'opacity-0 scale-90 translate-x-4'
-              : 'opacity-100 scale-100'
+              ? "opacity-0 scale-90 translate-x-4"
+              : "opacity-100 scale-100"
           }`}
         />
         <div
           className={`transition-all duration-300 ${
             isSidebarOpen
-              ? 'opacity-100 scale-100'
-              : 'opacity-0 scale-90 -translate-x-4'
+              ? "opacity-100 scale-100"
+              : "opacity-0 scale-90 -translate-x-4"
           }`}
         >
           <Logo />
@@ -53,10 +53,10 @@ export default function UserSidebar({
 
       <div
         className={`w-full ${
-          isSidebarOpen ? 'px-5' : 'px-0 scrollbar-hidden'
+          isSidebarOpen ? "px-5" : "px-0 scrollbar-hidden"
         }  flex flex-col gap-2 overflow-y-auto py-2.5`}
       >
-        <DashboardSearchBar display='flex py-2.5 md:hidden' />
+        <DashboardSearchBar display="flex py-2.5 md:hidden" />
         <SidebarMenu
           sidebarMenu={userSidebarMenuList}
           isSidebarOpen={isSidebarOpen}
@@ -66,4 +66,3 @@ export default function UserSidebar({
     </aside>
   );
 }
-

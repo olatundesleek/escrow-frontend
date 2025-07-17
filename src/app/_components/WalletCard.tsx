@@ -4,7 +4,7 @@ import { useCardData } from "../_hooks/useCardData";
 export const WalletCard = () => {
   const { cardData } = useCardData();
   return (
-    <section className="grid sm:grid-cols-3 gap-6 my-8">
+    <section className="grid sm:grid-cols-3 gap-6 lg:my-8 my-2">
       {cardData.map(({ label, value, icon: Icon, color }) => {
         const style = walletColorMap[color];
         return (
