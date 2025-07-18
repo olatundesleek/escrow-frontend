@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
 import { HiCheck, HiEye, HiX } from 'react-icons/hi';
@@ -18,6 +20,7 @@ interface BaseEscrow {
   _id: string;
   status: string;
   creator: string;
+  paymentStatus?: string; // Add paymentStatus to BaseEscrow if it's common
 }
 
 const columnHelper = createColumnHelper<UserEscrowItem>();
@@ -103,6 +106,11 @@ export default function UserEscrowTable({
       {
         header: 'Escrow ID',
         accessorKey: '_id',
+        cell: ({ getValue }) => (
+          <span className='font-semibold text-indigo-700'>
+            {getValue<string>()}
+          </span>
+        ),
       },
       {
         header: 'Type',
@@ -111,12 +119,13 @@ export default function UserEscrowTable({
           const escrow = row.original;
           const type = getEscrowTypeForUser(escrow, currentUserId);
 
+          // Dreamy badge styling for Escrow Type
           return (
             <span
-              className={`px-2 py-1 rounded-md text-sm font-medium ${
+              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm ${
                 type === 'buy'
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-blue-100 text-blue-700'
+                  ? 'bg-green-100 text-green-800' // Green for Buy
+                  : 'bg-blue-100 text-blue-800' // Blue for Sell
               }`}
             >
               {type}
@@ -127,41 +136,134 @@ export default function UserEscrowTable({
       {
         header: 'Category',
         accessorKey: 'category',
+        cell: ({ getValue }) => (
+          <span className='text-gray-700'>{getValue<string>()}</span>
+        ),
       },
       {
         header: 'Description',
         accessorKey: 'description',
+        cell: ({ getValue }) => (
+          <span className='text-gray-600 line-clamp-1 max-w-[200px] block'>
+            {getValue<string>()}
+          </span>
+        ), // Added line-clamp for long descriptions
       },
       {
         header: 'Amount',
         accessorKey: 'amount',
         cell: ({ getValue }) => {
           const amount = getValue<number>();
-          return amount.toLocaleString('en-NG', {
-            style: 'currency',
-            currency: 'NGN',
-            minimumFractionDigits: 2,
-          });
+          return (
+            <span className='font-medium text-gray-800 whitespace-nowrap'>
+              {amount.toLocaleString('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
+                minimumFractionDigits: 2,
+              })}
+            </span>
+          );
         },
       },
       {
         header: 'Status',
         accessorKey: 'status',
+        cell: ({ getValue }) => {
+          const status = getValue<string>();
+          let bgColor = 'bg-gray-100';
+          let textColor = 'text-gray-700';
+
+          switch (status) {
+            case 'pending':
+              bgColor = 'bg-yellow-100';
+              textColor = 'text-yellow-800';
+              break;
+            case 'active':
+              bgColor = 'bg-purple-100'; // Dreamy purple for active
+              textColor = 'text-purple-800';
+              break;
+            case 'completed':
+              bgColor = 'bg-green-100';
+              textColor = 'text-green-800';
+              break;
+            case 'cancelled':
+            case 'rejected':
+              bgColor = 'bg-red-100';
+              textColor = 'text-red-800';
+              break;
+            case 'disputed':
+              bgColor = 'bg-orange-100';
+              textColor = 'text-orange-800';
+              break;
+            default:
+              // Fallback for any unknown status
+              bgColor = 'bg-gray-100';
+              textColor = 'text-gray-700';
+          }
+
+          return (
+            <span
+              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm ${bgColor} ${textColor}`}
+            >
+              {status}
+            </span>
+          );
+        },
       },
       {
         header: 'Payment Status',
         accessorKey: 'paymentStatus',
+        cell: ({ getValue }) => {
+          const paymentStatus = getValue<string>();
+          let bgColor = 'bg-gray-100';
+          let textColor = 'text-gray-700';
+
+          switch (paymentStatus) {
+            case 'pending':
+              bgColor = 'bg-yellow-100';
+              textColor = 'text-yellow-800';
+              break;
+            case 'paid':
+              bgColor = 'bg-emerald-100'; // Vibrant green for paid
+              textColor = 'text-emerald-800';
+              break;
+            case 'refunded':
+              bgColor = 'bg-cyan-100'; // Cyan for refunded
+              textColor = 'text-cyan-800';
+              break;
+            case 'unpaid':
+              bgColor = 'bg-red-100';
+              textColor = 'text-red-800';
+              break;
+            default:
+              // Fallback for any unknown payment status
+              bgColor = 'bg-gray-100';
+              textColor = 'text-gray-700';
+          }
+
+          return (
+            <span
+              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm ${bgColor} ${textColor}`}
+            >
+              {paymentStatus}
+            </span>
+          );
+        },
       },
       {
         header: 'Date',
         accessorKey: 'createdAt',
         cell: ({ getValue }) => {
           const rawDate = getValue<number>();
-          return new Date(rawDate).toLocaleDateString('en-NG', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          });
+          return (
+            <span className='text-gray-600 whitespace-nowrap'>
+              {new Date(rawDate).toLocaleDateString('en-NG', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </span>
+          );
         },
       },
     ];
@@ -169,7 +271,7 @@ export default function UserEscrowTable({
     /*actions column*/
     const actionsColumn = columnHelper.display({
       id: 'actions',
-      header: '',
+      header: 'Action', // Capitalized for consistency
       cell: ({ row }) => <RowActionMenu actions={buildActions(row.original)} />,
     });
 
@@ -185,6 +287,8 @@ export default function UserEscrowTable({
           if (escrowToAccept) acceptEscrow({ escrowId: escrowToAccept });
         }}
         variant={'success'}
+        title='Confirm Acceptance' // Added titles for clarity
+        message='Are you sure you want to accept this escrow? This action cannot be undone.'
       />
 
       <ConfirmModal
@@ -194,6 +298,8 @@ export default function UserEscrowTable({
           if (escrowToReject) rejectEscrow({ escrowId: escrowToReject });
         }}
         variant='danger'
+        title='Confirm Rejection' // Added titles for clarity
+        message='Are you sure you want to reject this escrow? This action cannot be undone.'
       />
 
       <DataTable<UserEscrowItem>

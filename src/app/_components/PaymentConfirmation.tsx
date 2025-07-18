@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ export default function PaymentConfirmation() {
   const [status, setStatus] = useState<
     'loading' | 'success' | 'pending' | 'failed'
   >('loading');
+
   const retriesRef = useRef(0);
   const timeOutRef = useRef<NodeJS.Timeout | null>(null);
   const maxRetries = 5;
@@ -27,8 +28,7 @@ export default function PaymentConfirmation() {
       const { confirmation: data } = await res.json();
 
       if (data.status === 'success') {
-        setStatus('success');
-        const type = data?.type;
+        const type = data.transaction?.type;
 
         if (type === 'escrow_payment' || type === 'escrow') {
           const escrowId = data.escrow;
@@ -36,7 +36,7 @@ export default function PaymentConfirmation() {
         } else if (type === 'wallet_deposit') {
           router.push(`/dashboard/wallet`);
         } else {
-          setStatus('failed');
+          setStatus('success');
         }
       } else if (data.status === 'pending') {
         setStatus('pending');
@@ -78,6 +78,24 @@ export default function PaymentConfirmation() {
           <p>
             Please check your dashboard for the latest update on your payment.
           </p>
+        </div>
+      ) : status === 'success' ? (
+        <div className='text-green-600'>
+          <svg
+            className='w-16 h-16 mx-auto mb-4'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth={2}
+            viewBox='0 0 24 24'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M5 13l4 4L19 7'
+            />
+          </svg>
+          <h2 className='text-2xl font-bold mb-2'>Payment Confirmed</h2>
+          <p>Your transaction was successful! Redirecting shortly...</p>
         </div>
       ) : null}
     </div>

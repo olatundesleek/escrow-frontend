@@ -110,7 +110,6 @@ export default function UserTransactionsTable({
             Recent Transactions
           </h2>
           <Button
-            // className='text-sm text-dashboard-secondary underline hover:text-dashboard-primary'
             onClick={() => push('/dashboard/transactions')}
             style='text-sm text-dashboard-secondary'
             color='bg-transparent text-dashboard-secondary hover:font-semibold'
