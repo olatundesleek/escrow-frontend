@@ -18,7 +18,7 @@ export default function Transactions() {
   if (userTransactionsError) return toast.error(userTransactionsError.message);
 
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div className='flex flex-col items-center justify-center space-y-4'>
       <UserDashboardPageTitle />
 
       <UserTransactionsTable
