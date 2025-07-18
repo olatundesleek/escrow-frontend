@@ -33,7 +33,7 @@ export default function PaymentConfirmation() {
         if (type === 'escrow_payment' || type === 'escrow') {
           const escrowId = data.escrow;
           router.push(`/dashboard/escrows/${escrowId}`);
-        } else if (type === 'addfunds') {
+        } else if (type === 'wallet_deposit') {
           router.push(`/dashboard/wallet`);
         } else {
           setStatus('failed');

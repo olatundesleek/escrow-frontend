@@ -12,6 +12,7 @@ import useRejectEscrow from './useRejectEscrow';
 import ConfirmModal from '@/app/_components/ConfirmModal';
 import useConfirmModal from '@/app/_hooks/useConfirmModal';
 import { getEscrowTypeForUser } from '@/app/_utils/helpers';
+import { MobileCard } from '@/app/_components/MobileTable';
 
 interface BaseEscrow {
   _id: string;
@@ -195,7 +196,11 @@ export default function UserEscrowTable({
         variant='danger'
       />
 
-      <DataTable<UserEscrowItem> data={escrowData} columns={columns} />
+      <DataTable<UserEscrowItem>
+        data={escrowData}
+        columns={columns}
+        renderMobileCard={(row) => <MobileCard key={row.id} row={row} />}
+      />
     </>
   );
 }

@@ -3,7 +3,6 @@
 import toast from 'react-hot-toast';
 
 import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
-import TransactionTable from '@/app/_components/TransactionTable';
 import TransactionChart from '@/app/_components/TransactionChart';
 import FullPageLoader from '@/app/_components/FullPageLoader';
 import useUserDashboard from './useUserDashboard';
@@ -14,14 +13,23 @@ import { IoReload } from 'react-icons/io5';
 import WalletDetailsCard from '@/app/_components/WalletDetailsCard';
 import { LuPiggyBank } from 'react-icons/lu';
 import Image from 'next/image';
+import useGetUsersTransactions from '../userTransactions/useGetUsersTransactions';
+import UserTransactionsTable from '../userTransactions/UserTransactionsTable';
 
 export default function UserDashboard() {
   const { userDashboardData, isLoadindUserDashboardData, userDashboardError } =
     useUserDashboard();
+  const {
+    isLoadingUserTransactions,
+    userTransactionsError,
+    userTransactionsData,
+  } = useGetUsersTransactions({ limit: 5 });
 
-  if (isLoadindUserDashboardData) return <FullPageLoader />;
+  if (isLoadindUserDashboardData || isLoadingUserTransactions)
+    return <FullPageLoader />;
 
   if (userDashboardError) return toast.error(userDashboardError.message);
+  if (userTransactionsError) return toast.error(userTransactionsError.message);
 
   if (!userDashboardData)
     return (
@@ -203,67 +211,11 @@ export default function UserDashboard() {
       </div>
 
       <div className='w-full flex flex-col gap-4 items-center justify-between'>
+        <UserTransactionsTable
+          transactionsData={userTransactionsData?.data || []}
+          variant='dashboard'
+        />
         <TransactionChart />
-        <TransactionTable />
-      </div>
-      <div className='w-full lg:max-w-8xl mt-10'>
-        <h2 className='text-lg font-semibold mb-4 text-dashboard-secondary'>
-          Recent Escrows
-        </h2>
-        {escrows.length > 0 ? (
-          <div className='bg-white rounded-lg shadow-md overflow-x-auto'>
-            <table className='min-w-full divide-y divide-gray-200'>
-              <thead className='bg-gray-50'>
-                <tr>
-                  <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase'>
-                    Escrow Id
-                  </th>
-                  <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase'>
-                    Amount
-                  </th>
-                  <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase'>
-                    Status
-                  </th>
-                  <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase'>
-                    Created
-                  </th>
-                </tr>
-              </thead>
-              <tbody className='bg-white divide-y divide-gray-200'>
-                {escrows.slice(0, 5).map((escrow) => (
-                  <tr key={escrow._id}>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
-                      {escrow._id || 'N/A'}
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
-                      {escrow.amount || '—'}
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm'>
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          escrow.status === 'pending'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : escrow.status === 'active'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}
-                      >
-                        {escrow.status}
-                      </span>
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                      {new Date(escrow.createdAt).toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className='text-dashboard-secondary text-sm'>
-            No recent escrows yet.
-          </p>
-        )}
       </div>
     </div>
   );

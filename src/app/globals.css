@@ -94,6 +94,7 @@
 .custom-scrollbar::-webkit-scrollbar-track {
   background: var(--color-dashboard-primary);
   border-radius: 4px;
+  height: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
