@@ -1,4 +1,5 @@
 import {
+  AllTransactionsResponse,
   CreateEscrowResponse,
   PayEscrowBillResponse,
 } from "./../_types/userDashboardServicesTypes";
@@ -230,4 +231,33 @@ export async function payEscrowBillApi(payload: {
   }
 }
 
+export async function getUserTransactions(
+  query?: Record<string, string | number>,
+): Promise<AllTransactionsResponse> {
+  const params = query
+    ? `?${new URLSearchParams(query as Record<string, string>).toString()}`
+    : '';
 
+  const allTransactionsUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/transactions${params}`;
+
+  try {
+    const res = await fetch(allTransactionsUrl, {
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
