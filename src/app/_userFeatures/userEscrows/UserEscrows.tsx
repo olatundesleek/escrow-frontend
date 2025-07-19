@@ -24,7 +24,7 @@ export default function AdminEscrows() {
   if (userEscrowError) return toast.error(userEscrowError.message);
 
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div className='flex flex-col items-center justify-center space-y-4'>
       <UserDashboardPageTitle>
         <Button
           textSize='text-sm'

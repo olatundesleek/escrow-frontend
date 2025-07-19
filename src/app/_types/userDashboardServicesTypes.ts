@@ -112,3 +112,26 @@ export interface PayEscrowBillResponse {
   };
 }
 
+export interface UserTransactionItem {
+  status: string;
+  _id: string;
+  user: string;
+  escrow: string;
+  wallet: string;
+  direction: 'debit' | 'credit';
+  role: 'buyer' | 'seller';
+  type: 'escrow_payment' | 'wallet_deposit' | 'withdrawal';
+  from: string;
+  to: string;
+  reference: string;
+  amount: number;
+  gateway: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface AllTransactionsResponse {
+  success: boolean;
+  data: UserTransactionItem[];
+}
