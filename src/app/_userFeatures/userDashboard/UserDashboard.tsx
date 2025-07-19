@@ -62,6 +62,20 @@ export default function UserDashboard() {
   const pendingEscrows = escrows.filter((e) => e.status === 'pending').length;
 
   return (
+<<<<<<< HEAD
+    <div className="w-full space-y-12 pb-16 fade-in">
+      <UserDashboardPageTitle title="Dashboard" />
+
+      <section className="space-y-8  bg-gradient-to-br from-blue-50 via-gray-50 to-blue-50 rounded-2xl">
+        <WelcomeHeader user={userDashboardData.dashboardDetails.data} />
+        {/* --- Key Metrics Section --- */}
+        <section className="space-y-6 p-4 sm:p-6">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-6 text-left">
+            Escrows
+          </h2>
+          <div className="grid grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {/* --- Financial Overview Section --- */}
+=======
     <div className='w-full space-y-12 pb-16 fade-in'>
       <UserDashboardPageTitle title='Dashboard' />
       {/* Pass the entire user object directly */}
@@ -75,6 +89,7 @@ export default function UserDashboard() {
             Escrows
           </h2>
           <div className='grid grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6'>
+>>>>>>> 07e60f3c6505259442e887c29cf300f8e33853b9
             <UserDetailCard
               cardColor='bg-purple-600'
               title='Total Escrows'
