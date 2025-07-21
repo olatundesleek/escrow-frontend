@@ -1,14 +1,14 @@
-type EscrowStatus = 'pending' | 'active' | 'completed' | 'disputed';
-type PaymentStatus = 'unpaid' | 'paid' | 'pending';
-type EscrowFeePayment = 'buyer' | 'counterparty';
-type CreatorRole = 'buyer' | 'seller';
+type EscrowStatus = "pending" | "active" | "completed" | "disputed";
+type PaymentStatus = "unpaid" | "paid" | "pending";
+type EscrowFeePayment = "buyer" | "counterparty";
+type CreatorRole = "buyer" | "seller";
 
 export interface AdminEscrowCreator {
   kyc: {
-    status: 'verified' | 'unverified';
+    status: "verified" | "unverified";
   };
   isVerified: boolean;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   escrows: string[];
   disputes: [];
   transactions: [];
@@ -87,8 +87,9 @@ export interface AllEscrowsDataResponse {
 export interface FormValues {
   name: string;
   phone: string;
-  password?: string;
-  confirmPassword?: string;
+  currentPassword: string;
+  password: string;
+  confirmPassword: string;
   address: {
     address: string;
     city: string;

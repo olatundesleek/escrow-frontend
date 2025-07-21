@@ -64,3 +64,24 @@ export interface VerifyAdminResponse {
   authorized: boolean;
   message: string;
 }
+
+export interface changePasswordType {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+export interface userType {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  joined: string;
+  avatar: string;
+  address: {
+    address: string;
+    city: string;
+    country: string;
+    postalCode: string;
+  };
+}
