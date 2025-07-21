@@ -87,9 +87,9 @@ export interface AllEscrowsDataResponse {
 export interface FormValues {
   name: string;
   phone: string;
-  currentPassword?: string;
-  password?: string;
-  confirmPassword?: string;
+  currentPassword: string;
+  password: string;
+  confirmPassword: string;
   address: {
     address: string;
     city: string;

@@ -1,161 +1,40 @@
-"use client"; // This directive is for Next.js, kept for context.
+"use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image"; // Assuming Next.js Image component is available
-import { useForm } from "react-hook-form";
 import {
   FaCheckCircle,
   FaExclamationCircle,
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
-  FaCity,
-  FaFlag,
-  FaMailBulk,
   FaCalendarAlt,
 } from "react-icons/fa";
 
 import Modal from "./Modal";
 import UserDashboardPageTitle from "./UserDashboardPageTitle";
-import { type FormValues } from "../_types/dashboardServicesTypes";
 import { InputField, InfoItem, PasswordField } from "./ProfileSetting";
+import { useUserProfileForm } from "../_hooks/useUserProfileForm";
+import { FormValues } from "../_types/dashboardServicesTypes";
+import { FieldError } from "react-hook-form";
 
-type StatusType = "success" | "error" | "";
-
-export default function App() {
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "john.doe@email.com",
-    phone: "+1234567890",
-    role: "User",
-    joined: "2024-01-01",
-    avatar: "/useravartar.png", // Placeholder image
-    address: {
-      address: "123 Main Street",
-      city: "Lagos",
-      country: "Nigeria",
-      postalCode: "100001",
-    },
-  });
-
-  const [avatar, setAvatar] = useState<{ preview: string; file: File | null }>({
-    preview: user.avatar,
-    file: null,
-  });
-  const [status, setStatus] = useState<{
-    isSaving: boolean;
-    message: string;
-    type: StatusType;
-  }>({ isSaving: false, message: "", type: "" });
-  const [visibility, setVisibility] = useState({
-    currentPassword: false,
-    password: false,
-    confirm: false,
-  });
-
-  // Modal state
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState({
-    title: "",
-    message: "",
-    isConfirm: false,
-    onConfirm: () => {},
-    confirmText: "", // Added confirmText to state
-  });
-
+export default function UserProfile() {
   const {
+    user,
+    avatar,
+    userInfo,
+    inputFields,
     register,
     handleSubmit,
-    reset,
-    formState: { errors },
-    watch,
-  } = useForm<FormValues>({
-    defaultValues: {
-      name: user.name,
-      phone: user.phone,
-      currentPassword: "",
-      password: "",
-      confirmPassword: "",
-      address: user.address,
-    },
-  });
-
-  // Effect to reset form to current user data if user changes
-  useEffect(() => {
-    reset({
-      name: user.name,
-      phone: user.phone,
-      address: user.address,
-      currentPassword: "",
-      password: "",
-      confirmPassword: "",
-    });
-    setAvatar({ preview: user.avatar, file: null });
-  }, [user, reset]);
-
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith("image/")) {
-        setModalContent({
-          title: "Invalid File Type",
-          message: "Please select a valid image file (e.g., PNG, JPG).",
-          isConfirm: false,
-          onConfirm: () => setIsModalOpen(false), // Ensure modal closes
-          confirmText: "",
-        });
-        setIsModalOpen(true);
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () =>
-        setAvatar({ preview: reader.result as string, file });
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const onSubmit = (data: FormValues) => {
-    setStatus({ isSaving: true, message: "", type: "" });
-    setTimeout(() => {
-      setUser((prev) => ({ ...prev, ...data, avatar: avatar.preview }));
-      setStatus({
-        isSaving: false,
-        message: "Profile updated successfully",
-        type: "success",
-      });
-      reset({
-        ...data,
-        password: "",
-        confirmPassword: "",
-        currentPassword: "",
-      }); // Clear password fields
-      setAvatar((prev) => ({ ...prev, file: null })); // Clear file after save
-    }, 1500);
-  };
-
-  const handleReset = () => {
-    setModalContent({
-      title: "Confirm Reset",
-      message:
-        "Are you sure you want to reset your changes? All unsaved modifications will be lost.",
-      isConfirm: true,
-      onConfirm: () => {
-        reset({
-          name: user.name,
-          phone: user.phone,
-          password: "",
-          confirmPassword: "",
-          currentPassword: "",
-          address: user.address,
-        });
-        setAvatar({ preview: user.avatar, file: null });
-        setStatus({ isSaving: false, message: "", type: "" });
-        setIsModalOpen(false); // Close modal after reset
-      },
-      confirmText: "Reset", // Added specific confirm text
-    });
-    setIsModalOpen(true);
-  };
+    handleReset,
+    handleAvatarChange,
+    visibility,
+    setIsModalOpen,
+    setVisibility,
+    passwordFields,
+    isModalOpen,
+    modalContent,
+    errors,
+    onSubmit,
+    status,
+  } = useUserProfileForm();
 
   return (
     <>
@@ -200,36 +79,14 @@ export default function App() {
               <span>Joined: {user.joined}</span>
             </div>
             <div className="border-t border-gray-200 pt-6 mt-6 space-y-3 text-left w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <InfoItem
-                icon={FaEnvelope}
-                text={user.email}
-                color="text-blue-500"
-              />
-              <InfoItem
-                icon={FaPhone}
-                text={user.phone}
-                color="text-green-500"
-              />
-              <InfoItem
-                icon={FaMapMarkerAlt}
-                text={user.address.address}
-                color="text-red-500"
-              />
-              <InfoItem
-                icon={FaCity}
-                text={user.address.city}
-                color="text-blue-400"
-              />
-              <InfoItem
-                icon={FaFlag}
-                text={user.address.country}
-                color="text-yellow-600"
-              />
-              <InfoItem
-                icon={FaMailBulk}
-                text={user.address.postalCode}
-                color="text-purple-500"
-              />
+              {userInfo.map((info, index) => (
+                <InfoItem
+                  key={index}
+                  icon={info.icon}
+                  text={info.text}
+                  color={info.color}
+                />
+              ))}
             </div>
           </div>
         </aside>
@@ -241,108 +98,48 @@ export default function App() {
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <InputField
-                id="name"
-                label="Full Name"
-                register={register("name", { required: "Name is required" })}
-                error={errors.name}
-                placeholder="e.g., Jane Doe"
-              />
-              <InputField
-                id="phone"
-                label="Phone Number"
-                register={register("phone", { required: "Phone is required" })}
-                error={errors.phone}
-                placeholder="e.g., +123-456-7890"
-              />
-              <InputField
-                id="address"
-                label="Street Address"
-                register={register("address.address", {
-                  required: "Street Address is required",
-                })}
-                error={errors.address?.address}
-                placeholder="e.g., 456 Oak Ave"
-              />
-              <InputField
-                id="city"
-                label="City"
-                register={register("address.city", {
-                  required: "City is required",
-                })}
-                error={errors.address?.city}
-                placeholder="e.g., New York"
-              />
-              <InputField
-                id="country"
-                label="Country"
-                register={register("address.country", {
-                  required: "Country is required",
-                })}
-                error={errors.address?.country}
-                placeholder="e.g., USA"
-              />
-              <InputField
-                id="postalCode"
-                label="Postal Code"
-                register={register("address.postalCode", {
-                  required: "Postal Code is required",
-                })}
-                error={errors.address?.postalCode}
-                placeholder="e.g., 10001"
-              />
+              {inputFields.map((field) => {
+                const error = field.errorKey.startsWith("address.")
+                  ? errors.address?.[
+                      field.errorKey.split(
+                        "."
+                      )[1] as keyof FormValues["address"]
+                    ]
+                  : errors[field.errorKey as keyof FormValues];
+
+                return (
+                  <InputField
+                    key={field.id}
+                    id={field.id}
+                    label={field.label}
+                    register={register(field.name, field.rules)}
+                    error={error as FieldError | undefined}
+                    placeholder={field.placeholder}
+                  />
+                );
+              })}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-4 border-t border-gray-200">
-              <PasswordField
-                id="currentPassword"
-                label="Current Password"
-                register={register("currentPassword", {
-                  minLength: { value: 6, message: "Minimum 6 characters" },
-                })}
-                error={errors.currentPassword}
-                show={visibility.currentPassword}
-                toggleShow={() =>
-                  setVisibility((prev) => ({
-                    ...prev,
-                    currentPassword: !prev.currentPassword,
-                  }))
-                }
-                placeholder="Enter current password"
-              />
-              <PasswordField
-                id="password"
-                label="New Password"
-                register={register("password", {
-                  minLength: { value: 6, message: "Minimum 6 characters" },
-                })}
-                error={errors.password}
-                show={visibility.password}
-                toggleShow={() =>
-                  setVisibility((prev) => ({
-                    ...prev,
-                    password: !prev.password,
-                  }))
-                }
-                placeholder="Enter new password"
-              />
-              <PasswordField
-                id="confirmPassword"
-                label="Confirm New Password" // Changed label for clarity
-                register={register("confirmPassword", {
-                  validate: (value) =>
-                    value === watch("password") || "Passwords do not match",
-                })}
-                error={errors.confirmPassword}
-                show={visibility.confirm}
-                toggleShow={() =>
-                  setVisibility((prev) => ({
-                    ...prev,
-                    confirm: !prev.confirm,
-                  }))
-                }
-                placeholder="Confirm new password"
-              />
+              {passwordFields.map((field) => {
+                return (
+                  <PasswordField
+                    key={field.key}
+                    id={field.id}
+                    label={field.label}
+                    placeholder={field.placeholder}
+                    register={register(field.key, field.rule)}
+                    error={errors[field.key]}
+                    show={visibility[field.showKey as keyof typeof visibility]}
+                    toggleShow={() =>
+                      setVisibility((prev) => ({
+                        ...prev,
+                        [field.showKey]: !prev[field.showKey],
+                      }))
+                    }
+                  />
+                );
+              })}
             </div>
 
             {status.message && (

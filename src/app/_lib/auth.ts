@@ -10,6 +10,7 @@ import {
   ResetPasswordTypes,
   VerifyUserTokenResponse,
   VerifyAdminResponse,
+  changePasswordType,
 } from "./../_types/authTypes";
 
 // This function handles the login process by sending a POST request to the server with the user's credentials.
@@ -411,5 +412,53 @@ export const resetPassword = async ({
     const message =
       error instanceof Error ? error.message : "An unexpected error occurred";
     return { success: false, message };
+  }
+};
+
+export const changePassword = async ({
+  currentPassword,
+  newPassword,
+  confirmNewPassword,
+}: changePasswordType) => {
+  const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/change-password`;
+  try {
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        currentPassword,
+        newPassword,
+        confirmNewPassword,
+      }),
+    });
+    console.log(res);
+    if (!res.ok) {
+      const data = await res.json();
+      return {
+        success: false,
+        message: data.message || "Something went wrong",
+      };
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return {
+        success: false,
+        message: "New passwords do not match",
+      };
+    }
+
+    const data = await res.json();
+    return {
+      success: true,
+      message: data.message,
+      ...data,
+    };
+  } catch (err) {
+    console.error("password change error:", err);
+    return {
+      success: false,
+      message: "Network or server error",
+    };
   }
 };
