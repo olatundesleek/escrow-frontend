@@ -9,7 +9,7 @@ import FullPageLoader from "@/app/_components/FullPageLoader";
 import UserBalanceCard from "@/app/_components/UserBalanceCard";
 import UserDetailCard from "@/app/_components/UserDetailCard";
 import { HiOutlineCash, HiOutlineCurrencyDollar } from "react-icons/hi";
-import { IoReload } from "react-icons/io5";
+import { IoHourglassOutline } from "react-icons/io5";
 import { TbMessage2Bolt } from "react-icons/tb";
 import useGetUsersTransactions from "../userTransactions/useGetUsersTransactions";
 import UserTransactionsTable from "../userTransactions/UserTransactionsTable";
@@ -91,7 +91,9 @@ export default function UserDashboard() {
               cardColor="bg-orange-600"
               title="Pending Escrows"
               value={pendingEscrows}
-              icon={<IoReload className="animate-spin-slow text-white" />}
+              icon={
+                <IoHourglassOutline className="animate-spin-slow text-white" />
+              }
               bg="bg-white"
             />
             <UserDetailCard
