@@ -11,6 +11,10 @@ import Button from '@/app/_components/Button';
 import ButtonIcon from '@/app/_components/ButtonIcon';
 import { CreateEscrowFormInputs } from '@/app/_types/userDashboardServicesTypes';
 import useCreateEscrow from './useCreateEscrow';
+import {
+  formatCurrencyInput,
+  parseCurrencyFormatted,
+} from '@/app/_utils/helpers';
 // import {
 //   formatCurrencyInput,
 //   parseCurrencyFormatted,
@@ -232,26 +236,21 @@ export default function AddEscrowForm({
           value={amountDisplay}
           placeholder='₦0.00'
           onChange={(e) => {
-            const rawValue = e.target.value.replace(/[^\d.]/g, ''); // Only allow numbers + dot
-            setAmountDisplay(rawValue);
-            setValue('amount', parseFloat(rawValue), { shouldValidate: true });
+            const rawValue = parseCurrencyFormatted(e.target.value); // Only allow numbers + dot
+            setAmountDisplay(rawValue.toString());
+            setValue('amount', parseFloat(rawValue.toString()), {
+              shouldValidate: true,
+            });
           }}
           onBlur={() => {
             if (!amountDisplay) return;
-            const formatted = parseFloat(amountDisplay).toLocaleString(
-              'en-NG',
-              {
-                style: 'currency',
-                currency: 'NGN',
-                minimumFractionDigits: 2,
-              },
-            );
+            const formatted = formatCurrencyInput(amountDisplay);
             setAmountDisplay(formatted);
           }}
           onFocus={(e) => {
             // Remove formatting when user clicks to edit again
-            const numeric = e.target.value.replace(/₦|,/g, '');
-            setAmountDisplay(numeric);
+            const numeric = parseCurrencyFormatted(e.target.value);
+            setAmountDisplay(numeric.toString());
           }}
         />
 

@@ -1,8 +1,9 @@
 import {
   AllTransactionsResponse,
   CreateEscrowResponse,
+  DepositResponse,
   PayEscrowBillResponse,
-} from "./../_types/userDashboardServicesTypes";
+} from './../_types/userDashboardServicesTypes';
 import {
   UserDashboardDataResponse,
   AllUserEscrowsDataResponse,
@@ -11,13 +12,13 @@ import {
   AcceptEscrowResponse,
   ApiError,
   CreateEscrowFormInputs,
-} from "../_types/userDashboardServicesTypes";
+} from '../_types/userDashboardServicesTypes';
 
 export async function getUserDashboardData(): Promise<UserDashboardDataResponse> {
   const dashboardUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboard`;
   try {
     const res = await fetch(dashboardUrl, {
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -29,9 +30,9 @@ export async function getUserDashboardData(): Promise<UserDashboardDataResponse>
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     throw new Error(
-      error instanceof Error ? error.message : "Unknown error occurred"
+      error instanceof Error ? error.message : 'Unknown error occurred',
     );
   }
 }
@@ -41,7 +42,7 @@ export async function getUserAllEscrows(): Promise<AllUserEscrowsDataResponse> {
 
   try {
     const res = await fetch(allEscrowsUrl, {
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -53,20 +54,20 @@ export async function getUserAllEscrows(): Promise<AllUserEscrowsDataResponse> {
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     throw new Error(
-      error instanceof Error ? error.message : "Something went wrong!"
+      error instanceof Error ? error.message : 'Something went wrong!',
     );
   }
 }
 
 export async function getUserEscrowDetails(
-  id: string
+  id: string,
 ): Promise<UserEscrowDetailResponse> {
   const escrowDetailUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow/${id}`;
 
   try {
-    const res = await fetch(escrowDetailUrl, { credentials: "include" });
+    const res = await fetch(escrowDetailUrl, { credentials: 'include' });
 
     if (!res.ok) {
       const errorData: ApiError = await res.json();
@@ -77,9 +78,9 @@ export async function getUserEscrowDetails(
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     throw new Error(
-      error instanceof Error ? error.message : "Something went wrong"
+      error instanceof Error ? error.message : 'Something went wrong',
     );
   }
 }
@@ -93,12 +94,12 @@ export async function acceptEscrowApi({
 
   try {
     const res = await fetch(acceptEscrowUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ escrowId }),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -110,9 +111,9 @@ export async function acceptEscrowApi({
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     throw new Error(
-      error instanceof Error ? error.message : "Something went wrong"
+      error instanceof Error ? error.message : 'Something went wrong',
     );
   }
 }
@@ -126,12 +127,12 @@ export async function rejectEscrowApi({
 
   try {
     const res = await fetch(rejectEscrowUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ escrowId }),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -143,15 +144,15 @@ export async function rejectEscrowApi({
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     throw new Error(
-      error instanceof Error ? error.message : "Something went wrong"
+      error instanceof Error ? error.message : 'Something went wrong',
     );
   }
 }
 
 export async function createEscrowApi(
-  data: CreateEscrowFormInputs
+  data: CreateEscrowFormInputs,
 ): Promise<CreateEscrowResponse> {
   const createEscrowUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow`;
 
@@ -167,9 +168,9 @@ export async function createEscrowApi(
 
   try {
     const res = await fetch(createEscrowUrl, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         creatorRole,
         counterpartyEmail,
@@ -189,29 +190,29 @@ export async function createEscrowApi(
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     throw new Error(
-      error instanceof Error ? error.message : "Something went wrong!"
+      error instanceof Error ? error.message : 'Something went wrong!',
     );
   }
 }
 
 export async function payEscrowBillApi(payload: {
   escrowId: string;
-  method: "wallet" | "gateway";
+  method: 'wallet' | 'gateway';
 }): Promise<PayEscrowBillResponse> {
   const payEscrowBillUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/pay`;
 
   const { escrowId, method: userMethod } = payload;
 
-  const method = userMethod === "wallet" ? "wallet" : "paymentgateway";
+  const method = userMethod === 'wallet' ? 'wallet' : 'paymentgateway';
 
   try {
     const res = await fetch(payEscrowBillUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ escrowId, method }),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -223,10 +224,10 @@ export async function payEscrowBillApi(payload: {
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
 
     throw new Error(
-      error instanceof Error ? error.message : "Something went wrong"
+      error instanceof Error ? error.message : 'Something went wrong',
     );
   }
 }
@@ -256,6 +257,37 @@ export async function getUserTransactions(
   } catch (error) {
     console.error('Error:', error);
 
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function depositApi(payload: {
+  amount: number;
+}): Promise<DepositResponse> {
+  const depositUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/wallet/add-funds`;
+
+  try {
+    const res = await fetch(depositUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
     throw new Error(
       error instanceof Error ? error.message : 'Something went wrong',
     );

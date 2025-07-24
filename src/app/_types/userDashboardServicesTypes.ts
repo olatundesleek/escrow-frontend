@@ -112,17 +112,14 @@ export interface PayEscrowBillResponse {
   };
 }
 
-export interface UserTransactionItem {
+export interface BaseTransaction {
   status: string;
   _id: string;
   user: string;
-  escrow: string;
   wallet: string;
   direction: 'debit' | 'credit';
-  role: 'buyer' | 'seller';
   type: 'escrow_payment' | 'wallet_deposit' | 'withdrawal';
   from: string;
-  to: string;
   reference: string;
   amount: number;
   gateway: string;
@@ -131,7 +128,31 @@ export interface UserTransactionItem {
   __v: number;
 }
 
+export interface UserTransactionItem extends BaseTransaction {
+  escrow: string;
+  role: 'buyer' | 'seller';
+  to: string;
+}
+
 export interface AllTransactionsResponse {
   success: boolean;
   data: UserTransactionItem[];
+}
+
+export interface DepositResponse {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  addFundsResponse: {
+    transaction: BaseTransaction;
+    payment: {
+      status: boolean;
+      message: string;
+      data: {
+        authorization_url: string;
+        access_code: string;
+        reference: string;
+      };
+    };
+  };
 }
