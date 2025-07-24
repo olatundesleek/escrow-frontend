@@ -19,16 +19,16 @@ export default function UserWalletDetailsCard({ wallet }: props) {
       <WalletDetailsCard
         title="Total Balance"
         value={wallet.balance || 0}
-        color={"text-green-800"}
-        bg="bg-green-50 text-green-800 border-green-200"
-        icon={<TbWallet className="text-green-600" />}
+        color={"text-blue-800"}
+        bg="bg-blue-50 text-blue-800 border-blue-200"
+        icon={<TbWallet className="text-blue-600" />}
       />
       <WalletDetailsCard
         title="Available Balance"
         value={wallet.balance - wallet.locked || 0}
-        color={"text-blue-800"}
-        bg="bg-blue-50 text-blue-800 border-blue-200"
-        icon={<LuPiggyBank className="text-blue-600" />}
+        color={"text-green-800"}
+        bg="bg-green-50 text-green-800 border-green-200"
+        icon={<LuPiggyBank className="text-green-600" />}
       />
       <WalletDetailsCard
         title="Locked Balance"

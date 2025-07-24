@@ -2,37 +2,36 @@
 
 import React from "react";
 import Image from "next/image"; // Assuming Next.js Image component is available
-import {
-  FaCheckCircle,
-  FaExclamationCircle,
-  FaCalendarAlt,
-} from "react-icons/fa";
-
+import { FaCalendarAlt } from "react-icons/fa";
 import Modal from "./Modal";
 import UserDashboardPageTitle from "./UserDashboardPageTitle";
 import { InputField, InfoItem, PasswordField } from "./ProfileSetting";
 import { useUserProfileForm } from "../_hooks/useUserProfileForm";
 import { FormValues } from "../_types/dashboardServicesTypes";
-import { FieldError } from "react-hook-form";
 
 export default function UserProfile() {
   const {
     user,
-    avatar,
     userInfo,
+    avatar,
     inputFields,
-    register,
-    handleSubmit,
-    handleReset,
-    handleAvatarChange,
-    visibility,
-    setIsModalOpen,
-    setVisibility,
     passwordFields,
+    registerProfile,
+    handleProfileSubmit,
+    profileErrors,
+    registerPassword,
+    handlePasswordSubmit,
+    passwordErrors,
+    handleAvatarChange,
+    handleChangePassword,
+    onUpdateProfile,
+    handleReset,
+    visibility,
+    setVisibility,
     isModalOpen,
+    setIsModalOpen,
     modalContent,
-    errors,
-    onSubmit,
+    isUpdating,
     status,
   } = useUserProfileForm();
 
@@ -96,76 +95,36 @@ export default function UserProfile() {
           <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800">
             Edit Profile
           </h2>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Profile Update Form */}
+          <form
+            onSubmit={handleProfileSubmit(onUpdateProfile)}
+            className="space-y-6"
+          >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {inputFields.map((field) => {
-                const error = field.errorKey.startsWith("address.")
-                  ? errors.address?.[
-                      field.errorKey.split(
-                        "."
-                      )[1] as keyof FormValues["address"]
-                    ]
-                  : errors[field.errorKey as keyof FormValues];
-
+                const error = profileErrors[field.name as keyof FormValues];
                 return (
                   <InputField
-                    key={field.id}
-                    id={field.id}
+                    key={field.name}
+                    id={field.name}
                     label={field.label}
-                    register={register(field.name, field.rules)}
-                    error={error as FieldError | undefined}
+                    register={registerProfile(
+                      field.name as keyof FormValues,
+                      field.rules
+                    )}
+                    error={error}
                     placeholder={field.placeholder}
                   />
                 );
               })}
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-4 border-t border-gray-200">
-              {passwordFields.map((field) => {
-                return (
-                  <PasswordField
-                    key={field.key}
-                    id={field.id}
-                    label={field.label}
-                    placeholder={field.placeholder}
-                    register={register(field.key, field.rule)}
-                    error={errors[field.key]}
-                    show={visibility[field.showKey as keyof typeof visibility]}
-                    toggleShow={() =>
-                      setVisibility((prev) => ({
-                        ...prev,
-                        [field.showKey]: !prev[field.showKey],
-                      }))
-                    }
-                  />
-                );
-              })}
-            </div>
-
-            {status.message && (
-              <div
-                className={`flex items-center gap-2 text-sm p-3 rounded-md font-medium ${
-                  status.type === "success"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-red-100 text-red-700"
-                }`}
-              >
-                {status.type === "success" ? (
-                  <FaCheckCircle className="text-lg" />
-                ) : (
-                  <FaExclamationCircle className="text-lg" />
-                )}{" "}
-                {status.message}
-              </div>
-            )}
 
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button
-                type="submit"
-                disabled={status.isSaving}
+                disabled={isUpdating}
                 className="flex-1 sm:flex-none bg-[#5f27cd] text-white px-6 py-3 rounded-lg hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-semibold shadow-md transform hover:scale-[1.02]"
               >
-                {status.isSaving ? "Saving..." : "Save Changes"}
+                {isUpdating ? "Saving..." : "Update Profile"}
               </button>
               <button
                 type="button"
@@ -175,6 +134,40 @@ export default function UserProfile() {
                 Reset
               </button>
             </div>
+          </form>
+
+          {/* Password Change Form */}
+          <form
+            onSubmit={handlePasswordSubmit(handleChangePassword)}
+            className="space-y-6 mt-10 pt-6 border-t border-gray-200"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              {passwordFields.map((field) => (
+                <PasswordField
+                  key={field.name}
+                  id={field.name}
+                  label={field.label}
+                  placeholder={field.placeholder}
+                  register={registerPassword(field.name, field.rules)}
+                  error={passwordErrors[field.name]}
+                  show={visibility[field.name as keyof typeof visibility]}
+                  toggleShow={() =>
+                    setVisibility((prev) => ({
+                      ...prev,
+                      [field.name]: !prev[field.name as keyof typeof prev],
+                    }))
+                  }
+                />
+              ))}
+            </div>
+
+            <button
+              type="submit"
+              disabled={status.isSaving}
+              className="w-full bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-semibold shadow-md transform hover:scale-[1.02]"
+            >
+              {status.isSaving ? "Changing..." : "Change Password"}
+            </button>
           </form>
         </main>
       </div>

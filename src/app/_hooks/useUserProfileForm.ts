@@ -10,6 +10,7 @@ import {
   FaFlag,
   FaMailBulk,
 } from "react-icons/fa";
+import toast from "react-hot-toast";
 // import { getUserProfile } from "../_lib/userProfile";
 
 type StatusType = "success" | "error" | "";
@@ -22,12 +23,10 @@ export const useUserProfileForm = () => {
     role: "User",
     joined: "2024-01-01",
     avatar: "/useravartar.png", // Placeholder image
-    address: {
-      address: "123 Main Street",
-      city: "Lagos",
-      country: "Nigeria",
-      postalCode: "100001",
-    },
+    address: "123 Main Street",
+    city: "Lagos",
+    country: "Nigeria",
+    postalCode: "100001",
   });
 
   // const fetchUser = async () => {
@@ -62,6 +61,8 @@ export const useUserProfileForm = () => {
     confirm: false,
   });
 
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const passwordRules = {
     minLength: { value: 6, message: "Minimum 6 characters" },
   };
@@ -75,35 +76,60 @@ export const useUserProfileForm = () => {
     confirmText: "", // Added confirmText to state
   });
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-    watch,
-  } = useForm<FormValues>({
+  // For profile data
+  const profileForm = useForm<FormValues>({
     defaultValues: {
       name: user.name,
       phone: user.phone,
-      currentPassword: "",
-      password: "",
-      confirmPassword: "",
       address: user.address,
+      city: user.city,
+      country: user.country,
+      postalCode: user.postalCode,
     },
   });
 
+  // For password change
+  const passwordForm = useForm<FormValues>({
+    defaultValues: {
+      currentPassword: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const {
+    register: registerProfile,
+    handleSubmit: handleProfileSubmit,
+    reset: resetProfile,
+    formState: { errors: profileErrors },
+  } = profileForm;
+
+  const {
+    register: registerPassword,
+    handleSubmit: handlePasswordSubmit,
+    reset: resetPassword,
+    formState: { errors: passwordErrors },
+    watch,
+  } = passwordForm;
+
   // Effect to reset form to current user data if user changes
   useEffect(() => {
-    reset({
+    resetProfile({
       name: user.name,
       phone: user.phone,
       address: user.address,
+      city: user.city,
+      country: user.country,
+      postalCode: user.postalCode,
+    });
+    resetPassword({
       currentPassword: "",
       password: "",
       confirmPassword: "",
     });
+
     setAvatar({ preview: user.avatar, file: null });
-  }, [user, reset]);
+  }, [user, resetProfile, resetPassword]);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -138,10 +164,9 @@ export const useUserProfileForm = () => {
     }
   };
 
-  const onSubmit = async (data: FormValues) => {
-    setStatus({ isSaving: true, message: "", type: "" });
-
+  const handleChangePassword = async (data: FormValues) => {
     if (data.currentPassword || data.password || data.confirmPassword) {
+      setStatus({ isSaving: true, message: "", type: "" });
       if (data.password !== data.confirmPassword) {
         setStatus({
           isSaving: false,
@@ -156,23 +181,36 @@ export const useUserProfileForm = () => {
         newPassword: data.password,
         confirmNewPassword: data.confirmPassword,
       });
-
+      console.log(result);
       if (!result.success) {
         setStatus({ isSaving: false, message: result.message, type: "error" });
+        toast.error(result.message);
         return;
       }
-    }
 
-    // Continue with profile update
-    setTimeout(() => {
-      setUser((prev) => ({ ...prev, ...data, avatar: avatar.preview }));
+      toast.success(result.message);
       setStatus({
         isSaving: false,
-        message: "Profile updated successfully",
+        message: "Password changed successfully.",
         type: "success",
       });
 
-      reset({
+      resetPassword({
+        ...watch(),
+        currentPassword: "",
+        password: "",
+        confirmPassword: "",
+      });
+    }
+  };
+  const onUpdateProfile = (data: FormValues) => {
+    setIsUpdating(true);
+
+    // Simulate API delay
+    setTimeout(() => {
+      setUser((prev) => ({ ...prev, ...data, avatar: avatar.preview }));
+
+      resetProfile({
         ...data,
         password: "",
         confirmPassword: "",
@@ -180,7 +218,8 @@ export const useUserProfileForm = () => {
       });
 
       setAvatar((prev) => ({ ...prev, file: null }));
-    }, 1000);
+      setIsUpdating(false);
+    }, 2000); // 2 seconds
   };
 
   const handleReset = () => {
@@ -190,14 +229,20 @@ export const useUserProfileForm = () => {
         "Are you sure you want to reset your changes? All unsaved modifications will be lost.",
       isConfirm: true,
       onConfirm: () => {
-        reset({
+        resetProfile({
           name: user.name,
           phone: user.phone,
+          address: user.address,
+          city: user.city,
+          country: user.country,
+          postalCode: user.postalCode,
+        });
+        resetPassword({
+          currentPassword: "",
           password: "",
           confirmPassword: "",
-          currentPassword: "",
-          address: user.address,
         });
+
         setAvatar({ preview: user.avatar, file: null });
         setStatus({ isSaving: false, message: "", type: "" });
         setIsModalOpen(false); // Close modal after reset
@@ -209,94 +254,76 @@ export const useUserProfileForm = () => {
 
   const passwordFields = [
     {
-      id: "currentPassword",
+      name: "currentPassword",
       label: "Current Password",
       placeholder: "Enter current password",
-      rule: passwordRules,
-      key: "currentPassword",
-      showKey: "currentPassword",
+      rules: passwordRules,
     },
     {
-      id: "password",
+      name: "password",
       label: "New Password",
       placeholder: "Enter new password",
-      rule: passwordRules,
-      key: "password",
-      showKey: "password",
+      rules: passwordRules,
     },
     {
-      id: "confirmPassword",
+      name: "confirmPassword",
       label: "Confirm New Password",
       placeholder: "Confirm new password",
-      rule: {
+      rules: {
         validate: (value: string) =>
           value === watch("password") || "Passwords do not match",
       },
-      key: "confirmPassword",
-      showKey: "confirm",
     },
   ] as const;
 
   const inputFields = [
     {
-      id: "name",
-      label: "Full Name",
       name: "name",
-      errorKey: user.name,
+      label: "Full Name",
       placeholder: "e.g., Jane Doe",
       rules: { required: "Name is required" },
     },
     {
-      id: "phone",
-      label: "Phone Number",
       name: "phone",
-      errorKey: user.phone,
+      label: "Phone Number",
       placeholder: "e.g., +123-456-7890",
       rules: { required: "Phone is required" },
     },
     {
-      id: "address",
+      name: "address",
       label: "Street Address",
-      name: "address.address",
-      errorKey: user.address.address,
       placeholder: "e.g., 456 Oak Ave",
       rules: { required: "Street Address is required" },
     },
     {
-      id: "city",
+      name: "city",
       label: "City",
-      name: "address.city",
-      errorKey: user.address.city,
       placeholder: "e.g., New York",
       rules: { required: "City is required" },
     },
     {
-      id: "country",
+      name: "country",
       label: "Country",
-      name: "address.country",
-      errorKey: user.address.country,
       placeholder: "e.g., USA",
       rules: { required: "Country is required" },
     },
     {
-      id: "postalCode",
+      name: "postalCode",
       label: "Postal Code",
-      name: "address.postalCode",
-      errorKey: user.address.postalCode,
       placeholder: "e.g., 10001",
       rules: { required: "Postal Code is required" },
     },
-  ] as const;
+  ];
 
   const userInfo = [
     { icon: FaEnvelope, text: user.email, color: "text-blue-500" },
     { icon: FaPhone, text: user.phone, color: "text-green-500" },
-    { icon: FaMapMarkerAlt, text: user.address.address, color: "text-red-500" },
-    { icon: FaCity, text: user.address.city, color: "text-blue-400" },
-    { icon: FaFlag, text: user.address.country, color: "text-yellow-600" },
+    { icon: FaMapMarkerAlt, text: user.address, color: "text-red-500" },
+    { icon: FaCity, text: user.city, color: "text-blue-400" },
+    { icon: FaFlag, text: user.country, color: "text-yellow-600" },
     {
       icon: FaMailBulk,
-      text: user.address.postalCode,
+      text: user.postalCode,
       color: "text-purple-500",
     },
   ];
@@ -304,20 +331,32 @@ export const useUserProfileForm = () => {
   return {
     user,
     userInfo,
-    inputFields,
     avatar,
-    register,
-    handleSubmit,
-    handleReset,
-    handleAvatarChange,
-    visibility,
-    setIsModalOpen,
-    setVisibility,
+    inputFields,
     passwordFields,
+
+    registerProfile,
+    handleProfileSubmit,
+    resetProfile,
+    profileErrors,
+
+    registerPassword,
+    handlePasswordSubmit,
+    resetPassword,
+    passwordErrors,
+    watch,
+
+    handleAvatarChange,
+    handleChangePassword,
+    onUpdateProfile,
+    handleReset,
+
+    visibility,
+    setVisibility,
     isModalOpen,
+    setIsModalOpen,
     modalContent,
-    errors,
-    onSubmit,
+    isUpdating,
     status,
   };
 };
