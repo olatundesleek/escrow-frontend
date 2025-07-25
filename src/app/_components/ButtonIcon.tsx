@@ -37,7 +37,7 @@ export default function ButtonIcon({
         {children}
         {toolTip && (
           <div
-            className={`absolute -bottom-7 ${tipPosition} hidden group-hover:block text-xs bg-dashboard-secondary text-white px-2 py-1 rounded shadow-md font-black z-50`}
+            className={`absolute -bottom-7 ${tipPosition} hidden lg:group-hover:block text-xs bg-dashboard-secondary text-white px-2 py-1 rounded shadow-md font-black z-50`}
           >
             {toolTip}
           </div>

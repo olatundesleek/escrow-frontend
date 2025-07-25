@@ -59,8 +59,8 @@ export function pickActiveHref(menu: SidebarMenuItem[], current: string) {
 }
 
 export const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
-    value
+  new Intl.NumberFormat('en', { style: 'currency', currency: 'NGN' }).format(
+    value,
   );
 
 export function formatCurrencyInput(value: string): string {
