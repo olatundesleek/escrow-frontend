@@ -34,7 +34,7 @@ export default function WelcomeHeader({ user }: { user: userData }) {
         {/* Welcome Message Section */}
         <div className="space-y-3">
           <div className="flex items-center gap-4">
-            <h1 className="sm:text-4xl text-2xl font-extrabold tracking-tight text-gray-900">
+            <h1 className="sm:text-3xl text-xl font-extrabold tracking-tight text-gray-900">
               Welcome back, {firstname}
             </h1>
             <span

@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import toast from "react-hot-toast";
-import useUserDashboard from "./useUserDashboard";
-import UserDashboardPageTitle from "@/app/_components/UserDashboardPageTitle";
-import WelcomeHeader from "@/app/_components/WelcomeHeader";
-import TransactionChart from "@/app/_components/TransactionChart";
-import FullPageLoader from "@/app/_components/FullPageLoader";
-import UserBalanceCard from "@/app/_components/UserBalanceCard";
-import UserDetailCard from "@/app/_components/UserDetailCard";
-import { HiOutlineCash, HiOutlineCurrencyDollar } from "react-icons/hi";
-import { IoReload } from "react-icons/io5";
-import { TbMessage2Bolt } from "react-icons/tb";
-import useGetUsersTransactions from "../userTransactions/useGetUsersTransactions";
-import UserTransactionsTable from "../userTransactions/UserTransactionsTable";
+import toast from 'react-hot-toast';
+import useUserDashboard from './useUserDashboard';
+import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
+import WelcomeHeader from '@/app/_components/WelcomeHeader';
+import TransactionChart from '@/app/_components/TransactionChart';
+import FullPageLoader from '@/app/_components/FullPageLoader';
+import UserBalanceCard from '@/app/_components/UserBalanceCard';
+import UserDetailCard from '@/app/_components/UserDetailCard';
+import { HiOutlineCash, HiOutlineCurrencyDollar } from 'react-icons/hi';
+import { IoHourglassOutline } from 'react-icons/io5';
+import { TbMessage2Bolt } from 'react-icons/tb';
+import useGetUsersTransactions from '../userTransactions/useGetUsersTransactions';
+import UserTransactionsTable from '../userTransactions/UserTransactionsTable';
 import Modal from '@/app/_components/Modal';
 import { useState } from 'react';
 import Deposit from '../userWalletManagement/Deposit';
@@ -123,9 +123,10 @@ export default function UserDashboard() {
               cardColor='bg-orange-600'
               title='Pending Escrows'
               value={pendingEscrows}
-              icon={<IoReload className='animate-spin-slow text-white' />}
+              icon={
+                <IoHourglassOutline className='animate-spin-slow text-white' />
+              }
               bg='bg-white'
-              onClick={() => push('/dashboard/escrows?status=pending')}
             />
             <UserDetailCard
               cardColor='bg-blue-600'

@@ -90,10 +90,8 @@ export interface FormValues {
   currentPassword: string;
   password: string;
   confirmPassword: string;
-  address: {
-    address: string;
-    city: string;
-    country: string;
-    postalCode: string;
-  };
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
 }
