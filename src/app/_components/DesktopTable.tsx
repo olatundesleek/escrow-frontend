@@ -31,21 +31,32 @@ export default function DesktopTable<TData>({
       </thead>
       {/* Table Body: Retaining dreamy hover and border styles */}
       <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr
-            key={row.id}
-            className='border-b border-gray-100 hover:bg-blue-50 transition-colors capitalize'
-          >
-            {row.getVisibleCells().map((cell) => (
-              <td
-                key={cell.id}
-                className='px-6 py-4 text-gray-700 whitespace-nowrap'
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
+        {table.getRowModel().rows.length > 0 ? (
+          table.getRowModel().rows.map((row) => (
+            <tr
+              key={row.id}
+              className='border-b border-gray-100 hover:bg-blue-50 transition-colors capitalize'
+            >
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  key={cell.id}
+                  className='px-6 py-4 text-gray-700 whitespace-nowrap'
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td
+              colSpan={table.getVisibleFlatColumns().length}
+              className='text-center py-6 text-gray-500'
+            >
+              No data found
+            </td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
     // </div>

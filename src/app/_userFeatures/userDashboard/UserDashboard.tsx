@@ -16,8 +16,10 @@ import UserTransactionsTable from "../userTransactions/UserTransactionsTable";
 import Modal from '@/app/_components/Modal';
 import { useState } from 'react';
 import Deposit from '../userWalletManagement/Deposit';
+import { useRouter } from 'next/navigation';
 
 export default function UserDashboard() {
+  const { push } = useRouter();
   const { userDashboardData, isLoadindUserDashboardData, userDashboardError } =
     useUserDashboard();
 
@@ -107,13 +109,15 @@ export default function UserDashboard() {
               value={escrows.length}
               icon={<HiOutlineCash className='text-white' />}
               bg='bg-white'
+              onClick={() => push('/dashboard/escrows')}
             />
             <UserDetailCard
               cardColor='bg-green-600'
-              title='Total Transactions'
+              title='Completed Escrows'
               value={transactions.length}
               icon={<HiOutlineCurrencyDollar className='text-white' />}
               bg='bg-white'
+              onClick={() => push('/dashboard/escrows?status=completed')}
             />
             <UserDetailCard
               cardColor='bg-orange-600'
@@ -121,6 +125,7 @@ export default function UserDashboard() {
               value={pendingEscrows}
               icon={<IoReload className='animate-spin-slow text-white' />}
               bg='bg-white'
+              onClick={() => push('/dashboard/escrows?status=pending')}
             />
             <UserDetailCard
               cardColor='bg-blue-600'
@@ -128,6 +133,7 @@ export default function UserDashboard() {
               value={disputes.length}
               icon={<TbMessage2Bolt className='text-white' />}
               bg='bg-white'
+              onClick={() => push('/dashboard/escrows?status=disputed')}
             />
           </div>
         </section>

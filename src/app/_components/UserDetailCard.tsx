@@ -6,6 +6,7 @@ export interface UserDetailCardProps {
   value: number;
   icon: React.ReactNode;
   bg: string; // Tailwind bg utility
+  onClick?: () => void;
 }
 // UserDetailCard component - now self-contained for the immersive
 export default function UserDetailCard({
@@ -14,21 +15,23 @@ export default function UserDetailCard({
   value,
   icon,
   bg,
+  onClick,
 }: UserDetailCardProps) {
   return (
     <div
-      className={`relative flex items-center justify-between p-4 rounded-2xl shadow-md ${bg} transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg`}
+      className={`relative flex items-center justify-between p-4 rounded-2xl shadow-md ${bg} transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer`}
+      onClick={onClick}
     >
-      <div className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-2 sm:space-y-0 w-full">
+      <div className='flex flex-col sm:flex-row items-center sm:space-x-4 space-y-2 sm:space-y-0 w-full'>
         {/* Icon container with background color and opacity */}
         <div
           className={`p-3 rounded-full ${cardColor} bg-opacity-20 flex-shrink-0`}
         >
           {icon}
         </div>
-        <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">
+        <div className='flex flex-col items-center sm:items-start text-center sm:text-left'>
+          <p className='text-sm font-medium text-gray-600'>{title}</p>
+          <p className='text-2xl font-bold text-gray-900'>
             {value.toLocaleString()}
           </p>
         </div>

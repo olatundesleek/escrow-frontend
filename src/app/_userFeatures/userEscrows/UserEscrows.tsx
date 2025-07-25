@@ -9,11 +9,14 @@ import Button from '@/app/_components/Button';
 import Modal from '@/app/_components/Modal';
 import { useState } from 'react';
 import AddEscrowForm from './AddEscrowForm';
+import { useSearchParams } from 'next/navigation';
 
 export default function AdminEscrows() {
+  const searchParams = useSearchParams();
+  const queryObject = Object.fromEntries(searchParams.entries());
   const [isAddEscrowFormOpen, setIsAddEscrowFormOpen] = useState(false);
   const { isUserEscrowLoading, userEscrowError, allUserEscrows } =
-    useUserEscrows();
+    useUserEscrows(queryObject);
 
   const handleCloseForm = function () {
     setIsAddEscrowFormOpen(false);

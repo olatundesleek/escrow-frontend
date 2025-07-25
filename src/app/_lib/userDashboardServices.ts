@@ -37,8 +37,14 @@ export async function getUserDashboardData(): Promise<UserDashboardDataResponse>
   }
 }
 
-export async function getUserAllEscrows(): Promise<AllUserEscrowsDataResponse> {
-  const allEscrowsUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow`;
+export async function getUserAllEscrows(
+  query?: Record<string, string | number>,
+): Promise<AllUserEscrowsDataResponse> {
+  const params = query
+    ? `?${new URLSearchParams(query as Record<string, string>).toString()}`
+    : '';
+
+  const allEscrowsUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow${params}`;
 
   try {
     const res = await fetch(allEscrowsUrl, {
