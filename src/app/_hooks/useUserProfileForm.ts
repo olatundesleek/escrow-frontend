@@ -11,40 +11,44 @@ import {
   FaMailBulk,
 } from "react-icons/fa";
 import toast from "react-hot-toast";
-// import { getUserProfile } from "../_lib/userProfile";
+import { getUserProfile } from "../_lib/userProfile";
+import { initialUserType } from "../_types/userDashboardServicesTypes";
+import { intialUserData } from "../_constants/user";
 
 type StatusType = "success" | "error" | "";
 
 export const useUserProfileForm = () => {
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "john.doe@email.com",
-    phone: "+1234567890",
-    role: "User",
-    joined: "2024-01-01",
-    avatar: "/useravartar.png", // Placeholder image
-    address: "123 Main Street",
-    city: "Lagos",
-    country: "Nigeria",
-    postalCode: "100001",
-  });
+  const [user, setUser] = useState<initialUserType>(intialUserData);
 
-  // const fetchUser = async () => {
-  //   try {
-  //     const user = await getUserProfile();
-  //     if (!user.success) {
-  //       return;
-  //     }
-  //     console.log(user);
-  //     setUser({ ...user });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const fetchUser = async () => {
+    try {
+      const currentuser = await getUserProfile();
+      if (!currentuser.success) {
+        return;
+      }
 
-  // useEffect(() => {
-  //   fetchUser();
-  // }, []);
+      const userdata: initialUserType = {
+        name: currentuser.user.data.username || "John Doe",
+        email: currentuser.user.data.email || "john.doe@email.com",
+        phone: currentuser.user.data.phone || "+1234567890",
+        role: currentuser.user.data.role || "User",
+        joined: currentuser.user.data.joined || "2024-01-01",
+        avatar: currentuser.user.data.photo || "/useravartar.png",
+        address: currentuser.user.data.address || "123 Main Street",
+        city: currentuser.user.data.city || "Lagos",
+        country: currentuser.user.data.country || "Nigeria",
+        postalCode: currentuser.user.data.postalCode || "100001",
+      };
+      console.log(currentuser);
+      setUser(userdata);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const [avatar, setAvatar] = useState<{ preview: string; file: File | null }>({
     preview: user.avatar,
