@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
-import UserEscrowTable from './UserEscrowTable';
-import useUserEscrows from './useUserEscrows';
-import FullPageLoader from '@/app/_components/FullPageLoader';
-import toast from 'react-hot-toast';
-import Button from '@/app/_components/Button';
-import Modal from '@/app/_components/Modal';
-import { useState } from 'react';
-import AddEscrowForm from './AddEscrowForm';
-import { useSearchParams } from 'next/navigation';
+import UserDashboardPageTitle from "@/app/_components/UserDashboardPageTitle";
+import UserEscrowTable from "./UserEscrowTable";
+import useUserEscrows from "./useUserEscrows";
+import FullPageLoader from "@/app/_components/FullPageLoader";
+import toast from "react-hot-toast";
+import Button from "@/app/_components/Button";
+import Modal from "@/app/_components/Modal";
+import { useState } from "react";
+import AddEscrowForm from "./AddEscrowForm";
+import { useSearchParams } from "next/navigation";
 
 export default function AdminEscrows() {
   const searchParams = useSearchParams();
@@ -27,11 +27,11 @@ export default function AdminEscrows() {
   if (userEscrowError) return toast.error(userEscrowError.message);
 
   return (
-    <div className='flex flex-col items-center justify-center space-y-4'>
+    <div className="flex flex-col items-center justify-center space-y-4">
       <UserDashboardPageTitle>
         <Button
-          textSize='text-sm'
-          color='bg-dashboard-secondary text-dashboard-primary'
+          textSize="text-sm"
+          color="bg-dashboard-secondary text-dashboard-primary"
           onClick={() => setIsAddEscrowFormOpen(true)}
         >
           Create Escrow
@@ -40,7 +40,7 @@ export default function AdminEscrows() {
       <Modal
         isOpen={isAddEscrowFormOpen}
         onClose={handleCloseForm}
-        title='Create Escrow'
+        title="Create Escrow"
       >
         <AddEscrowForm handleCloseForm={handleCloseForm} />
       </Modal>
