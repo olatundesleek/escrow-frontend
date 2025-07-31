@@ -8,6 +8,7 @@ import AppToaster from "./_components/AppToaster";
 // import Head from "next/head";
 
 const roboto = Roboto({
+  weight: "400",
   subsets: ["latin"],
 });
 
