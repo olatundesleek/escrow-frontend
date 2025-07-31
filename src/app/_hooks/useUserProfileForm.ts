@@ -39,7 +39,7 @@ export const useUserProfileForm = () => {
         country: currentuser.user.data.country || "Nigeria",
         postalCode: currentuser.user.data.postalCode || "100001",
       };
-      console.log(currentuser);
+      // console.log(currentuser);
       setUser(userdata);
     } catch (err) {
       console.log(err);

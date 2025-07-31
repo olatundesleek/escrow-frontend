@@ -1,10 +1,15 @@
 import "./globals.css";
 import { ReactNode } from "react";
 import { Lexend } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { SiteSettingProvider } from "./_context/SiteSettingContext";
 import { StickyContextProvider } from "./_context/StickyContext";
 import AppToaster from "./_components/AppToaster";
 // import Head from "next/head";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+});
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -23,7 +28,7 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="en" className={lexend.className}>
+    <html lang="en" className={`${lexend.className} ${roboto.className}`}>
       {/* <Head>
         <link
           href='https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap'
