@@ -2,6 +2,7 @@ type UserEscrowStatus = 'pending' | 'active' | 'rejected' | 'disputed';
 type UserPaymentStatus = 'unpaid' | 'paid' | 'pending';
 type UserEscrowFeePayment = 'buyer' | 'counterparty';
 type UserCreatorRole = 'buyer' | 'seller';
+type DisputeStatus = 'pending' | 'resolved';
 
 export interface UserEscrowItem {
   terms: string[];
@@ -154,5 +155,20 @@ export interface DepositResponse {
         reference: string;
       };
     };
+  };
+}
+
+export interface completeTradeResponse {
+  success: boolean;
+  message: string;
+  escrow: UserEscrowItem;
+}
+
+export interface DisputeResponse {
+  success: boolean;
+  message: string;
+  dispute: {
+    id: string;
+    status: DisputeStatus;
   };
 }

@@ -21,15 +21,21 @@ import UserEscrowPaymentStatus from './UserEscrowPaymentStatus';
 import { getEscrowTypeForUser } from '@/app/_utils/helpers';
 import Modal from '@/app/_components/Modal';
 import UserPaymentForm from './UserPaymentForm';
+import UserEscrowType from './UserEscrowType';
+import CreateDisputeForm from './CreateDisputeForm';
 
 export default function UserEscrowDetail() {
   const {
     currentUserData: { id: currentUserId },
   } = useGetCurrentUser();
+
   const { back } = useRouter();
+
   const { id } = useParams();
+
   const { escrowDetail, isLoadingEscrowDetail, escrowDetailError } =
     useUserEscrowDetails(id as string);
+
   const {
     isOpen: isAcceptOpen,
     open: openAccept,
@@ -48,7 +54,20 @@ export default function UserEscrowDetail() {
     close: closePaymentModal,
   } = useConfirmModal();
 
+  const {
+    isOpen: isConfirmCompleteTradeOpen,
+    open: openConfirmCompleteTrade,
+    close: closeConfirmCompleteTrade,
+  } = useConfirmModal();
+
+  const {
+    isOpen: isCreateDisputeOpen,
+    open: openCreateDispute,
+    close: closeCreateDispute,
+  } = useConfirmModal();
+
   const { acceptEscrow } = useAcceptEscrow();
+
   const { rejectEscrow } = useRejectEscrow();
 
   if (isLoadingEscrowDetail) return <FullPageLoader />;
@@ -64,7 +83,9 @@ export default function UserEscrowDetail() {
   }
 
   const { escrow } = escrowDetail;
+
   const { _id: escrowId, creator } = escrow;
+
   const type = getEscrowTypeForUser(escrow, currentUserId);
 
   return (
@@ -82,6 +103,16 @@ export default function UserEscrowDetail() {
           closePaymentModal={closePaymentModal}
         />
       </Modal>
+
+      <Modal
+        isOpen={isCreateDisputeOpen}
+        onClose={closeCreateDispute}
+        title='Create Dispute'
+        width='w-full lg:max-w-lg max-w-lg'
+      >
+        <CreateDisputeForm closeDisputeForm={closeCreateDispute} />
+      </Modal>
+
       <ConfirmModal
         isOpen={isAcceptOpen}
         onClose={closeAccept}
@@ -101,9 +132,42 @@ export default function UserEscrowDetail() {
         variant='danger'
         confirmText='Reject'
       />
+
+      <ConfirmModal
+        isOpen={isConfirmCompleteTradeOpen}
+        onClose={closeConfirmCompleteTrade}
+        onConfirm={() => toast.success('Trade completed successfully')}
+        title='Confirm trade completion'
+        message='Are you sure you want to proceed with this action?'
+        variant='info'
+        confirmText='Complete Trade'
+      />
+
       <div className='flex flex-col justify-center'>
         <UserDashboardPageTitle title={`Esrow #${id}`}>
-          <div className='sm:flex sm:justify-end gap-4 w-2xs hidden'>
+          <div className='sm:flex sm:justify-end gap-4 w-2xs hidden sm:flex-1'>
+            {escrow.paymentStatus === 'paid' && (
+              <Button
+                color='bg-transparent text-error'
+                style='flex border border-error items-center gap-2 hover:bg-error hover:text-white font-light lg:font-bold'
+                padding='px-2 py-1'
+                textSize='lg:text-md text-sm'
+                onClick={openCreateDispute}
+              >
+                Create Dispute
+              </Button>
+            )}
+            {escrow.paymentStatus === 'paid' && type === 'buy' && (
+              <Button
+                color='bg-transparent text-dashboard-secondary'
+                style='flex border border-secondary items-center gap-2 hover:bg-dashboard-secondary hover:text-white font-light lg:font-bold'
+                padding='px-2 py-1'
+                textSize='lg:text-md text-sm'
+                onClick={openConfirmCompleteTrade}
+              >
+                Complete Trade
+              </Button>
+            )}
             <span className='bg-dashboard-secondary text-dashboard-primary text-sm px-4 rounded flex justify-center items-center font-bold capitalize'>
               {escrow.status}
             </span>
@@ -120,6 +184,7 @@ export default function UserEscrowDetail() {
 
         <div className='flex mt-8 gap-8'>
           <div className='w-full flex gap-4 flex-col'>
+            <UserEscrowType type={type} />
             <UserEscrowStatusTable
               status={escrow.status}
               openAcceptConfirmModal={openAccept}
