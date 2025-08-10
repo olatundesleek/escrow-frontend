@@ -64,14 +64,7 @@ export const SiteSettingProvider = ({ children }: { children: ReactNode }) => {
         } else {
           setSuccess(true);
           setMessage(result.message || '');
-          const {
-            // __v,
-            // _id,
-            maintenanceMode,
-            // createdAt,
-            // updatedAt,
-            ...siteData
-          } = result;
+          const { maintenanceMode, ...siteData } = result;
 
           setData({ ...siteData, maintenanceMode });
         }
