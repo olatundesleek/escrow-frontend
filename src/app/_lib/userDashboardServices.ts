@@ -1,7 +1,9 @@
 import {
   AllTransactionsResponse,
+  completeTradeResponse,
   CreateEscrowResponse,
   DepositResponse,
+  DisputeResponse,
   PayEscrowBillResponse,
 } from './../_types/userDashboardServicesTypes';
 import {
@@ -277,6 +279,61 @@ export async function depositApi(payload: {
   try {
     const res = await fetch(depositUrl, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function completeTradeApi(): Promise<completeTradeResponse> {
+  const completeTradeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow/complete`;
+
+  try {
+    const res = await fetch(completeTradeUrl, {
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function createDisputeApi(payload: {
+  escrowId: string;
+  reason: string;
+}): Promise<DisputeResponse> {
+  const createDisputeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/dispute/file`;
+
+  try {
+    const res = await fetch(createDisputeUrl, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },

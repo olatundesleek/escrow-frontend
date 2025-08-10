@@ -26,6 +26,10 @@ export type SiteSettingData = {
     enabled: boolean;
     message: string;
   };
+  _id: string;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type SiteInfo = {
