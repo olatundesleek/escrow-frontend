@@ -127,6 +127,7 @@ export default function UserDashboard() {
                 <IoHourglassOutline className='animate-spin-slow text-white' />
               }
               bg='bg-white'
+              onClick={() => push('/dashboard/escrows?status=pending')}
             />
             <UserDetailCard
               cardColor='bg-blue-600'

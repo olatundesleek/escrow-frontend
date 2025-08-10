@@ -158,6 +158,19 @@ export interface DepositResponse {
   };
 }
 
+export interface initialUserType {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  joined: string;
+  avatar: string;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
+
 export interface completeTradeResponse {
   success: boolean;
   message: string;

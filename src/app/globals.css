@@ -34,6 +34,10 @@
   --spacing-header-height: var(--header-height);
 }
 
+* {
+  font-family: Roboto;
+}
+
 @media (max-width: 768px) {
   .custom-gradient {
     background: linear-gradient(
