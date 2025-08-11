@@ -4,6 +4,7 @@ import {
   CreateEscrowResponse,
   DepositResponse,
   DisputeResponse,
+  getWalletResponse,
   PayEscrowBillResponse,
 } from './../_types/userDashboardServicesTypes';
 import {
@@ -338,6 +339,30 @@ export async function createDisputeApi(payload: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function getWallet(): Promise<getWalletResponse> {
+  const getWalletUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/wallet`;
+
+  try {
+    const res = await fetch(getWalletUrl, {
       credentials: 'include',
     });
 

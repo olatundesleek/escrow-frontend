@@ -38,6 +38,17 @@ export interface UserEscrowDetailResponse {
   escrow: UserEscrowItem;
 }
 
+export interface BaseWallet {
+  totalBalance: number;
+  lockedBalance: number;
+  availableBalance: number;
+  currency: string;
+  _id: string;
+  user: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface UserDashboardDataResponse {
   message: string;
   dashboardDetails: {
@@ -57,15 +68,7 @@ export interface UserDashboardDataResponse {
       username: string;
       email: string;
       createdAt: string;
-      wallet: {
-        balance: number;
-        locked: number;
-        currency: string;
-        _id: string;
-        user: string;
-        createdAt: string;
-        updatedAt: string;
-      };
+      wallet: BaseWallet;
     };
   };
 }
@@ -185,3 +188,11 @@ export interface DisputeResponse {
     status: DisputeStatus;
   };
 }
+
+export interface getWalletResponse {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  walletDetails: BaseWallet;
+}
+
