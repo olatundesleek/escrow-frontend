@@ -7,17 +7,10 @@ import {
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useDeposit from './useDeposit';
+import { BaseWallet } from '@/app/_types/userDashboardServicesTypes';
 
 interface DepositProps {
-  wallet: {
-    balance: number;
-    locked: number;
-    currency: string;
-    _id: string;
-    user: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  wallet: BaseWallet;
 }
 
 interface DepositFormInputs {
@@ -52,7 +45,7 @@ export default function Deposit({ wallet }: DepositProps) {
     });
   });
 
-  const { balance } = wallet;
+  const { availableBalance } = wallet;
 
   const onSubmit = function (data: DepositFormInputs) {
     deposit(data);
@@ -65,7 +58,7 @@ export default function Deposit({ wallet }: DepositProps) {
         <div className='text-sm space-y-1'>
           <p>
             <span className='font-medium'>Current balance:</span>{' '}
-            {formatCurrency(balance)}
+            {formatCurrency(availableBalance)}
           </p>
         </div>
       </div>

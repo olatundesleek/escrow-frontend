@@ -6,8 +6,9 @@ import Button from './Button';
 
 interface UserBalanceCardProps {
   wallet: {
-    balance: number;
-    locked: number;
+    totalBalance: number;
+    lockedBalance: number;
+    availableBalance: number;
     currency: string;
     _id: string;
     user: string;
@@ -25,9 +26,10 @@ interface UserBalanceCardProps {
 export default function UserBalanceCard({
   wallet = {
     // Default wallet for demonstration
-    balance: 12345.67,
-    locked: 1000,
-    currency: 'USD',
+    totalBalance: 0,
+    lockedBalance: 0,
+    availableBalance: 0,
+    currency: 'NGN',
     _id: 'mock_wallet_id',
     user: 'mock_user_id',
     createdAt: new Date().toISOString(),

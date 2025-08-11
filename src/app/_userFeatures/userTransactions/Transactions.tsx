@@ -5,13 +5,16 @@ import useGetUsersTransactions from './useGetUsersTransactions';
 import toast from 'react-hot-toast';
 import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
 import UserTransactionsTable from './UserTransactionsTable';
+import { useSearchParams } from 'next/navigation';
 
 export default function Transactions() {
+  const searchParams = useSearchParams();
+  const queryObject = Object.fromEntries(searchParams.entries());
   const {
     isLoadingUserTransactions,
     userTransactionsData,
     userTransactionsError,
-  } = useGetUsersTransactions();
+  } = useGetUsersTransactions(queryObject);
 
   if (isLoadingUserTransactions) return <FullPageLoader />;
 

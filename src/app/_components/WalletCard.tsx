@@ -1,10 +1,30 @@
-import { walletColorMap } from "../_constants/wallet";
-import { useCardData } from "../_hooks/useCardData";
+import { walletColorMap } from '../_constants/wallet';
+import { BaseWallet } from '../_types/userDashboardServicesTypes';
+import { FaChartLine, FaMoneyBill, FaPiggyBank } from 'react-icons/fa';
 
-export const WalletCard = () => {
-  const { cardData } = useCardData();
+export const WalletCard = ({ walletData }: { walletData: BaseWallet }) => {
+  const cardData = [
+    {
+      label: 'Available Balance',
+      value: walletData.availableBalance,
+      icon: FaMoneyBill,
+      color: 'green',
+    },
+    {
+      label: 'Locked Amount',
+      value: walletData.lockedBalance,
+      icon: FaPiggyBank,
+      color: 'blue',
+    },
+    {
+      label: 'Total Amount',
+      value: walletData.totalBalance,
+      icon: FaChartLine,
+      color: 'purple',
+    },
+  ];
   return (
-    <section className="grid sm:grid-cols-3 gap-6 lg:my-8 my-2">
+    <section className='grid sm:grid-cols-3 gap-6 lg:my-8 my-2'>
       {cardData.map(({ label, value, icon: Icon, color }) => {
         const style = walletColorMap[color];
         return (

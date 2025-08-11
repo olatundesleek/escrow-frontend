@@ -27,13 +27,16 @@ export default function UserDashboardLayout({
   //
 
   // Main content area classes
+  // const mainContentClasses = `
+  //   w-full max-w-screen-xl
+  //   flex flex-col gap-6
+  //   overflow-y-auto
+  //   flex-grow px-6
+  //   pt-[calc(var(--header-height)+5rem)]
+  //   lg:py-5
+  // `;
   const mainContentClasses = `
-    w-full max-w-screen-xl
-    flex flex-col gap-6
-    overflow-y-auto 
-    flex-grow px-6
-    pt-[calc(var(--header-height)+5rem)]
-    lg:py-5
+    w-full lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 overflow-y-auto pt-[calc(var(--header-height)+1rem)] lg:py-5
   `;
   // p-38 px - 4; pb - 16;  lg:px-8 lg:pt-8 //removed this padding for cleaner layout
 
