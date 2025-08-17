@@ -1,3 +1,5 @@
+import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
+
 export interface LoginFormInputs {
   username: string;
   password: string;
@@ -9,8 +11,37 @@ export interface RegisterFormInputs {
   lastname: string;
   username: string;
   password: string;
+  countryCode: string;
+  phone: string;
   email: string;
   agree: boolean;
+}
+
+// /**
+//  * Represents a country's data returned from the API.
+//  */
+export interface CountryData {
+  name: string;
+  code: string;
+  cca2: string;
+}
+
+export interface country {
+  cca2: string;
+  idd: {
+    root: string;
+    suffixes: string[];
+  };
+  name: { common: string };
+}
+
+export interface CustomCountrySelectProps {
+  countries: CountryData[];
+  loading: boolean;
+  register: UseFormRegister<RegisterFormInputs>;
+  setValue: UseFormSetValue<RegisterFormInputs>;
+  errors: FieldErrors<RegisterFormInputs>;
+  name: "countryCode" | "phoneNumber";
 }
 
 export interface LoginResponse {

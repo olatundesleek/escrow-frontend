@@ -16,16 +16,24 @@ import { TogglePassword } from "./TogglePassword";
 import { AuthInput } from "./AuthInput";
 import SpinnerMini from "./SpinnerMini";
 import { useRouter } from "next/navigation";
+import { CustomCountrySelect } from "./CountrySelect";
+import { useCountryCodes } from "../_hooks/useCountryCode";
 
 export default function Signup() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { countries, loading: countryCodesLoading } = useCountryCodes();
   const { push } = useRouter();
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<RegisterFormInputs>();
+    setValue,
+  } = useForm<RegisterFormInputs>({
+    defaultValues: {
+      countryCode: "+234",
+    },
+  });
 
   const onSubmit = async (data: RegisterFormInputs) => {
     setIsLoading(true);
@@ -197,6 +205,19 @@ export default function Signup() {
               )}
             </AuthInput>
           </div>
+        </div>
+
+        <div className="w-full">
+          <AuthInput InputTitle="Phone Number" name="phoneNumber">
+            <CustomCountrySelect
+              countries={countries}
+              loading={countryCodesLoading}
+              register={register}
+              setValue={setValue}
+              errors={errors}
+              name="phoneNumber"
+            />
+          </AuthInput>
         </div>
 
         <div className="w-full flex gap-4 flex-col sm:flex-row md:flex-col lg:flex-row">
