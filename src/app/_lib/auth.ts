@@ -93,6 +93,7 @@ export async function signUp({
   username,
   email,
   password,
+  phone,
 }: RegisterFormInputs): Promise<RegisterResponse> {
   const registerUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`;
 
@@ -108,6 +109,7 @@ export async function signUp({
         username: username.trim(),
         email: email.trim(),
         password: password.trim(),
+        phone: phone.trim(),
       }),
     });
 
