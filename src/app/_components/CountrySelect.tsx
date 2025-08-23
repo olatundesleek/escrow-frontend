@@ -9,7 +9,7 @@ import Image from "next/image";
 export const CustomCountrySelect: React.FC<CustomCountrySelectProps> = ({
   countries,
   loading,
-  // register,
+  register,
   setValue,
   errors,
 }) => {
@@ -103,10 +103,17 @@ export const CustomCountrySelect: React.FC<CustomCountrySelectProps> = ({
               errors.phone ? "border-red-500" : ""
             }`}
             value={phone}
+            placeholder="8012345678"
+            {...register("phone", {
+              required: { value: true, message: "Phone Number is required" },
+              pattern: {
+                value: /^[0-9+\-\s()]{7,20}$/,
+                message: "Invalid phone number format",
+              },
+            })}
             onChange={(e) => {
               setPhone(e.target.value.replace(/\s+/g, "")); // remove spaces
             }}
-            placeholder="8012345678"
           />
         </div>
       )}
