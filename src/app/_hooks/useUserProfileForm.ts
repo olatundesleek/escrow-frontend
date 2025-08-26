@@ -26,18 +26,18 @@ export const useUserProfileForm = () => {
       if (!currentuser.success) {
         return;
       }
-
+      console.log(currentuser);
       const userdata: initialUserType = {
-        name: currentuser.user.data.username || "John Doe",
-        email: currentuser.user.data.email || "john.doe@email.com",
-        phone: currentuser.user.data.phone || "+1234567890",
+        name: currentuser.user.data.username || "",
+        email: currentuser.user.data.email || "",
+        phone: currentuser.user.data.phone || "",
         role: currentuser.user.data.role || "User",
-        joined: currentuser.user.data.joined || "2024-01-01",
+        joined: currentuser.user.data.joined || "",
         avatar: currentuser.user.data.photo || "/useravartar.png",
-        address: currentuser.user.data.address || "123 Main Street",
-        city: currentuser.user.data.city || "Lagos",
-        country: currentuser.user.data.country || "Nigeria",
-        postalCode: currentuser.user.data.postalCode || "100001",
+        address: currentuser.user.data.address || "",
+        city: currentuser.user.data.city || "",
+        country: currentuser.user.data.country || "",
+        postalCode: currentuser.user.data.postalCode || "",
       };
       // console.log(currentuser);
       setUser(userdata);

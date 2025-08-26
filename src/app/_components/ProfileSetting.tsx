@@ -100,7 +100,7 @@ export const InfoItem: React.FC<InfoItemProps> = ({
   color,
 }) => (
   <div className="flex items-center gap-2 text-sm text-gray-700 w-full sm:w-auto p-2 rounded-md hover:bg-gray-50 transition-colors duration-200">
-    <Icon className={`${color} text-lg`} />
+    {text ? <Icon className={`${color} text-lg`} /> : ""}
     <span>{text}</span>
   </div>
 );
