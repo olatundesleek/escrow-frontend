@@ -5,9 +5,10 @@ import Image from "next/image"; // Assuming Next.js Image component is available
 import { FaCalendarAlt } from "react-icons/fa";
 import Modal from "./Modal";
 import UserDashboardPageTitle from "./UserDashboardPageTitle";
-import { InputField, InfoItem, PasswordField } from "./ProfileSetting";
+import { InputField, PasswordField } from "./ProfileSetting";
 import { useUserProfileForm } from "../_hooks/useUserProfileForm";
 import { FormValues } from "../_types/dashboardServicesTypes";
+import useUserDashboard from "../_userFeatures/userDashboard/useUserDashboard";
 
 export default function UserProfile() {
   const {
@@ -35,6 +36,16 @@ export default function UserProfile() {
     status,
   } = useUserProfileForm();
 
+  const { userDashboardData } = useUserDashboard();
+
+  const joinedDate = new Date(
+    userDashboardData?.dashboardDetails.data.createdAt ?? ""
+  ).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <>
       <UserDashboardPageTitle />
@@ -42,13 +53,17 @@ export default function UserProfile() {
         {/* Aside / User Info Card */}
         <aside className="bg-white border border-gray-200 rounded-xl p-6 shadow-md flex flex-col items-center text-gray-800 relative w-full lg:w-1/3">
           <div className="relative w-28 h-28 mb-4 rounded-full border border-gray-300 overflow-hidden shadow-md">
-            <Image
-              src={avatar.preview}
-              alt="User Avatar"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 112px" // Responsive sizes attribute
-            />
+            {avatar.preview && (
+              <Image
+                src={avatar.preview ?? null}
+                alt="User Avatar"
+                width={112}
+                height={112}
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 112px"
+                style={{ borderRadius: "9999px" }}
+              />
+            )}
           </div>
           <label
             htmlFor="avatar-upload"
@@ -67,7 +82,7 @@ export default function UserProfile() {
           <div className="space-y-2 text-sm w-full mt-2">
             <div className="text-center mb-4">
               <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
-                {user.name}
+                {user.username}
               </h3>
               <p className="text-xs sm:text-sm text-gray-500 capitalize">
                 {user.role}
@@ -75,18 +90,29 @@ export default function UserProfile() {
             </div>
             <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 mt-2">
               <FaCalendarAlt className="text-gray-400" />
-              <span>Joined: {user.joined}</span>
+              <span>Joined: {joinedDate}</span>
             </div>
-            <div className="border-t border-gray-200 pt-6 mt-6 space-y-3 text-left w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {userInfo.map((info, index) => (
-                <InfoItem
-                  key={index}
-                  icon={info.icon}
-                  text={info.text}
-                  color={info.color}
-                />
-              ))}
-            </div>
+            <ul className="border-t border-gray-200 pt-6 mt-6 space-y-3 text-left w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <>
+                {userInfo.map((info, index) => {
+                  let displayText = info.text;
+                  if (typeof displayText === "object" && displayText !== null) {
+                    displayText = Object.values(displayText).join(" ");
+                  }
+                  return (
+                    <li
+                      key={index}
+                      className="flex items-center text-sm text-gray-700 w-full sm:w-auto p-2 rounded-md hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      <span className="flex gap-2">
+                        <info.icon className={`${info.color} text-lg`} />
+                        {info.text}
+                      </span>
+                    </li>
+                  );
+                })}
+              </>
+            </ul>
           </div>
         </aside>
 

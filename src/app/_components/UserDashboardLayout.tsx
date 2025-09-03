@@ -35,9 +35,11 @@ export default function UserDashboardLayout({
   //   pt-[calc(var(--header-height)+5rem)]
   //   lg:py-5
   // `;
+
   const mainContentClasses = `
     w-full lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 overflow-y-auto pt-[calc(var(--header-height)+1rem)] lg:py-5
   `;
+
   // p-38 px - 4; pb - 16;  lg:px-8 lg:pt-8 //removed this padding for cleaner layout
 
   return (
@@ -57,24 +59,24 @@ export default function UserDashboardLayout({
       {/* Main content area */}
       <main className={mainContentClasses}>
         {isGetCurrentUserLoading && (
-          <div className='flex h-full items-center justify-center'>
+          <div className="flex h-full items-center justify-center">
             <FullPageLoader />
           </div>
         )}
 
         {isError && (
-          <div className='flex h-full flex-col items-center justify-center text-center p-4'>
+          <div className="flex h-full flex-col items-center justify-center text-center p-4">
             {/* Using toast for notifications, but showing a visible error message is also good UX */}
-            {toast.error('Error getting data. Please refresh!')}
-            <p className='mt-4 text-lg text-red-600 font-semibold'>
+            {toast.error("Error getting data. Please refresh!")}
+            <p className="mt-4 text-lg text-red-600 font-semibold">
               Failed to load dashboard data.
             </p>
-            <p className='text-sm text-red-500'>
+            <p className="text-sm text-red-500">
               Please try refreshing the page.
             </p>
             <button
               onClick={() => window.location.reload()}
-              className='mt-6 rounded-lg bg-indigo-600 px-6 py-3 text-white shadow-md transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+              className="mt-6 rounded-lg bg-indigo-600 px-6 py-3 text-white shadow-md transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Refresh Page
             </button>

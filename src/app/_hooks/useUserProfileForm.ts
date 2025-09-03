@@ -11,7 +11,7 @@ import {
   FaMailBulk,
 } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { getUserProfile } from "../_lib/userProfile";
+import { getUserProfile, updateUserProfile } from "../_lib/userProfile";
 import { initialUserType } from "../_types/userDashboardServicesTypes";
 import { intialUserData } from "../_constants/user";
 
@@ -26,23 +26,25 @@ export const useUserProfileForm = () => {
       if (!currentuser.success) {
         return;
       }
+
       console.log(currentuser);
+
       const userdata: initialUserType = {
-        name: currentuser.user.data.username || "",
+        username: currentuser.user.data.username || "",
         email: currentuser.user.data.email || "",
-        phone: currentuser.user.data.phone || "",
         role: currentuser.user.data.role || "User",
         joined: currentuser.user.data.joined || "",
-        avatar: currentuser.user.data.photo || "/useravartar.png",
-        address: currentuser.user.data.address || "",
-        city: currentuser.user.data.city || "",
-        country: currentuser.user.data.country || "",
-        postalCode: currentuser.user.data.postalCode || "",
+        avatar: currentuser.user.data.profilePicture || "/useravartar.png",
+        city: currentuser.user.data.address?.city || "",
+        streetAddress: currentuser.user.data.address.streetAddress || "",
+        country: currentuser.user.data.address?.country || "",
+        phone: currentuser.user.data.phone || "",
+        postalCode: currentuser.user.data.address?.postalCode || "",
       };
-      // console.log(currentuser);
+
       setUser(userdata);
-    } catch (err) {
-      console.log(err);
+    } catch {
+      return;
     }
   };
 
@@ -83,11 +85,10 @@ export const useUserProfileForm = () => {
   // For profile data
   const profileForm = useForm<FormValues>({
     defaultValues: {
-      name: user.name,
-      phone: user.phone,
-      address: user.address,
       city: user.city,
+      streetAddress: user.streetAddress,
       country: user.country,
+      phone: user.phone,
       postalCode: user.postalCode,
     },
   });
@@ -119,11 +120,10 @@ export const useUserProfileForm = () => {
   // Effect to reset form to current user data if user changes
   useEffect(() => {
     resetProfile({
-      name: user.name,
-      phone: user.phone,
-      address: user.address,
       city: user.city,
+      streetAddress: user.streetAddress,
       country: user.country,
+      phone: user.phone,
       postalCode: user.postalCode,
     });
     resetPassword({
@@ -134,6 +134,46 @@ export const useUserProfileForm = () => {
 
     setAvatar({ preview: user.avatar, file: null });
   }, [user, resetProfile, resetPassword]);
+
+  const handleChangePassword = async (data: FormValues) => {
+    if (data.currentPassword || data.password || data.confirmPassword) {
+      setStatus({ isSaving: true, message: "", type: "" });
+      if (data.password !== data.confirmPassword) {
+        setStatus({
+          isSaving: false,
+          message: "Passwords do not match.",
+          type: "error",
+        });
+        return;
+      }
+
+      const result = await changePassword({
+        currentPassword: data.currentPassword,
+        newPassword: data.password,
+        confirmNewPassword: data.confirmPassword,
+      });
+
+      if (!result.success) {
+        setStatus({ isSaving: false, message: result.message, type: "error" });
+        toast.error(result.message);
+        return;
+      }
+
+      toast.success(result.message);
+      setStatus({
+        isSaving: false,
+        message: "Password changed successfully.",
+        type: "success",
+      });
+
+      resetPassword({
+        ...watch(),
+        currentPassword: "",
+        password: "",
+        confirmPassword: "",
+      });
+    }
+  };
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -168,62 +208,57 @@ export const useUserProfileForm = () => {
     }
   };
 
-  const handleChangePassword = async (data: FormValues) => {
-    if (data.currentPassword || data.password || data.confirmPassword) {
-      setStatus({ isSaving: true, message: "", type: "" });
-      if (data.password !== data.confirmPassword) {
-        setStatus({
-          isSaving: false,
-          message: "Passwords do not match.",
-          type: "error",
-        });
-        return;
-      }
-
-      const result = await changePassword({
-        currentPassword: data.currentPassword,
-        newPassword: data.password,
-        confirmNewPassword: data.confirmPassword,
-      });
-      console.log(result);
-      if (!result.success) {
-        setStatus({ isSaving: false, message: result.message, type: "error" });
-        toast.error(result.message);
-        return;
-      }
-
-      toast.success(result.message);
-      setStatus({
-        isSaving: false,
-        message: "Password changed successfully.",
-        type: "success",
-      });
-
-      resetPassword({
-        ...watch(),
-        currentPassword: "",
-        password: "",
-        confirmPassword: "",
-      });
-    }
-  };
-  const onUpdateProfile = (data: FormValues) => {
+  const onUpdateProfile = async (values: FormValues) => {
     setIsUpdating(true);
+    try {
+      let res;
 
-    // Simulate API delay
-    setTimeout(() => {
-      setUser((prev) => ({ ...prev, ...data, avatar: avatar.preview }));
+      // Check if a new file has been selected
+      if (avatar.file) {
+        res = await updateUserProfile(
+          values.city,
+          values.streetAddress,
+          values.country,
+          values.phone,
+          values.postalCode,
+          avatar.file // Pass the File object
+        );
+      } else {
+        // Call the API without the file if no new image was selected
+        res = await updateUserProfile(
+          values.city,
+          values.streetAddress,
+          values.country,
+          values.phone,
+          values.postalCode
+        );
+      }
 
-      resetProfile({
-        ...data,
-        password: "",
-        confirmPassword: "",
-        currentPassword: "",
-      });
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
 
+      toast.success(res.message);
+      console.log(res);
+      // Update the local user state with the new values
+      setUser((prev) => ({
+        ...prev,
+        city: values.city,
+        streetAddress: values.streetAddress,
+        country: values.country,
+        phone: values.phone,
+        postalCode: values.postalCode,
+        avatar: avatar.preview, // The preview is now the "real" avatar
+      }));
+
+      resetProfile(values);
       setAvatar((prev) => ({ ...prev, file: null }));
+    } catch {
+      toast.error("Something went wrong while updating profile.");
+    } finally {
       setIsUpdating(false);
-    }, 2000); // 2 seconds
+    }
   };
 
   const handleReset = () => {
@@ -234,11 +269,10 @@ export const useUserProfileForm = () => {
       isConfirm: true,
       onConfirm: () => {
         resetProfile({
-          name: user.name,
-          phone: user.phone,
-          address: user.address,
           city: user.city,
+          streetAddress: user.streetAddress,
           country: user.country,
+          phone: user.phone,
           postalCode: user.postalCode,
         });
         resetPassword({
@@ -282,28 +316,22 @@ export const useUserProfileForm = () => {
 
   const inputFields = [
     {
-      name: "name",
-      label: "Full Name",
-      placeholder: "e.g., Jane Doe",
-      rules: { required: "Name is required" },
+      name: "city",
+      label: "City",
+      placeholder: "e.g., New York",
+      rules: { required: "City is required" },
+    },
+    {
+      name: "streetAddress",
+      label: "Street Address",
+      placeholder: "e.g., No. 9 Kemberi road",
+      rules: { required: "street Address is required" },
     },
     {
       name: "phone",
       label: "Phone Number",
       placeholder: "e.g., +123-456-7890",
       rules: { required: "Phone is required" },
-    },
-    {
-      name: "address",
-      label: "Street Address",
-      placeholder: "e.g., 456 Oak Ave",
-      rules: { required: "Street Address is required" },
-    },
-    {
-      name: "city",
-      label: "City",
-      placeholder: "e.g., New York",
-      rules: { required: "City is required" },
     },
     {
       name: "country",
@@ -320,14 +348,30 @@ export const useUserProfileForm = () => {
   ];
 
   const userInfo = [
-    { icon: FaEnvelope, text: user.email, color: "text-blue-500" },
-    { icon: FaPhone, text: user.phone, color: "text-green-500" },
-    { icon: FaMapMarkerAlt, text: user.address, color: "text-red-500" },
-    { icon: FaCity, text: user.city, color: "text-blue-400" },
-    { icon: FaFlag, text: user.country, color: "text-yellow-600" },
+    {
+      icon: FaEnvelope,
+      text: user.email || "",
+      color: "text-blue-500",
+    },
+    {
+      icon: FaCity,
+      text: user.city || "",
+      color: "text-blue-400",
+    },
+    {
+      icon: FaMapMarkerAlt,
+      text: user.streetAddress || "",
+      color: "text-red-500",
+    },
+    { icon: FaPhone, text: user.phone || "", color: "text-green-500" },
+    {
+      icon: FaFlag,
+      text: user.country || "",
+      color: "text-yellow-600",
+    },
     {
       icon: FaMailBulk,
-      text: user.postalCode,
+      text: user.postalCode || "",
       color: "text-purple-500",
     },
   ];

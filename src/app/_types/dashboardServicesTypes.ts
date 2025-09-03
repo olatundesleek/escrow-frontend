@@ -85,13 +85,13 @@ export interface AllEscrowsDataResponse {
 }
 
 export interface FormValues {
-  name: string;
+  city: string;
+  streetAddress: string;
+  country: string;
   phone: string;
+  postalCode: string;
   currentPassword: string;
+  profilePicture?: string;
   password: string;
   confirmPassword: string;
-  address: string;
-  city: string;
-  country: string;
-  postalCode: string;
 }
