@@ -165,16 +165,22 @@ export interface DepositResponse {
 }
 
 export interface initialUserType {
-  name: string;
+  username: string;
   email: string;
   phone: string;
   role: string;
   joined: string;
   avatar: string;
-  address: string;
+  streetAddress: string;
   city: string;
   country: string;
   postalCode: string;
+}
+
+export interface ApiResponse<T = unknown> {
+  success: boolean;
+  message: string;
+  data?: T;
 }
 
 export interface completeTradeResponse {
@@ -198,4 +204,3 @@ export interface getWalletResponse {
   message: string;
   walletDetails: BaseWallet;
 }
-

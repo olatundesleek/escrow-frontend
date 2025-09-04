@@ -10,6 +10,7 @@ interface InputFieldProps {
   error?: FieldError;
   type?: string;
   placeholder?: string; // Added placeholder prop
+  disabled?: boolean;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -19,6 +20,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   error,
   type = "text",
   placeholder,
+  disabled,
 }) => (
   <div className="flex flex-col">
     <label htmlFor={id} className="mb-1 text-sm font-medium text-gray-700">
@@ -28,7 +30,8 @@ export const InputField: React.FC<InputFieldProps> = ({
       id={id}
       type={type}
       {...register}
-      placeholder={placeholder} // Applied placeholder
+      placeholder={placeholder}
+      disabled={disabled}
       className={`w-full p-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-offset-1 transition-all duration-200 appearance-none ${
         error
           ? "border-red-500 focus:border-red-500 focus:ring-red-300"
@@ -99,8 +102,10 @@ export const InfoItem: React.FC<InfoItemProps> = ({
   text,
   color,
 }) => (
-  <div className="flex items-center gap-2 text-sm text-gray-700 w-full sm:w-auto p-2 rounded-md hover:bg-gray-50 transition-colors duration-200">
-    <Icon className={`${color} text-lg`} />
-    <span>{text}</span>
+  <div className="flex items-center text-sm text-gray-700 w-full sm:w-auto p-2 rounded-md hover:bg-gray-50 transition-colors duration-200">
+    <span className="flex gap-2">
+      <Icon className={`${color} text-lg`} />
+      {text}
+    </span>
   </div>
 );

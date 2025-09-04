@@ -2,10 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa"; // Import necessary icons
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 export default function PaymentConfirmation() {
-  // Changed to App for self-contained immersive
   const searchParams = useSearchParams();
   const router = useRouter();
   const reference = searchParams.get("reference");
@@ -16,7 +15,7 @@ export default function PaymentConfirmation() {
 
   const retriesRef = useRef(0);
   const timeOutRef = useRef<NodeJS.Timeout | null>(null);
-  const maxRetries = 5; // Max retries for pending status
+  const maxRetries = 5;
 
   const fetchStatus = useCallback(async () => {
     if (!reference) {
@@ -27,10 +26,7 @@ export default function PaymentConfirmation() {
     const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/confirm-payment/${reference}`;
 
     try {
-      const res = await fetch(apiUrl, {
-        credentials: "include", // Important for sending cookies/auth tokens
-      });
-
+      const res = await fetch(apiUrl, { credentials: "include" });
       if (!res.ok) {
         setStatus("failed");
         return;
@@ -45,21 +41,25 @@ export default function PaymentConfirmation() {
       }
 
       if (data.status === "success") {
-        const type = data.transaction?.type;
+        const type = data.type;
         const escrowId = data.escrow;
 
         if (type === "escrow_payment" || type === "escrow") {
-          const redirectPath = `/dashboard/escrows/${escrowId}`;
-          router.push(redirectPath);
+          router.push(`/dashboard/escrows/${escrowId}`);
         } else if (type === "addfunds") {
-          const redirectPath = `/dashboard/wallet`;
-          router.push(redirectPath);
+          router.push(`/dashboard/wallet`);
+        } else if (type === "wallet_deposit") {
+          router.push(`/dashboard/wallet`);
         } else {
-          // Fallback for unexpected transaction types, still tries to use escrowId
-          const redirectPath = `/dashboard/escrows/${escrowId}`;
-          setStatus("success"); // Still show success message briefly
-          router.push(redirectPath);
+          // fallback
+          if (escrowId) {
+            router.push(`/dashboard/escrows/${escrowId}`);
+          } else {
+            router.push(`/dashboard`);
+          }
         }
+
+        setStatus("success");
       } else if (data.status === "pending") {
         setStatus("pending");
         if (retriesRef.current < maxRetries) {
@@ -72,10 +72,8 @@ export default function PaymentConfirmation() {
         setStatus("failed");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setStatus("failed");
-    } finally {
-      // Any cleanup that needs to happen after each fetch cycle
     }
   }, [reference, router]);
 
@@ -83,13 +81,13 @@ export default function PaymentConfirmation() {
     if (reference) {
       fetchStatus();
     } else {
-      setStatus("failed"); // Immediately set to failed if no reference
+      setStatus("failed");
     }
 
     return () => {
       if (timeOutRef.current) clearTimeout(timeOutRef.current);
     };
-  }, [reference, fetchStatus]); // Dependency array includes fetchStatus
+  }, [reference, fetchStatus]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 bg-gray-50">
@@ -107,7 +105,6 @@ export default function PaymentConfirmation() {
         </div>
       ) : status === "failed" ? (
         <div className="p-8 bg-white rounded-lg shadow-lg max-w-sm w-full text-red-600">
-          {/* Replaced SVG with FaTimesCircle from react-icons */}
           <FaTimesCircle className="w-16 h-16 mx-auto mb-4 text-red-500" />
           <h2 className="text-2xl font-bold mb-2">
             Payment Failed or Timed Out
@@ -125,7 +122,6 @@ export default function PaymentConfirmation() {
         </div>
       ) : status === "success" ? (
         <div className="p-8 bg-white rounded-lg shadow-lg max-w-sm w-full text-green-600">
-          {/* Replaced SVG with FaCheckCircle from react-icons */}
           <FaCheckCircle className="w-16 h-16 mx-auto mb-4 text-green-500" />
           <h2 className="text-2xl font-bold mb-2">Payment Confirmed!</h2>
           <p className="text-gray-700">
