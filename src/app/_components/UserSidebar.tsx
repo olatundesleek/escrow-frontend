@@ -22,29 +22,29 @@ export default function UserSidebar({
       h-screen overflow-y-auto
       ${
         isSidebarOpen
-          ? "translate-x-0 lg:w-[18rem]"
-          : "-translate-x-full lg:translate-x-0 lg:w-[5rem]"
+          ? 'translate-x-0 lg:w-[18rem]'
+          : '-translate-x-full lg:translate-x-0 lg:w-[5rem]'
       }
       flex flex-col
     `}
     >
-      <div className="w-full hidden relative lg:flex items-center justify-center py-4 border-b border-dashboard-border lh-header-height min-h-header-height max-h-header-height">
+      <div className='w-full hidden relative lg:flex items-center justify-center py-4 border-b border-dashboard-border lh-header-height min-h-header-height max-h-header-height'>
         <Image
-          src={"/logo_dark.png"}
-          alt="logo"
+          src={'/logo_dark.png'}
+          alt='logo'
           width={52}
           height={52}
           className={`absolute transition-all duration-300  ${
             isSidebarOpen
-              ? "opacity-0 scale-90 translate-x-4"
-              : "opacity-100 scale-100"
+              ? 'opacity-0 scale-90 translate-x-4'
+              : 'opacity-100 scale-100'
           }`}
         />
         <div
           className={`transition-all duration-300 ${
             isSidebarOpen
-              ? "opacity-100 scale-100"
-              : "opacity-0 scale-90 -translate-x-4"
+              ? 'opacity-100 scale-100'
+              : 'opacity-0 scale-90 -translate-x-4'
           }`}
         >
           <Logo />
@@ -53,10 +53,10 @@ export default function UserSidebar({
 
       <div
         className={`w-full ${
-          isSidebarOpen ? "px-5" : "px-0 scrollbar-hidden"
-        }  flex flex-col gap-2 overflow-y-auto py-2.5`}
+          isSidebarOpen ? 'px-5' : 'px-0 scrollbar-hidden'
+        }  flex flex-col gap-2 overflow-y-auto py-2.5 h-full`}
       >
-        <DashboardSearchBar display="flex py-2.5 md:hidden" />
+        <DashboardSearchBar display='flex py-2.5 md:hidden' />
         <SidebarMenu
           sidebarMenu={userSidebarMenuList}
           isSidebarOpen={isSidebarOpen}

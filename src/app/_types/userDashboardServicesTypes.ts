@@ -1,8 +1,8 @@
-type UserEscrowStatus = "pending" | "active" | "rejected" | "disputed";
-type UserPaymentStatus = "unpaid" | "paid" | "pending";
-type UserEscrowFeePayment = "buyer" | "counterparty";
-type UserCreatorRole = "buyer" | "seller";
-type DisputeStatus = "pending" | "resolved";
+type UserEscrowStatus = 'pending' | 'active' | 'rejected' | 'disputed';
+type UserPaymentStatus = 'unpaid' | 'paid' | 'pending';
+type UserEscrowFeePayment = 'buyer' | 'seller' | 'split';
+type UserCreatorRole = 'buyer' | 'seller';
+type DisputeStatus = 'pending' | 'resolved';
 
 export interface UserEscrowItem {
   terms: string[];
@@ -19,17 +19,20 @@ export interface UserEscrowItem {
   description: string;
   createdAt: string;
   updatedAt: string;
+  sellerUsername?: string;
+  buyerUsername?: string;
   __v: number;
 }
 
 export interface AllUserEscrowsDataResponse {
   success: boolean;
   message: string;
-  escrows: {
+  escrows: UserEscrowItem[];
+  pagination: {
     total: number;
-    page: number;
-    limit: number;
-    data: UserEscrowItem[];
+    totalPage: number;
+    currentPage: number;
+    pageSize: number;
   };
 }
 
@@ -55,10 +58,10 @@ export interface UserDashboardDataResponse {
     success: boolean;
     data: {
       kyc: {
-        status: "verified" | "unverified";
+        status: 'verified' | 'unverified';
       };
       isVerified: boolean;
-      status: "active" | "inactive";
+      status: 'active' | 'inactive';
       escrows: UserEscrowItem[];
       disputes: [];
       transactions: [];
@@ -88,11 +91,11 @@ export interface ApiError {
 }
 
 export interface CreateEscrowFormInputs {
-  creatorRole: "" | "buyer" | "seller";
+  creatorRole: '' | 'buyer' | 'seller';
   counterpartyEmail: string;
   amount: number;
   category: string;
-  escrowFeePayment: "" | "buyer" | "seller" | "split";
+  escrowFeePayment: '' | 'buyer' | 'seller' | 'split';
   description: string;
   terms: string[];
 }
@@ -107,7 +110,7 @@ export interface PayEscrowBillResponse {
   message: string;
   paymentDetails: {
     status: true;
-    message: "Authorization URL created";
+    message: 'Authorization URL created';
     data: {
       authorization_url: string;
       access_code: string;
@@ -121,8 +124,8 @@ export interface BaseTransaction {
   _id: string;
   user: string;
   wallet: string;
-  direction: "debit" | "credit";
-  type: "escrow_payment" | "wallet_deposit" | "withdrawal";
+  direction: 'debit' | 'credit';
+  type: 'escrow_payment' | 'wallet_deposit' | 'withdrawal';
   from: string;
   reference: string;
   amount: number;
@@ -134,7 +137,7 @@ export interface BaseTransaction {
 
 export interface UserTransactionItem extends BaseTransaction {
   escrow: string;
-  role: "buyer" | "seller";
+  role: 'buyer' | 'seller';
   to: string;
 }
 

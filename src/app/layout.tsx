@@ -29,7 +29,7 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="en" className={`${lexend.className} ${roboto.className}`}>
+    <html lang='en' className={`${lexend.className} ${roboto.className}`}>
       {/* <Head>
         <link
           href='https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap'
@@ -39,7 +39,7 @@ export default async function RootLayout({
       <body>
         <SiteSettingProvider>
           <StickyContextProvider>
-            <main className="bg-background">
+            <main className='bg-background'>
               {children}
               <AppToaster />
             </main>

@@ -15,6 +15,7 @@
   --color-info: #2196f3;
   --color-success: #43a047;
   --header-height: 4.3rem;
+  --page-title-height: 4.5rem
 }
 
 /* Optional Theme Layer (for tooling that supports @theme) */
@@ -32,6 +33,7 @@
   --color-info: var(--color-info);
   --color-success: var(--color-success);
   --spacing-header-height: var(--header-height);
+  --spacing-page-title-height: var(--page-title-height);
 }
 
 * {

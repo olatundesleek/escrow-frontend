@@ -37,7 +37,8 @@ export default function UserDashboardLayout({
   // `;
 
   const mainContentClasses = `
-    w-full lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 overflow-y-auto pt-[calc(var(--header-height)+1rem)] lg:py-5
+    w-full lg:max-w-[120rem] lg:my-0 lg:flex lg:flex-col lg:gap-4 px-6 overflow-y-auto 
+    pt-[calc(var(--header-height)+var(--page-title-height)+1rem)] lg:py-5
   `;
 
   // p-38 px - 4; pb - 16;  lg:px-8 lg:pt-8 //removed this padding for cleaner layout

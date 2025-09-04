@@ -21,7 +21,7 @@ import {
   HiOutlineInformationCircle,
 } from "react-icons/hi";
 
-import { HiOutlineLanguage } from "react-icons/hi2";
+import {HiOutlineLanguage } from 'react-icons/hi2';
 
 export interface SidebarMenuItem {
   label: string;
@@ -74,13 +74,14 @@ export const userSidebarMenuList: SidebarMenuItem[] = [
     icon: HiOutlineCreditCard,
     href: '/dashboard/wallet',
   },
-  { label: 'Deposit', icon: HiOutlineArrowDown, href: '' },
-  { label: 'Withdrawals', icon: HiOutlineArrowUp, href: '' },
+  // { label: 'Deposit', icon: HiOutlineArrowDown, href: '' },
+  // { label: 'Withdrawals', icon: HiOutlineArrowUp, href: '' },uncomment in the nearest future
   {
     label: 'Transactions',
     icon: HiOutlineCurrencyDollar,
     href: '/dashboard/transactions',
   },
   { label: 'Profile Settings', icon: HiOutlineCog, href: '/dashboard/profile' },
-  { label: 'KYC', icon: HiOutlineShieldCheck, href: '' },
+  { label: 'KYC', icon: HiOutlineShieldCheck, href: '/dashboard/kyc' },
+  // { label: 'Logout', icon: HiArrowRightOnRectangle },
 ];

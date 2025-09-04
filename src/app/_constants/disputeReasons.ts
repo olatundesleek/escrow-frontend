@@ -18,6 +18,10 @@ export const disputeReasons: disputeReason[] = [
     label: 'Disagreement over refund or compensation',
   },
   {
+    value: 'escrow_not_completed',
+    label: 'Service rendered / Package delivered but escrow not completed',
+  },
+  {
     value: 'others',
     label: 'Others',
   },
