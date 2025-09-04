@@ -1,6 +1,6 @@
 type UserEscrowStatus = 'pending' | 'active' | 'rejected' | 'disputed';
 type UserPaymentStatus = 'unpaid' | 'paid' | 'pending';
-type UserEscrowFeePayment = 'buyer' | 'counterparty';
+type UserEscrowFeePayment = 'buyer' | 'seller' | 'split';
 type UserCreatorRole = 'buyer' | 'seller';
 type DisputeStatus = 'pending' | 'resolved';
 
@@ -19,17 +19,20 @@ export interface UserEscrowItem {
   description: string;
   createdAt: string;
   updatedAt: string;
+  sellerUsername?: string;
+  buyerUsername?: string;
   __v: number;
 }
 
 export interface AllUserEscrowsDataResponse {
   success: boolean;
   message: string;
-  escrows: {
+  escrows: UserEscrowItem[];
+  pagination: {
     total: number;
-    page: number;
-    limit: number;
-    data: UserEscrowItem[];
+    totalPage: number;
+    currentPage: number;
+    pageSize: number;
   };
 }
 

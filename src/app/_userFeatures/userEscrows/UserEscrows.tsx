@@ -27,11 +27,11 @@ export default function AdminEscrows() {
   if (userEscrowError) return toast.error(userEscrowError.message);
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-4">
+    <div className='flex flex-col items-center justify-center space-y-4'>
       <UserDashboardPageTitle>
         <Button
-          textSize="text-sm"
-          color="bg-dashboard-secondary text-dashboard-primary"
+          textSize='text-sm'
+          color='bg-dashboard-secondary text-dashboard-primary'
           onClick={() => setIsAddEscrowFormOpen(true)}
         >
           Create Escrow
@@ -40,11 +40,11 @@ export default function AdminEscrows() {
       <Modal
         isOpen={isAddEscrowFormOpen}
         onClose={handleCloseForm}
-        title="Create Escrow"
+        title='Create Escrow'
       >
         <AddEscrowForm handleCloseForm={handleCloseForm} />
       </Modal>
-      <UserEscrowTable escrowData={allUserEscrows?.escrows.data || []} />
+      <UserEscrowTable escrowData={allUserEscrows?.escrows || []} />
     </div>
   );
 }

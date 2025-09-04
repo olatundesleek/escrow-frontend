@@ -47,7 +47,7 @@ export async function getUserAllEscrows(
     ? `?${new URLSearchParams(query as Record<string, string>).toString()}`
     : '';
 
-  const allEscrowsUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrow${params}`;
+  const allEscrowsUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/escrows${params}`;
 
   try {
     const res = await fetch(allEscrowsUrl, {
@@ -330,7 +330,7 @@ export async function createDisputeApi(payload: {
   escrowId: string;
   reason: string;
 }): Promise<DisputeResponse> {
-  const createDisputeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/dispute/file`;
+  const createDisputeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/dispute-create`;
 
   try {
     const res = await fetch(createDisputeUrl, {

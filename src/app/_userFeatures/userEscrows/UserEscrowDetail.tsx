@@ -110,7 +110,10 @@ export default function UserEscrowDetail() {
         title='Create Dispute'
         width='w-full lg:max-w-lg max-w-lg'
       >
-        <CreateDisputeForm closeDisputeForm={closeCreateDispute} />
+        <CreateDisputeForm
+          closeDisputeForm={closeCreateDispute}
+          escrowId={escrowId}
+        />
       </Modal>
 
       <ConfirmModal
@@ -146,28 +149,31 @@ export default function UserEscrowDetail() {
       <div className='flex flex-col justify-center'>
         <UserDashboardPageTitle title={`Esrow #${id}`}>
           <div className='sm:flex sm:justify-end gap-4 w-2xs hidden sm:flex-1'>
-            {escrow.paymentStatus === 'paid' && (
-              <Button
-                color='bg-transparent text-error'
-                style='flex border border-error items-center gap-2 hover:bg-error hover:text-white font-light lg:font-bold'
-                padding='px-2 py-1'
-                textSize='lg:text-md text-sm'
-                onClick={openCreateDispute}
-              >
-                Create Dispute
-              </Button>
-            )}
-            {escrow.paymentStatus === 'paid' && type === 'buy' && (
-              <Button
-                color='bg-transparent text-dashboard-secondary'
-                style='flex border border-secondary items-center gap-2 hover:bg-dashboard-secondary hover:text-white font-light lg:font-bold'
-                padding='px-2 py-1'
-                textSize='lg:text-md text-sm'
-                onClick={openConfirmCompleteTrade}
-              >
-                Complete Trade
-              </Button>
-            )}
+            {escrow.paymentStatus === 'paid' &&
+              escrow.status !== 'disputed' && (
+                <Button
+                  color='bg-transparent text-error'
+                  style='flex border border-error items-center gap-2 hover:bg-error hover:text-white font-light lg:font-bold'
+                  padding='px-2 py-1'
+                  textSize='lg:text-md text-sm'
+                  onClick={openCreateDispute}
+                >
+                  Create Dispute
+                </Button>
+              )}
+            {escrow.paymentStatus === 'paid' &&
+              escrow.status !== 'disputed' &&
+              type === 'buy' && (
+                <Button
+                  color='bg-transparent text-dashboard-secondary'
+                  style='flex border border-secondary items-center gap-2 hover:bg-dashboard-secondary hover:text-white font-light lg:font-bold'
+                  padding='px-2 py-1'
+                  textSize='lg:text-md text-sm'
+                  onClick={openConfirmCompleteTrade}
+                >
+                  Complete Trade
+                </Button>
+              )}
             <span className='bg-dashboard-secondary text-dashboard-primary text-sm px-4 rounded flex justify-center items-center font-bold capitalize'>
               {escrow.status}
             </span>

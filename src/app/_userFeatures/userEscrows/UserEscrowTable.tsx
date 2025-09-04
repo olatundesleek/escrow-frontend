@@ -104,17 +104,47 @@ export default function UserEscrowTable({
     /*base columns*/
     const base: ColumnDef<UserEscrowItem>[] = [
       {
-        header: "Escrow ID",
-        accessorKey: "_id",
+        header: 'Escrow ID',
+        accessorKey: '_id',
         cell: ({ getValue }) => (
-          <span className="font-semibold text-indigo-700">
+          <span className='font-semibold text-indigo-700'>
             {getValue<string>()}
           </span>
         ),
       },
       {
-        header: "Type",
-        id: "type",
+        header: 'Seller',
+        accessorKey: 'sellerUsername',
+        cell: ({ getValue }) => {
+          const seller = getValue<string>();
+          if (!seller) {
+            return (
+              <span className='inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm bg-yellow-100 text-yellow-800'>
+                Pending acceptance
+              </span>
+            );
+          }
+          return <span className='text-gray-700'>{seller}</span>;
+        },
+      },
+      {
+        header: 'Buyer',
+        accessorKey: 'buyerUsername',
+        cell: ({ getValue }) => {
+          const buyer = getValue<string>();
+          if (!buyer) {
+            return (
+              <span className='inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm bg-yellow-100 text-yellow-800'>
+                Pending acceptance
+              </span>
+            );
+          }
+          return <span className='text-gray-700'>{buyer}</span>;
+        },
+      },
+      {
+        header: 'Type',
+        id: 'type',
         cell: ({ row }) => {
           const escrow = row.original;
           const type = getEscrowTypeForUser(escrow, currentUserId);
@@ -123,9 +153,9 @@ export default function UserEscrowTable({
           return (
             <span
               className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm ${
-                type === "buy"
-                  ? "bg-green-100 text-green-800" // Green for Buy
-                  : "bg-blue-100 text-blue-800" // Blue for Sell
+                type === 'buy'
+                  ? 'bg-green-100 text-green-800' // Green for Buy
+                  : 'bg-blue-100 text-blue-800' // Blue for Sell
               }`}
             >
               {type}
@@ -134,31 +164,31 @@ export default function UserEscrowTable({
         },
       },
       {
-        header: "Category",
-        accessorKey: "category",
+        header: 'Category',
+        accessorKey: 'category',
         cell: ({ getValue }) => (
-          <span className="text-gray-700">{getValue<string>()}</span>
+          <span className='text-gray-700'>{getValue<string>()}</span>
         ),
       },
       {
-        header: "Description",
-        accessorKey: "description",
+        header: 'Description',
+        accessorKey: 'description',
         cell: ({ getValue }) => (
-          <span className="text-gray-600 line-clamp-1 max-w-[200px] block">
+          <span className='text-gray-600 line-clamp-1 max-w-[200px] block'>
             {getValue<string>()}
           </span>
         ), // Added line-clamp for long descriptions
       },
       {
-        header: "Amount",
-        accessorKey: "amount",
+        header: 'Amount',
+        accessorKey: 'amount',
         cell: ({ getValue }) => {
           const amount = getValue<number>();
           return (
-            <span className="font-medium text-gray-800 whitespace-nowrap">
-              {amount.toLocaleString("en-NG", {
-                style: "currency",
-                currency: "NGN",
+            <span className='font-medium text-gray-800 whitespace-nowrap'>
+              {amount.toLocaleString('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
                 minimumFractionDigits: 2,
               })}
             </span>
@@ -166,39 +196,39 @@ export default function UserEscrowTable({
         },
       },
       {
-        header: "Status",
-        accessorKey: "status",
+        header: 'Status',
+        accessorKey: 'status',
         cell: ({ getValue }) => {
           const status = getValue<string>();
-          let bgColor = "bg-gray-100";
-          let textColor = "text-gray-700";
+          let bgColor = 'bg-gray-100';
+          let textColor = 'text-gray-700';
 
           switch (status) {
-            case "pending":
-              bgColor = "bg-yellow-100";
-              textColor = "text-yellow-800";
+            case 'pending':
+              bgColor = 'bg-yellow-100';
+              textColor = 'text-yellow-800';
               break;
-            case "active":
-              bgColor = "bg-purple-100"; // Dreamy purple for active
-              textColor = "text-purple-800";
+            case 'active':
+              bgColor = 'bg-purple-100'; // Dreamy purple for active
+              textColor = 'text-purple-800';
               break;
-            case "completed":
-              bgColor = "bg-green-100";
-              textColor = "text-green-800";
+            case 'completed':
+              bgColor = 'bg-green-100';
+              textColor = 'text-green-800';
               break;
-            case "cancelled":
-            case "rejected":
-              bgColor = "bg-red-100";
-              textColor = "text-red-800";
+            case 'cancelled':
+            case 'rejected':
+              bgColor = 'bg-red-100';
+              textColor = 'text-red-800';
               break;
-            case "disputed":
-              bgColor = "bg-orange-100";
-              textColor = "text-orange-800";
+            case 'disputed':
+              bgColor = 'bg-orange-100';
+              textColor = 'text-orange-800';
               break;
             default:
               // Fallback for any unknown status
-              bgColor = "bg-gray-100";
-              textColor = "text-gray-700";
+              bgColor = 'bg-gray-100';
+              textColor = 'text-gray-700';
           }
 
           return (
@@ -211,34 +241,34 @@ export default function UserEscrowTable({
         },
       },
       {
-        header: "Payment Status",
-        accessorKey: "paymentStatus",
+        header: 'Payment Status',
+        accessorKey: 'paymentStatus',
         cell: ({ getValue }) => {
           const paymentStatus = getValue<string>();
-          let bgColor = "bg-gray-100";
-          let textColor = "text-gray-700";
+          let bgColor = 'bg-gray-100';
+          let textColor = 'text-gray-700';
 
           switch (paymentStatus) {
-            case "pending":
-              bgColor = "bg-yellow-100";
-              textColor = "text-yellow-800";
+            case 'pending':
+              bgColor = 'bg-yellow-100';
+              textColor = 'text-yellow-800';
               break;
-            case "paid":
-              bgColor = "bg-emerald-100"; // Vibrant green for paid
-              textColor = "text-emerald-800";
+            case 'paid':
+              bgColor = 'bg-emerald-100'; // Vibrant green for paid
+              textColor = 'text-emerald-800';
               break;
-            case "refunded":
-              bgColor = "bg-cyan-100"; // Cyan for refunded
-              textColor = "text-cyan-800";
+            case 'refunded':
+              bgColor = 'bg-cyan-100'; // Cyan for refunded
+              textColor = 'text-cyan-800';
               break;
-            case "unpaid":
-              bgColor = "bg-red-100";
-              textColor = "text-red-800";
+            case 'unpaid':
+              bgColor = 'bg-red-100';
+              textColor = 'text-red-800';
               break;
             default:
               // Fallback for any unknown payment status
-              bgColor = "bg-gray-100";
-              textColor = "text-gray-700";
+              bgColor = 'bg-gray-100';
+              textColor = 'text-gray-700';
           }
 
           return (
@@ -251,16 +281,16 @@ export default function UserEscrowTable({
         },
       },
       {
-        header: "Date",
-        accessorKey: "createdAt",
+        header: 'Date',
+        accessorKey: 'createdAt',
         cell: ({ getValue }) => {
           const rawDate = getValue<number>();
           return (
-            <span className="text-gray-600 whitespace-nowrap">
-              {new Date(rawDate).toLocaleDateString("en-NG", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
+            <span className='text-gray-600 whitespace-nowrap'>
+              {new Date(rawDate).toLocaleDateString('en-NG', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
               })}
             </span>
           );

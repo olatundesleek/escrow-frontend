@@ -1,7 +1,8 @@
 import Button from '@/app/_components/Button';
 import { disputeReasons } from '@/app/_constants/disputeReasons';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
+import useCreateDispute from './useCreateDispute';
 
 interface CreateDisputeFormInputs {
   disputeReason: string;
@@ -10,8 +11,10 @@ interface CreateDisputeFormInputs {
 
 export default function CreateDisputeForm({
   closeDisputeForm,
+  escrowId,
 }: {
   closeDisputeForm: () => void;
+  escrowId: string;
 }) {
   const {
     register,
@@ -20,18 +23,25 @@ export default function CreateDisputeForm({
     watch,
   } = useForm<CreateDisputeFormInputs>();
 
+  const { createDispute, isCreatingDispute } = useCreateDispute(escrowId);
+
   const disputeReason = watch('disputeReason');
 
   const onSubmit = (data: CreateDisputeFormInputs) => {
     // If 'others' is selected, you can use the `otherReason` value.
     const reason =
-      data.disputeReason === 'others' ? data.otherReason : data.disputeReason;
+      data.disputeReason === 'others'
+        ? data.otherReason ?? ''
+        : data.disputeReason;
 
-    const submissionData = {
+    const disputeSubmissionData = {
       reason,
+      escrowId,
     };
-    console.log('Data to submit:', submissionData);
-    toast.success('Dispute request sent successfully');
+
+    console.log('Data to submit:', disputeSubmissionData);
+    createDispute(disputeSubmissionData);
+    // toast.success('Dispute request sent successfully');
     closeDisputeForm();
   };
 
@@ -89,19 +99,18 @@ export default function CreateDisputeForm({
       </div>
 
       <div>
-        <label htmlFor='otherReasons'>
-          Please give a short description here:
-        </label>
         {disputeReason === 'others' && (
-          <input
-            type='text'
-            id='otherReason'
-            className='border border-dashboard-border w-full p-2 rounded-lg'
-            {...register('otherReason', {
-              required:
-                'Please give a short description for the reason you are creating this dispute',
-            })}
-          />
+          <>
+            <input
+              type='text'
+              id='otherReason'
+              className='border border-dashboard-border w-full p-2 rounded-lg'
+              {...register('otherReason', {
+                required:
+                  'Please give a short description for the reason you are creating this dispute',
+              })}
+            />
+          </>
         )}
         {errors.otherReason && (
           <span className='text-error text-sm'>
@@ -114,6 +123,7 @@ export default function CreateDisputeForm({
         <Button
           type='submit'
           color='bg-dashboard-secondary text-dashboard-primary w-full'
+          isLoading={isCreatingDispute}
         >
           File Appeal
         </Button>
