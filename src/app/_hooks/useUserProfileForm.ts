@@ -1,7 +1,8 @@
+// useUserProfileForm.ts
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { changePassword } from "../_lib/auth";
-import { type FormValues } from "../_types/dashboardServicesTypes";
+import type { FormValues } from "../_types/dashboardServicesTypes";
 import {
   FaEnvelope,
   FaPhone,
@@ -11,40 +12,52 @@ import {
   FaMailBulk,
 } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { getUserProfile, updateUserProfile } from "../_lib/userProfile";
-import { initialUserType } from "../_types/userDashboardServicesTypes";
-import { intialUserData } from "../_constants/user";
+import { getUserProfile, updateUser } from "../_lib/userProfile";
+import type {
+  initialUserType,
+  User,
+} from "../_types/userDashboardServicesTypes";
 
 type StatusType = "success" | "error" | "";
 
+type ModalContent = {
+  title: string;
+  message: string;
+  isConfirm: boolean;
+  onConfirm: () => void;
+  confirmText?: string;
+};
+
 export const useUserProfileForm = () => {
-  const [user, setUser] = useState<initialUserType>(intialUserData);
+  // user can be null until fetched
+  const [user, setUser] = useState<initialUserType | null>(null);
 
   const fetchUser = async () => {
     try {
       const currentuser = await getUserProfile();
-      if (!currentuser.success) {
-        return;
-      }
 
-      console.log(currentuser);
+      if (!currentuser?.success) return;
 
-      const userdata: initialUserType = {
-        username: currentuser.user.data.username || "",
-        email: currentuser.user.data.email || "",
-        role: currentuser.user.data.role || "User",
-        joined: currentuser.user.data.joined || "",
-        avatar: currentuser.user.data.profilePicture || "/useravartar.png",
-        city: currentuser.user.data.address?.city || "",
-        streetAddress: currentuser.user.data.address.streetAddress || "",
-        country: currentuser.user.data.address?.country || "",
-        phone: currentuser.user.data.phone || "",
-        postalCode: currentuser.user.data.address?.postalCode || "",
+      const userdata = currentuser.data as User;
+      console.log("fetched user:", userdata);
+      // normalize into flat structure for the form
+      const normalizedUser: initialUserType = {
+        username: userdata.username ?? "",
+        email: userdata.email ?? "",
+        phone: userdata.phone ?? "",
+        role: userdata.role ?? "",
+        joined: "",
+        avatar: userdata.profilePicture ?? "",
+        streetAddress: userdata.address?.streetAddress ?? "",
+        city: userdata.address?.city ?? "",
+        country: userdata.address?.country ?? "",
+        state: userdata.address?.state ?? "",
+        postalCode: userdata.address?.postalCode ?? "",
       };
 
-      setUser(userdata);
-    } catch {
-      return;
+      setUser(normalizedUser);
+    } catch (err) {
+      console.error("fetchUser error", err);
     }
   };
 
@@ -52,15 +65,23 @@ export const useUserProfileForm = () => {
     fetchUser();
   }, []);
 
+  // avatar preview + file
   const [avatar, setAvatar] = useState<{ preview: string; file: File | null }>({
-    preview: user.avatar,
+    preview: "",
     file: null,
   });
+
+  // sync avatar preview when user loads
+  useEffect(() => {
+    if (user?.avatar) setAvatar({ preview: user.avatar, file: null });
+  }, [user?.avatar]);
+
   const [status, setStatus] = useState<{
     isSaving: boolean;
     message: string;
     type: StatusType;
   }>({ isSaving: false, message: "", type: "" });
+
   const [visibility, setVisibility] = useState({
     currentPassword: false,
     password: false,
@@ -72,28 +93,31 @@ export const useUserProfileForm = () => {
   const passwordRules = {
     minLength: { value: 6, message: "Minimum 6 characters" },
   };
+
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState({
+  const [modalContent, setModalContent] = useState<ModalContent>({
     title: "",
     message: "",
     isConfirm: false,
     onConfirm: () => {},
-    confirmText: "", // Added confirmText to state
+    confirmText: "Confirm",
   });
 
-  // For profile data
+  // ----------------------------
+  // Forms (react-hook-form)
+  // ----------------------------
   const profileForm = useForm<FormValues>({
     defaultValues: {
-      city: user.city,
-      streetAddress: user.streetAddress,
-      country: user.country,
-      phone: user.phone,
-      postalCode: user.postalCode,
+      streetAddress: user?.streetAddress ?? "",
+      city: user?.city ?? "",
+      state: user?.state ?? "",
+      country: user?.country ?? "",
+      phone: user?.phone ?? "",
+      postalCode: user?.postalCode ?? "",
     },
   });
 
-  // For password change
   const passwordForm = useForm<FormValues>({
     defaultValues: {
       currentPassword: "",
@@ -117,150 +141,153 @@ export const useUserProfileForm = () => {
     watch,
   } = passwordForm;
 
-  // Effect to reset form to current user data if user changes
+  // whenever user data updates, reset form values and avatar preview
   useEffect(() => {
     resetProfile({
-      city: user.city,
-      streetAddress: user.streetAddress,
-      country: user.country,
-      phone: user.phone,
-      postalCode: user.postalCode,
+      streetAddress: user?.streetAddress ?? "",
+      city: user?.city ?? "",
+      state: user?.state ?? "",
+      country: user?.country ?? "",
+      phone: user?.phone ?? "",
+      postalCode: user?.postalCode ?? "",
     });
+
     resetPassword({
       currentPassword: "",
       password: "",
       confirmPassword: "",
     });
 
-    setAvatar({ preview: user.avatar, file: null });
-  }, [user, resetProfile, resetPassword]);
+    setAvatar((prev) => ({ preview: user?.avatar ?? "", file: prev.file }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
+  // ----------------------------
+  // Password change
+  // ----------------------------
   const handleChangePassword = async (data: FormValues) => {
-    if (data.currentPassword || data.password || data.confirmPassword) {
-      setStatus({ isSaving: true, message: "", type: "" });
-      if (data.password !== data.confirmPassword) {
-        setStatus({
-          isSaving: false,
-          message: "Passwords do not match.",
-          type: "error",
-        });
-        return;
-      }
+    if (!data.currentPassword && !data.password && !data.confirmPassword)
+      return;
 
-      const result = await changePassword({
-        currentPassword: data.currentPassword,
-        newPassword: data.password,
-        confirmNewPassword: data.confirmPassword,
-      });
+    setStatus({ isSaving: true, message: "", type: "" });
 
-      if (!result.success) {
-        setStatus({ isSaving: false, message: result.message, type: "error" });
-        toast.error(result.message);
-        return;
-      }
-
-      toast.success(result.message);
+    if (data.password !== data.confirmPassword) {
       setStatus({
         isSaving: false,
-        message: "Password changed successfully.",
-        type: "success",
+        message: "Passwords do not match.",
+        type: "error",
       });
-
-      resetPassword({
-        ...watch(),
-        currentPassword: "",
-        password: "",
-        confirmPassword: "",
-      });
+      return;
     }
+
+    const result = await changePassword({
+      currentPassword: data.currentPassword,
+      newPassword: data.password,
+      confirmNewPassword: data.confirmPassword,
+    });
+
+    if (!result.success) {
+      setStatus({ isSaving: false, message: result.message, type: "error" });
+      toast.error(result.message);
+      return;
+    }
+
+    toast.success(result.message);
+    setStatus({
+      isSaving: false,
+      message: "Password changed successfully.",
+      type: "success",
+    });
+
+    resetPassword({
+      ...watch(),
+      currentPassword: "",
+      password: "",
+      confirmPassword: "",
+    });
   };
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // ----------------------------
+  // Avatar change: preview + immediate upload
+  // ----------------------------
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        setModalContent({
-          title: "File Too Large",
-          message: "Please select a file under 2MB.",
-          isConfirm: false,
-          onConfirm: () => setIsModalOpen(false),
-          confirmText: "",
-        });
-        setIsModalOpen(true);
-        return;
-      }
+    if (!file) return;
 
-      if (!file.type.startsWith("image/")) {
-        setModalContent({
-          title: "Invalid File Type",
-          message: "Please select a valid image file (e.g., PNG, JPG).",
-          isConfirm: false,
-          onConfirm: () => setIsModalOpen(false),
-          confirmText: "",
-        });
-        setIsModalOpen(true);
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () =>
-        setAvatar({ preview: reader.result as string, file });
-      reader.readAsDataURL(file);
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("File too large. Max 2MB.");
+      return;
     }
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Invalid file type. Please upload an image.");
+      return;
+    }
+
+    // show preview immediately
+    const reader = new FileReader();
+    reader.onload = () => setAvatar({ preview: reader.result as string, file });
+    reader.readAsDataURL(file);
+
+    setAvatar((prev) => ({ ...prev, file: null }));
   };
 
+  // ----------------------------
+  // Profile update (text fields)
+  // ----------------------------
   const onUpdateProfile = async (values: FormValues) => {
     setIsUpdating(true);
     try {
-      let res;
+      // Build a plain object with only changed/needed keys
+      const payload = {
+        streetAddress: "",
+        city: "",
+        state: "",
+        username: "",
+        country: "",
+        phone: "",
+        postalCode: "",
+        email: "",
+        profilePicture: avatar.file || undefined,
+      };
 
-      // Check if a new file has been selected
-      if (avatar.file) {
-        res = await updateUserProfile(
-          values.city,
-          values.streetAddress,
-          values.country,
-          values.phone,
-          values.postalCode,
-          avatar.file // Pass the File object
-        );
-      } else {
-        // Call the API without the file if no new image was selected
-        res = await updateUserProfile(
-          values.city,
-          values.streetAddress,
-          values.country,
-          values.phone,
-          values.postalCode
-        );
-      }
+      if (typeof values.streetAddress === "string")
+        payload.streetAddress = values.streetAddress;
+      if (typeof values.city === "string") payload.city = values.city;
+      if (typeof values.state === "string") payload.state = values.state;
+      if (typeof values.country === "string") payload.country = values.country;
+      if (typeof values.phone === "string") payload.phone = values.phone;
+      if (typeof values.postalCode === "string")
+        payload.postalCode = values.postalCode;
+      if (typeof values.profilePicture === "object")
+        payload.profilePicture = values.profilePicture;
 
-      if (!res.success) {
-        toast.error(res.message);
+      const res = await updateUser(payload); // updateUser handles JSON or FormData
+
+      if (!res?.success) {
+        toast.error(res?.message ?? "Failed to update profile");
         return;
       }
 
-      toast.success(res.message);
-      console.log(res);
-      // Update the local user state with the new values
-      setUser((prev) => ({
-        ...prev,
-        city: values.city,
-        streetAddress: values.streetAddress,
-        country: values.country,
-        phone: values.phone,
-        postalCode: values.postalCode,
-        avatar: avatar.preview, // The preview is now the "real" avatar
-      }));
+      // merge returned data (best-effort)
+      setUser((prev) => {
+        const updated = res.data ?? {};
+        return prev ? { ...prev, ...updated } : (updated as initialUserType);
+      });
 
+      toast.success(res.message ?? "Profile updated");
       resetProfile(values);
-      setAvatar((prev) => ({ ...prev, file: null }));
-    } catch {
-      toast.error("Something went wrong while updating profile.");
+    } catch (err) {
+      console.error("Profile update failed", err);
+      toast.error("Failed to update profile");
     } finally {
       setIsUpdating(false);
     }
   };
 
+  // ----------------------------
+  // Reset confirmation
+  // ----------------------------
   const handleReset = () => {
     setModalContent({
       title: "Confirm Reset",
@@ -269,26 +296,68 @@ export const useUserProfileForm = () => {
       isConfirm: true,
       onConfirm: () => {
         resetProfile({
-          city: user.city,
-          streetAddress: user.streetAddress,
-          country: user.country,
-          phone: user.phone,
-          postalCode: user.postalCode,
+          streetAddress: user?.streetAddress ?? "",
+          city: user?.city ?? "",
+          state: user?.state ?? "",
+          country: user?.country ?? "",
+          phone: user?.phone ?? "",
+          postalCode: user?.postalCode ?? "",
         });
         resetPassword({
           currentPassword: "",
           password: "",
           confirmPassword: "",
         });
-
-        setAvatar({ preview: user.avatar, file: null });
+        setAvatar({ preview: user?.avatar ?? "", file: null });
         setStatus({ isSaving: false, message: "", type: "" });
-        setIsModalOpen(false); // Close modal after reset
+        setIsModalOpen(false);
       },
-      confirmText: "Reset", // Added specific confirm text
+      confirmText: "Reset",
     });
     setIsModalOpen(true);
   };
+
+  // ----------------------------
+  // Fields order + helpers for forms & UI
+  // ----------------------------
+  const inputFields = [
+    {
+      name: "streetAddress",
+      label: "Street Address",
+      placeholder: "e.g., No. 9 Kemberi road",
+      rules: { required: "Street Address is required" },
+    },
+    {
+      name: "city",
+      label: "City",
+      placeholder: "e.g., New York",
+      rules: { required: "City is required" },
+    },
+    {
+      name: "state",
+      label: "State",
+      placeholder: "e.g., California",
+      rules: { required: "State is required" },
+    },
+    {
+      name: "country",
+      label: "Country",
+      placeholder: "e.g., USA",
+      rules: { required: "Country is required" },
+    },
+    {
+      name: "phone",
+      label: "Phone Number",
+      placeholder: "e.g., +123-456-7890",
+      rules: { required: "Phone is required" },
+    },
+    {
+      name: "postalCode",
+      label: "Postal Code",
+      placeholder: "e.g., 10001",
+      rules: { required: "Postal Code is required" },
+    },
+  ];
 
   const passwordFields = [
     {
@@ -314,65 +383,48 @@ export const useUserProfileForm = () => {
     },
   ] as const;
 
-  const inputFields = [
-    {
-      name: "city",
-      label: "City",
-      placeholder: "e.g., New York",
-      rules: { required: "City is required" },
-    },
-    {
-      name: "streetAddress",
-      label: "Street Address",
-      placeholder: "e.g., No. 9 Kemberi road",
-      rules: { required: "street Address is required" },
-    },
-    {
-      name: "phone",
-      label: "Phone Number",
-      placeholder: "e.g., +123-456-7890",
-      rules: { required: "Phone is required" },
-    },
-    {
-      name: "country",
-      label: "Country",
-      placeholder: "e.g., USA",
-      rules: { required: "Country is required" },
-    },
-    {
-      name: "postalCode",
-      label: "Postal Code",
-      placeholder: "e.g., 10001",
-      rules: { required: "Postal Code is required" },
-    },
-  ];
-
   const userInfo = [
     {
-      icon: FaEnvelope,
-      text: user.email || "",
-      color: "text-blue-500",
+      icon: FaFlag,
+      text: user?.country ?? "",
+      color: "text-yellow-600",
+      label: "Country",
+    },
+    {
+      icon: FaFlag,
+      text: user?.state ?? "",
+      color: "text-orange-500",
+      label: "State",
     },
     {
       icon: FaCity,
-      text: user.city || "",
+      text: user?.city ?? "",
       color: "text-blue-400",
+      label: "City",
     },
     {
       icon: FaMapMarkerAlt,
-      text: user.streetAddress || "",
+      text: user?.streetAddress ?? "",
       color: "text-red-500",
-    },
-    { icon: FaPhone, text: user.phone || "", color: "text-green-500" },
-    {
-      icon: FaFlag,
-      text: user.country || "",
-      color: "text-yellow-600",
+      label: "Street",
     },
     {
       icon: FaMailBulk,
-      text: user.postalCode || "",
+      text: user?.postalCode ?? "",
       color: "text-purple-500",
+      label: "Postal code",
+    },
+    {
+      icon: FaPhone,
+      text: user?.phone ?? "",
+      color: "text-green-500",
+      label: "Phone",
+    },
+    {
+      icon: FaEnvelope,
+      text: user?.email ?? "",
+      color: "text-blue-500",
+      label: "Email",
     },
   ];
 
@@ -382,23 +434,19 @@ export const useUserProfileForm = () => {
     avatar,
     inputFields,
     passwordFields,
-
     registerProfile,
     handleProfileSubmit,
     resetProfile,
     profileErrors,
-
     registerPassword,
     handlePasswordSubmit,
     resetPassword,
     passwordErrors,
     watch,
-
     handleAvatarChange,
     handleChangePassword,
     onUpdateProfile,
     handleReset,
-
     visibility,
     setVisibility,
     isModalOpen,

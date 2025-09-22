@@ -1,4 +1,4 @@
-import Button from '@/app/_components/Button';
+import {Button} from '@/app/_components/DashboardBtn';
 import { disputeReasons } from '@/app/_constants/disputeReasons';
 import { useForm } from 'react-hook-form';
 // import toast from 'react-hot-toast';
@@ -50,7 +50,7 @@ export default function CreateDisputeForm({
       <div>
         <label
           htmlFor='disputeReason'
-          className='block text-sm font-black mb-2'
+          className='block text-db-text-primary text-sm font-black mb-2'
         >
           Dispute Reason:
         </label>
@@ -58,10 +58,10 @@ export default function CreateDisputeForm({
         <select
           id='disputeReason'
           defaultValue={''}
-          className={`w-full ring ring-dashboard-border bg-dashboard-primary rounded-md p-2 cursor-pointer pr-8 outline-dashboard-secondary ${
+          className={`w-full ring ring-db-border bg-db-background rounded-md p-2 cursor-pointer pr-8 outline-db-secondary ${
             watch('disputeReason') === ''
-              ? 'text-gray-500'
-              : 'text-dashboard-secondary'
+              ? 'text-db-text-secondary'
+              : 'text-db-secondary'
           } ${errors.disputeReason && 'ring ring-error'}`}
           {...register('disputeReason', {
             required: {
@@ -75,7 +75,7 @@ export default function CreateDisputeForm({
         >
           <option
             value=''
-            className='text-dashboard-border cursor-pointer'
+            className='text-db-text-secondary cursor-pointer'
             disabled
           >
             --Select your dispute reason--
@@ -83,7 +83,7 @@ export default function CreateDisputeForm({
           {disputeReasons.map(({ value, label }) => (
             <option
               value={value.toLowerCase()}
-              className='hover:bg-dashboard-secondary'
+              className='hover:bg-db-border/50'
               key={value}
             >
               {label}
@@ -104,7 +104,7 @@ export default function CreateDisputeForm({
             <input
               type='text'
               id='otherReason'
-              className='border border-dashboard-border w-full p-2 rounded-lg'
+              className='border border-db-border w-full p-2 rounded-lg'
               {...register('otherReason', {
                 required:
                   'Please give a short description for the reason you are creating this dispute',
@@ -122,7 +122,9 @@ export default function CreateDisputeForm({
       <div className='flex justify-end mt-4'>
         <Button
           type='submit'
-          color='bg-dashboard-secondary text-dashboard-primary w-full'
+          variant="secondary"
+          className="w-full"
+          size="lg"
           isLoading={isCreatingDispute}
         >
           File Appeal

@@ -1,4 +1,3 @@
-// ConfirmModal.tsx
 'use client';
 
 import {
@@ -9,6 +8,7 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 import { Fragment } from 'react';
+import { Button } from './DashboardBtn';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -26,71 +26,64 @@ export default function ConfirmModal({
   onClose,
   onConfirm,
   title = 'Confirm Action',
-  message = 'Are you sure you want to proceed?',
-  confirmText = 'Continue',
+  message = 'Are you sure you want to continue?',
+  confirmText = 'Confirm',
   cancelText = 'Cancel',
-  variant,
+  variant = 'danger',
 }: ConfirmModalProps) {
-  const variantClasses = {
-    danger: 'bg-red-600 text-white hover:bg-red-700',
-    success: 'bg-green-600 text-white hover:bg-green-700',
-    info: 'bg-blue-600 text-white hover:bg-blue-700',
-  };
-
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as='div' className='relative z-50' onClose={onClose}>
+      <Dialog as="div" className="relative z-[9999]" onClose={onClose}>
+        {/* Backdrop */}
         <TransitionChild
           as={Fragment}
-          enter='ease-out duration-300'
-          enterFrom='opacity-0'
-          enterTo='opacity-100'
-          leave='ease-in duration-200'
-          leaveFrom='opacity-100'
-          leaveTo='opacity-0'
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
         >
-          <div className='fixed inset-0 bg-black/25' />
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
         </TransitionChild>
 
-        <div className='fixed inset-0 overflow-y-auto'>
-          <div className='flex min-h-full items-center justify-center p-4'>
-            <TransitionChild
-              as={Fragment}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0 scale-95'
-              enterTo='opacity-100 scale-100'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100 scale-100'
-              leaveTo='opacity-0 scale-95'
-            >
-              <DialogPanel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
-                <DialogTitle className='text-lg font-bold text-gray-900'>
-                  {title}
-                </DialogTitle>
-                <div className='mt-4 text-sm text-gray-700'>{message}</div>
+        {/* Centered Panel */}
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <TransitionChild
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <DialogPanel className="w-full max-w-sm rounded-2xl bg-db-surface p-6 shadow-2xl transition-all">
+              {/* Title */}
+              <DialogTitle className="text-lg font-semibold text-db-text-primary">
+                {title}
+              </DialogTitle>
 
-                <div className='mt-6 flex justify-end gap-4'>
-                  <button
-                    onClick={onClose}
-                    className='px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-100 cursor-pointer'
-                  >
-                    {cancelText}
-                  </button>
-                  <button
-                    onClick={() => {
-                      onConfirm();
-                      onClose();
-                    }}
-                    className={`${
-                      variantClasses[variant ?? 'danger']
-                    } px-4 py-2 text-sm rounded-md  cursor-pointer`}
-                  >
-                    {confirmText}
-                  </button>
-                </div>
-              </DialogPanel>
-            </TransitionChild>
-          </div>
+              {/* Message */}
+              <p className="mt-2 text-sm text-db-text-secondary">{message}</p>
+
+              {/* Actions */}
+              <div className="mt-6 flex justify-end gap-3">
+                <Button onClick={onClose} variant="danger">
+                  {cancelText}
+                </Button>
+                <Button
+                  onClick={() => {
+                    onConfirm();
+                    onClose();
+                  }}
+                  variant="secondary"
+                >
+                  {confirmText}
+                </Button>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </Dialog>
     </Transition>

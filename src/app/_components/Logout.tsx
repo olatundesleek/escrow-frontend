@@ -10,6 +10,7 @@ export default function Logout() {
     <ButtonIcon
       toolTip='Logout'
       style='lg:text-2xl'
+       tipPosition="bottom"
       isLoading={isLoading}
       onClick={handleLogout}
     >

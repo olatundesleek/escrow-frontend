@@ -7,7 +7,7 @@ import {
   escrowCategories,
   escrowCreatorRole,
 } from '@/app/_constants/escrowCategories';
-import Button from '@/app/_components/Button';
+import {Button} from '@/app/_components/DashboardBtn';
 import ButtonIcon from '@/app/_components/ButtonIcon';
 import { CreateEscrowFormInputs } from '@/app/_types/userDashboardServicesTypes';
 import useCreateEscrow from './useCreateEscrow';
@@ -15,10 +15,6 @@ import {
   formatCurrencyInput,
   parseCurrencyFormatted,
 } from '@/app/_utils/helpers';
-// import {
-//   formatCurrencyInput,
-//   parseCurrencyFormatted,
-// } from '@/app/_utils/helpers';
 
 export default function AddEscrowForm({
   handleCloseForm,
@@ -51,10 +47,10 @@ export default function AddEscrowForm({
   useEffect(() => {
     formRegister('terms', {
       validate: (value) =>
-        value && value.length > 0 ? true : 'Please add at least one term',
+        value && value.length > 0 ? true : 'Add at least one term',
     });
     formRegister('amount', {
-      required: 'Please input item amount',
+      required: 'Enter the escrow amount',
     });
   }, [formRegister]);
 
@@ -66,7 +62,7 @@ export default function AddEscrowForm({
     }
   }, [isAddingNewTerm]);
 
-  const handleAddTerm = function () {
+  const handleAddTerm = () => {
     if (!newTerm.trim()) {
       setNewTermError('Term cannot be empty');
       return;
@@ -77,7 +73,7 @@ export default function AddEscrowForm({
     setIsAddingNewTerm(false);
   };
 
-  const handleRemoveTerm = function (index: number) {
+  const handleRemoveTerm = (index: number) => {
     setValue(
       'terms',
       terms.filter((_, i) => i !== index),
@@ -85,158 +81,124 @@ export default function AddEscrowForm({
     );
   };
 
-  const handleAddTermInputKeydown = function (
-    e: React.KeyboardEvent<HTMLInputElement>,
-  ) {
+  const handleAddTermInputKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       handleAddTerm();
     }
   };
 
-  const onSubmit = function (data: CreateEscrowFormInputs) {
+  const onSubmit = (data: CreateEscrowFormInputs) => {
     createEscrow(data);
     handleCloseForm();
   };
 
   return (
-    <form className='space-y-4' onSubmit={handleSubmit(onSubmit)}>
-      <div className='flex w-full gap-3 py-4 sm:flex-col md:flex-row flex-col'>
-        {/* Escrow role select */}
-        <div className='w-full'>
-          <label
-            htmlFor='creatorRole'
-            className='block text-sm font-black mb-2'
-          >
-            I am the
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      {/* User role + Category */}
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="w-full">
+          <label htmlFor="creatorRole" className="block text-db-text-primary text-sm font-semibold mb-2">
+            Your Role
           </label>
           <select
-            id='creatorRole'
-            defaultValue={''}
-            className={`w-full ring ring-dashboard-border bg-dashboard-primary rounded-md p-2 cursor-pointer pr-8 outline-dashboard-secondary ${
+            id="creatorRole"
+            defaultValue=""
+            className={`w-full border border-db-border rounded-lg p-2 cursor-pointer pr-8 outline-db-primary bg-db-background ${
               watch('creatorRole') === ''
-                ? 'text-gray-500'
-                : 'text-dashboard-secondary'
-            } ${errors.creatorRole && 'ring ring-error'}`}
+                ? 'text-db-text-secondary'
+                : 'text-db-secondary'
+            } ${errors.creatorRole && 'border-error'}`}
             {...register('creatorRole', {
-              required: {
-                value: true,
-                message: 'Please select your role as the creator',
-              },
-              validate: (value) =>
-                value !== '' || 'Please select your role as the creator',
+              required: { value: true, message: 'Select your role' },
             })}
           >
-            <option
-              value=''
-              className='text-dashboard-border cursor-pointer'
-              disabled
-            >
-              --Select your role--
+            <option value="" disabled>
+              -- Select role --
             </option>
             {escrowCreatorRole.map(({ role }) => (
-              <option
-                value={role.toLowerCase()}
-                className='hover:bg-dashboard-secondary'
-                key={role}
-              >
+              <option key={role} value={role.toLowerCase()}>
                 {role}
               </option>
             ))}
           </select>
           {errors.creatorRole && (
-            <span className='text-error text-sm'>
-              {errors.creatorRole.message}
-            </span>
+            <span className="text-error text-sm">{errors.creatorRole.message}</span>
           )}
         </div>
 
-        {/* Escrow category select */}
-        <div className='w-full'>
-          <label htmlFor='category' className='block text-sm font-black mb-2'>
+        <div className="w-full">
+          <label htmlFor="category" className="block text-sm text-db-text-primary font-semibold mb-2">
             Escrow Category
           </label>
           <select
-            id='category'
-            defaultValue={''}
-            className={`w-full ring ring-dashboard-border bg-dashboard-primary rounded-md p-2 cursor-pointer pr-8 outline-dashboard-secondary ${
+            id="category"
+            defaultValue=""
+            className={`w-full border border-db-border rounded-lg p-2 cursor-pointer pr-8 outline-db-primary bg-db-background ${
               watch('category') === ''
-                ? 'text-gray-500'
-                : 'text-dashboard-secondary'
-            } ${errors.category && 'ring ring-error'}`}
+                ? 'text-db-text-secondary'
+                : 'text-db-secondary'
+            } ${errors.category && 'border-error'}`}
             {...register('category', {
-              required: {
-                value: true,
-                message: 'Please select category of escrow',
-              },
+              required: { value: true, message: 'Select escrow category' },
             })}
           >
-            <option value='' disabled>
-              --Select escrow category--
+            <option value="" className="bg-db-border" disabled>
+              -- Select category --
             </option>
             {escrowCategories.map((category) => (
-              <option value={category} key={category}>
+              <option key={category} value={category}>
                 {category}
               </option>
             ))}
           </select>
           {errors.category && (
-            <span className='text-error text-sm'>
-              {errors.category.message}
-            </span>
+            <span className="text-error text-sm">{errors.category.message}</span>
           )}
         </div>
       </div>
 
-      {/* Escrow counterparty */}
+      {/* Counterparty */}
       <div>
-        <label
-          htmlFor='counterpartyEmail'
-          className='block text-sm font-black mb-2'
-        >
+        <label htmlFor="counterpartyEmail" className="block text-sm text-db-text-primary font-semibold mb-2">
           Counterparty Email
         </label>
         <input
-          type='text'
-          id='counterpartyEmail'
-          className={`border border-dashboard-border w-full p-2 rounded-lg font-medium outline-dashboard-secondary outline-0 focus-within:border-0 focus-within:ring-2 focus:ring-secondary bg-white ${
+          type="text"
+          id="counterpartyEmail"
+          className={`border border-db-border text-db-text-secondary w-full p-2 rounded-lg outline-db-primary bg-db-background ${
             errors.counterpartyEmail ? 'border-error' : ''
           }`}
-          placeholder='e.g counterparty@gmail.com'
+          placeholder="e.g. counterparty@email.com"
           {...register('counterpartyEmail', {
-            required: {
-              value: true,
-              message: 'Please fill in the email of the other party',
-            },
+            required: { value: true, message: 'Enter the other party’s email' },
             pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: 'Invalid email address',
             },
           })}
         />
         {errors.counterpartyEmail && (
-          <span className='text-error text-sm'>
-            {errors.counterpartyEmail.message}
-          </span>
+          <span className="text-error text-sm">{errors.counterpartyEmail.message}</span>
         )}
       </div>
 
-      {/* Escrow amount */}
+      {/* Amount */}
       <div>
-        <label htmlFor='amount' className='block text-sm font-black mb-2'>
+        <label htmlFor="amount" className="block text-sm text-db-text-primary font-semibold mb-2">
           Amount (₦)
         </label>
         <input
-          type='text'
-          inputMode='decimal'
-          id='amount'
-          className={`border border-dashboard-border w-full p-2 rounded-lg font-medium outline-dashboard-secondary outline-0 focus-within:border-0 focus-within:ring-2 focus:ring-secondary bg-white ${
+          type="text"
+          inputMode="decimal"
+          id="amount"
+          className={`border border-db-borde text-db-text-secondary w-full p-2 rounded-lg outline-db-primary bg-db-background ${
             errors.amount ? 'border-error' : ''
           }`}
           value={amountDisplay}
-          placeholder='₦0.00'
+          placeholder="₦0.00"
           onChange={(e) => {
-            const rawValue = parseCurrencyFormatted(e.target.value); // Only allow numbers + dot
+            const rawValue = parseCurrencyFormatted(e.target.value);
             setAmountDisplay(rawValue.toString());
             setValue('amount', parseFloat(rawValue.toString()), {
               shouldValidate: true,
@@ -244,42 +206,39 @@ export default function AddEscrowForm({
           }}
           onBlur={() => {
             if (!amountDisplay) return;
-            const formatted = formatCurrencyInput(amountDisplay);
-            setAmountDisplay(formatted);
+            setAmountDisplay(formatCurrencyInput(amountDisplay));
           }}
           onFocus={(e) => {
-            // Remove formatting when user clicks to edit again
             const numeric = parseCurrencyFormatted(e.target.value);
             setAmountDisplay(numeric.toString());
           }}
         />
-
         {errors.amount && (
-          <span className='text-error text-sm'>{errors.amount.message}</span>
+          <span className="text-error text-sm">{errors.amount.message}</span>
         )}
       </div>
 
-      {/* Escrow terms */}
+      {/* Terms */}
       <div>
-        <label htmlFor='terms' className='block text-sm font-black mb-2'>
+        <label htmlFor="terms" className="block text-sm text-db-text-primary font-semibold mb-2">
           Terms
         </label>
-
         <ul
           className={`${
-            terms.length > 0 ? 'border border-dashboard-border' : ''
-          } p-2 rounded-t-lg space-y-2 overflow-y-auto h-full max-h-40 custom-scrollbar`}
+            terms.length > 0 ? 'border border-db-border' : ''
+          } p-2 rounded-t-lg space-y-2 overflow-y-auto max-h-40 custom-scrollbar`}
         >
           {terms.length > 0 ? (
             terms.map((term, i) => (
               <li
                 key={i}
-                className='flex justify-between items-center border border-dashboard-border px-3 py-2 rounded-md'
+                className="flex justify-between items-center border border-db-border px-3 py-2 rounded-md"
               >
                 <span>{term}</span>
                 <Button
-                  color='bg-transparent text-dashboard-secondary'
-                  textSize='text-sm'
+              variant="outline"
+              className="text-white"
+                  textSize="text-sm"
                   onClick={() => handleRemoveTerm(i)}
                 >
                   <IoCloseSharp />
@@ -287,143 +246,111 @@ export default function AddEscrowForm({
               </li>
             ))
           ) : (
-            <li className='text-gray-500'>No term added yet.</li>
+            <li className="text-db-text-secondary">No terms added yet.</li>
           )}
         </ul>
-        {errors.terms && (
-          <span className='text-error text-sm'>{errors.terms.message}</span>
-        )}
+        {errors.terms && <span className="text-error text-sm">{errors.terms.message}</span>}
 
         {isAddingNewTerm ? (
-          <div className='flex gap-2 mt-3'>
+          <div className="flex gap-2 mt-3">
             <input
-              id='terms'
-              name='terms'
+              id="terms"
               ref={termInputRef}
-              type='text'
+              type="text"
               value={newTerm}
               onChange={(e) => {
                 setNewTerm(e.target.value);
                 if (newTermError) setNewTermError(null);
               }}
               onKeyDown={handleAddTermInputKeydown}
-              placeholder='Add a term...'
-              className={`flex-1 border border-dashboard-border p-2 rounded-lg outline-dashboard-secondary ${
+              placeholder="Add a term..."
+              className={`flex-1 border border-db-border text-db-text-secondary p-2 rounded-lg outline-db-primary ${
                 newTermError ? 'border-error' : ''
               }`}
             />
             <ButtonIcon
-              style='rounded-full w-10 h-10 flex items-center justify-center'
-              onClick={() => handleAddTerm()}
+             onClick={() => handleAddTerm()}
             >
               <IoMdAdd />
             </ButtonIcon>
           </div>
         ) : (
           <div
-            className={`border border-dashboard-border p-2 ${
-              terms.length > 0
-                ? 'rounded-b-lg w-full'
-                : 'rounded-lg w-fit hover:bg-dashboard-border transition-colors duration-500'
-            } `}
+            className={` text-white p-2 ${
+              terms.length > 0 ? 'rounded-b-lg w-full' : 'rounded-lg w-fit'
+            }`}
           >
-            <button
-              aria-label='add a term'
-              type='button'
-              className='flex items-center gap-2 cursor-pointer text-gray-500'
+            <Button
+              type="button"
+            variant="outline"
               onClick={() => setIsAddingNewTerm(true)}
             >
-              <span>
-                <IoMdAdd />
-              </span>
-              <span>Add a term</span>
-            </button>
+              <IoMdAdd />
+              <span>Add term</span>
+            </Button>
           </div>
         )}
-        {newTermError && (
-          <span className='text-error text-sm'>{newTermError}</span>
-        )}
+        {newTermError && <span className="text-error text-sm">{newTermError}</span>}
       </div>
 
-      {/* Escrow description */}
+      {/* Description */}
       <div>
-        <label htmlFor='description' className='block text-sm font-black mb-2'>
+        <label htmlFor="description" className="block text-sm text-db-text-primary font-semibold mb-2">
           Description
         </label>
         <textarea
-          id='description'
+          id="description"
           rows={3}
-          className={`border border-dashboard-border w-full p-2 rounded-lg font-medium outline-dashboard-secondary outline-0 focus-within:border-0 focus-within:ring-2 focus:ring-secondary bg-white ${
+          className={`border border-db-border w-full p-2 text-db-text-secondary rounded-lg outline-db-primary bg-db-background ${
             errors.description ? 'border-error' : ''
           }`}
-          placeholder='Add a description of item...'
+          placeholder="Briefly describe the item..."
           {...register('description', {
-            required: {
-              value: true,
-              message: 'Please give a description of item',
-            },
+            required: { value: true, message: 'Enter a description' },
           })}
         />
         {errors.description && (
-          <span className='text-error text-sm'>
-            {errors.description.message}
-          </span>
+          <span className="text-error text-sm">{errors.description.message}</span>
         )}
       </div>
 
-      {/* Escrow fee payment */}
+      {/* Fee Payment */}
       <div>
-        <label
-          htmlFor='escrowFeePayment'
-          className='block text-sm font-black mb-2'
-        >
-          Escrow Fee Payment
+        <label htmlFor="escrowFeePayment" className="block text-sm text-db-text-primary font-semibold mb-2">
+          Who Pays Escrow Fee?
         </label>
         <Controller
-          name='escrowFeePayment'
+          name="escrowFeePayment"
           control={control}
-          defaultValue=''
-          rules={{ required: 'Please select who will pay the escrow fee' }}
+          defaultValue=""
+          rules={{ required: 'Select who pays the escrow fee' }}
           render={({ field }) => (
-            <div className='flex gap-2 border border-dashboard-border rounded-lg px-2'>
-              {[...escrowCreatorRole.map(({ role }) => role), 'Split'].map(
-                (payer) => {
-                  const value = payer.toLowerCase();
-
-                  return (
-                    <button
-                      key={payer}
-                      type='button'
-                      onClick={() => field.onChange(value)}
-                      className={`cursor-pointer px-4 py-1.5 rounded-lg  transition ${
-                        field.value === value
-                          ? 'bg-dashboard-secondary text-dashboard-primary font-bold'
-                          : 'hover:bg-dashboard-border'
-                      }`}
-                    >
-                      {payer}
-                    </button>
-                  );
-                },
-              )}
+            <div className="flex gap-2 border border-db-border rounded-lg p-2">
+              {[...escrowCreatorRole.map(({ role }) => role), 'Split'].map((payer) => {
+                const value = payer.toLowerCase();
+                return (
+                  <Button
+                    key={payer}
+                    variant={field.value === value ? "secondary" : "primary"}
+                    onClick={() => field.onChange(value)}
+                  
+                  >
+                    {payer}
+                  </Button>
+                );
+              })}
             </div>
           )}
         />
         {errors.escrowFeePayment && (
-          <span className='text-error text-sm'>
-            {errors.escrowFeePayment.message}
-          </span>
+          <span className="text-error text-sm">{errors.escrowFeePayment.message}</span>
         )}
       </div>
 
-      {/* Escrow submit button */}
-      <Button
-        color='bg-dashboard-secondary text-dashboard-primary w-full'
-        type='submit'
-      >
+      {/* Submit */}
+      <Button variant="secondary" size="lg" className="w-full" type="submit">
         Create Escrow
       </Button>
     </form>
   );
 }
-//.toLocaleString("en-US", { style: "currency", currency: "NGN" })

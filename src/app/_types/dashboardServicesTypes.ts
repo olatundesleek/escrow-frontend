@@ -94,4 +94,5 @@ export interface FormValues {
   profilePicture?: string;
   password: string;
   confirmPassword: string;
+  state: string;
 }

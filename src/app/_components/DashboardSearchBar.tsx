@@ -13,14 +13,14 @@ export default function DashBboardSearchBar({
 }) {
   return (
     <form
-      className={`border border-dashboard-border rounded items-center gap-x-4 w-full max-w-96 px-5 focus-within:ring-1 focus-within:border-0 focus-within:ring-dashboard-secondary transition-colors duration-300 ${display}`}
+      className={`border border-db-border bg-db-background rounded items-center gap-x-4 w-full max-w-96 px-5 focus-within:ring-1 focus-within:border-0 focus-within:ring-db-primary transition-colors duration-300 ${display}`}
     >
-      <HiOutlineSearch fontSize='1.25rem' className='text-gray-500' />
+      <HiOutlineSearch fontSize='1.25rem' className='text-db-text-primary hover:cursor-pointer' />
       <input
         type='search'
         value={value}
         // onChange={(e) => onChange?(e.target.value)}
-        className='w-full bg-transparent border-0 outline-0'
+        className='w-full bg-transparent border-0 outline-0 text-db-text-primary'
         placeholder={placeholder}
       />
     </form>

@@ -5,7 +5,7 @@ interface WalletDetailsCardProps {
   title: string;
   icon: React.ReactNode;
   color?: string;
-  bg: string; // Tailwind bg utility (e.g., "bg-blue-100")
+  bg?: string; // Tailwind bg utility (e.g., "bg-blue-100")
   border?: string; // Optional border class, defaults to "border border-dashboard-border"
 }
 
@@ -15,13 +15,14 @@ const WalletDetailsCard = ({
   icon,
   bg,
   color,
-  border = "border border-dashboard-border",
+  border = "border border-db-border",
 }: WalletDetailsCardProps) => {
   return (
     <div
       className={`
         flex justify-between items-center p-6
         rounded-2xl
+        bg-db-background
         ${bg}
         ${border}
         hover:shadow-sm                      
@@ -46,9 +47,8 @@ const WalletDetailsCard = ({
       <div
         className={`
           flex items-center justify-center
-          w-14 h-14 ${bg} rounded-xl
-          text-2xl text-white                
-          shadow-md                            
+          w-14 h-14 bg-db-surface ${bg} rounded-xl
+          text-2xl text-white                                           
         `}
       >
         {icon}

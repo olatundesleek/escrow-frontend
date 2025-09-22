@@ -7,7 +7,7 @@ import DataTable from '@/app/_components/DataTable';
 import RowActionMenu from '@/app/_components/RowActionMenu';
 // import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
 import { UserTransactionItem } from '@/app/_types/userDashboardServicesTypes';
-import Button from '@/app/_components/Button';
+import {Button} from '@/app/_components/DashboardBtn';
 
 interface BaseTransaction {
   _id: string;
@@ -105,14 +105,13 @@ export default function UserTransactionsTable({
   return (
     <>
       {variant === 'dashboard' && (
-        <div className='w-full flex justify-between items-center'>
-          <h2 className='text-lg font-semibold text-dashboard-secondary'>
+        <div className='w-full flex justify-between items-center p-4'>
+          <h2 className='text-lg font-semibold text-db-text-secondary'>
             Recent Transactions
           </h2>
           <Button
             onClick={() => push('/dashboard/transactions')}
-            style='text-sm text-dashboard-secondary'
-            color='bg-transparent text-dashboard-secondary hover:font-semibold'
+           size="sm"
           >
             View All
           </Button>

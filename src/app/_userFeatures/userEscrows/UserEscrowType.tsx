@@ -1,31 +1,28 @@
-export default function UserEscrowType({ type }: { type: 'buy' | 'sell' }) {
+export default function UserEscrowType({ type }: { type: "buy" | "sell" }) {
+  const isBuy = type === "buy";
+
+  const colorClasses = isBuy
+    ? "bg-success/10 border-success/30 text-success"
+    : "bg-db-primary/10 border-db-primary/30 text-db-primary";
+
+  const badgeClasses = isBuy
+    ? "bg-success/20 text-success"
+    : "bg-db-primary/20 text-db-primary";
+
   return (
-    <div className='w-full border border-dashboard-border rounded-lg overflow-hidden'>
-      <div
-        className={`w-full py-2 px-4  text-gray-700 text-base capitalize flex justify-between ${
-          type === 'buy'
-            ? 'bg-green-100 text-green-800'
-            : 'bg-blue-100 text-blue-800'
-        }`}
-      >
-        <span>Type</span>
+    <div className={`w-full border rounded-xl overflow-hidden shadow-sm ${colorClasses}`}>
+      {/* Header */}
+      <div className="py-2 px-4 text-sm font-medium uppercase tracking-wide bg-opacity-60">
+        Escrow Type
       </div>
-      <div
-        className={`flex bg-transparent border p-4 justify-between items-center ${
-          type === 'buy'
-            ? 'border-green-100 text-green-800'
-            : 'border-blue-100 text-blue-800'
-        }`}
-      >
-        <span>Trade Type</span>
+
+      {/* Body */}
+      <div className="flex items-center justify-between p-4 bg-db-surface">
+        <span className="text-db-text-secondary font-medium">Trade Type</span>
         <span
-          className={`text-sm border px-4 py-1 rounded-lg capitalize ${
-            type === 'buy'
-              ? 'bg-green-100  text-green-800'
-              : 'bg-blue-100 text-blue-800'
-          }`}
+          className={`px-3 py-1 text-xs font-semibold rounded-full border ${badgeClasses}`}
         >
-          {type.toUpperCase()}
+          {type}
         </span>
       </div>
     </div>

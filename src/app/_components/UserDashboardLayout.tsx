@@ -21,8 +21,7 @@ export default function UserDashboardLayout({
 
   // Base layout classes: Grid for larger screens, flex column for smaller
   const layoutClasses = `
-    flex flex-col min-h-screen bg-dashboard-primary bg-gradient-to-b from-gray-50 to-purple-50
-    lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr] lg:h-screen
+    flex flex-col min-h-screen bg-db-background lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr] lg:h-screen
   `;
   //
 
@@ -77,7 +76,7 @@ export default function UserDashboardLayout({
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-6 rounded-lg bg-indigo-600 px-6 py-3 text-white shadow-md transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="mt-6 rounded-lg bg-db-text px-6 py-3 text-db-text shadow-md transition-colors hover:bg-db-text focus:outline-none focus:ring-2 focus:ring-db-text focus:ring-offset-2"
             >
               Refresh Page
             </button>

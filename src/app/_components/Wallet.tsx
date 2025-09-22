@@ -13,7 +13,7 @@ import {
 } from '../_hooks/useCardData';
 import FullPageLoader from './FullPageLoader';
 import toast from 'react-hot-toast';
-import Button from './Button';
+import {Button} from './DashboardBtn';
 import Modal from './Modal';
 import Deposit from '../_userFeatures/userWalletManagement/Deposit';
 import useConfirmModal from '../_hooks/useConfirmModal';
@@ -155,16 +155,12 @@ export default function Wallet() {
           {/* Transaction Buttons */}
           <div className='grid grid-cols-1 min-[360px]:grid-cols-2 gap-2 sm:gap-6'>
             <Button //button to trigger deposit
-              color={'bg-dashboard-secondary text-dashboard-primary'}
-              style='flex items-center justify-center gap-2 rounded-xl p-1 text-xs sm:text-sm cursor-pointer font-semibold shadow-xl transition-all duration-300 hover:bg-black/25 hover:text-black active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-black/50 border border-black/20 transform hover:translate-y-[-2px]'
-              onClick={openDeposit}
+             onClick={openDeposit}
             >
               Deposit
             </Button>
             <Button
-              color={'bg-dashboard-secondary text-dashboard-primary'}
-              style='flex items-center justify-center gap-3 rounded-xl p-1 text-xs sm:text-sm cursor-pointer font-semibold shadow-xl transition-all duration-300 hover:bg-black/25 hover:text-black active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-black/50 border border-black/20 transform hover:translate-y-[-2px]'
-              onClick={() => toast.success('Withdrawal feature coming soon')}
+             onClick={() => toast.success('Withdrawal feature coming soon')}
             >
               Withdraw
             </Button>

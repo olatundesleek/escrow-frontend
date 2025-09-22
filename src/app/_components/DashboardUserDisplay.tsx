@@ -24,29 +24,29 @@ const DashboardUserDisplay = ({
       <UserDetailCard
         title='Total Users'
         value={totalUsers || 0}
-        bg='bg-purple-100 border-1 border-purple-200'
-        icon={<LuUsers className=' text-purple-500' />}
+        bg='bg-db-primary/20 border-1 border-db-primary/50'
+        icon={<LuUsers className=' text-db-text-primary' />}
       />
 
       <UserDetailCard
         title='Total Escrow'
         value={totalEscrows || 0}
-        bg='bg-green-100 border-1 border-green-200'
-        icon={<HiOutlineCash className=' text-green-500' />}
+        bg='bg-db-success/20 border-1 border-db-success/50'
+        icon={<HiOutlineCash className=' text-db-success' />}
       />
 
       <UserDetailCard
         title='Total Transactions'
         value={totalTransactions || 0}
-        bg='bg-orange-100 border-1 border-orange-200'
-        icon={<HiOutlineCurrencyDollar className=' text-orange-500' />}
+        bg='bg-db-warning/20 border-1 border-db-warning/50'
+        icon={<HiOutlineCurrencyDollar className=' text-db-warning' />}
       />
 
       <UserDetailCard
         title='Online Users'
         value={totalDisputes || 0}
-        bg='bg-green-100 border-1 border-green-200'
-        icon={<HiOutlineStatusOnline className='text-secondary' />}
+        bg='bg-db-success/20 border-1 border-db-success/50'
+        icon={<HiOutlineStatusOnline className='text-db-text-secondary' />}
       />
     </div>
   );

@@ -107,7 +107,7 @@ export default function UserEscrowTable({
         header: 'Escrow ID',
         accessorKey: '_id',
         cell: ({ getValue }) => (
-          <span className='font-semibold text-indigo-700'>
+          <span className='font-semibold text-db-text-secondary text-xs'>
             {getValue<string>()}
           </span>
         ),
@@ -119,12 +119,12 @@ export default function UserEscrowTable({
           const seller = getValue<string>();
           if (!seller) {
             return (
-              <span className='inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm bg-yellow-100 text-yellow-800'>
+              <span className='inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm bg-warning/20 text-warning'>
                 Pending acceptance
               </span>
             );
           }
-          return <span className='text-gray-700'>{seller}</span>;
+          return <span className='text-db-text-secondary'>{seller}</span>;
         },
       },
       {
@@ -134,12 +134,12 @@ export default function UserEscrowTable({
           const buyer = getValue<string>();
           if (!buyer) {
             return (
-              <span className='inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm bg-yellow-100 text-yellow-800'>
+              <span className='inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm bg-warning/20 text-warning'>
                 Pending acceptance
               </span>
             );
           }
-          return <span className='text-gray-700'>{buyer}</span>;
+          return <span className='text-db-text-secondary'>{buyer}</span>;
         },
       },
       {
@@ -154,8 +154,8 @@ export default function UserEscrowTable({
             <span
               className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm ${
                 type === 'buy'
-                  ? 'bg-green-100 text-green-800' // Green for Buy
-                  : 'bg-blue-100 text-blue-800' // Blue for Sell
+                  ? 'bg-success/20 text-success' // Green for Buy
+                  : 'bg-db-primary/20 text-db-primary' // Blue for Sell
               }`}
             >
               {type}
@@ -167,14 +167,14 @@ export default function UserEscrowTable({
         header: 'Category',
         accessorKey: 'category',
         cell: ({ getValue }) => (
-          <span className='text-gray-700'>{getValue<string>()}</span>
+          <span className='text-db-text-secondary'>{getValue<string>()}</span>
         ),
       },
       {
         header: 'Description',
         accessorKey: 'description',
         cell: ({ getValue }) => (
-          <span className='text-gray-600 line-clamp-1 max-w-[200px] block'>
+          <span className='text-db-text-secondary line-clamp-1 max-w-[200px] block'>
             {getValue<string>()}
           </span>
         ), // Added line-clamp for long descriptions
@@ -185,7 +185,7 @@ export default function UserEscrowTable({
         cell: ({ getValue }) => {
           const amount = getValue<number>();
           return (
-            <span className='font-medium text-gray-800 whitespace-nowrap'>
+            <span className='font-medium text-db-primary whitespace-nowrap'>
               {amount.toLocaleString('en-NG', {
                 style: 'currency',
                 currency: 'NGN',
@@ -200,25 +200,25 @@ export default function UserEscrowTable({
         accessorKey: 'status',
         cell: ({ getValue }) => {
           const status = getValue<string>();
-          let bgColor = 'bg-gray-100';
-          let textColor = 'text-gray-700';
+          let bgColor = 'bg-db-surface';
+          let textColor = 'text-db-text-secondary';
 
           switch (status) {
             case 'pending':
-              bgColor = 'bg-yellow-100';
-              textColor = 'text-yellow-800';
+              bgColor = 'bg-warning/20';
+              textColor = 'text-warning';
               break;
             case 'active':
-              bgColor = 'bg-purple-100'; // Dreamy purple for active
-              textColor = 'text-purple-800';
+              bgColor = 'bg-purple-500/20';  
+              textColor = 'text-purple-500';
               break;
             case 'completed':
-              bgColor = 'bg-green-100';
+              bgColor = 'bg-success/20';
               textColor = 'text-green-800';
               break;
             case 'cancelled':
             case 'rejected':
-              bgColor = 'bg-red-100';
+              bgColor = 'bg-error/20';
               textColor = 'text-red-800';
               break;
             case 'disputed':
@@ -227,8 +227,8 @@ export default function UserEscrowTable({
               break;
             default:
               // Fallback for any unknown status
-              bgColor = 'bg-gray-100';
-              textColor = 'text-gray-700';
+              bgColor = 'bg-db-primary/20';
+              textColor = 'text-db-text-secondary';
           }
 
           return (
@@ -245,35 +245,35 @@ export default function UserEscrowTable({
         accessorKey: 'paymentStatus',
         cell: ({ getValue }) => {
           const paymentStatus = getValue<string>();
-          let bgColor = 'bg-gray-100';
-          let textColor = 'text-gray-700';
+          let bgColor = 'bg-db-primary/20';
+          let textColor = 'text-db-text-secondary';
 
           switch (paymentStatus) {
             case 'pending':
-              bgColor = 'bg-yellow-100';
-              textColor = 'text-yellow-800';
+              bgColor = 'bg-warning/20';
+              textColor = 'text-warning';
               break;
             case 'paid':
-              bgColor = 'bg-emerald-100'; // Vibrant green for paid
-              textColor = 'text-emerald-800';
+              bgColor = 'bg-db-secondary/20'; // Vibrant green for paid
+              textColor = 'text-db-secondary';
               break;
             case 'refunded':
-              bgColor = 'bg-cyan-100'; // Cyan for refunded
-              textColor = 'text-cyan-800';
+              bgColor = 'bg-db-primary/20'; // Cyan for refunded
+              textColor = 'text-db-primary';
               break;
             case 'unpaid':
-              bgColor = 'bg-red-100';
-              textColor = 'text-red-800';
+              bgColor = 'bg-error/20';
+              textColor = 'text-error';
               break;
             default:
               // Fallback for any unknown payment status
-              bgColor = 'bg-gray-100';
-              textColor = 'text-gray-700';
+              bgColor = 'bg-db-primary/20';
+              textColor = 'text-db-text-secondary';
           }
 
           return (
             <span
-              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm ${bgColor} ${textColor}`}
+              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase ${bgColor} ${textColor}`}
             >
               {paymentStatus}
             </span>
@@ -286,7 +286,7 @@ export default function UserEscrowTable({
         cell: ({ getValue }) => {
           const rawDate = getValue<number>();
           return (
-            <span className='text-gray-600 whitespace-nowrap'>
+            <span className='text-db-primary whitespace-nowrap'>
               {new Date(rawDate).toLocaleDateString('en-NG', {
                 year: 'numeric',
                 month: 'short',
