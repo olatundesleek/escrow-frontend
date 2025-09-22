@@ -22,8 +22,10 @@ import {
 
 export default function AddEscrowForm({
   handleCloseForm,
+  initialValues = {},
 }: {
   handleCloseForm: () => void;
+  initialValues?: Partial<CreateEscrowFormInputs>;
 }) {
   const [newTerm, setNewTerm] = useState<string>('');
   const [newTermError, setNewTermError] = useState<string | null>('');
@@ -43,6 +45,12 @@ export default function AddEscrowForm({
   } = useForm<CreateEscrowFormInputs>({
     defaultValues: {
       terms: [],
+      creatorRole: initialValues.creatorRole || '',
+      amount: initialValues.amount || undefined,
+      category: initialValues.category || '',
+      counterpartyEmail: '',
+      description: '',
+      escrowFeePayment: '',
     },
   });
 
@@ -65,6 +73,15 @@ export default function AddEscrowForm({
       termInputRef.current.focus();
     }
   }, [isAddingNewTerm]);
+
+  useEffect(() => {
+    if (initialValues.amount) {
+      const numeric = Number(initialValues.amount);
+      setAmountDisplay(numeric.toString());
+      setValue('amount', numeric, { shouldValidate: true });
+    }
+    return () => {};
+  }, [initialValues.amount, setValue]);
 
   const handleAddTerm = function () {
     if (!newTerm.trim()) {
