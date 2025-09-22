@@ -1,6 +1,21 @@
 import { IconType } from 'react-icons';
 import { FaMoneyBillWave } from 'react-icons/fa';
 
+export const ESCROW_FILTER_LIST = [
+  'status',
+  'sort',
+  'creatorRole',
+  'category',
+  'amount',
+  'limit',
+];
+
+export const ESCROW_PREFILL_KEYS = [
+  'prefillCreatorRole',
+  'prefillCategory',
+  'prefillAmount',
+];
+
 interface Role {
   role: string;
   icon?: IconType;
