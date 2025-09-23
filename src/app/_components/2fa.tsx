@@ -11,7 +11,7 @@ export default function CodeVerification() {
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [code, setCode] = useState<string[]>(Array(6).fill("")); // Array for 6-digit code
-  const inputRefs = useRef<HTMLInputElement[]>([]); // Refs for input fields
+  const inputRefs = useRef<HTMLInputElement[]>([]);
 
   useEffect(() => {
     const emailFromSession = sessionStorage.getItem("email");
