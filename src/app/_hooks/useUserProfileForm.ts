@@ -35,11 +35,12 @@ export const useUserProfileForm = () => {
   const fetchUser = async () => {
     try {
       const currentuser = await getUserProfile();
+      console.log("getUserProfile response:", currentuser);
 
       if (!currentuser?.success) return;
 
       const userdata = currentuser.data as User;
-      console.log("fetched user:", userdata);
+
       // normalize into flat structure for the form
       const normalizedUser: initialUserType = {
         username: userdata.username ?? "",

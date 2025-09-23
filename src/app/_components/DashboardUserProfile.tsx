@@ -14,7 +14,8 @@ import { useUserProfileForm } from "../_hooks/useUserProfileForm";
 import { FormValues } from "../_types/dashboardServicesTypes";
 import { Button } from "./DashboardBtn";
 import useUserDashboard from "../_userFeatures/userDashboard/useUserDashboard";
-
+import { getUserProfile } from "../_lib/userProfile";
+import { useEffect } from "react";
 /**
  * UserProfile Page
  *
@@ -50,6 +51,14 @@ export default function UserProfile() {
   } = useUserProfileForm();
 
   const { userDashboardData } = useUserDashboard();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const currentuser = await getUserProfile();
+      console.log(currentuser);
+    };
+    fetch();
+  }, []);
 
   const createdAt = userDashboardData?.dashboardDetails?.data?.createdAt ?? "";
 

@@ -19,6 +19,7 @@ export const getUserProfile = async (): Promise<ApiResponse | null> => {
     );
 
     const data = await response.json();
+    console.log("Data: ", data);
 
     if (!response.ok) {
       return { success: false, message: data.message };
@@ -87,7 +88,7 @@ export const updateUser = async ({
     return {
       success: true,
       message: data.message || "Profile updated",
-      data: data.user,
+      data: data.data,
     };
   } catch (error) {
     console.error("Error updating user profile:", error);
