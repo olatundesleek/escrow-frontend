@@ -3,10 +3,19 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { lightDbTheme, darkDbTheme } from "../_utils/theme";
 
-const DbThemeContext = createContext<any>(null);
+// ✅ Define a type for your theme object
+type Theme = typeof lightDbTheme;
+
+// ✅ Define the shape of your context
+interface DbThemeContextType {
+  theme: Theme;
+  toggleTheme: () => void;
+}
+
+const DbThemeContext = createContext<DbThemeContextType | undefined>(undefined);
 
 export function DbThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState(darkDbTheme);
+  const [theme, setTheme] = useState<Theme>(darkDbTheme);
 
   useEffect(() => {
     Object.entries(theme).forEach(([key, value]) => {
@@ -24,4 +33,10 @@ export function DbThemeProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useDbTheme = () => useContext(DbThemeContext);
+export const useDbTheme = (): DbThemeContextType => {
+  const context = useContext(DbThemeContext);
+  if (!context) {
+    throw new Error("useDbTheme must be used within a DbThemeProvider");
+  }
+  return context;
+};

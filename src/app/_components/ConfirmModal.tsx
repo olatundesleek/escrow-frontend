@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Dialog,
@@ -6,9 +6,9 @@ import {
   DialogTitle,
   Transition,
   TransitionChild,
-} from '@headlessui/react';
-import { Fragment } from 'react';
-import { Button } from './DashboardBtn';
+} from "@headlessui/react";
+import { Fragment } from "react";
+import { Button } from "./DashboardBtn";
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -18,18 +18,17 @@ interface ConfirmModalProps {
   message?: string;
   confirmText?: string;
   cancelText?: string;
-  variant?: 'danger' | 'success' | 'info';
+  variant?: "danger" | "success" | "info";
 }
 
 export default function ConfirmModal({
   isOpen,
   onClose,
   onConfirm,
-  title = 'Confirm Action',
-  message = 'Are you sure you want to continue?',
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
-  variant = 'danger',
+  title = "Confirm Action",
+  message = "Are you sure you want to continue?",
+  confirmText = "Confirm",
+  cancelText = "Cancel",
 }: ConfirmModalProps) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
