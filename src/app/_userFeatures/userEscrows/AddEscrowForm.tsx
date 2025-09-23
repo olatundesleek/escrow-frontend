@@ -278,7 +278,7 @@ export default function AddEscrowForm({
                 <Button
                   variant="outline"
                   className="text-white"
-                  textSize="text-sm"
+                  textSize="sm"
                   onClick={() => handleRemoveTerm(i)}
                 >
                   <IoCloseSharp />
