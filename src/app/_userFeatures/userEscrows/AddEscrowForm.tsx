@@ -1,30 +1,32 @@
-import { IoMdAdd } from 'react-icons/io';
-import { IoCloseSharp } from 'react-icons/io5';
-import { useEffect, useRef, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { IoMdAdd } from "react-icons/io";
+import { IoCloseSharp } from "react-icons/io5";
+import { useEffect, useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 import {
   escrowCategories,
   escrowCreatorRole,
-} from '@/app/_constants/escrowCategories';
-import {Button} from '@/app/_components/DashboardBtn';
-import ButtonIcon from '@/app/_components/ButtonIcon';
-import { CreateEscrowFormInputs } from '@/app/_types/userDashboardServicesTypes';
-import useCreateEscrow from './useCreateEscrow';
+} from "@/app/_constants/escrowCategories";
+import { Button } from "@/app/_components/DashboardBtn";
+import ButtonIcon from "@/app/_components/ButtonIcon";
+import { CreateEscrowFormInputs } from "@/app/_types/userDashboardServicesTypes";
+import useCreateEscrow from "./useCreateEscrow";
 import {
   formatCurrencyInput,
   parseCurrencyFormatted,
-} from '@/app/_utils/helpers';
+} from "@/app/_utils/helpers";
 
 export default function AddEscrowForm({
   handleCloseForm,
+  initialValues = {},
 }: {
   handleCloseForm: () => void;
+  initialValues?: Partial<CreateEscrowFormInputs>;
 }) {
-  const [newTerm, setNewTerm] = useState<string>('');
-  const [newTermError, setNewTermError] = useState<string | null>('');
+  const [newTerm, setNewTerm] = useState<string>("");
+  const [newTermError, setNewTermError] = useState<string | null>("");
   const [isAddingNewTerm, setIsAddingNewTerm] = useState<boolean>(false);
-  const [amountDisplay, setAmountDisplay] = useState<string>('');
+  const [amountDisplay, setAmountDisplay] = useState<string>("");
 
   const termInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -39,22 +41,28 @@ export default function AddEscrowForm({
   } = useForm<CreateEscrowFormInputs>({
     defaultValues: {
       terms: [],
+      creatorRole: initialValues.creatorRole || "",
+      amount: initialValues.amount || undefined,
+      category: initialValues.category || "",
+      counterpartyEmail: "",
+      description: "",
+      escrowFeePayment: "",
     },
   });
 
   const { createEscrow } = useCreateEscrow();
 
   useEffect(() => {
-    formRegister('terms', {
+    formRegister("terms", {
       validate: (value) =>
-        value && value.length > 0 ? true : 'Add at least one term',
+        value && value.length > 0 ? true : "Add at least one term",
     });
-    formRegister('amount', {
-      required: 'Enter the escrow amount',
+    formRegister("amount", {
+      required: "Enter the escrow amount",
     });
   }, [formRegister]);
 
-  const terms = watch('terms') || [];
+  const terms = watch("terms") || [];
 
   useEffect(() => {
     if (isAddingNewTerm && termInputRef.current) {
@@ -62,27 +70,38 @@ export default function AddEscrowForm({
     }
   }, [isAddingNewTerm]);
 
+  useEffect(() => {
+    if (initialValues.amount) {
+      const numeric = Number(initialValues.amount);
+      setAmountDisplay(numeric.toString());
+      setValue("amount", numeric, { shouldValidate: true });
+    }
+    return () => {};
+  }, [initialValues.amount, setValue]);
+
   const handleAddTerm = () => {
     if (!newTerm.trim()) {
-      setNewTermError('Term cannot be empty');
+      setNewTermError("Term cannot be empty");
       return;
     }
     setNewTermError(null);
-    setValue('terms', [...terms, newTerm.trim()], { shouldValidate: true });
-    setNewTerm('');
+    setValue("terms", [...terms, newTerm.trim()], { shouldValidate: true });
+    setNewTerm("");
     setIsAddingNewTerm(false);
   };
 
   const handleRemoveTerm = (index: number) => {
     setValue(
-      'terms',
+      "terms",
       terms.filter((_, i) => i !== index),
-      { shouldValidate: true },
+      { shouldValidate: true }
     );
   };
 
-  const handleAddTermInputKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+  const handleAddTermInputKeydown = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "Enter") {
       e.preventDefault();
       handleAddTerm();
     }
@@ -98,19 +117,22 @@ export default function AddEscrowForm({
       {/* User role + Category */}
       <div className="flex flex-col md:flex-row gap-6">
         <div className="w-full">
-          <label htmlFor="creatorRole" className="block text-db-text-primary text-sm font-semibold mb-2">
+          <label
+            htmlFor="creatorRole"
+            className="block text-db-text-primary text-sm font-semibold mb-2"
+          >
             Your Role
           </label>
           <select
             id="creatorRole"
             defaultValue=""
             className={`w-full border border-db-border rounded-lg p-2 cursor-pointer pr-8 outline-db-primary bg-db-background ${
-              watch('creatorRole') === ''
-                ? 'text-db-text-secondary'
-                : 'text-db-secondary'
-            } ${errors.creatorRole && 'border-error'}`}
-            {...register('creatorRole', {
-              required: { value: true, message: 'Select your role' },
+              watch("creatorRole") === ""
+                ? "text-db-text-secondary"
+                : "text-db-secondary"
+            } ${errors.creatorRole && "border-error"}`}
+            {...register("creatorRole", {
+              required: { value: true, message: "Select your role" },
             })}
           >
             <option value="" disabled>
@@ -123,24 +145,29 @@ export default function AddEscrowForm({
             ))}
           </select>
           {errors.creatorRole && (
-            <span className="text-error text-sm">{errors.creatorRole.message}</span>
+            <span className="text-error text-sm">
+              {errors.creatorRole.message}
+            </span>
           )}
         </div>
 
         <div className="w-full">
-          <label htmlFor="category" className="block text-sm text-db-text-primary font-semibold mb-2">
+          <label
+            htmlFor="category"
+            className="block text-sm text-db-text-primary font-semibold mb-2"
+          >
             Escrow Category
           </label>
           <select
             id="category"
             defaultValue=""
             className={`w-full border border-db-border rounded-lg p-2 cursor-pointer pr-8 outline-db-primary bg-db-background ${
-              watch('category') === ''
-                ? 'text-db-text-secondary'
-                : 'text-db-secondary'
-            } ${errors.category && 'border-error'}`}
-            {...register('category', {
-              required: { value: true, message: 'Select escrow category' },
+              watch("category") === ""
+                ? "text-db-text-secondary"
+                : "text-db-secondary"
+            } ${errors.category && "border-error"}`}
+            {...register("category", {
+              required: { value: true, message: "Select escrow category" },
             })}
           >
             <option value="" className="bg-db-border" disabled>
@@ -153,39 +180,49 @@ export default function AddEscrowForm({
             ))}
           </select>
           {errors.category && (
-            <span className="text-error text-sm">{errors.category.message}</span>
+            <span className="text-error text-sm">
+              {errors.category.message}
+            </span>
           )}
         </div>
       </div>
 
       {/* Counterparty */}
       <div>
-        <label htmlFor="counterpartyEmail" className="block text-sm text-db-text-primary font-semibold mb-2">
+        <label
+          htmlFor="counterpartyEmail"
+          className="block text-sm text-db-text-primary font-semibold mb-2"
+        >
           Counterparty Email
         </label>
         <input
           type="text"
           id="counterpartyEmail"
           className={`border border-db-border text-db-text-secondary w-full p-2 rounded-lg outline-db-primary bg-db-background ${
-            errors.counterpartyEmail ? 'border-error' : ''
+            errors.counterpartyEmail ? "border-error" : ""
           }`}
           placeholder="e.g. counterparty@email.com"
-          {...register('counterpartyEmail', {
-            required: { value: true, message: 'Enter the other party’s email' },
+          {...register("counterpartyEmail", {
+            required: { value: true, message: "Enter the other party’s email" },
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: 'Invalid email address',
+              message: "Invalid email address",
             },
           })}
         />
         {errors.counterpartyEmail && (
-          <span className="text-error text-sm">{errors.counterpartyEmail.message}</span>
+          <span className="text-error text-sm">
+            {errors.counterpartyEmail.message}
+          </span>
         )}
       </div>
 
       {/* Amount */}
       <div>
-        <label htmlFor="amount" className="block text-sm text-db-text-primary font-semibold mb-2">
+        <label
+          htmlFor="amount"
+          className="block text-sm text-db-text-primary font-semibold mb-2"
+        >
           Amount (₦)
         </label>
         <input
@@ -193,14 +230,14 @@ export default function AddEscrowForm({
           inputMode="decimal"
           id="amount"
           className={`border border-db-borde text-db-text-secondary w-full p-2 rounded-lg outline-db-primary bg-db-background ${
-            errors.amount ? 'border-error' : ''
+            errors.amount ? "border-error" : ""
           }`}
           value={amountDisplay}
           placeholder="₦0.00"
           onChange={(e) => {
             const rawValue = parseCurrencyFormatted(e.target.value);
             setAmountDisplay(rawValue.toString());
-            setValue('amount', parseFloat(rawValue.toString()), {
+            setValue("amount", parseFloat(rawValue.toString()), {
               shouldValidate: true,
             });
           }}
@@ -220,12 +257,15 @@ export default function AddEscrowForm({
 
       {/* Terms */}
       <div>
-        <label htmlFor="terms" className="block text-sm text-db-text-primary font-semibold mb-2">
+        <label
+          htmlFor="terms"
+          className="block text-sm text-db-text-primary font-semibold mb-2"
+        >
           Terms
         </label>
         <ul
           className={`${
-            terms.length > 0 ? 'border border-db-border' : ''
+            terms.length > 0 ? "border border-db-border" : ""
           } p-2 rounded-t-lg space-y-2 overflow-y-auto max-h-40 custom-scrollbar`}
         >
           {terms.length > 0 ? (
@@ -236,8 +276,8 @@ export default function AddEscrowForm({
               >
                 <span>{term}</span>
                 <Button
-              variant="outline"
-              className="text-white"
+                  variant="outline"
+                  className="text-white"
                   textSize="text-sm"
                   onClick={() => handleRemoveTerm(i)}
                 >
@@ -249,7 +289,9 @@ export default function AddEscrowForm({
             <li className="text-db-text-secondary">No terms added yet.</li>
           )}
         </ul>
-        {errors.terms && <span className="text-error text-sm">{errors.terms.message}</span>}
+        {errors.terms && (
+          <span className="text-error text-sm">{errors.terms.message}</span>
+        )}
 
         {isAddingNewTerm ? (
           <div className="flex gap-2 mt-3">
@@ -265,24 +307,22 @@ export default function AddEscrowForm({
               onKeyDown={handleAddTermInputKeydown}
               placeholder="Add a term..."
               className={`flex-1 border border-db-border text-db-text-secondary p-2 rounded-lg outline-db-primary ${
-                newTermError ? 'border-error' : ''
+                newTermError ? "border-error" : ""
               }`}
             />
-            <ButtonIcon
-             onClick={() => handleAddTerm()}
-            >
+            <ButtonIcon onClick={() => handleAddTerm()}>
               <IoMdAdd />
             </ButtonIcon>
           </div>
         ) : (
           <div
             className={` text-white p-2 ${
-              terms.length > 0 ? 'rounded-b-lg w-full' : 'rounded-lg w-fit'
+              terms.length > 0 ? "rounded-b-lg w-full" : "rounded-lg w-fit"
             }`}
           >
             <Button
               type="button"
-            variant="outline"
+              variant="outline"
               onClick={() => setIsAddingNewTerm(true)}
             >
               <IoMdAdd />
@@ -290,60 +330,73 @@ export default function AddEscrowForm({
             </Button>
           </div>
         )}
-        {newTermError && <span className="text-error text-sm">{newTermError}</span>}
+        {newTermError && (
+          <span className="text-error text-sm">{newTermError}</span>
+        )}
       </div>
 
       {/* Description */}
       <div>
-        <label htmlFor="description" className="block text-sm text-db-text-primary font-semibold mb-2">
+        <label
+          htmlFor="description"
+          className="block text-sm text-db-text-primary font-semibold mb-2"
+        >
           Description
         </label>
         <textarea
           id="description"
           rows={3}
           className={`border border-db-border w-full p-2 text-db-text-secondary rounded-lg outline-db-primary bg-db-background ${
-            errors.description ? 'border-error' : ''
+            errors.description ? "border-error" : ""
           }`}
           placeholder="Briefly describe the item..."
-          {...register('description', {
-            required: { value: true, message: 'Enter a description' },
+          {...register("description", {
+            required: { value: true, message: "Enter a description" },
           })}
         />
         {errors.description && (
-          <span className="text-error text-sm">{errors.description.message}</span>
+          <span className="text-error text-sm">
+            {errors.description.message}
+          </span>
         )}
       </div>
 
       {/* Fee Payment */}
       <div>
-        <label htmlFor="escrowFeePayment" className="block text-sm text-db-text-primary font-semibold mb-2">
+        <label
+          htmlFor="escrowFeePayment"
+          className="block text-sm text-db-text-primary font-semibold mb-2"
+        >
           Who Pays Escrow Fee?
         </label>
         <Controller
           name="escrowFeePayment"
           control={control}
           defaultValue=""
-          rules={{ required: 'Select who pays the escrow fee' }}
+          rules={{ required: "Select who pays the escrow fee" }}
           render={({ field }) => (
             <div className="flex gap-2 border border-db-border rounded-lg p-2">
-              {[...escrowCreatorRole.map(({ role }) => role), 'Split'].map((payer) => {
-                const value = payer.toLowerCase();
-                return (
-                  <Button
-                    key={payer}
-                    variant={field.value === value ? "secondary" : "primary"}
-                    onClick={() => field.onChange(value)}
-                  
-                  >
-                    {payer}
-                  </Button>
-                );
-              })}
+              {[...escrowCreatorRole.map(({ role }) => role), "Split"].map(
+                (payer) => {
+                  const value = payer.toLowerCase();
+                  return (
+                    <Button
+                      key={payer}
+                      variant={field.value === value ? "secondary" : "primary"}
+                      onClick={() => field.onChange(value)}
+                    >
+                      {payer}
+                    </Button>
+                  );
+                }
+              )}
             </div>
           )}
         />
         {errors.escrowFeePayment && (
-          <span className="text-error text-sm">{errors.escrowFeePayment.message}</span>
+          <span className="text-error text-sm">
+            {errors.escrowFeePayment.message}
+          </span>
         )}
       </div>
 

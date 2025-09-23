@@ -7,19 +7,59 @@ import FullPageLoader from "@/app/_components/FullPageLoader";
 import toast from "react-hot-toast";
 import {Button} from "@/app/_components/DashboardBtn";
 import Modal from "@/app/_components/Modal";
-import { useState } from "react";
-import AddEscrowForm from "./AddEscrowForm";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from 'react';
+import AddEscrowForm from './AddEscrowForm';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  ESCROW_FILTER_LIST,
+  ESCROW_PREFILL_KEYS,
+} from '@/app/_constants/escrowCategories';
 
-export default function AdminEscrows() {
+export default function UserEscrows() {
   const searchParams = useSearchParams();
   const queryObject = Object.fromEntries(searchParams.entries());
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const filterParams = Object.fromEntries(
+    Object.entries(queryObject).filter(([key]) =>
+      ESCROW_FILTER_LIST.includes(key),
+    ),
+  );
+
+  const prefillParams = Object.fromEntries(
+    Object.entries(queryObject).filter(([key]) => key.startsWith('prefill')),
+  );
+
   const [isAddEscrowFormOpen, setIsAddEscrowFormOpen] = useState(false);
+  const [autoOpen, setAutoOpen] = useState(true);
+
   const { isUserEscrowLoading, userEscrowError, allUserEscrows } =
-    useUserEscrows(queryObject);
+    useUserEscrows(filterParams);
+
+  useEffect(() => {
+    if (
+      prefillParams.prefillCreatorRole &&
+      prefillParams.prefillCategory &&
+      prefillParams.prefillAmount &&
+      !isAddEscrowFormOpen &&
+      autoOpen
+    ) {
+      setIsAddEscrowFormOpen(true);
+    }
+  }, [prefillParams, isAddEscrowFormOpen, autoOpen]);
 
   const handleCloseForm = function () {
     setIsAddEscrowFormOpen(false);
+    setAutoOpen(false);
+
+    // Clear prefill params but keep filters
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    // Remove only prefill keys
+    ESCROW_PREFILL_KEYS.forEach((k) => newParams.delete(k));
+
+    router.replace(`${pathname}?${newParams.toString()}`);
   };
 
   if (isUserEscrowLoading) return <FullPageLoader />;
@@ -40,7 +80,14 @@ export default function AdminEscrows() {
         onClose={handleCloseForm}
         title='Create Escrow'
       >
-        <AddEscrowForm handleCloseForm={handleCloseForm} />
+        <AddEscrowForm
+          handleCloseForm={handleCloseForm}
+          initialValues={{
+            creatorRole: prefillParams.prefillCreatorRole as 'buyer' | 'seller',
+            category: prefillParams.prefillCategory,
+            amount: Number(prefillParams.prefillAmount),
+          }}
+        />
       </Modal>
       <UserEscrowTable escrowData={allUserEscrows?.escrows || []} />
     </div>
