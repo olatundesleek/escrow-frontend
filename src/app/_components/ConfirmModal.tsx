@@ -18,7 +18,7 @@ interface ConfirmModalProps {
   message?: string;
   confirmText?: string;
   cancelText?: string;
-  variant?: "danger" | "success" | "info";
+  // variant?: "danger" | "success" | "info";
 }
 
 export default function ConfirmModal({

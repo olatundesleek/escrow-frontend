@@ -1,4 +1,3 @@
-// import { walletColorMap } from '../_constants/wallet';
 import { BaseWallet } from "../_types/userDashboardServicesTypes";
 import WalletDetailsCard from "./WalletDetailsCard";
 import { FaChartLine, FaMoneyBill, FaPiggyBank } from "react-icons/fa";
