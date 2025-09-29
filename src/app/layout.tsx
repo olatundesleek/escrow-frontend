@@ -6,11 +6,10 @@ import { SiteSettingProvider } from "./_context/SiteSettingContext";
 import { StickyContextProvider } from "./_context/StickyContext";
 import AppToaster from "./_components/AppToaster";
 import { DbThemeProvider } from "./_hooks/useTheme";
-// import Head from "next/head";
 
 const roboto = Roboto({
-  weight: "400",
   subsets: ["latin"],
+weight:['400','500','600','700']
 });
 
 const lexend = Lexend({
@@ -31,12 +30,6 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" className={`${lexend.className} ${roboto.className}`}>
-      {/* <Head>
-        <link
-          href='https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap'
-          rel='stylesheet'
-        />
-      </Head> */}
       <body>
         <SiteSettingProvider>
           <DbThemeProvider>
