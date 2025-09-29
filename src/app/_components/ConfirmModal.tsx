@@ -18,7 +18,7 @@ interface ConfirmModalProps {
   message?: string;
   confirmText?: string;
   cancelText?: string;
-  // variant?: "danger" | "success" | "info";
+  variant?: "danger" | "success" | "info" | "outline";
 }
 
 export default function ConfirmModal({
@@ -29,6 +29,7 @@ export default function ConfirmModal({
   message = "Are you sure you want to continue?",
   confirmText = "Confirm",
   cancelText = "Cancel",
+  variant = "danger",
 }: ConfirmModalProps) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -68,7 +69,7 @@ export default function ConfirmModal({
 
               {/* Actions */}
               <div className="mt-6 flex justify-end gap-3">
-                <Button onClick={onClose} variant="danger">
+                <Button onClick={onClose} variant="outline">
                   {cancelText}
                 </Button>
                 <Button
@@ -76,7 +77,7 @@ export default function ConfirmModal({
                     onConfirm();
                     onClose();
                   }}
-                  variant="secondary"
+                  variant={variant}
                 >
                   {confirmText}
                 </Button>
