@@ -3,7 +3,7 @@ import { getPageTitleFromPathname, MenuItem } from "../_utils/helpers";
 import { userSidebarMenuList } from "../_constants/sidebarMenuList";
 
 interface DashboardPageTitleProps {
-  title?: string;
+  title?: string | React.ReactNode;
   padding?: string;
   children?: React.ReactNode;
 }

@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
-
 * {
   font-family: Roboto;
-      scroll-behavior: smooth;
-    scrollbar-width: none;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
 /* Modernized color palette for a financial banking application */
@@ -23,7 +22,6 @@
   --color-success: #43a047;
   --header-height: 4.3rem;
   --page-title-height: 4.5rem;
- 
 
   /* Light Mode */
 
@@ -84,7 +82,6 @@
   --color-db-error: #f87171;
 }
 
-
 /* Optional Theme Layer (for tooling that supports @theme) */
 @theme {
   --color-background: var(--color-background);
@@ -105,18 +102,18 @@
   /* Backgrounds & Surfaces */
   --color-db-background: var(--color-db-background);
   --color-db-surface: var(--color-db-surface);
-  --color-db-border:var(--color-db-border);
+  --color-db-border: var(--color-db-border);
 
   /* Text */
   --color-db-text-primary: var(--color-db-text-primary);
-  --color-db-text-secondary:var(--color-db-text-secondary);
+  --color-db-text-secondary: var(--color-db-text-secondary);
 
   /* Primary (Trust – Muted Blue for dark UI) */
   --color-db-primary: var(--color-db-primary);
-  --color-db-primary-hover:var(--color-db-primary-hover);
+  --color-db-primary-hover: var(--color-db-primary-hover);
 
   /* Secondary (Minty Green to pop on dark) */
-  --color-db-secondary:var(--color-db-secondary);
+  --color-db-secondary: var(--color-db-secondary);
   --color-db-secondary-hover: var(--color-db-secondary-hover);
 
   /* Accent (Glowing Amber) */
@@ -128,11 +125,6 @@
   --color-db-warning: var(--color-db-warning);
   --color-db-error: var(--color-db-error);
 }
-
-
-
-
-
 
 @media (max-width: 768px) {
   .custom-gradient {
@@ -253,17 +245,20 @@
   }
 }
 
- 
-
 @keyframes fadeIn {
-  0% { opacity: 0; transform: scale(0.95); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .animate-fadeIn {
   animation: fadeIn 0.18s ease-out forwards;
 }
-
 
 .animate-wave {
   animation: wave 2.5s ease-in-out infinite;
@@ -276,5 +271,3 @@
 .animate-pulse-slow {
   animation: pulse 3s ease-in-out infinite;
 }
-
- 

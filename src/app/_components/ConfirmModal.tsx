@@ -8,6 +8,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { Fragment } from 'react';
+import { Button } from './DashboardBtn';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -17,7 +18,7 @@ interface ConfirmModalProps {
   message?: string;
   confirmText?: string;
   cancelText?: string;
-  variant?: 'danger' | 'success' | 'info';
+  variant?: 'danger' | 'success' | 'info' | 'outline';
 }
 
 export default function ConfirmModal({
@@ -28,14 +29,8 @@ export default function ConfirmModal({
   message = 'Are you sure you want to continue?',
   confirmText = 'Confirm',
   cancelText = 'Cancel',
-  variant,
+  variant = 'danger',
 }: ConfirmModalProps) {
-  const variantClasses = {
-    danger: 'bg-red-600 text-white hover:bg-red-700',
-    success: 'bg-green-600 text-white hover:bg-green-700',
-    info: 'bg-blue-600 text-white hover:bg-blue-700',
-  };
-
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as='div' className='relative z-[9999]' onClose={onClose}>
@@ -73,24 +68,19 @@ export default function ConfirmModal({
               <p className='mt-2 text-sm text-db-text-secondary'>{message}</p>
 
               {/* Actions */}
-              <div className='mt-6 flex justify-end gap-4'>
-                <button
-                  onClick={onClose}
-                  className='px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-100 cursor-pointer'
-                >
+              <div className='mt-6 flex justify-end gap-3'>
+                <Button onClick={onClose} variant='outline'>
                   {cancelText}
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => {
                     onConfirm();
                     onClose();
                   }}
-                  className={`${
-                    variantClasses[variant ?? 'danger']
-                  } px-4 py-2 text-sm rounded-md  cursor-pointer`}
+                  variant={variant}
                 >
                   {confirmText}
-                </button>
+                </Button>
               </div>
             </DialogPanel>
           </TransitionChild>

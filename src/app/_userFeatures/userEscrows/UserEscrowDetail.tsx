@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
-import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
-import FullPageLoader from '@/app/_components/FullPageLoader';
-import { Button } from '@/app/_components/DashboardBtn';
-import ConfirmModal from '@/app/_components/ConfirmModal';
-import Modal from '@/app/_components/Modal';
+import UserDashboardPageTitle from "@/app/_components/UserDashboardPageTitle";
+import FullPageLoader from "@/app/_components/FullPageLoader";
+import { Button } from "@/app/_components/DashboardBtn";
+import ConfirmModal from "@/app/_components/ConfirmModal";
+import Modal from "@/app/_components/Modal";
 
-import useUserEscrowDetails from './useUserEscrowDetails';
-import useConfirmModal from '@/app/_hooks/useConfirmModal';
-import useAcceptEscrow from './useAcceptEscrow';
-import useRejectEscrow from './useRejectEscrow';
-import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
+import useUserEscrowDetails from "./useUserEscrowDetails";
+import useConfirmModal from "@/app/_hooks/useConfirmModal";
+import useAcceptEscrow from "./useAcceptEscrow";
+import useRejectEscrow from "./useRejectEscrow";
+import useGetCurrentUser from "@/app/_hooks/useGetCurrentUser";
 
-import { getEscrowTypeForUser } from '@/app/_utils/helpers';
+import { getEscrowTypeForUser } from "@/app/_utils/helpers";
 
-import UserEscrowType from './UserEscrowType';
-import UserEscrowStatusTable from './UserEscrowStatusTable';
-import UserEscrowPaymentStatus from './UserEscrowPaymentStatus';
-import UserEscrowTermsList from './UserEscrowTermsList';
-import UserEscrowChatInfo from './UserEscrowChatInfo';
-import UserEscrowMoreDetails from './UserEscrowMoreDetails';
-import UserPaymentForm from './UserPaymentForm';
-import CreateDisputeForm from './CreateDisputeForm';
+import UserEscrowType from "./UserEscrowType";
+import UserEscrowStatusTable from "./UserEscrowStatusTable";
+import UserEscrowPaymentStatus from "./UserEscrowPaymentStatus";
+import UserEscrowTermsList from "./UserEscrowTermsList";
+import UserEscrowChatInfo from "./UserEscrowChatInfo";
+import UserEscrowMoreDetails from "./UserEscrowMoreDetails";
+import UserPaymentForm from "./UserPaymentForm";
+import CreateDisputeForm from "./CreateDisputeForm";
 
 export default function UserEscrowDetail() {
   const {
@@ -86,7 +86,10 @@ export default function UserEscrowDetail() {
         title="Raise a Dispute"
         width="w-full lg:max-w-lg"
       >
-        <CreateDisputeForm escrowId={escrowId} closeDisputeForm={disputeModal.close} />
+        <CreateDisputeForm
+          escrowId={escrowId}
+          closeDisputeForm={disputeModal.close}
+        />
       </Modal>
 
       <ConfirmModal
@@ -112,7 +115,7 @@ export default function UserEscrowDetail() {
       <ConfirmModal
         isOpen={completeTradeModal.isOpen}
         onClose={completeTradeModal.close}
-        onConfirm={() => toast.success('Trade marked as complete')}
+        onConfirm={() => toast.success("Trade marked as complete")}
         title="Complete Trade"
         message="Confirm that this trade has been successfully completed."
         variant="info"
@@ -121,36 +124,38 @@ export default function UserEscrowDetail() {
 
       {/* --- Page Content --- */}
       <div className="flex flex-col">
-   <UserDashboardPageTitle
-  title={
-    <div className="flex items-center gap-3">
-      <h1 className="sm:text-xl text-lg font-semibold text-db-text-primary">
-        Escrow Details
-      </h1>
-      <span className="sm:text-md text-sm text-gray-500">ID: #{id}</span>
-    </div>
-  }
->
-  {/* Actions (desktop only) */}
-  <div className="hidden flex-1 justify-end gap-3 sm:flex">
-    {escrow.paymentStatus === 'paid' && escrow.status !== 'disputed' && (
-      <Button variant="danger" onClick={disputeModal.open}>
-        Dispute
-      </Button>
-    )}
-    {escrow.paymentStatus === 'paid' &&
-      escrow.status !== 'disputed' &&
-      type === 'buy' && (
-        <Button variant="secondary" onClick={completeTradeModal.open}>
-          Mark as Complete
-        </Button>
-      )}
-    <Button onClick={() => back()} variant="outline">
-      &larr; Back
-    </Button>
-  </div>
-</UserDashboardPageTitle>
-
+        <UserDashboardPageTitle
+          title={
+            <div className="flex items-center gap-3">
+              <h1 className="sm:text-xl text-lg font-semibold text-db-text-primary">
+                Escrow Details
+              </h1>
+              <span className="sm:text-md text-sm text-gray-500">
+                ID: #{id}
+              </span>
+            </div>
+          }
+        >
+          {/* Actions (desktop only) */}
+          <div className="hidden flex-1 justify-end gap-3 sm:flex">
+            {escrow.paymentStatus === "paid" &&
+              escrow.status !== "disputed" && (
+                <Button variant="danger" onClick={disputeModal.open}>
+                  Dispute
+                </Button>
+              )}
+            {escrow.paymentStatus === "paid" &&
+              escrow.status !== "disputed" &&
+              type === "buy" && (
+                <Button variant="secondary" onClick={completeTradeModal.open}>
+                  Mark as Complete
+                </Button>
+              )}
+            <Button onClick={() => back()} variant="outline">
+              &larr; Back
+            </Button>
+          </div>
+        </UserDashboardPageTitle>
 
         <div className="mt-8 flex gap-8">
           <div className="flex w-full flex-col gap-4">
@@ -169,7 +174,10 @@ export default function UserEscrowDetail() {
               type={type}
               openPaymentModal={paymentModal.open}
             />
-            <UserEscrowTermsList createdAt={escrow.createdAt} terms={escrow.terms} />
+            <UserEscrowTermsList
+              createdAt={escrow.createdAt}
+              terms={escrow.terms}
+            />
             <UserEscrowChatInfo chatActive={escrow.chatActive} />
             <UserEscrowMoreDetails
               category={escrow.category}
@@ -181,7 +189,9 @@ export default function UserEscrowDetail() {
 
           {/* Side column (desktop only) */}
           <div className="hidden sm:block sm:w-full sm:min-w-md sm:max-w-lg">
-            {escrow.chatActive && <span className="text-gray-500">Chat is active</span>}
+            {escrow.chatActive && (
+              <span className="text-gray-500">Chat is active</span>
+            )}
           </div>
         </div>
       </div>
