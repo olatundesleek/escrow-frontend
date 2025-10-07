@@ -1,4 +1,5 @@
 import React from "react";
+import { formatCurrency } from '../_utils/helpers';
 
 interface WalletDetailsCardProps {
   value: number;
@@ -15,7 +16,7 @@ const WalletDetailsCard = ({
   icon,
   bg,
   color,
-  border = "border border-db-border",
+  border = 'border border-db-border',
 }: WalletDetailsCardProps) => {
   return (
     <div
@@ -32,14 +33,14 @@ const WalletDetailsCard = ({
       `}
     >
       {/* Left: Text Content (Title and Value) */}
-      <div className="flex flex-col gap-2">
+      <div className='flex flex-col gap-2'>
         <p className={`text-sm font-medium ${color} uppercase tracking-wider`}>
           {title}
         </p>
         <h2
           className={`sm:text-4xl text-2xl font-bold ${color} tabular-nums tracking-tight`}
         >
-          ${value.toLocaleString()}
+          {formatCurrency(value)}
         </h2>
       </div>
 

@@ -1,6 +1,9 @@
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo } from 'react';
-import { HiEye } from 'react-icons/hi';
+import {
+  // useCallback,
+  useMemo,
+} from 'react';
+
 // import { ColumnDef, createColumnHelper } from '@tanstack/react-table';//uncomment when actions are needed
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -8,13 +11,13 @@ import DataTable from '@/app/_components/DataTable';
 // import RowActionMenu from '@/app/_components/RowActionMenu';//uncomment for actions addition
 // import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
 import { UserTransactionItem } from '@/app/_types/userDashboardServicesTypes';
-import {Button} from '@/app/_components/DashboardBtn';
+import { Button } from '@/app/_components/DashboardBtn';
 
-interface BaseTransaction {
-  _id: string;
-  escrow: string;
-  direction: 'debit' | 'credit';
-}
+// interface BaseTransaction {
+//   _id: string;
+//   escrow: string;
+//   direction: 'debit' | 'credit';
+// } //uncomment for actions addition
 
 // const columnHelper = createColumnHelper<UserTransactionItem>();uncomment when actions are needed
 
@@ -27,20 +30,20 @@ export default function UserTransactionsTable({
 }) {
   const { push } = useRouter();
 
-  const buildActions = useCallback(
-    <TData extends BaseTransaction>(transaction: TData) => {
-      const { _id: transactionId } = transaction;
-      const baseAction = [
-        {
-          label: 'View Details',
-          icon: HiEye,
-          onClick: () => push(`transaction/${transactionId}`),
-        },
-      ];
-      return baseAction;
-    },
-    [push],
-  );
+  // const buildActions = useCallback(
+  //   <TData extends BaseTransaction>(transaction: TData) => {
+  //     const { _id: transactionId } = transaction;
+  //     const baseAction = [
+  //       {
+  //         label: 'View Details',
+  //         icon: HiEye,
+  //         onClick: () => push(`transaction/${transactionId}`),
+  //       },
+  //     ];
+  //     return baseAction;
+  //   },
+  //   [push],
+  // );
 
   const columns: ColumnDef<UserTransactionItem>[] = useMemo(() => {
     /*base columns*/
@@ -103,7 +106,7 @@ export default function UserTransactionsTable({
     // });
     // return [...base, actionsColumn];// uncommment when there are actions to be added
     return [...base];
-  }, [buildActions]);
+  }, []);
 
   return (
     <>
@@ -112,10 +115,7 @@ export default function UserTransactionsTable({
           <h2 className='text-lg font-semibold text-db-text-secondary'>
             Recent Transactions
           </h2>
-          <Button
-            onClick={() => push('/dashboard/transactions')}
-           size="sm"
-          >
+          <Button onClick={() => push('/dashboard/transactions')} size='sm'>
             View All
           </Button>
         </div>

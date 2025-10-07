@@ -3,7 +3,6 @@ import { Button } from './DashboardBtn';
 import { useRouter } from 'next/navigation';
 import { HiOutlineChat, HiOutlineSearch } from 'react-icons/hi';
 import { getEscrowTypeForUser } from '../_utils/helpers';
-import RibbonBadge from './RibbonBadge';
 
 export function MobileCard<
   TData extends {
@@ -19,8 +18,6 @@ export function MobileCard<
     creatorRole: row.original.creatorRole,
   };
   const type = getEscrowTypeForUser(escrow, currentUserId);
-
-  console.log(row.original);
 
   // --- Friendly Payment Status Badge ---
   const paymentVariantClasses = (paymentStatus: string) => {
@@ -74,7 +71,7 @@ export function MobileCard<
       case 'active':
         bgColor = 'bg-purple-500/20';
         textColor = 'text-purple-500';
-        label = 'Active';
+        label = 'Active Transaction';
         break;
       case 'completed':
         bgColor = 'bg-success/20';
@@ -85,7 +82,7 @@ export function MobileCard<
       case 'rejected':
         bgColor = 'bg-error/20';
         textColor = 'text-error';
-        label = 'Rejected';
+        label = 'Cancelled';
         break;
       case 'disputed':
         bgColor = 'bg-accent/20';
@@ -106,14 +103,41 @@ export function MobileCard<
     get('status')?.toString() ?? 'pending',
   );
 
+  const typeVariantClasses = (type: string) => {
+    let bgColor = 'bg-db-primary/20';
+    let textColor = 'text-db-primary';
+
+    if (type.toLowerCase() === 'buy') {
+      bgColor = 'bg-db-success/20';
+      textColor = 'text-db-success';
+    } else if (type.toLowerCase() === 'sell') {
+      bgColor = 'bg-db-primary/20';
+      textColor = 'text-db-primary';
+    }
+    if (type.toLowerCase() === 'buy') {
+      bgColor = 'bg-db-success';
+      textColor = 'text-db-background';
+    } else if (type.toLowerCase() === 'sell') {
+      bgColor = 'bg-db-primary';
+      textColor = 'text-db-background';
+    }
+    //for ribbon
+
+    return `inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm ${bgColor} ${textColor}`;
+  };
+
   return (
-    <div className='relative border border-db-border p-5 rounded-xl shadow-md bg-db-surface space-y-4'>
-      <div className='absolute -top-8 -right-10 z-10'>
-        {type === 'buy' ? (
-          <RibbonBadge text='Buy' color='green' />
-        ) : (
-          <RibbonBadge text='Sell' color='blue' />
-        )}
+    <div className='relative border border-db-border p-5 rounded-xl shadow-md bg-db-surface space-y-4 overflow-hidden'>
+      <div className='absolute top-0 right-0 overflow-hidden'>
+        <div
+          className={`
+          ${typeVariantClasses(
+            type ?? 'buy',
+          )} w-20 h-20 p-4 rounded-full flex justify-center items-center relative -translate-y-1/3 translate-x-1/3 rotate-45 shadow-md border z-2
+          `}
+        >
+          <span className={`translate-y-3`}>{type}</span>
+        </div>
       </div>
 
       <div className='flex justify-between items-start gap-2 flex-wrap  z-4 relative'>
@@ -132,8 +156,6 @@ export function MobileCard<
         </div>
       </div>
 
-      {/* Category */}
-
       <div>
         <p className='text-sm text-db-text-secondary'>Category</p>
         <p className='font-medium text-base capitalize text-db-primary'>
@@ -141,15 +163,12 @@ export function MobileCard<
         </p>
       </div>
 
-      {/* Description */}
       <div>
         <p className='text-sm text-db-text-secondary'>Description</p>
         <p className='text-base text-db-primary line-clamp-2'>
           {get('description')}
         </p>
       </div>
-
-      {/* Amount + Payment Status */}
 
       <div className='flex justify-between items-start'>
         <div>
@@ -165,14 +184,11 @@ export function MobileCard<
         <span className={paymentBadge.classes}>{paymentBadge.label}</span>
       </div>
 
-      {/* Transaction ID */}
-
       <div className='flex justify-between items-center'>
         <p className='text-sm text-db-text-secondary'>Transaction ID</p>
         <p className='text-sm text-db-text-primary font-medium'>{get('_id')}</p>
       </div>
 
-      {/* Chat Option (if Active) */}
       {get('status')?.toString().toLowerCase() === 'active' && (
         <div className='flex justify-between items-center'>
           <p className='text-sm text-db-text-secondary'>Other Party</p>
@@ -183,7 +199,6 @@ export function MobileCard<
         </div>
       )}
 
-      {/* View Details */}
       <Button className='w-full' onClick={() => push(`escrows/${get('_id')}`)}>
         <HiOutlineSearch />
         <span>View Full Details</span>

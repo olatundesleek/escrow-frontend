@@ -26,7 +26,9 @@ export default function useResolveBank() {
     },
 
     onError: (error) => {
-      toast.error(error.message, { id: toastId.current });
+      if (toastId.current) {
+        toast.dismiss(toastId.current);
+      }
       console.error('Error resolving bank:', error);
     },
   });
