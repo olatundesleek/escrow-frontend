@@ -69,8 +69,8 @@ export default function UserEscrowDetail() {
       <Modal
         isOpen={paymentModal.isOpen}
         onClose={paymentModal.close}
-        title="Make a Payment"
-        width="w-full lg:max-w-lg"
+        title='Make a Payment'
+        width='w-full lg:max-w-lg'
       >
         <UserPaymentForm
           escrowId={escrowId}
@@ -83,8 +83,8 @@ export default function UserEscrowDetail() {
       <Modal
         isOpen={disputeModal.isOpen}
         onClose={disputeModal.close}
-        title="Raise a Dispute"
-        width="w-full lg:max-w-lg"
+        title='Raise a Dispute'
+        width='w-full lg:max-w-lg'
       >
         <CreateDisputeForm
           escrowId={escrowId}
@@ -96,69 +96,69 @@ export default function UserEscrowDetail() {
         isOpen={acceptModal.isOpen}
         onClose={acceptModal.close}
         onConfirm={() => acceptEscrow({ escrowId })}
-        title="Accept Trade"
-        message="Do you want to accept this trade?"
-        variant="success"
-        confirmText="Accept"
+        title='Accept Trade'
+        message='Do you want to accept this trade?'
+        variant='success'
+        confirmText='Accept'
       />
 
       <ConfirmModal
         isOpen={rejectModal.isOpen}
         onClose={rejectModal.close}
         onConfirm={() => rejectEscrow({ escrowId })}
-        title="Reject Trade"
-        message="Do you want to reject this trade?"
-        variant="danger"
-        confirmText="Reject"
+        title='Reject Trade'
+        message='Do you want to reject this trade?'
+        variant='danger'
+        confirmText='Reject'
       />
 
       <ConfirmModal
         isOpen={completeTradeModal.isOpen}
         onClose={completeTradeModal.close}
-        onConfirm={() => toast.success("Trade marked as complete")}
-        title="Complete Trade"
-        message="Confirm that this trade has been successfully completed."
-        variant="info"
-        confirmText="Complete"
+        onConfirm={() => toast.success('Trade marked as complete')}
+        title='Complete Trade'
+        message='Confirm that this trade has been successfully completed.'
+        variant='info'
+        confirmText='Complete'
       />
 
       {/* --- Page Content --- */}
-      <div className="flex flex-col">
+      <div className='flex flex-col'>
         <UserDashboardPageTitle
           title={
-            <div className="flex items-center gap-3">
-              <h1 className="sm:text-xl text-lg font-semibold text-db-text-primary">
+            <div className='flex items-center gap-3'>
+              <h1 className='sm:text-xl text-lg font-semibold text-db-text-primary'>
                 Escrow Details
               </h1>
-              <span className="sm:text-md text-sm text-gray-500">
+              <span className='sm:text-md text-sm text-gray-500'>
                 ID: #{id}
               </span>
             </div>
           }
         >
           {/* Actions (desktop only) */}
-          <div className="hidden flex-1 justify-end gap-3 sm:flex">
-            {escrow.paymentStatus === "paid" &&
-              escrow.status !== "disputed" && (
-                <Button variant="danger" onClick={disputeModal.open}>
+          <div className='hidden flex-1 justify-end gap-3 sm:flex'>
+            {escrow.paymentStatus === 'paid' &&
+              escrow.status !== 'disputed' && (
+                <Button variant='danger' onClick={disputeModal.open}>
                   Dispute
                 </Button>
               )}
-            {escrow.paymentStatus === "paid" &&
-              escrow.status !== "disputed" &&
-              type === "buy" && (
-                <Button variant="secondary" onClick={completeTradeModal.open}>
+            {escrow.paymentStatus === 'paid' &&
+              escrow.status !== 'disputed' &&
+              type === 'buy' && (
+                <Button variant='secondary' onClick={completeTradeModal.open}>
                   Mark as Complete
                 </Button>
               )}
-            <Button onClick={() => back()} variant="outline">
+            <Button onClick={() => back()} variant='outline'>
               &larr; Back
             </Button>
           </div>
         </UserDashboardPageTitle>
 
-        <div className="mt-8 flex gap-8">
-          <div className="flex w-full flex-col gap-4">
+        <div className='mt-8 flex gap-8'>
+          <div className='flex w-full flex-col gap-4'>
             <UserEscrowType type={type} />
             <UserEscrowStatusTable
               status={escrow.status}
@@ -188,20 +188,20 @@ export default function UserEscrowDetail() {
           </div>
 
           {/* Side column (desktop only) */}
-          <div className="hidden sm:block sm:w-full sm:min-w-md sm:max-w-lg">
+          <div className='hidden sm:block sm:w-full sm:min-w-md sm:max-w-lg'>
             {escrow.chatActive && (
-              <span className="text-gray-500">Chat is active</span>
+              <span className='text-gray-500'>Chat is active</span>
             )}
           </div>
         </div>
       </div>
 
       {/* Mobile footer actions */}
-      <div className="flex w-full justify-between gap-4 py-4 sm:hidden">
-        <span className="cursor-pointer text-lg text-db-text-secondary">
-          Status: <span className="text-db-text-primary">{escrow.status}</span>
+      <div className='flex w-full justify-between gap-4 py-4 sm:hidden'>
+        <span className='cursor-pointer text-lg text-db-text-secondary'>
+          Status: <span className='text-db-text-primary'>{escrow.status}</span>
         </span>
-        <Button type="button" onClick={() => back()}>
+        <Button type='button' onClick={() => back()}>
           &larr; Back
         </Button>
       </div>
