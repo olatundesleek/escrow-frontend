@@ -5,11 +5,11 @@ import { Roboto } from "next/font/google";
 import { SiteSettingProvider } from "./_context/SiteSettingContext";
 import { StickyContextProvider } from "./_context/StickyContext";
 import AppToaster from "./_components/AppToaster";
-// import Head from "next/head";
+import { DbThemeProvider } from "./_hooks/useTheme";
 
 const roboto = Roboto({
-  weight: "400",
   subsets: ["latin"],
+weight:['400','500','600','700']
 });
 
 const lexend = Lexend({
@@ -29,21 +29,17 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang='en' className={`${lexend.className} ${roboto.className}`}>
-      {/* <Head>
-        <link
-          href='https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap'
-          rel='stylesheet'
-        />
-      </Head> */}
+    <html lang="en" className={`${lexend.className} ${roboto.className}`}>
       <body>
         <SiteSettingProvider>
-          <StickyContextProvider>
-            <main className='bg-background'>
-              {children}
-              <AppToaster />
-            </main>
-          </StickyContextProvider>
+          <DbThemeProvider>
+            <StickyContextProvider>
+              <main className="bg-background">
+                {children}
+                <AppToaster />
+              </main>
+            </StickyContextProvider>
+          </DbThemeProvider>
         </SiteSettingProvider>
       </body>
     </html>

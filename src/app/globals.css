@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+* {
+  font-family: Roboto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
 /* Modernized color palette for a financial banking application */
 :root {
   --color-primary: #e3f2fd;
@@ -15,7 +21,65 @@
   --color-info: #2196f3;
   --color-success: #43a047;
   --header-height: 4.3rem;
-  --page-title-height: 4.5rem
+  --page-title-height: 4.5rem;
+
+  /* Light Mode */
+
+  /* Backgrounds & Surfaces */
+  --color-db-background: #f9fafb;
+  --color-db-surface: #ffffff;
+  --color-db-border: #e5e7eb;
+
+  /* Text */
+  --color-db-text-primary: #1c1c1c;
+  --color-db-text-secondary: #6b7280;
+
+  /* Primary (Trust – Deep Blue) */
+  --color-db-primary: #043889;
+  --color-db-primary-hover: #0f2a4a;
+
+  /* Secondary (Growth – Emerald Green) */
+  --color-db-secondary: #27ae60;
+  --color-db-secondary-hover: #1e8e4d;
+
+  /* Accent (Energy – Amber) */
+  --color-db-accent: #f39c12;
+  --color-db-accent-hover: #d78a0e;
+
+  /* Utility */
+  --color-db-success: #22c55e;
+  --color-db-warning: #facc15;
+  --color-db-error: #ef4444;
+}
+
+.dark {
+  /* Dark Mode */
+
+  /* Backgrounds & Surfaces */
+  --color-db-background: #121212;
+  --color-db-surface: #1e1e1e;
+  --color-db-border: #2d2d2d;
+
+  /* Text */
+  --color-db-text-primary: #f9fafb;
+  --color-db-text-secondary: #9ca3af;
+
+  /* Primary (Trust – Muted Blue for dark UI) */
+  --color-db-primary: #4c6eb1;
+  --color-db-primary-hover: #6f8fce;
+
+  /* Secondary (Minty Green to pop on dark) */
+  --color-db-secondary: #6edc99;
+  --color-db-secondary-hover: #50b87a;
+
+  /* Accent (Glowing Amber) */
+  --color-db-accent: #ffb84d;
+  --color-db-accent-hover: #e69e34;
+
+  /* Utility */
+  --color-db-success: #4ade80;
+  --color-db-warning: #fcd34d;
+  --color-db-error: #f87171;
 }
 
 /* Optional Theme Layer (for tooling that supports @theme) */
@@ -34,10 +98,32 @@
   --color-success: var(--color-success);
   --spacing-header-height: var(--header-height);
   --spacing-page-title-height: var(--page-title-height);
-}
 
-* {
-  font-family: Roboto;
+  /* Backgrounds & Surfaces */
+  --color-db-background: var(--color-db-background);
+  --color-db-surface: var(--color-db-surface);
+  --color-db-border: var(--color-db-border);
+
+  /* Text */
+  --color-db-text-primary: var(--color-db-text-primary);
+  --color-db-text-secondary: var(--color-db-text-secondary);
+
+  /* Primary (Trust – Muted Blue for dark UI) */
+  --color-db-primary: var(--color-db-primary);
+  --color-db-primary-hover: var(--color-db-primary-hover);
+
+  /* Secondary (Minty Green to pop on dark) */
+  --color-db-secondary: var(--color-db-secondary);
+  --color-db-secondary-hover: var(--color-db-secondary-hover);
+
+  /* Accent (Glowing Amber) */
+  --color-db-accent: var(--color-db-accent);
+  --color-db-accent-hover: var(--color-db-accent-hover);
+
+  /* Utility */
+  --color-db-success: var(--color-db-success);
+  --color-db-warning: var(--color-db-warning);
+  --color-db-error: var(--color-db-error);
 }
 
 @media (max-width: 768px) {
@@ -160,16 +246,18 @@
 }
 
 @keyframes fadeIn {
-  from {
+  0% {
     opacity: 0;
+    transform: scale(0.95);
   }
-  to {
+  100% {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-.fade-in {
-  animation: fadeIn 1.5s ease-in forwards;
+.animate-fadeIn {
+  animation: fadeIn 0.18s ease-out forwards;
 }
 
 .animate-wave {

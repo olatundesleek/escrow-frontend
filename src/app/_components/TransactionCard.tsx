@@ -9,10 +9,10 @@ interface TransactionCardProps {
 
 const TransactionCard = ({ title, value, icon, bg }: TransactionCardProps) => {
   return (
-    <div className="flex flex-col gap-3 h-auto bg-white border-2 border-black shadow-lg rounded-lg p-4">
+    <div className="flex flex-col gap-3 h-auto bg-db-surface border-2 border-db-border shadow-md rounded-lg p-4">
       <div className="flex items-center gap-3">
         <div
-          className={` ${bg}  text-lg font-bold text-white p-2 rounded-md text-center `}
+          className={`${bg} text-lg font-bold text-white p-2 rounded-md text-center `}
         >
           {icon}
         </div>

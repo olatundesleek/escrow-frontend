@@ -44,8 +44,8 @@ interface MonthlyData {
 }
 
 // Colors
-const DEPOSIT_COLOR = "#5f27cd"; // Tailwind blue-500
-const WITHDRAW_COLOR = "orange"; // Tailwind amber-400
+const DEPOSIT_COLOR = "var(--color-db-primary)"; // Tailwind blue-500
+const WITHDRAW_COLOR = "var(--color-db-secondary)"; // Tailwind amber-400
 
 // Simulated API
 const fetchTransactionData = (): Promise<MonthlyData[]> =>
@@ -76,8 +76,8 @@ const CustomTooltip = ({
 }: TooltipProps<ValueType, NameType>) => {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-md border border-gray-200 bg-white/90 p-3 shadow-lg backdrop-blur-sm">
-        <p className="mb-1 text-sm font-semibold text-gray-800">{label}</p>
+      <div className="rounded-md border border-db-border bg-db-surface/80 p-3 shadow-lg backdrop-blur-sm">
+        <p className="mb-1 text-sm font-semibold text-db-text-secondary">{label}</p>
         {payload.map((entry, index) => (
           <p
             key={`item-${index}`}
@@ -119,7 +119,7 @@ const TransactionChart = () => {
   if (loading) {
     return (
       <div className="w-full">
-        <div className="min-h-[450px] flex items-center justify-center rounded-xl border bg-white text-gray-500 shadow">
+        <div className="min-h-[450px] flex items-center justify-center rounded-xl border bg-db-surface text-db-text-secondary shadow">
           <SpinnerMini /> {/* Use SpinnerMini component */}
         </div>
       </div>
@@ -146,7 +146,7 @@ const TransactionChart = () => {
   if (!chartData.length) {
     return (
       <div className="w-full">
-        <div className="min-h-[450px] flex items-center justify-center rounded-xl border bg-white text-gray-500 shadow">
+        <div className="min-h-[450px] flex items-center justify-center rounded-xl border bg-db-surface text-db-text-secondary shadow">
           No transaction data available.
         </div>
       </div>
@@ -160,12 +160,12 @@ const TransactionChart = () => {
 
   return (
     <div className="w-full">
-      <div className="rounded-xl border border-gray-200 bg-white shadow">
-        <div className="flex flex-col sm:flex-row items-center justify-between border-b bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3">
-          <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+      <div className="rounded-xl border border-db-border bg-db-surface shadow">
+        <div className="flex flex-col sm:flex-row items-center justify-between border-b border-db-border px-4 py-3">
+          <h3 className="text-base sm:text-lg font-semibold text-db-text-secondary">
             Monthly Transactions
           </h3>
-          <p className="text-sm text-gray-500">Last 12 Months</p>
+          <p className="text-sm text-db-text-secondary">Last 12 Months</p>
         </div>
 
         <div className="p-4 sm:p-6">
@@ -176,7 +176,7 @@ const TransactionChart = () => {
                 <CartesianGrid
                   strokeDasharray="3 3"
                   vertical={false}
-                  stroke="#e5e7eb"
+                  stroke="var(--color-db-border)"
                 />
                 <XAxis
                   dataKey="name"
@@ -185,16 +185,16 @@ const TransactionChart = () => {
                   padding={{ left: 10, right: 10 }}
                   // Adjust interval and font size for mobile view
                   interval={isMobile ? Math.ceil(chartData.length / 6) : 0}
-                  tick={{ fill: "#6b7280", fontSize: isMobile ? 10 : 12 }}
+                  tick={{ fill: "var(--color-db-text-primary)", fontSize: isMobile ? 10 : 12 }}
                 />
                 <YAxis
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v) => `$${v.toLocaleString()}`}
-                  tick={{ fill: "#6b7280", fontSize: 12 }}
+                  tick={{ fill: "var(--color-db-text-primary)", fontSize: 12 }}
                 />
                 <Tooltip
-                  cursor={{ fill: "rgba(0, 0, 0, 0.03)" }}
+                  cursor={{ fill: "var(--color-db-border)" }}
                   content={<CustomTooltip />}
                 />
                 <Legend
@@ -204,7 +204,7 @@ const TransactionChart = () => {
                   wrapperStyle={{
                     paddingTop: "20px",
                     fontSize: 13,
-                    color: "#4b5563",
+                    color: "var(--color-db-background)",
                   }}
                 />
                 <Bar

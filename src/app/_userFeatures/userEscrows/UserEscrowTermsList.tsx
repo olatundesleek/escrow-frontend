@@ -9,8 +9,8 @@ export default function UserEscrowTermsList({
   createdAt: string;
 }) {
   return (
-    <div className='w-full border border-dashboard-border rounded-lg overflow-hidden'>
-      <div className='w-full py-2 px-4 bg-dashboard-border text-gray-700 text-base capitalize flex justify-between'>
+    <div className='w-full border border-db-border rounded-lg overflow-hidden'>
+      <div className='w-full py-2 px-4 bg-db-border text-db-text-secondary text-base capitalize flex justify-between'>
         <span>Terms</span>
         <span>
           {format(new Date(createdAt), 'EEE, MMM dd yyyy')} (
@@ -24,7 +24,7 @@ export default function UserEscrowTermsList({
         {terms.map((item, i) => (
           <li
             key={i}
-            className='border-b border-dashboard-border px-4 py-3 capitalize'
+            className='border-b border-db-border px-4 py-3 text-db-text-primary capitalize'
           >
             {item}
           </li>

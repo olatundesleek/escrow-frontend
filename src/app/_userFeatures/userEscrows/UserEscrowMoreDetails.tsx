@@ -9,43 +9,62 @@ export default function UserEscrowMoreDetails({
   amount: string;
   updatedAt: string;
 }) {
+  const details = [
+    {
+      label: "Category",
+      hint: "Type of item",
+      value: category,
+    },
+    {
+      label: "Description",
+      hint: "Details provided by seller/buyer",
+      value: description,
+    },
+    {
+      label: "Amount",
+      hint: "Total agreed price",
+      value: amount,
+    },
+    {
+      label: "Last Updated",
+      hint: "Most recent change",
+      value: updatedAt,
+    },
+  ];
+
   return (
-    <div className='border border-dashboard-border rounded-lg overflow-hidden'>
-      <div className='flex w-full bg-dashboard-border p-3 justify-center'>
-        <h1>More Details</h1>
+    <div className="border border-db-border rounded-xl overflow-hidden shadow-sm bg-db-surface">
+      {/* Header */}
+      <div className="bg-db-border/50 px-5 py-3 text-center">
+        <h2 className="text-lg font-semibold text-db-text text-db-text-primary">
+          Escrow Item Details
+        </h2>
+        <p className="text-xs text-db-text-secondary">
+          Summary of the item and its transaction details
+        </p>
       </div>
-      <table className='w-full mt-2'>
-        <tbody>
-          <tr className='border-b border-dashboard-border'>
-            <th className='text-start px-4 py-2'>
-              Category
-              <span className='text-sm text-gray-500'>(of item)</span>
-            </th>
-            <td className='capitalize flex justify-end pr-2 text-end'>
-              {category}
-            </td>
-          </tr>
-          <tr className='border-b border-dashboard-border'>
-            <th className='text-start px-4 py-2'>
-              Description
-              <span className='text-sm text-gray-500'>(of item)</span>
-            </th>
-            <td className='capitalize flex text-end justify-end pr-2'>
-              {description}
-            </td>
-          </tr>
-          <tr className='border-b border-dashboard-border'>
-            <th className='text-start px-4 py-2'>Amount</th>
-            <td className='capitalize flex justify-end pr-2 text-end'>
-              {amount}
-            </td>
-          </tr>
-          <tr className='border-b border-dashboard-border'>
-            <th className='text-start px-4 py-2'>Updated At</th>
-            <td className='capitalize text-end pr-2'>{updatedAt}</td>
-          </tr>
-        </tbody>
-      </table>
+
+      {/* Details */}
+      <div className="divide-y divide-db-border">
+        {details.map((item, index) => (
+          <div
+            key={index}
+            className="flex items-start justify-between px-5 py-4"
+          >
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-db-text-primary">
+                {item.label}
+              </span>
+              {item.hint && (
+                <span className="text-xs text-db-text-secondary">{item.hint}</span>
+              )}
+            </div>
+            <span className="text-sm font-semibold text-db-text-primary capitalize text-right max-w-[60%]">
+              {item.value}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -7,10 +7,10 @@ import {
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useDeposit from './useDeposit';
-import { BaseWallet } from '@/app/_types/userDashboardServicesTypes';
+import { UserBaseWallet } from '@/app/_types/userDashboardServicesTypes';
 
 interface DepositProps {
-  wallet: BaseWallet;
+  wallet: UserBaseWallet;
 }
 
 interface DepositFormInputs {

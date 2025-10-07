@@ -6,17 +6,16 @@ export default function DesktopTable<TData>({
   table: Table<TData>;
 }) {
   return (
-    // <div className="w-full bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-    // <div className='overflow-x-auto custom-scrollbar'>
-    <table className='min-w-full text-sm text-left'>
-      {/* Table Header: Retaining the dreamy gradient and soft borders */}
-      <thead className='bg-gradient-to-r from-blue-50 to-purple-50 text-gray-700 uppercase'>
+ 
+    <table className='bg-db-surface min-w-full text-sm text-left'>
+   
+      <thead className='bg-db-primary text-db-text-primary uppercase'>
         {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id} className='border-b border-blue-200'>
+          <tr key={headerGroup.id} className='border-b border-db-border'>
             {headerGroup.headers.map((header) => (
               <th
                 key={header.id}
-                className='px-6 py-4 font-semibold text-gray-700 whitespace-nowrap min-w-[80px] md:min-w-[120px]'
+                className='px-6 py-4 font-semibold text-white whitespace-nowrap min-w-[80px] md:min-w-[120px]'
               >
                 {header.isPlaceholder
                   ? null
@@ -29,18 +28,18 @@ export default function DesktopTable<TData>({
           </tr>
         ))}
       </thead>
-      {/* Table Body: Retaining dreamy hover and border styles */}
+     
       <tbody>
         {table.getRowModel().rows.length > 0 ? (
           table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className='border-b border-gray-100 hover:bg-blue-50 transition-colors capitalize'
+              className='border-b border-db-border hover:bg-db-border/50 transition-colors capitalize'
             >
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}
-                  className='px-6 py-4 text-gray-700 whitespace-nowrap'
+                  className='px-6 py-4 text-db-text-secondary whitespace-nowrap'
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
@@ -51,7 +50,7 @@ export default function DesktopTable<TData>({
           <tr>
             <td
               colSpan={table.getVisibleFlatColumns().length}
-              className='text-center py-6 text-gray-500'
+              className='text-center py-6 text-db-text-secondary'
             >
               No data found
             </td>
@@ -59,7 +58,6 @@ export default function DesktopTable<TData>({
         )}
       </tbody>
     </table>
-    // </div>
-    // </div>
+ 
   );
 }

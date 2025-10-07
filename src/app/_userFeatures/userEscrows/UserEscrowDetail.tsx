@@ -1,28 +1,30 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
-import UserDashboardPageTitle from '@/app/_components/UserDashboardPageTitle';
-import FullPageLoader from '@/app/_components/FullPageLoader';
-import useUserEscrowDetails from './useUserEscrowDetails';
+import UserDashboardPageTitle from "@/app/_components/UserDashboardPageTitle";
+import FullPageLoader from "@/app/_components/FullPageLoader";
+import { Button } from "@/app/_components/DashboardBtn";
+import ConfirmModal from "@/app/_components/ConfirmModal";
+import Modal from "@/app/_components/Modal";
 
-import Button from '@/app/_components/Button';
-import UserEscrowChatInfo from './UserEscrowChatInfo';
-import UserEscrowTermsList from './UserEscrowTermsList';
-import UserEscrowStatusTable from './UserEscrowStatusTable';
-import UserEscrowMoreDetails from './UserEscrowMoreDetails';
-import ConfirmModal from '@/app/_components/ConfirmModal';
-import useConfirmModal from '@/app/_hooks/useConfirmModal';
-import useAcceptEscrow from './useAcceptEscrow';
-import useRejectEscrow from './useRejectEscrow';
-import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
-import UserEscrowPaymentStatus from './UserEscrowPaymentStatus';
-import { getEscrowTypeForUser } from '@/app/_utils/helpers';
-import Modal from '@/app/_components/Modal';
-import UserPaymentForm from './UserPaymentForm';
-import UserEscrowType from './UserEscrowType';
-import CreateDisputeForm from './CreateDisputeForm';
+import useUserEscrowDetails from "./useUserEscrowDetails";
+import useConfirmModal from "@/app/_hooks/useConfirmModal";
+import useAcceptEscrow from "./useAcceptEscrow";
+import useRejectEscrow from "./useRejectEscrow";
+import useGetCurrentUser from "@/app/_hooks/useGetCurrentUser";
+
+import { getEscrowTypeForUser } from "@/app/_utils/helpers";
+
+import UserEscrowType from "./UserEscrowType";
+import UserEscrowStatusTable from "./UserEscrowStatusTable";
+import UserEscrowPaymentStatus from "./UserEscrowPaymentStatus";
+import UserEscrowTermsList from "./UserEscrowTermsList";
+import UserEscrowChatInfo from "./UserEscrowChatInfo";
+import UserEscrowMoreDetails from "./UserEscrowMoreDetails";
+import UserPaymentForm from "./UserPaymentForm";
+import CreateDisputeForm from "./CreateDisputeForm";
 
 export default function UserEscrowDetail() {
   const {
@@ -30,171 +32,138 @@ export default function UserEscrowDetail() {
   } = useGetCurrentUser();
 
   const { back } = useRouter();
-
   const { id } = useParams();
 
   const { escrowDetail, isLoadingEscrowDetail, escrowDetailError } =
     useUserEscrowDetails(id as string);
 
-  const {
-    isOpen: isAcceptOpen,
-    open: openAccept,
-    close: closeAccept,
-  } = useConfirmModal();
-
-  const {
-    isOpen: isRejectOpen,
-    open: openReject,
-    close: closeReject,
-  } = useConfirmModal();
-
-  const {
-    isOpen: isPaymentModalOpen,
-    open: openPaymentModal,
-    close: closePaymentModal,
-  } = useConfirmModal();
-
-  const {
-    isOpen: isConfirmCompleteTradeOpen,
-    open: openConfirmCompleteTrade,
-    close: closeConfirmCompleteTrade,
-  } = useConfirmModal();
-
-  const {
-    isOpen: isCreateDisputeOpen,
-    open: openCreateDispute,
-    close: closeCreateDispute,
-  } = useConfirmModal();
+  // Modal controls
+  const paymentModal = useConfirmModal();
+  const disputeModal = useConfirmModal();
+  const acceptModal = useConfirmModal();
+  const rejectModal = useConfirmModal();
+  const completeTradeModal = useConfirmModal();
 
   const { acceptEscrow } = useAcceptEscrow();
-
   const { rejectEscrow } = useRejectEscrow();
 
   if (isLoadingEscrowDetail) return <FullPageLoader />;
-
   if (escrowDetailError) return toast.error(escrowDetailError.message);
 
   if (!escrowDetail) {
     return (
-      <div className='flex flex-col items-center justify-center h-screen'>
+      <div className="flex h-screen flex-col items-center justify-center text-gray-600">
         No escrow details found for ID: {id}
       </div>
     );
   }
 
   const { escrow } = escrowDetail;
-
   const { _id: escrowId, creator } = escrow;
 
   const type = getEscrowTypeForUser(escrow, currentUserId);
 
   return (
     <>
+      {/* --- Modals --- */}
       <Modal
-        isOpen={isPaymentModalOpen}
-        onClose={closePaymentModal}
-        title='Make Payment'
-        width='w-full lg:max-w-lg max-w-lg'
+        isOpen={paymentModal.isOpen}
+        onClose={paymentModal.close}
+        title='Make a Payment'
+        width='w-full lg:max-w-lg'
       >
         <UserPaymentForm
           escrowId={escrowId}
           feePayer={escrow.escrowfeepayment}
           amount={escrow.amount}
-          closePaymentModal={closePaymentModal}
+          closePaymentModal={paymentModal.close}
         />
       </Modal>
 
       <Modal
-        isOpen={isCreateDisputeOpen}
-        onClose={closeCreateDispute}
-        title='Create Dispute'
-        width='w-full lg:max-w-lg max-w-lg'
+        isOpen={disputeModal.isOpen}
+        onClose={disputeModal.close}
+        title='Raise a Dispute'
+        width='w-full lg:max-w-lg'
       >
         <CreateDisputeForm
-          closeDisputeForm={closeCreateDispute}
           escrowId={escrowId}
+          closeDisputeForm={disputeModal.close}
         />
       </Modal>
 
       <ConfirmModal
-        isOpen={isAcceptOpen}
-        onClose={closeAccept}
+        isOpen={acceptModal.isOpen}
+        onClose={acceptModal.close}
         onConfirm={() => acceptEscrow({ escrowId })}
-        title='Confirm Accept'
-        message='Are you sure you want to accept this trade?'
+        title='Accept Trade'
+        message='Do you want to accept this trade?'
         variant='success'
         confirmText='Accept'
       />
 
       <ConfirmModal
-        isOpen={isRejectOpen}
-        onClose={closeReject}
+        isOpen={rejectModal.isOpen}
+        onClose={rejectModal.close}
         onConfirm={() => rejectEscrow({ escrowId })}
-        title='Confirm Reject'
-        message='Are you sure you want to reject this trade?'
+        title='Reject Trade'
+        message='Do you want to reject this trade?'
         variant='danger'
         confirmText='Reject'
       />
 
       <ConfirmModal
-        isOpen={isConfirmCompleteTradeOpen}
-        onClose={closeConfirmCompleteTrade}
-        onConfirm={() => toast.success('Trade completed successfully')}
-        title='Confirm trade completion'
-        message='Are you sure you want to proceed with this action?'
+        isOpen={completeTradeModal.isOpen}
+        onClose={completeTradeModal.close}
+        onConfirm={() => toast.success('Trade marked as complete')}
+        title='Complete Trade'
+        message='Confirm that this trade has been successfully completed.'
         variant='info'
-        confirmText='Complete Trade'
+        confirmText='Complete'
       />
 
-      <div className='flex flex-col justify-center'>
-        <UserDashboardPageTitle title={`Esrow #${id}`}>
-          <div className='sm:flex sm:justify-end gap-4 w-2xs hidden sm:flex-1'>
+      {/* --- Page Content --- */}
+      <div className='flex flex-col'>
+        <UserDashboardPageTitle
+          title={
+            <div className='flex items-center gap-3'>
+              <h1 className='sm:text-xl text-lg font-semibold text-db-text-primary'>
+                Escrow Details
+              </h1>
+              <span className='sm:text-md text-sm text-gray-500'>
+                ID: #{id}
+              </span>
+            </div>
+          }
+        >
+          {/* Actions (desktop only) */}
+          <div className='hidden flex-1 justify-end gap-3 sm:flex'>
             {escrow.paymentStatus === 'paid' &&
               escrow.status !== 'disputed' && (
-                <Button
-                  color='bg-transparent text-error'
-                  style='flex border border-error items-center gap-2 hover:bg-error hover:text-white font-light lg:font-bold'
-                  padding='px-2 py-1'
-                  textSize='lg:text-md text-sm'
-                  onClick={openCreateDispute}
-                >
-                  Create Dispute
+                <Button variant='danger' onClick={disputeModal.open}>
+                  Dispute
                 </Button>
               )}
             {escrow.paymentStatus === 'paid' &&
               escrow.status !== 'disputed' &&
               type === 'buy' && (
-                <Button
-                  color='bg-transparent text-dashboard-secondary'
-                  style='flex border border-secondary items-center gap-2 hover:bg-dashboard-secondary hover:text-white font-light lg:font-bold'
-                  padding='px-2 py-1'
-                  textSize='lg:text-md text-sm'
-                  onClick={openConfirmCompleteTrade}
-                >
-                  Complete Trade
+                <Button variant='secondary' onClick={completeTradeModal.open}>
+                  Mark as Complete
                 </Button>
               )}
-            <span className='bg-dashboard-secondary text-dashboard-primary text-sm px-4 rounded flex justify-center items-center font-bold capitalize'>
-              {escrow.status}
-            </span>
-            <Button
-              type='button'
-              color='bg-transparent text-dashboard-secondary'
-              onClick={() => back()}
-              padding='p-0'
-            >
+            <Button onClick={() => back()} variant='outline'>
               &larr; Back
             </Button>
           </div>
         </UserDashboardPageTitle>
 
-        <div className='flex mt-8 gap-8'>
-          <div className='w-full flex gap-4 flex-col'>
+        <div className='mt-8 flex gap-8'>
+          <div className='flex w-full flex-col gap-4'>
             <UserEscrowType type={type} />
             <UserEscrowStatusTable
               status={escrow.status}
-              openAcceptConfirmModal={openAccept}
-              openRejectConfirmModal={openReject}
+              openAcceptConfirmModal={acceptModal.open}
+              openRejectConfirmModal={rejectModal.open}
               currentUserId={currentUserId}
               creator={creator}
             />
@@ -203,16 +172,13 @@ export default function UserEscrowDetail() {
               paymentStatus={escrow.paymentStatus}
               status={escrow.status}
               type={type}
-              openPaymentModal={openPaymentModal}
+              openPaymentModal={paymentModal.open}
             />
-
             <UserEscrowTermsList
               createdAt={escrow.createdAt}
               terms={escrow.terms}
             />
-
             <UserEscrowChatInfo chatActive={escrow.chatActive} />
-
             <UserEscrowMoreDetails
               category={escrow.category}
               description={escrow.description}
@@ -221,22 +187,23 @@ export default function UserEscrowDetail() {
             />
           </div>
 
-          <div className='hidden sm:w-full sm:min-w-md sm:max-w-lg sm:block'>
-            {escrow.chatActive && <span>Chat active</span>}
+          {/* Side column (desktop only) */}
+          <div className='hidden sm:block sm:w-full sm:min-w-md sm:max-w-lg'>
+            {escrow.chatActive && (
+              <span className='text-gray-500'>Chat is active</span>
+            )}
           </div>
         </div>
       </div>
-      <div className='sm:hidden gap-4 w-full flex justify-between py-4'>
-        <span className='bg-transparent text-dashboard-secondary text-lg cursor-pointer'>
-          Status: {escrow.status}
+
+      {/* Mobile footer actions */}
+      <div className='flex w-full justify-between gap-4 py-4 sm:hidden'>
+        <span className='cursor-pointer text-lg text-db-text-secondary'>
+          Status: <span className='text-db-text-primary'>{escrow.status}</span>
         </span>
-        <button
-          type='button'
-          onClick={() => back()}
-          className='bg-dashboard-secondary text-dashboard-primary text-sm px-4 rounded justify-center items-center font-bold capitalize flex py-2'
-        >
+        <Button type='button' onClick={() => back()}>
           &larr; Back
-        </button>
+        </Button>
       </div>
     </>
   );

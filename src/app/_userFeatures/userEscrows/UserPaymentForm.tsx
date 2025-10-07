@@ -33,7 +33,7 @@ export default function UserPaymentForm({
   return (
     <form className='space-y-4' onSubmit={handleSubmit}>
       {/* Display payment summary */}
-      <div className='bg-dashboard-border p-4 rounded-lg'>
+      <div className='bg-db-border p-4 rounded-lg'>
         <h3 className='font-bold text-lg mb-2'>Payment Summary</h3>
         <div className='text-sm space-y-1'>
           <p>

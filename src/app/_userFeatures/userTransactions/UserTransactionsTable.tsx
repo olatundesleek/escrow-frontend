@@ -1,21 +1,25 @@
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo } from 'react';
-import { HiEye } from 'react-icons/hi';
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import {
+  // useCallback,
+  useMemo,
+} from 'react';
+
+// import { ColumnDef, createColumnHelper } from '@tanstack/react-table';//uncomment when actions are needed
+import { ColumnDef } from '@tanstack/react-table';
 
 import DataTable from '@/app/_components/DataTable';
-import RowActionMenu from '@/app/_components/RowActionMenu';
+// import RowActionMenu from '@/app/_components/RowActionMenu';//uncomment for actions addition
 // import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
 import { UserTransactionItem } from '@/app/_types/userDashboardServicesTypes';
-import Button from '@/app/_components/Button';
+import { Button } from '@/app/_components/DashboardBtn';
 
-interface BaseTransaction {
-  _id: string;
-  escrow: string;
-  direction: 'debit' | 'credit';
-}
+// interface BaseTransaction {
+//   _id: string;
+//   escrow: string;
+//   direction: 'debit' | 'credit';
+// } //uncomment for actions addition
 
-const columnHelper = createColumnHelper<UserTransactionItem>();
+// const columnHelper = createColumnHelper<UserTransactionItem>();uncomment when actions are needed
 
 export default function UserTransactionsTable({
   transactionsData,
@@ -26,20 +30,20 @@ export default function UserTransactionsTable({
 }) {
   const { push } = useRouter();
 
-  const buildActions = useCallback(
-    <TData extends BaseTransaction>(transaction: TData) => {
-      const { _id: transactionId } = transaction;
-      const baseAction = [
-        {
-          label: 'View Details',
-          icon: HiEye,
-          onClick: () => push(`transaction/${transactionId}`),
-        },
-      ];
-      return baseAction;
-    },
-    [push],
-  );
+  // const buildActions = useCallback(
+  //   <TData extends BaseTransaction>(transaction: TData) => {
+  //     const { _id: transactionId } = transaction;
+  //     const baseAction = [
+  //       {
+  //         label: 'View Details',
+  //         icon: HiEye,
+  //         onClick: () => push(`transaction/${transactionId}`),
+  //       },
+  //     ];
+  //     return baseAction;
+  //   },
+  //   [push],
+  // );
 
   const columns: ColumnDef<UserTransactionItem>[] = useMemo(() => {
     /*base columns*/
@@ -71,6 +75,7 @@ export default function UserTransactionsTable({
       {
         header: 'Type',
         accessorKey: 'type',
+        cell: ({ getValue }) => getValue<string>().replaceAll('_', ' '),
       },
       {
         header: 'From',
@@ -94,35 +99,33 @@ export default function UserTransactionsTable({
       },
     ];
     /*actions column*/
-    const actionsColumn = columnHelper.display({
-      id: 'actions',
-      header: '',
-      cell: ({ row }) => <RowActionMenu actions={buildActions(row.original)} />,
-    });
-    return [...base, actionsColumn];
-  }, [buildActions]);
+    // const actionsColumn = columnHelper.display({
+    //   id: 'actions',
+    //   header: '',
+    //   cell: ({ row }) => <RowActionMenu actions={buildActions(row.original)} />,
+    // });
+    // return [...base, actionsColumn];// uncommment when there are actions to be added
+    return [...base];
+  }, []);
 
   return (
     <>
       {variant === 'dashboard' && (
-        <div className='w-full flex justify-between items-center'>
-          <h2 className='text-lg font-semibold text-dashboard-secondary'>
+        <div className='w-full flex justify-between items-center p-4'>
+          <h2 className='text-lg font-semibold text-db-text-secondary'>
             Recent Transactions
           </h2>
-          <Button
-            onClick={() => push('/dashboard/transactions')}
-            style='text-sm text-dashboard-secondary'
-            color='bg-transparent text-dashboard-secondary hover:font-semibold'
-          >
+          <Button onClick={() => push('/dashboard/transactions')} size='sm'>
             View All
           </Button>
         </div>
       )}
-
-      <DataTable<UserTransactionItem>
-        data={transactionsData}
-        columns={columns}
-      />
+      <div className='overflow-auto'>
+        <DataTable<UserTransactionItem>
+          data={transactionsData}
+          columns={columns}
+        />
+      </div>
     </>
   );
 }

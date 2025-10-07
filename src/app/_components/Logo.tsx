@@ -27,7 +27,7 @@ export default function Logo() {
           className="rounded-md"
         />
       ) : (
-        <h1 className="text-3xl font-bold text-secondary">
+        <h1 className="text-2xl font-bold text-db-primary">
           {data?.siteName || "Safe Transaction"}
         </h1>
       )}

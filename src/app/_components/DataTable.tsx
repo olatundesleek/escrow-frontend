@@ -25,10 +25,10 @@ export default function DataTable<TData extends { _id: string }>({
 
   return (
     <>
-      <div className='w-full border border-dashboard-border rounded-md hidden sm:block overflow-x-scroll custom-scrollbar'>
+      <div className='w-full border border-db-border rounded-md hidden sm:block overflow-x-scroll custom-scrollbar'>
         <DesktopTable table={table} />
       </div>
-      <div className='w-full overflow-x-auto rounded-md sm:hidden space-y-4 custom-scrollbar'>
+      <div className='w-full rounded-md sm:hidden space-y-4 '>
         {renderMobileCard ? (
           table
             .getRowModel()

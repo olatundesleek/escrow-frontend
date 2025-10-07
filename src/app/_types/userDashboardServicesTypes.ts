@@ -1,4 +1,9 @@
-type UserEscrowStatus = 'pending' | 'active' | 'rejected' | 'disputed';
+type UserEscrowStatus =
+  | 'pending'
+  | 'active'
+  | 'rejected'
+  | 'disputed'
+  | 'completed';
 type UserPaymentStatus = 'unpaid' | 'paid' | 'pending';
 type UserEscrowFeePayment = 'buyer' | 'seller' | 'split';
 type UserCreatorRole = 'buyer' | 'seller';
@@ -41,7 +46,15 @@ export interface UserEscrowDetailResponse {
   escrow: UserEscrowItem;
 }
 
-export interface BaseWallet {
+export interface UserBankInfo {
+  accountName: string | null;
+  accountNumber: string | null;
+  bankCode: string | null;
+  bankName: string | null;
+  recipientCode: string | null;
+}
+
+export interface UserBaseWallet {
   totalBalance: number;
   lockedBalance: number;
   availableBalance: number;
@@ -50,6 +63,28 @@ export interface BaseWallet {
   user: string;
   createdAt: string;
   updatedAt: string;
+  id: string;
+  bankInfo: UserBankInfo;
+}
+
+/* */
+
+export interface UserDashboardData {
+  kyc: {
+    status: 'verified' | 'unverified';
+  };
+  isVerified: boolean;
+  status: 'active' | 'inactive';
+  _id: string;
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  createdAt: string;
+  wallet: UserBaseWallet;
+  phone: string;
+  profilePicture: string;
+  subRole: string;
 }
 
 export interface UserDashboardDataResponse {
@@ -57,21 +92,10 @@ export interface UserDashboardDataResponse {
   dashboardDetails: {
     success: boolean;
     data: {
-      kyc: {
-        status: 'verified' | 'unverified';
-      };
-      isVerified: boolean;
-      status: 'active' | 'inactive';
-      escrows: UserEscrowItem[];
-      disputes: [];
-      transactions: [];
-      _id: string;
-      firstname: string;
-      lastname: string;
-      username: string;
-      email: string;
-      createdAt: string;
-      wallet: BaseWallet;
+      userDashboardData: UserDashboardData;
+      userDisputes: UserEscrowItem[];
+      userEscrows: UserEscrowItem[];
+      userTransactions: UserTransactionItem[];
     };
   };
 }
@@ -174,8 +198,38 @@ export interface initialUserType {
   streetAddress: string;
   city: string;
   country: string;
+  state: string;
   postalCode: string;
 }
+
+export type Address = {
+  city: string;
+  country: string;
+  postalCode: string;
+  state: string;
+  street: string;
+  streetAddress: string;
+  _id: string;
+};
+
+export type KYC = {
+  status: 'unverified' | 'pending' | 'verified';
+};
+
+export type User = {
+  _id: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  username: string;
+  phone: string;
+  profilePicture: string;
+  role: 'admin' | 'user' | 'moderator';
+  subRole?: string; // optional since not all roles may have it
+  isVerified: boolean;
+  kyc: KYC;
+  address: Address;
+};
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
@@ -198,9 +252,48 @@ export interface DisputeResponse {
   };
 }
 
+// Wallet types
 export interface getWalletResponse {
   statusCode: number;
   success: boolean;
   message: string;
-  walletDetails: BaseWallet;
+  walletDetails: UserBaseWallet;
+}
+
+export interface Bank {
+  id: number;
+  name: string;
+  slug: string;
+  code: string;
+  longcode: string;
+  gateway: string;
+  pay_with_bank: boolean;
+  supports_transfer: boolean;
+  available_for_direct_debit: boolean;
+  active: boolean;
+  country: string;
+  currency: string;
+  type: string;
+  is_deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface getAllBanksListResponse {
+  status: boolean;
+  message: string;
+  data: Bank[];
+}
+
+export interface resolveUserBankResponse {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  accountInfo: {
+    accountInfo: {
+      account_number: string;
+      account_name: string;
+      bank_id: number;
+    };
+  };
 }

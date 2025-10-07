@@ -5,7 +5,7 @@ import UserEscrowTable from "./UserEscrowTable";
 import useUserEscrows from "./useUserEscrows";
 import FullPageLoader from "@/app/_components/FullPageLoader";
 import toast from "react-hot-toast";
-import Button from "@/app/_components/Button";
+import {Button} from "@/app/_components/DashboardBtn";
 import Modal from "@/app/_components/Modal";
 import { useEffect, useState } from 'react';
 import AddEscrowForm from './AddEscrowForm';
@@ -70,8 +70,6 @@ export default function UserEscrows() {
     <div className='flex flex-col items-center justify-center space-y-4'>
       <UserDashboardPageTitle>
         <Button
-          textSize='text-sm'
-          color='bg-dashboard-secondary text-dashboard-primary'
           onClick={() => setIsAddEscrowFormOpen(true)}
         >
           Create Escrow

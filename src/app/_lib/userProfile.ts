@@ -4,7 +4,8 @@ export interface ApiResponse<T = unknown> {
   data?: T;
 }
 
-export const getUserProfile = async () => {
+// Fetch user profile
+export const getUserProfile = async (): Promise<ApiResponse | null> => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/profile`,
@@ -17,39 +18,49 @@ export const getUserProfile = async () => {
       }
     );
 
+    const data = await response.json();
+    console.log("Data: ", data);
+
     if (!response.ok) {
-      const data = await response.json();
       return { success: false, message: data.message };
     }
 
-    const data = await response.json();
-    console.log(data);
-    return { success: true, message: data.message, ...data };
+    return { success: true, message: data.message, data: data.user.data };
   } catch (error) {
     console.error("Error fetching user profile:", error);
     return null;
   }
 };
 
-export const updateUserProfile = async (
-  city: string,
-  streetAddress: string,
-  country: string,
-  phone: string,
-  postalCode: string,
-  profilePicture?: File
-) => {
+// Update user profile
+export const updateUser = async ({
+  streetAddress,
+  city,
+  state,
+  country,
+  postalCode,
+  phone,
+  profilePicture,
+}: {
+  streetAddress: string;
+  city: string;
+  state?: string;
+  country: string;
+  postalCode: string;
+  phone: string;
+  profilePicture?: File;
+}): Promise<ApiResponse> => {
   try {
     const formData = new FormData();
 
-    // Append all text fields to the FormData object
-    formData.append("city", city);
+    // Order matches input fields
     formData.append("streetAddress", streetAddress);
+    formData.append("city", city);
+    if (state) formData.append("state", state);
     formData.append("country", country);
-    formData.append("phone", phone);
     formData.append("postalCode", postalCode);
+    formData.append("phone", phone);
 
-    // Append the file to the FormData object
     if (profilePicture) {
       formData.append("profilePicture", profilePicture);
     }
@@ -59,12 +70,13 @@ export const updateUserProfile = async (
       {
         method: "PUT",
         credentials: "include",
-        // the browser will set it automatically set Content-Type header;
         body: formData,
       }
     );
 
     const data = await response.json();
+
+    console.log("UserData: ", data);
 
     if (!response.ok) {
       return {
@@ -76,7 +88,7 @@ export const updateUserProfile = async (
     return {
       success: true,
       message: data.message || "Profile updated",
-      data: data.user,
+      data: data.data,
     };
   } catch (error) {
     console.error("Error updating user profile:", error);

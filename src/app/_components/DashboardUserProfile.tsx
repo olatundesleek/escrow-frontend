@@ -1,15 +1,32 @@
 "use client";
 
 import React from "react";
-import Image from "next/image"; // Assuming Next.js Image component is available
-import { FaCalendarAlt } from "react-icons/fa";
-import Modal from "./Modal";
+import Image from "next/image";
+import {
+  FaCalendarAlt,
+  FaEnvelope,
+  FaPhone,
+  FaInfoCircle,
+} from "react-icons/fa";
 import UserDashboardPageTitle from "./UserDashboardPageTitle";
 import { InputField, PasswordField } from "./ProfileSetting";
 import { useUserProfileForm } from "../_hooks/useUserProfileForm";
 import { FormValues } from "../_types/dashboardServicesTypes";
+import { Button } from "./DashboardBtn";
 import useUserDashboard from "../_userFeatures/userDashboard/useUserDashboard";
-
+import { getUserProfile } from "../_lib/userProfile";
+import { useEffect } from "react";
+/**
+ * UserProfile Page
+ *
+ * Layout:
+ * - Left: Profile overview (avatar, contact info, joined date).
+ * - Right: Profile form (update info) + password form (change password).
+ *
+ * UX:
+ * - Photo instantly previews when changed.
+ * - Info tooltips (hover on icons).
+ */
 export default function UserProfile() {
   const {
     user,
@@ -29,205 +46,282 @@ export default function UserProfile() {
     handleReset,
     visibility,
     setVisibility,
-    isModalOpen,
-    setIsModalOpen,
-    modalContent,
     isUpdating,
     status,
   } = useUserProfileForm();
 
   const { userDashboardData } = useUserDashboard();
 
-  const joinedDate = new Date(
-    userDashboardData?.dashboardDetails.data.createdAt ?? ""
-  ).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  useEffect(() => {
+    const fetch = async () => {
+      const currentuser = await getUserProfile();
+      console.log(currentuser);
+    };
+    fetch();
+  }, []);
+
+  const createdAt =
+    userDashboardData?.dashboardDetails.data.userDashboardData.createdAt;
+
+  const joinedDate = createdAt
+    ? new Date(createdAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
 
   return (
     <>
-      <UserDashboardPageTitle />
-      <div className="flex flex-col lg:flex-row gap-2 lg:gap-8 mt-6 w-full">
-        {/* Aside / User Info Card */}
-        <aside className="bg-white border border-gray-200 rounded-xl p-6 shadow-md flex flex-col items-center text-gray-800 relative w-full lg:w-1/3">
-          <div className="relative w-28 h-28 mb-4 rounded-full border border-gray-300 overflow-hidden shadow-md">
-            {avatar.preview && (
+      {/* --- Page Title --- */}
+      <UserDashboardPageTitle title="Profile">
+        {/* Info Tooltip */}
+        <div className="relative group cursor-pointer">
+          <FaInfoCircle className="text-db-primary text-lg" />
+          <div className="absolute right-0 top-6 w-56 p-2 bg-db-background text-xs text-db-text-secondary border border-db-border rounded-md shadow-md opacity-0 group-hover:opacity-100 transition pointer-events-none z-50">
+            <p>
+              <strong>Update profile:</strong> Edit your details and click{" "}
+              <em>Save changes</em>.
+            </p>
+            <p className="mt-1">
+              <strong>Reset edits:</strong> Undo unsaved changes.
+            </p>
+            <p className="mt-1">
+              <strong>Change photo:</strong> Upload a new profile picture.
+            </p>
+          </div>
+        </div>
+      </UserDashboardPageTitle>
+      <p className="mt-1 text-sm text-db-text-secondary max-w-prose">
+        Review and update your personal details, security settings, and profile
+        photo.
+      </p>
+
+      <div className="mt-6 flex flex-col lg:flex-row gap-6">
+        {/* ---------- LEFT: Profile Overview ---------- */}
+        <aside className="w-full lg:w-1/3 bg-db-surface border border-db-border rounded-2xl p-6 shadow-sm flex flex-col items-center">
+          {/* Avatar */}
+          <div className="relative w-28 h-28 rounded-full overflow-hidden border border-db-border shadow-md">
+            {avatar?.preview ? (
               <Image
-                src={avatar.preview ?? null}
-                alt="User Avatar"
-                width={112}
-                height={112}
+                src={avatar.preview}
+                alt={`${user?.username ?? "User"} avatar`}
+                fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 112px"
-                style={{ borderRadius: "9999px" }}
+                sizes="112px"
               />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-db-background text-db-primary text-4xl">
+                {user?.username?.[0]?.toUpperCase() ?? "U"}
+              </div>
             )}
           </div>
+
+          {/* Upload control */}
           <label
             htmlFor="avatar-upload"
-            className="inline-flex items-center justify-center text-sm text-blue-600 hover:underline cursor-pointer mb-4 px-4 py-2 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors duration-200 font-medium"
+            className="mt-4 px-3 py-2 inline-flex items-center gap-2 text-sm font-medium text-db-primary
+                       bg-db-background border border-db-border rounded-full cursor-pointer
+                       hover:bg-db-primary/10 transition"
           >
-            Change Photo
+            Change photo
           </label>
           <input
             id="avatar-upload"
             type="file"
             accept="image/*"
             onChange={handleAvatarChange}
-            className="hidden"
+            className="sr-only"
           />
 
-          <div className="space-y-2 text-sm w-full mt-2">
-            <div className="text-center mb-4">
-              <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
-                {user.username}
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-500 capitalize">
-                {user.role}
-              </p>
-            </div>
-            <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 mt-2">
-              <FaCalendarAlt className="text-gray-400" />
-              <span>Joined: {joinedDate}</span>
-            </div>
-            <ul className="border-t border-gray-200 pt-6 mt-6 space-y-3 text-left w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <>
-                {userInfo.map((info, index) => {
-                  let displayText = info.text;
-                  if (typeof displayText === "object" && displayText !== null) {
-                    displayText = Object.values(displayText).join(" ");
-                  }
-                  return (
-                    <li
-                      key={index}
-                      className="flex items-center text-sm text-gray-700 w-full sm:w-auto p-2 rounded-md hover:bg-gray-50 transition-colors duration-200"
-                    >
-                      <span className="flex gap-2">
-                        <info.icon className={`${info.color} text-lg`} />
-                        {info.text}
-                      </span>
-                    </li>
-                  );
-                })}
-              </>
-            </ul>
+          {/* Name + Role */}
+          <div className="text-center mt-4">
+            <h3 className="text-lg font-semibold text-db-text-primary truncate">
+              {user?.username ?? "User"}
+            </h3>
+            <p className="text-sm text-db-text-secondary mt-1 capitalize">
+              {user?.role ?? "Member"}
+            </p>
           </div>
+
+          {/* Joined Date */}
+          {joinedDate && (
+            <div className="flex items-center gap-2 text-xs text-db-text-secondary mt-3">
+              <FaCalendarAlt className="text-db-primary shrink-0" />
+              <span className="truncate">Joined {joinedDate}</span>
+            </div>
+          )}
+
+          {/* Contact Info */}
+          <ul className="w-full mt-6 flex flex-wrap gap-3">
+            {userInfo?.length ? (
+              userInfo.map((info, i) => {
+                const display =
+                  typeof info.text === "object"
+                    ? Object.values(info.text).join(" ")
+                    : info.text;
+                return (
+                  <li
+                    key={i}
+                    className="flex items-center gap-3 p-3 rounded-md bg-db-background border border-db-border flex-1 min-w-[45%] max-w-full"
+                  >
+                    <info.icon className={`${info.color} text-lg shrink-0`} />
+                    <div className="flex-1 min-w-0">
+                      <span className="block text-xs text-db-text-secondary">
+                        {info.label}
+                      </span>
+                      <span className="block text-sm text-db-text-primary break-words">
+                        {display}
+                      </span>
+                    </div>
+                  </li>
+                );
+              })
+            ) : (
+              <>
+                <li className="flex items-center gap-3 p-3 rounded-md bg-db-background border border-db-border flex-1 min-w-[45%]">
+                  <FaEnvelope className="text-db-primary text-lg shrink-0" />
+                  <div className="min-w-0">
+                    <div className="text-xs text-db-text-secondary">Email</div>
+                    <div className="text-sm break-words">
+                      {user?.email ?? "Not set"}
+                    </div>
+                  </div>
+                </li>
+                <li className="flex items-center gap-3 p-3 rounded-md bg-db-background border border-db-border flex-1 min-w-[45%]">
+                  <FaPhone className="text-db-primary text-lg shrink-0" />
+                  <div className="min-w-0">
+                    <div className="text-xs text-db-text-secondary">Phone</div>
+                    <div className="text-sm break-words">
+                      {user?.phone ?? "Not set"}
+                    </div>
+                  </div>
+                </li>
+              </>
+            )}
+          </ul>
         </aside>
 
-        {/* Main Content / Edit Profile Form */}
-        <main className="bg-white border border-gray-200 rounded-xl p-6 shadow-md w-full lg:w-2/3">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800">
-            Edit Profile
-          </h2>
-          {/* Profile Update Form */}
-          <form
-            onSubmit={handleProfileSubmit(onUpdateProfile)}
-            className="space-y-6"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {inputFields.map((field) => {
-                const error = profileErrors[field.name as keyof FormValues];
-                return (
-                  <InputField
+        {/* ---------- RIGHT: Forms ---------- */}
+        <main className="w-full lg:w-2/3 space-y-6">
+          {/* Profile Form */}
+          <section className="bg-db-surface border border-db-border rounded-2xl p-6 shadow-sm">
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <h2 className="text-xl font-semibold text-db-text-primary">
+                  Edit Profile
+                </h2>
+                <p className="text-sm text-db-text-secondary mt-1 max-w-prose">
+                  Update your contact information so it’s always accurate.
+                </p>
+              </div>
+            </div>
+
+            <form
+              onSubmit={handleProfileSubmit(onUpdateProfile)}
+              className="mt-6 space-y-6"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {inputFields.map((field) => {
+                  const error = profileErrors[field.name as keyof FormValues];
+                  return (
+                    <InputField
+                      key={field.name}
+                      id={field.name}
+                      label={field.label}
+                      register={registerProfile(
+                        field.name as keyof FormValues,
+                        field.rules
+                      )}
+                      error={error}
+                      placeholder={field.placeholder}
+                    />
+                  );
+                })}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
+                <Button
+                  type="submit"
+                  disabled={isUpdating}
+                  variant="primary"
+                  className="flex-1"
+                  size="lg"
+                >
+                  {isUpdating ? "Saving…" : "Save changes"}
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleReset}
+                  variant="outline"
+                  className="flex-1"
+                  size="lg"
+                >
+                  Reset
+                </Button>
+              </div>
+
+              {status?.message && (
+                <div
+                  role="status"
+                  className={`mt-2 px-4 py-2 rounded-md text-sm shadow-sm ${
+                    status.type === "success"
+                      ? "bg-db-success/10 text-db-success"
+                      : "bg-db-error/10 text-db-error"
+                  }`}
+                >
+                  {status.message}
+                </div>
+              )}
+            </form>
+          </section>
+
+          {/* Password Form */}
+          <section className="bg-db-surface border border-db-border rounded-2xl p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-db-text-primary">
+              Change Password
+            </h3>
+            <p className="text-sm text-db-text-secondary mt-1 max-w-prose">
+              Use a strong password that only you know.
+            </p>
+
+            <form
+              onSubmit={handlePasswordSubmit(handleChangePassword)}
+              className="mt-4 space-y-4"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {passwordFields.map((field) => (
+                  <PasswordField
                     key={field.name}
                     id={field.name}
                     label={field.label}
-                    register={registerProfile(
-                      field.name as keyof FormValues,
-                      field.rules
-                    )}
-                    error={error}
                     placeholder={field.placeholder}
+                    register={registerPassword(field.name, field.rules)}
+                    error={passwordErrors[field.name]}
+                    show={visibility[field.name as keyof typeof visibility]}
+                    toggleShow={() =>
+                      setVisibility((prev) => ({
+                        ...prev,
+                        [field.name]: !prev[field.name as keyof typeof prev],
+                      }))
+                    }
                   />
-                );
-              })}
-            </div>
+                ))}
+              </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <button
-                disabled={isUpdating}
-                className="flex-1 sm:flex-none bg-[#5f27cd] text-white px-6 py-3 rounded-lg hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-semibold shadow-md transform hover:scale-[1.02]"
+              <Button
+                type="submit"
+                disabled={status?.isSaving}
+                variant="secondary"
+                size="lg"
+                className="w-full"
               >
-                {isUpdating ? "Saving..." : "Update Profile"}
-              </button>
-              <button
-                type="button"
-                onClick={handleReset}
-                className="flex-1 sm:flex-none bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-all duration-200 font-semibold shadow-md transform hover:scale-[1.02]"
-              >
-                Reset
-              </button>
-            </div>
-          </form>
-
-          {/* Password Change Form */}
-          <form
-            onSubmit={handlePasswordSubmit(handleChangePassword)}
-            className="space-y-6 mt-10 pt-6 border-t border-gray-200"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {passwordFields.map((field) => (
-                <PasswordField
-                  key={field.name}
-                  id={field.name}
-                  label={field.label}
-                  placeholder={field.placeholder}
-                  register={registerPassword(field.name, field.rules)}
-                  error={passwordErrors[field.name]}
-                  show={visibility[field.name as keyof typeof visibility]}
-                  toggleShow={() =>
-                    setVisibility((prev) => ({
-                      ...prev,
-                      [field.name]: !prev[field.name as keyof typeof prev],
-                    }))
-                  }
-                />
-              ))}
-            </div>
-
-            <button
-              type="submit"
-              disabled={status.isSaving}
-              className="w-full bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-semibold shadow-md transform hover:scale-[1.02]"
-            >
-              {status.isSaving ? "Changing..." : "Change Password"}
-            </button>
-          </form>
+                {status?.isSaving ? "Updating…" : "Change password"}
+              </Button>
+            </form>
+          </section>
         </main>
       </div>
-
-      {/* The new Headless UI Modal is used here */}
-      <Modal
-        isOpen={isModalOpen}
-        title={modalContent.title}
-        onClose={() => setIsModalOpen(false)}
-        width="w-full max-w-sm" // Keep it small as per previous request
-      >
-        {/* Content of the modal passed as children */}
-        <p className="text-gray-600 mb-6">{modalContent.message}</p>
-        <div className="flex justify-end gap-3">
-          {modalContent.isConfirm && (
-            <button
-              onClick={modalContent.onConfirm}
-              className="px-4 py-2 bg-[#5f27cd] text-white rounded-md hover:bg-blue-700 transition-colors duration-200 font-medium"
-            >
-              {modalContent.confirmText || "Confirm"}
-            </button>
-          )}
-          <button
-            onClick={() => setIsModalOpen(false)}
-            className={`px-4 py-2 rounded-md transition-colors duration-200 font-medium ${
-              modalContent.isConfirm
-                ? "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                : "bg-[#5f27cd] text-white hover:bg-blue-800"
-            }`}
-          >
-            {modalContent.isConfirm ? "Cancel" : "OK"}
-          </button>
-        </div>
-      </Modal>
     </>
   );
 }

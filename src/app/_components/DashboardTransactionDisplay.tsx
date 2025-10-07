@@ -11,25 +11,25 @@ const DashboardTransactionDisplay = () => {
       <TransactionCard
         title='Deposited Amount'
         value='$1000.00'
-        bg='bg-green-500'
+        bg='bg-db-success'
         icon={<LuUsers />}
       />
       <TransactionCard
         title='Pending Deposits'
         value='8'
-        bg='bg-orange-500'
+        bg='bg-db-warning'
         icon={<IoReload />}
       />
       <TransactionCard
         title='Cancel Deposits'
         value='2'
-        bg='bg-red-500'
+        bg='bg-db-error'
         icon={<MdOutlineCancel />}
       />
       <TransactionCard
         title='Deposits Charge'
         value='$12.00'
-        bg='bg-blue-500'
+        bg='bg-db-primary'
         icon={<BsDatabaseDash />}
       />
     </div>
