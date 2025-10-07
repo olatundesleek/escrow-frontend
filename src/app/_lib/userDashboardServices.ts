@@ -4,9 +4,12 @@ import {
   CreateEscrowResponse,
   DepositResponse,
   DisputeResponse,
+  getAllBanksListResponse,
   getWalletResponse,
   PayEscrowBillResponse,
+  resolveUserBankResponse,
 } from './../_types/userDashboardServicesTypes';
+
 import {
   UserDashboardDataResponse,
   AllUserEscrowsDataResponse,
@@ -376,6 +379,92 @@ export async function getWallet(): Promise<getWalletResponse> {
     return data;
   } catch (error) {
     console.error('Error:', error);
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function getAllBanksList(): Promise<getAllBanksListResponse> {
+  const getAllBanksListUrl = `https://api.paystack.co/bank?currency=NGN`;
+
+  try {
+    const res = await fetch(getAllBanksListUrl);
+
+    if (!res.ok) throw new Error('Failed to fetch bankss');
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function resolveUserBank(payload: {
+  bankCode: string;
+  accountNumber: string;
+}): Promise<resolveUserBankResponse> {
+  const resolveUserBankUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/wallet/resolve-bank`;
+
+  try {
+    const res = await fetch(resolveUserBankUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong',
+    );
+  }
+}
+
+export async function addUserBank(payload: {
+  bankCode: string;
+  accountNumber: string;
+}) {
+  const resolveUserBankUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/wallet/add-bank`;
+
+  try {
+    const res = await fetch(resolveUserBankUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData: ApiError = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+
     throw new Error(
       error instanceof Error ? error.message : 'Something went wrong',
     );

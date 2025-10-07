@@ -316,9 +316,9 @@ export default function UserEscrowTable({
         onConfirm={() => {
           if (escrowToAccept) acceptEscrow({ escrowId: escrowToAccept });
         }}
-        variant={"success"}
-        title="Confirm Acceptance" // Added titles for clarity
-        message="Are you sure you want to accept this escrow? This action cannot be undone."
+        variant={'success'}
+        title='Confirm Acceptance' // Added titles for clarity
+        message='Are you sure you want to accept this escrow? This action cannot be undone.'
       />
 
       <ConfirmModal
@@ -327,15 +327,17 @@ export default function UserEscrowTable({
         onConfirm={() => {
           if (escrowToReject) rejectEscrow({ escrowId: escrowToReject });
         }}
-        variant="danger"
-        title="Confirm Rejection" // Added titles for clarity
-        message="Are you sure you want to reject this escrow? This action cannot be undone."
+        variant='danger'
+        title='Confirm Rejection' // Added titles for clarity
+        message='Are you sure you want to reject this escrow? This action cannot be undone.'
       />
 
       <DataTable<UserEscrowItem>
         data={escrowData}
         columns={columns}
-        renderMobileCard={(row) => <MobileCard key={row.id} row={row} />}
+        renderMobileCard={(row) => (
+          <MobileCard key={row.id} row={row} currentUserId={currentUserId} />
+        )}
       />
     </>
   );

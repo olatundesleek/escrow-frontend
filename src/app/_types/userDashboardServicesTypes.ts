@@ -1,8 +1,13 @@
-type UserEscrowStatus = "pending" | "active" | "rejected" | "disputed";
-type UserPaymentStatus = "unpaid" | "paid" | "pending";
-type UserEscrowFeePayment = "buyer" | "seller" | "split";
-type UserCreatorRole = "buyer" | "seller";
-type DisputeStatus = "pending" | "resolved";
+type UserEscrowStatus =
+  | 'pending'
+  | 'active'
+  | 'rejected'
+  | 'disputed'
+  | 'completed';
+type UserPaymentStatus = 'unpaid' | 'paid' | 'pending';
+type UserEscrowFeePayment = 'buyer' | 'seller' | 'split';
+type UserCreatorRole = 'buyer' | 'seller';
+type DisputeStatus = 'pending' | 'resolved';
 
 export interface UserEscrowItem {
   terms: string[];
@@ -41,7 +46,15 @@ export interface UserEscrowDetailResponse {
   escrow: UserEscrowItem;
 }
 
-export interface BaseWallet {
+export interface UserBankInfo {
+  accountName: string | null;
+  accountNumber: string | null;
+  bankCode: string | null;
+  bankName: string | null;
+  recipientCode: string | null;
+}
+
+export interface UserBaseWallet {
   totalBalance: number;
   lockedBalance: number;
   availableBalance: number;
@@ -50,6 +63,28 @@ export interface BaseWallet {
   user: string;
   createdAt: string;
   updatedAt: string;
+  id: string;
+  bankInfo: UserBankInfo;
+}
+
+/* */
+
+export interface UserDashboardData {
+  kyc: {
+    status: 'verified' | 'unverified';
+  };
+  isVerified: boolean;
+  status: 'active' | 'inactive';
+  _id: string;
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  createdAt: string;
+  wallet: UserBaseWallet;
+  phone: string;
+  profilePicture: string;
+  subRole: string;
 }
 
 export interface UserDashboardDataResponse {
@@ -57,21 +92,10 @@ export interface UserDashboardDataResponse {
   dashboardDetails: {
     success: boolean;
     data: {
-      kyc: {
-        status: "verified" | "unverified";
-      };
-      isVerified: boolean;
-      status: "active" | "inactive";
-      escrows: UserEscrowItem[];
-      disputes: [];
-      transactions: [];
-      _id: string;
-      firstname: string;
-      lastname: string;
-      username: string;
-      email: string;
-      createdAt: string;
-      wallet: BaseWallet;
+      userDashboardData: UserDashboardData;
+      userDisputes: UserEscrowItem[];
+      userEscrows: UserEscrowItem[];
+      userTransactions: UserTransactionItem[];
     };
   };
 }
@@ -91,11 +115,11 @@ export interface ApiError {
 }
 
 export interface CreateEscrowFormInputs {
-  creatorRole: "" | "buyer" | "seller";
+  creatorRole: '' | 'buyer' | 'seller';
   counterpartyEmail: string;
   amount: number;
   category: string;
-  escrowFeePayment: "" | "buyer" | "seller" | "split";
+  escrowFeePayment: '' | 'buyer' | 'seller' | 'split';
   description: string;
   terms: string[];
 }
@@ -110,7 +134,7 @@ export interface PayEscrowBillResponse {
   message: string;
   paymentDetails: {
     status: true;
-    message: "Authorization URL created";
+    message: 'Authorization URL created';
     data: {
       authorization_url: string;
       access_code: string;
@@ -124,8 +148,8 @@ export interface BaseTransaction {
   _id: string;
   user: string;
   wallet: string;
-  direction: "debit" | "credit";
-  type: "escrow_payment" | "wallet_deposit" | "withdrawal";
+  direction: 'debit' | 'credit';
+  type: 'escrow_payment' | 'wallet_deposit' | 'withdrawal';
   from: string;
   reference: string;
   amount: number;
@@ -137,7 +161,7 @@ export interface BaseTransaction {
 
 export interface UserTransactionItem extends BaseTransaction {
   escrow: string;
-  role: "buyer" | "seller";
+  role: 'buyer' | 'seller';
   to: string;
 }
 
@@ -189,7 +213,7 @@ export type Address = {
 };
 
 export type KYC = {
-  status: "unverified" | "pending" | "verified";
+  status: 'unverified' | 'pending' | 'verified';
 };
 
 export type User = {
@@ -200,7 +224,7 @@ export type User = {
   username: string;
   phone: string;
   profilePicture: string;
-  role: "admin" | "user" | "moderator";
+  role: 'admin' | 'user' | 'moderator';
   subRole?: string; // optional since not all roles may have it
   isVerified: boolean;
   kyc: KYC;
@@ -228,9 +252,48 @@ export interface DisputeResponse {
   };
 }
 
+// Wallet types
 export interface getWalletResponse {
   statusCode: number;
   success: boolean;
   message: string;
-  walletDetails: BaseWallet;
+  walletDetails: UserBaseWallet;
+}
+
+export interface Bank {
+  id: number;
+  name: string;
+  slug: string;
+  code: string;
+  longcode: string;
+  gateway: string;
+  pay_with_bank: boolean;
+  supports_transfer: boolean;
+  available_for_direct_debit: boolean;
+  active: boolean;
+  country: string;
+  currency: string;
+  type: string;
+  is_deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface getAllBanksListResponse {
+  status: boolean;
+  message: string;
+  data: Bank[];
+}
+
+export interface resolveUserBankResponse {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  accountInfo: {
+    accountInfo: {
+      account_number: string;
+      account_name: string;
+      bank_id: number;
+    };
+  };
 }

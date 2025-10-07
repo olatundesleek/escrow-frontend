@@ -1,4 +1,4 @@
-import Wallet from "@/app/_components/Wallet";
+import Wallet from '@/app/_userFeatures/userWalletManagement/Wallet';
 
 export default function Page() {
   return <Wallet />;

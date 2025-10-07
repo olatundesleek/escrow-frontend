@@ -1,10 +1,11 @@
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import { HiEye } from 'react-icons/hi';
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+// import { ColumnDef, createColumnHelper } from '@tanstack/react-table';//uncomment when actions are needed
+import { ColumnDef } from '@tanstack/react-table';
 
 import DataTable from '@/app/_components/DataTable';
-import RowActionMenu from '@/app/_components/RowActionMenu';
+// import RowActionMenu from '@/app/_components/RowActionMenu';//uncomment for actions addition
 // import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
 import { UserTransactionItem } from '@/app/_types/userDashboardServicesTypes';
 import {Button} from '@/app/_components/DashboardBtn';
@@ -15,7 +16,7 @@ interface BaseTransaction {
   direction: 'debit' | 'credit';
 }
 
-const columnHelper = createColumnHelper<UserTransactionItem>();
+// const columnHelper = createColumnHelper<UserTransactionItem>();uncomment when actions are needed
 
 export default function UserTransactionsTable({
   transactionsData,
@@ -71,6 +72,7 @@ export default function UserTransactionsTable({
       {
         header: 'Type',
         accessorKey: 'type',
+        cell: ({ getValue }) => getValue<string>().replaceAll('_', ' '),
       },
       {
         header: 'From',
@@ -94,12 +96,13 @@ export default function UserTransactionsTable({
       },
     ];
     /*actions column*/
-    const actionsColumn = columnHelper.display({
-      id: 'actions',
-      header: '',
-      cell: ({ row }) => <RowActionMenu actions={buildActions(row.original)} />,
-    });
-    return [...base, actionsColumn];
+    // const actionsColumn = columnHelper.display({
+    //   id: 'actions',
+    //   header: '',
+    //   cell: ({ row }) => <RowActionMenu actions={buildActions(row.original)} />,
+    // });
+    // return [...base, actionsColumn];// uncommment when there are actions to be added
+    return [...base];
   }, [buildActions]);
 
   return (
