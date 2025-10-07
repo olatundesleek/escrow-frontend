@@ -27,15 +27,10 @@ export function MobileCard<
     let label = paymentStatus;
 
     switch (ps) {
-      case 'pending':
-        bgColor = 'bg-warning/20';
-        textColor = 'text-warning';
-        label = 'Pending Payment';
-        break;
       case 'paid':
         bgColor = 'bg-db-secondary/20';
         textColor = 'text-db-secondary';
-        label = 'Payment Received';
+        label = 'Paid';
         break;
       case 'refunded':
         bgColor = 'bg-db-primary/20';
@@ -43,11 +38,9 @@ export function MobileCard<
         label = 'Refunded';
         break;
       case 'unpaid':
-      case 'failed':
         bgColor = 'bg-error/20';
         textColor = 'text-error';
-        label = 'Payment Failed';
-        break;
+        label = 'Unpaid';
     }
     return {
       classes: `inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase ${bgColor} ${textColor}`,
@@ -64,29 +57,29 @@ export function MobileCard<
 
     switch (s) {
       case 'pending':
-        bgColor = 'bg-warning/20';
+        bgColor = 'bg-warning/40';
         textColor = 'text-warning';
-        label = 'Pending Approval';
+        label = 'Pending Acceptance';
         break;
       case 'active':
-        bgColor = 'bg-purple-500/20';
+        bgColor = 'bg-purple-500/40';
         textColor = 'text-purple-500';
-        label = 'Active Transaction';
+        label = 'Active';
         break;
       case 'completed':
-        bgColor = 'bg-success/20';
+        bgColor = 'bg-success/50';
         textColor = 'text-success';
         label = 'Completed';
         break;
-      case 'cancelled':
+
       case 'rejected':
-        bgColor = 'bg-error/20';
+        bgColor = 'bg-error/50';
         textColor = 'text-error';
-        label = 'Cancelled';
+        label = 'Rejected';
         break;
       case 'disputed':
-        bgColor = 'bg-accent/20';
-        textColor = 'text-accent';
+        bgColor = 'bg-error/50';
+        textColor = 'text-error';
         label = 'Disputed';
         break;
     }

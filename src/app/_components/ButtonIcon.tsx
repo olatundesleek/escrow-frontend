@@ -74,12 +74,16 @@ export default function ButtonIcon({
       <button
         ref={btnRef}
         onClick={() => onClick && onClick(!isActive)}
-        type="button"
+        type='button'
         className={`relative p-2 border border-db-border cursor-pointer 
           rounded-lg transition-all duration-300 ease-in-out mx-0.5 
-          focus:outline-none focus:ring-2 focus:ring-db-primary 
-          ${isActive ? "bg-db-primary text-db-surface" : "bg-db-background text-db-primary"} 
-          ${isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-db-primary/10"} 
+          focus:outline-none focus:ring-2 focus:ring-db-primary lg:hover:bg-db-primary lg:hover:text-db-surface 
+          ${
+            isActive
+              ? 'bg-db-primary text-db-surface'
+              : 'bg-db-background text-db-primary'
+          } 
+          ${isLoading ? 'opacity-50 cursor-not-allowed' : ''} 
           ${style}`}
         disabled={isLoading}
         aria-label={ariaLabel}
@@ -88,7 +92,7 @@ export default function ButtonIcon({
         onFocus={() => setShowTooltip(true)} // accessibility
         onBlur={() => setShowTooltip(false)}
       >
-        {isLoading ? <FaSpinner className="h-4 w-4 animate-spin" /> : children}
+        {isLoading ? <FaSpinner className='h-4 w-4 animate-spin' /> : children}
       </button>
 
       {/* Tooltip via Portal */}
@@ -100,17 +104,17 @@ export default function ButtonIcon({
               bg-db-primary text-white text-xs font-medium pointer-events-none border border-db-border 
               opacity-0 scale-95 animate-fadeIn`}
             style={{
-              position: "absolute",
+              position: 'absolute',
               top: tooltipPos.top,
               left: tooltipPos.left,
               transform:
-                actualPosition === "top"
-                  ? "translate(-50%, -100%)"
-                  : actualPosition === "bottom"
-                  ? "translate(-50%, 0%)"
-                  : actualPosition === "left"
-                  ? "translate(-100%, -50%)"
-                  : "translate(0%, -50%)",
+                actualPosition === 'top'
+                  ? 'translate(-50%, -100%)'
+                  : actualPosition === 'bottom'
+                  ? 'translate(-50%, 0%)'
+                  : actualPosition === 'left'
+                  ? 'translate(-100%, -50%)'
+                  : 'translate(0%, -50%)',
             }}
           >
             {toolTip}
@@ -118,29 +122,29 @@ export default function ButtonIcon({
             <span
               className={`absolute w-2 h-2 bg-db-primary rotate-45`}
               style={{
-                [actualPosition === "top"
-                  ? "bottom"
-                  : actualPosition === "bottom"
-                  ? "top"
-                  : actualPosition === "left"
-                  ? "right"
-                  : "left"]: "-4px",
+                [actualPosition === 'top'
+                  ? 'bottom'
+                  : actualPosition === 'bottom'
+                  ? 'top'
+                  : actualPosition === 'left'
+                  ? 'right'
+                  : 'left']: '-4px',
                 top:
-                  actualPosition === "left" || actualPosition === "right"
-                    ? "50%"
+                  actualPosition === 'left' || actualPosition === 'right'
+                    ? '50%'
                     : undefined,
                 left:
-                  actualPosition === "top" || actualPosition === "bottom"
-                    ? "50%"
+                  actualPosition === 'top' || actualPosition === 'bottom'
+                    ? '50%'
                     : undefined,
                 transform:
-                  actualPosition === "left" || actualPosition === "right"
-                    ? "translateY(-50%)"
-                    : "translateX(-50%)",
+                  actualPosition === 'left' || actualPosition === 'right'
+                    ? 'translateY(-50%)'
+                    : 'translateX(-50%)',
               }}
             />
           </div>,
-          document.body
+          document.body,
         )}
     </>
   );

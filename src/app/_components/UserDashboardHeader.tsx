@@ -12,18 +12,18 @@ export default function UserDashboardHeader({
   setIsSidebarOpen: React.Dispatch<boolean>;
 }) {
   return (
-    <header className="w-full bg-db-surface border-b border-db-border flex justify-between items-center px-5 py-1 h-header-height min-h-header-height max-h-header-height fixed lg:relative bg-dashboard-primary z-100">
-      <div className="flex gap-x-4 w-full">
+    <header className='w-full border-b border-db-border flex justify-between items-center px-5 py-1 h-header-height min-h-header-height max-h-header-height fixed lg:relative bg-dashboard-primary z-100'>
+      <div className='flex gap-x-4 w-full'>
         <ButtonIcon
-          style="lg:text-2xl"
+          style='lg:text-2xl'
           onClick={setIsSidebarOpen}
           isActive={isSidebarOpen}
-          toolTip="Menu"
-          tipPosition="bottom"
+          toolTip='Menu'
+          tipPosition='bottom'
         >
           <HiOutlineMenu />
         </ButtonIcon>
-        <DashBboardSearchBar display="hidden lg:flex md:flex" />
+        <DashBboardSearchBar display='hidden lg:flex md:flex' />
       </div>
       {/* header menulist here e.g for admins grid icon, notification, globe and avartar then user are different set of icons */}
       <DashboardHeaderMenuList headerMenu={userHeaderMenuList} />

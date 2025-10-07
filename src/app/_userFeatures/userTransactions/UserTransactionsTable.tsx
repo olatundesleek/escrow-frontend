@@ -120,11 +120,12 @@ export default function UserTransactionsTable({
           </Button>
         </div>
       )}
-
-      <DataTable<UserTransactionItem>
-        data={transactionsData}
-        columns={columns}
-      />
+      <div className='overflow-auto'>
+        <DataTable<UserTransactionItem>
+          data={transactionsData}
+          columns={columns}
+        />
+      </div>
     </>
   );
 }
