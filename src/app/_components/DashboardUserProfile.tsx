@@ -60,7 +60,8 @@ export default function UserProfile() {
     fetch();
   }, []);
 
-  const createdAt = userDashboardData?.dashboardDetails?.data?.createdAt ?? "";
+  const createdAt =
+    userDashboardData?.dashboardDetails.data.userDashboardData.createdAt;
 
   const joinedDate = createdAt
     ? new Date(createdAt).toLocaleDateString("en-US", {
