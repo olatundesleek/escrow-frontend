@@ -16,9 +16,9 @@ export default function useResolveBank() {
 
     mutationKey: ['resolveBank'],
 
-    onMutate: () => {
-      toastId.current = toast.loading('Resolving bank...');
-    },
+    // onMutate: () => {
+    //   toastId.current = toast.loading('Resolving bank...');
+    // },
 
     onSuccess: (data) => {
       toast.success(data.message, { id: toastId.current });
