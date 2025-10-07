@@ -106,37 +106,9 @@ export function MobileCard<
     get('status')?.toString() ?? 'pending',
   );
 
-  const typeVariantClasses = (type: string) => {
-    let bgColor = 'bg-db-primary/20';
-    let textColor = 'text-db-primary';
-
-    if (type.toLowerCase() === 'buy') {
-      bgColor = 'bg-db-success/20';
-      textColor = 'text-db-success';
-    } else if (type.toLowerCase() === 'sell') {
-      bgColor = 'bg-db-primary/20';
-      textColor = 'text-db-primary';
-    }
-    if (type.toLowerCase() === 'buy') {
-      bgColor = 'bg-db-success';
-      textColor = 'text-db-background';
-    } else if (type.toLowerCase() === 'sell') {
-      bgColor = 'bg-db-primary';
-      textColor = 'text-db-background';
-    }
-    return `inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase shadow-sm ${bgColor} ${textColor}`;
-  };
-
   return (
     <div className='relative border border-db-border p-5 rounded-xl shadow-md bg-db-surface space-y-4'>
       <div className='absolute -top-8 -right-10 z-10'>
-        {/* <span
-          className={`${typeVariantClasses(
-            type?.toString() ?? 'buy',
-          )} w-20 h-20 p-4 pt-10 text-center flex justify-center items-center relative -translate-y-1/3 translate-x-1/3 rotate-45 shadow-md border-b border-b-red z-2`}
-        >
-          {type}
-        </span> */}
         {type === 'buy' ? (
           <RibbonBadge text='Buy' color='green' />
         ) : (
