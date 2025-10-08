@@ -8,10 +8,13 @@ import {
 } from 'react-icons/fa';
 import SpinnerMini from '../../_components/SpinnerMini';
 import { Button } from '../../_components/DashboardBtn';
+import { UserBankInfo } from '@/app/_types/userDashboardServicesTypes';
 
-// type BankFormProps = {};
+type WithdrawalFormProps = {
+  bankInfo: UserBankInfo;
+};
 
-export const BankForm = () => {
+export default function WithdrawalForm({ bankInfo }: WithdrawalFormProps) {
   return (
     <section className='relative overflow-hidden w-full bg-db-surface border border-db-border p-8 sm:p-10 rounded-2xl shadow-sm my-8'>
       <div className='relative z-10'>
@@ -31,7 +34,9 @@ export const BankForm = () => {
                 <span className='block text-xs text-db-text-secondary'>
                   Bank Name
                 </span>
-                <span className='text-db-primary font-semibold'>N/A</span>
+                <span className='text-db-primary font-semibold'>
+                  {bankInfo.bankName}
+                </span>
               </div>
             </div>
             <div className='flex items-center gap-3 bg-db-background rounded-xl p-4 border border-db-border hover:shadow-sm'>
@@ -41,7 +46,9 @@ export const BankForm = () => {
                 <span className='block text-xs text-db-text-secondary'>
                   Account Number
                 </span>
-                <span className='text-db-primary font-semibold'>N/A</span>
+                <span className='text-db-primary font-semibold'>
+                  {bankInfo.accountNumber}
+                </span>
               </div>
             </div>
             <div className='flex items-center gap-3 bg-db-background rounded-xl p-4 sm:col-span-2 border border-db-border hover:shadow-sm'>
@@ -51,7 +58,9 @@ export const BankForm = () => {
                 <span className='block text-xs text-db-text-secondary'>
                   Account Name
                 </span>
-                <span className='text-db-primary font-semibold'>N/A</span>
+                <span className='text-db-primary font-semibold'>
+                  {bankInfo.accountName}
+                </span>
               </div>
             </div>
           </div>
@@ -104,4 +113,4 @@ export const BankForm = () => {
       </div>
     </section>
   );
-};
+}

@@ -11,15 +11,16 @@ import { UserBaseWallet } from '@/app/_types/userDashboardServicesTypes';
 
 interface DepositProps {
   wallet: UserBaseWallet;
+  onClose: () => void;
 }
 
 interface DepositFormInputs {
   amount: number;
 }
 
-export default function Deposit({ wallet }: DepositProps) {
+export default function Deposit({ wallet, onClose }: DepositProps) {
   const [amountDisplay, setamountDisplay] = useState<string>('');
-  const { deposit, isDepositPending } = useDeposit();
+  const { deposit, isDepositPending } = useDeposit(onClose);
 
   const {
     setValue,

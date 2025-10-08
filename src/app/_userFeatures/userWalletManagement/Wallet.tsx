@@ -2,7 +2,7 @@
 
 import UserDashboardPageTitle from '../../_components/UserDashboardPageTitle';
 import { WalletCard } from '../../_components/WalletCard';
-import { BankForm } from './BankForm';
+import WithdrawalForm from './WithdrawalForm';
 import { AddWalletBankForm } from './AddWalletBankForm';
 import { useWallet } from '../../_hooks/useCardData';
 import FullPageLoader from '../../_components/FullPageLoader';
@@ -39,8 +39,7 @@ export default function Wallet() {
     walletDetails.bankInfo.accountName !== null &&
     walletDetails.bankInfo.accountNumber !== null &&
     walletDetails.bankInfo.bankName !== null &&
-    walletDetails.bankInfo.bankCode !== null &&
-    walletDetails.bankInfo.recipientCode !== null;
+    walletDetails.bankInfo.bankCode !== null;
 
   return (
     <>
@@ -50,7 +49,7 @@ export default function Wallet() {
         onClose={closeDeposit}
         width='w-md lg:max-w-3xl max-w-lg'
       >
-        <Deposit wallet={walletDetails} />
+        <Deposit wallet={walletDetails} onClose={closeDeposit} />
       </Modal>
       <UserDashboardPageTitle title='Wallet'>
         <Button //button to trigger deposit
@@ -64,7 +63,11 @@ export default function Wallet() {
       <WalletCard walletData={walletDetails} />
 
       {/* Conditional UI for Withdrawal or Bank Form */}
-      {bankSet ? <BankForm /> : <AddWalletBankForm />}
+      {bankSet ? (
+        <WithdrawalForm bankInfo={walletDetails.bankInfo} />
+      ) : (
+        <AddWalletBankForm />
+      )}
     </>
   );
 }
