@@ -100,7 +100,10 @@ export default function UserDashboard() {
         onClose={() => setPaymentModal({ isOpen: false, title: '' })}
         width='w-md lg:max-w-3xl max-w-lg'
       >
-        <Deposit wallet={wallet} />
+        <Deposit
+          wallet={wallet}
+          onClose={() => setPaymentModal({ isOpen: false, title: '' })}
+        />
       </Modal>
 
       {/* Page Title */}

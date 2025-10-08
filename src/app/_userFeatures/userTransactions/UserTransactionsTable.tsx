@@ -110,22 +110,30 @@ export default function UserTransactionsTable({
 
   return (
     <>
-      {variant === 'dashboard' && (
-        <div className='w-full flex justify-between items-center p-4'>
-          <h2 className='text-lg font-semibold text-db-text-secondary'>
-            Recent Transactions
-          </h2>
-          <Button onClick={() => push('/dashboard/transactions')} size='sm'>
-            View All
-          </Button>
-        </div>
-      )}
-      <div className='overflow-auto'>
+      {variant === 'dashboard' ? (
+        <>
+          <div className='w-full flex justify-between items-center p-4 overflow-hidden'>
+            <h2 className='text-lg font-semibold text-db-text-secondary'>
+              Recent Transactions
+            </h2>
+            <Button onClick={() => push('/dashboard/transactions')} size='sm'>
+              View All
+            </Button>
+          </div>
+
+          <div className='overflow-auto'>
+            <DataTable<UserTransactionItem>
+              data={transactionsData}
+              columns={columns}
+            />
+          </div>
+        </>
+      ) : (
         <DataTable<UserTransactionItem>
           data={transactionsData}
           columns={columns}
         />
-      </div>
+      )}
     </>
   );
 }

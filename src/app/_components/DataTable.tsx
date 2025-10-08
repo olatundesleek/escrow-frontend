@@ -34,7 +34,9 @@ export default function DataTable<TData extends { _id: string }>({
             .getRowModel()
             .rows.map((row) => <div key={row.id}>{renderMobileCard(row)}</div>)
         ) : (
-          <DesktopTable table={table} />
+          <div className='w-full border rounded-md border-db-border overflow-x-scroll custom-scrollbar'>
+            <DesktopTable table={table} />
+          </div>
         )}
       </div>
     </>
