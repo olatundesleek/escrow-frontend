@@ -20,6 +20,8 @@ import SpinnerMini from "./SpinnerMini";
 import { getUserTransactions } from "../_lib/userDashboardServices";
 import { UserTransactionItem } from "../_types/userDashboardServicesTypes";
 
+type SortType = "Yearly" | "Monthly" | "Weekly" | "Daily";
+
 // Hook: check if screen is mobile
 const useIsMobile = (breakpoint = 768) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -116,9 +118,7 @@ const TransactionChart = () => {
   const [chartData, setChartData] = useState<ChartData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sort, setSort] = useState<"Yearly" | "Monthly" | "Weekly" | "Daily">(
-    "Monthly"
-  );
+  const [sort, setSort] = useState<SortType>("Monthly");
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -187,7 +187,7 @@ const TransactionChart = () => {
           <select
             id="sort"
             value={sort}
-            onChange={(e) => setSort(e.target.value as any)}
+            onChange={(e) => setSort(e.target.value as SortType)}
             className="border border-db-border bg-db-surface text-db-text-primary text-sm px-2 py-1 rounded-md outline-none hover:border-db-primary transition"
           >
             <option>Yearly</option>
