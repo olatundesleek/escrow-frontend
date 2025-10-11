@@ -163,7 +163,7 @@ export default function UserProfile() {
                 return (
                   <li
                     key={i}
-                    className="flex items-center gap-3 p-3 rounded-md bg-db-background border border-db-border flex-1 min-w-[45%] max-w-full"
+                    className="flex items-center gap-3 p-2 rounded-md border border-db-border flex-1 min-w-[45%] max-w-full"
                   >
                     <info.icon className={`${info.color} text-lg shrink-0`} />
                     <div className="flex-1 min-w-0">
