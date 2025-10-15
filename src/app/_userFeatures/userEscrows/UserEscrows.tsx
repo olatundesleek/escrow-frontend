@@ -9,33 +9,28 @@ import {Button} from "@/app/_components/DashboardBtn";
 import Modal from "@/app/_components/Modal";
 import { useEffect, useState } from 'react';
 import AddEscrowForm from './AddEscrowForm';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import {
-  ESCROW_FILTER_LIST,
-  ESCROW_PREFILL_KEYS,
-} from '@/app/_constants/escrowCategories';
+import { usePathname, useRouter } from 'next/navigation';
+import { ESCROW_PREFILL_KEYS } from '@/app/_constants/escrowCategories';
+import useTableQueryParams from '@/app/_hooks/useTableQueryParams';
+import TableControls from '@/app/_components/TableControls';
+import TablePagination from '@/app/_components/TablePagination';
 
 export default function UserEscrows() {
-  const searchParams = useSearchParams();
-  const queryObject = Object.fromEntries(searchParams.entries());
+  const { queryParams, setQueryParams, searchParams } = useTableQueryParams();
   const router = useRouter();
   const pathname = usePathname();
 
-  const filterParams = Object.fromEntries(
-    Object.entries(queryObject).filter(([key]) =>
-      ESCROW_FILTER_LIST.includes(key),
-    ),
-  );
-
   const prefillParams = Object.fromEntries(
-    Object.entries(queryObject).filter(([key]) => key.startsWith('prefill')),
+    Array.from(searchParams.entries()).filter(([key]) =>
+      key.startsWith('prefill'),
+    ),
   );
 
   const [isAddEscrowFormOpen, setIsAddEscrowFormOpen] = useState(false);
   const [autoOpen, setAutoOpen] = useState(true);
 
   const { isUserEscrowLoading, userEscrowError, allUserEscrows } =
-    useUserEscrows(filterParams);
+    useUserEscrows(queryParams);
 
   useEffect(() => {
     if (
@@ -69,11 +64,18 @@ export default function UserEscrows() {
   return (
     <div className='flex flex-col items-center justify-center space-y-4'>
       <UserDashboardPageTitle>
-        <Button
-          onClick={() => setIsAddEscrowFormOpen(true)}
-        >
-          Create Escrow
-        </Button>
+        <div className='flex gap-4'>
+          <div className='hidden sm:block'>
+            <TableControls
+              limit={queryParams.limit}
+              queryParams={queryParams}
+              setQueryParams={setQueryParams}
+            />
+          </div>
+          <Button onClick={() => setIsAddEscrowFormOpen(true)}>
+            Create Escrow
+          </Button>
+        </div>
       </UserDashboardPageTitle>
       <Modal
         isOpen={isAddEscrowFormOpen}
@@ -90,6 +92,14 @@ export default function UserEscrows() {
         />
       </Modal>
       <UserEscrowTable escrowData={allUserEscrows?.escrows || []} />
+
+      <div className='flex justify-end w-full'>
+        <TablePagination
+          page={allUserEscrows?.pagination.currentPage || 1}
+          totalPages={allUserEscrows?.pagination.totalPages || 1}
+          setQueryParams={setQueryParams}
+        />
+      </div>
     </div>
   );
 }
