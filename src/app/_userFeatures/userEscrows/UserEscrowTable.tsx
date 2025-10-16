@@ -3,18 +3,19 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { HiCheck, HiEye, HiX } from "react-icons/hi";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+// import { HiChevronUp, HiChevronDown } from 'react-icons/hi';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 
-import DataTable from "@/app/_components/DataTable";
-import RowActionMenu from "@/app/_components/RowActionMenu";
-import useGetCurrentUser from "@/app/_hooks/useGetCurrentUser";
-import { UserEscrowItem } from "@/app/_types/userDashboardServicesTypes";
-import useAcceptEscrow from "./useAcceptEscrow";
-import useRejectEscrow from "./useRejectEscrow";
-import ConfirmModal from "@/app/_components/ConfirmModal";
-import useConfirmModal from "@/app/_hooks/useConfirmModal";
-import { getEscrowTypeForUser } from "@/app/_utils/helpers";
-import { MobileCard } from "@/app/_components/MobileTable";
+import DataTable from '@/app/_components/DataTable';
+import RowActionMenu from '@/app/_components/RowActionMenu';
+import useGetCurrentUser from '@/app/_hooks/useGetCurrentUser';
+import { UserEscrowItem } from '@/app/_types/userDashboardServicesTypes';
+import useAcceptEscrow from './useAcceptEscrow';
+import useRejectEscrow from './useRejectEscrow';
+import ConfirmModal from '@/app/_components/ConfirmModal';
+import useConfirmModal from '@/app/_hooks/useConfirmModal';
+import { getEscrowTypeForUser } from '@/app/_utils/helpers';
+import { MobileCard } from '@/app/_components/MobileTable';
 
 interface BaseEscrow {
   _id: string;
@@ -43,8 +44,8 @@ export default function UserEscrowTable({
     close: closeRejectModal,
   } = useConfirmModal();
 
-  const [escrowToAccept, setescrowToAccept] = useState<string>("");
-  const [escrowToReject, setEscrowToReject] = useState<string>("");
+  const [escrowToAccept, setescrowToAccept] = useState<string>('');
+  const [escrowToReject, setEscrowToReject] = useState<string>('');
 
   const {
     currentUserData: { id: currentUserId },
@@ -52,24 +53,72 @@ export default function UserEscrowTable({
   const { acceptEscrow, isAcceptingEscrow } = useAcceptEscrow();
   const { rejectEscrow, isRejectingEscrow } = useRejectEscrow();
 
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: 'asc' | 'desc';
+  } | null>(null);
+
+  // define which columns are sortable
+  const SORTABLE_COLUMNS = [
+    'sellerUsername',
+    'buyerUsername',
+    'category',
+    'description',
+    'amount',
+    'createdAt',
+  ];
+
+  // compute sorted data
+  const sortedData = useMemo(() => {
+    if (!sortConfig) return escrowData;
+
+    const { key, direction } = sortConfig;
+
+    return [...escrowData].sort((a, b) => {
+      const valA = a[key as keyof UserEscrowItem];
+      const valB = b[key as keyof UserEscrowItem];
+
+      // Handle numeric values like amount
+      if (typeof valA === 'number' && typeof valB === 'number') {
+        return direction === 'asc' ? valA - valB : valB - valA;
+      }
+
+      // Handle string values
+      return direction === 'asc'
+        ? String(valA).localeCompare(String(valB))
+        : String(valB).localeCompare(String(valA));
+    });
+  }, [escrowData, sortConfig]);
+
+  const handleSort = (key: string) => {
+    setSortConfig((prev) => {
+      if (prev?.key === key) {
+        // toggle direction if clicking same column
+        return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+      }
+      // otherwise set new column to ascending
+      return { key, direction: 'asc' };
+    });
+  };
+
   const buildActions = useCallback(
     <TData extends BaseEscrow>(escrow: TData) => {
       const { _id: escrowId, creator, status } = escrow;
 
       const baseAction = [
         {
-          label: "View Details",
+          label: 'View Details',
           icon: HiEye,
           onClick: () => push(`escrows/${escrowId}`),
         },
       ];
 
-      if (creator === currentUserId || status !== "pending") return baseAction;
+      if (creator === currentUserId || status !== 'pending') return baseAction;
 
       return [
         ...baseAction,
         {
-          label: "Accept Escrow",
+          label: 'Accept Escrow',
           onClick: () => {
             openAcceptModal();
             setescrowToAccept(escrowId);
@@ -79,7 +128,7 @@ export default function UserEscrowTable({
           disabled: isAcceptingEscrow,
         },
         {
-          label: "Reject Escrow",
+          label: 'Reject Escrow',
           onClick: () => {
             openRejectModal();
             setEscrowToReject(escrowId);
@@ -97,7 +146,7 @@ export default function UserEscrowTable({
       isRejectingEscrow,
       openAcceptModal,
       openRejectModal,
-    ]
+    ],
   );
 
   const columns: ColumnDef<UserEscrowItem>[] = useMemo(() => {
@@ -209,7 +258,7 @@ export default function UserEscrowTable({
               textColor = 'text-warning';
               break;
             case 'active':
-              bgColor = 'bg-purple-500/20';  
+              bgColor = 'bg-purple-500/20';
               textColor = 'text-purple-500';
               break;
             case 'completed':
@@ -300,8 +349,8 @@ export default function UserEscrowTable({
 
     /*actions column*/
     const actionsColumn = columnHelper.display({
-      id: "actions",
-      header: "Action", // Capitalized for consistency
+      id: 'actions',
+      header: 'Action', // Capitalized for consistency
       cell: ({ row }) => <RowActionMenu actions={buildActions(row.original)} />,
     });
 
@@ -333,8 +382,11 @@ export default function UserEscrowTable({
       />
 
       <DataTable<UserEscrowItem>
-        data={escrowData}
+        data={sortedData}
+        onSort={handleSort}
         columns={columns}
+        sortConfig={sortConfig}
+        sortableColumns={SORTABLE_COLUMNS}
         renderMobileCard={(row) => (
           <MobileCard key={row.id} row={row} currentUserId={currentUserId} />
         )}

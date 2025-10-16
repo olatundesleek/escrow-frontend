@@ -1,9 +1,7 @@
 export default function TableControls({
-  limit,
   queryParams,
   setQueryParams,
 }: {
-  limit: number;
   queryParams: Record<string, string | number | null>;
   setQueryParams: (params: Record<string, string | number>) => void;
 }) {
@@ -15,7 +13,7 @@ export default function TableControls({
         aria-label='Escrow Status'
         value={queryParams.status || ''}
         onChange={(e) => setQueryParams({ status: e.target.value, page: 1 })}
-        className='border border-secondary text-secondary rounded-md p-2 text-sm'
+        className='border border-db-primary text-db-primary rounded-md p-2 text-sm'
       >
         <option value=''>All Status</option>
         <option value='pending'>Pending</option>
@@ -31,27 +29,13 @@ export default function TableControls({
         onChange={(e) =>
           setQueryParams({ paymentStatus: e.target.value, page: 1 })
         }
-        className='border border-secondary text-secondary rounded-md p-2 text-sm'
+        className='border border-db-primary text-db-primary rounded-md p-2 text-sm'
       >
         <option value=''>All Payments</option>
         {/* <option value='pending'>Pending</option> */}
         <option value='paid'>Paid</option>
         <option value='refunded'>Refunded</option>
         <option value='unpaid'>Unpaid</option>
-      </select>
-
-      {/* Page Size */}
-      <select
-        aria-label='Page Size'
-        value={limit.toString()}
-        onChange={(e) => setQueryParams({ limit: e.target.value, page: 1 })}
-        className='border border-secondary text-secondary rounded-md p-2 text-sm'
-      >
-        {[5, 10, 15, 20, 25, 30].map((n) => (
-          <option key={n} value={n}>
-            {n}
-          </option>
-        ))}
       </select>
     </div>
   );

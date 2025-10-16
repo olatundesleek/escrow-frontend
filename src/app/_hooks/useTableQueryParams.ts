@@ -1,17 +1,32 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ESCROW_FILTER_LIST } from '../_constants/escrowCategories';
 
-export default function useTableQueryParams() {
+/**
+ * A universal hook for managing table query params (pagination, sorting, filtering)
+ * @param allowedFilters Optional array of filter keys to include (e.g. ['status', 'paymentStatus'])
+ */
+export default function useTableQueryParams(allowedFilters?: string[]) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const queryObject = Object.fromEntries(searchParams.entries());
 
-  const filterParams = Object.fromEntries(
-    Object.entries(queryObject).filter(([key]) =>
-      ESCROW_FILTER_LIST.includes(key),
-    ),
-  );
+  // Optional filter extraction
+  let filterParams: Record<string, string> = {};
+
+  if (allowedFilters && allowedFilters.length > 0) {
+    filterParams = Object.fromEntries(
+      Object.entries(queryObject).filter(([key]) =>
+        allowedFilters.includes(key),
+      ),
+    );
+  } else {
+    // If no allowed filters provided, include *everything* except pagination/sorting keys
+    filterParams = Object.fromEntries(
+      Object.entries(queryObject).filter(
+        ([key]) => !['page', 'limit', 'sortBy', 'order'].includes(key),
+      ),
+    );
+  }
 
   const page = Number(queryObject.page || 1);
   const limit = Number(queryObject.limit || 10);

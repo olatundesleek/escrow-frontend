@@ -19,7 +19,7 @@ export default function TablePagination({
       >
         Prev
       </Button>
-      <span className='text-sm'>
+      <span className='text-sm text-db-text-primary'>
         Page {page} of {totalPages}
       </span>
       <Button
