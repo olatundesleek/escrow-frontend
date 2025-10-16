@@ -35,7 +35,7 @@ export interface AllUserEscrowsDataResponse {
   escrows: UserEscrowItem[];
   pagination: {
     total: number;
-    totalPage: number;
+    totalPages: number;
     currentPage: number;
     pageSize: number;
   };

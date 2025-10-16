@@ -8,6 +8,7 @@ export const ESCROW_FILTER_LIST = [
   'category',
   'amount',
   'limit',
+  'paymentStatus',
 ];
 
 export const ESCROW_PREFILL_KEYS = [

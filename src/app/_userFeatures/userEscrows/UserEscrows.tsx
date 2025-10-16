@@ -9,33 +9,35 @@ import {Button} from "@/app/_components/DashboardBtn";
 import Modal from "@/app/_components/Modal";
 import { useEffect, useState } from 'react';
 import AddEscrowForm from './AddEscrowForm';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   ESCROW_FILTER_LIST,
   ESCROW_PREFILL_KEYS,
 } from '@/app/_constants/escrowCategories';
+import useTableQueryParams from '@/app/_hooks/useTableQueryParams';
+import TableControls from '@/app/_components/EscrowTableControls';
+import TablePagination from '@/app/_components/TablePagination';
+import BaseTableControls from '@/app/_components/BaseTableControls';
+import MobileTableFilterModal from '@/app/_components/MobileTableFilterModal';
 
 export default function UserEscrows() {
-  const searchParams = useSearchParams();
-  const queryObject = Object.fromEntries(searchParams.entries());
+  const { queryParams, setQueryParams, searchParams } =
+    useTableQueryParams(ESCROW_FILTER_LIST);
   const router = useRouter();
   const pathname = usePathname();
 
-  const filterParams = Object.fromEntries(
-    Object.entries(queryObject).filter(([key]) =>
-      ESCROW_FILTER_LIST.includes(key),
+  const prefillParams = Object.fromEntries(
+    Array.from(searchParams.entries()).filter(([key]) =>
+      key.startsWith('prefill'),
     ),
   );
 
-  const prefillParams = Object.fromEntries(
-    Object.entries(queryObject).filter(([key]) => key.startsWith('prefill')),
-  );
-
   const [isAddEscrowFormOpen, setIsAddEscrowFormOpen] = useState(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [autoOpen, setAutoOpen] = useState(true);
 
   const { isUserEscrowLoading, userEscrowError, allUserEscrows } =
-    useUserEscrows(filterParams);
+    useUserEscrows(queryParams);
 
   useEffect(() => {
     if (
@@ -69,11 +71,32 @@ export default function UserEscrows() {
   return (
     <div className='flex flex-col items-center justify-center space-y-4'>
       <UserDashboardPageTitle>
-        <Button
-          onClick={() => setIsAddEscrowFormOpen(true)}
-        >
-          Create Escrow
-        </Button>
+        <div className='flex gap-4'>
+          <div className='hidden sm:block'>
+            <BaseTableControls
+              limit={queryParams.limit}
+              setQueryParams={setQueryParams}
+            >
+              <TableControls
+                queryParams={queryParams}
+                setQueryParams={setQueryParams}
+              />
+            </BaseTableControls>
+          </div>
+          <div className='sm:hidden'>
+            <button
+              onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
+              className={`text-db-primary text-sm font-light border border-db-primary rounded-md cursor-pointer hover:bg-db-primary hover:text-white px-2 ${
+                isMobileFilterOpen ? 'bg-db-primary' : 'bg-transparent '
+              }`}
+            >
+              Filters
+            </button>
+          </div>
+          <Button onClick={() => setIsAddEscrowFormOpen(true)}>
+            Create Escrow
+          </Button>
+        </div>
       </UserDashboardPageTitle>
       <Modal
         isOpen={isAddEscrowFormOpen}
@@ -89,7 +112,33 @@ export default function UserEscrows() {
           }}
         />
       </Modal>
+      <MobileTableFilterModal
+        isOpen={isMobileFilterOpen}
+        onClose={() => setIsMobileFilterOpen(false)}
+        queryParams={queryParams}
+        setQueryParams={setQueryParams}
+        filterConfig={[
+          {
+            key: 'status',
+            label: 'Status',
+            options: ['All', 'Pending', 'Active', 'Completed', 'Disputed'],
+          },
+          {
+            key: 'paymentStatus',
+            label: 'Payment Status',
+            options: ['All', 'Paid', 'Refunded', 'Unpaid'],
+          },
+        ]}
+      />
       <UserEscrowTable escrowData={allUserEscrows?.escrows || []} />
+
+      <div className='flex justify-end w-full'>
+        <TablePagination
+          page={allUserEscrows?.pagination.currentPage || 1}
+          totalPages={allUserEscrows?.pagination.totalPages || 1}
+          setQueryParams={setQueryParams}
+        />
+      </div>
     </div>
   );
 }

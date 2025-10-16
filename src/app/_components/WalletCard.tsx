@@ -1,6 +1,6 @@
-import { UserBaseWallet } from '../_types/userDashboardServicesTypes';
-import WalletDetailsCard from './WalletDetailsCard';
-import { FaChartLine, FaMoneyBill, FaPiggyBank } from 'react-icons/fa';
+import { UserBaseWallet } from "../_types/userDashboardServicesTypes";
+import WalletDetailsCard from "./WalletDetailsCard";
+import { FaChartLine, FaMoneyBill, FaPiggyBank } from "react-icons/fa";
 
 export const WalletCard = ({ walletData }: { walletData: UserBaseWallet }) => {
   const cardData = [
@@ -28,7 +28,7 @@ export const WalletCard = ({ walletData }: { walletData: UserBaseWallet }) => {
   ];
 
   return (
-    <section className='grid sm:grid-cols-3 gap-6 lg:my-8 my-2'>
+    <section className="grid sm:grid-cols-3 gap-6 lg:my-8 my-2">
       {cardData.map(({ label, value, icon, color, border }) => (
         <WalletDetailsCard
           key={label}
