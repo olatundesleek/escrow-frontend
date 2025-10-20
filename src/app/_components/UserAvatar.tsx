@@ -14,7 +14,6 @@ interface UserAvatarProps {
 
 export default function UserAvatar({ dropdown, setDropdown }: UserAvatarProps) {
   const { user } = useUserProfileForm();
-  console.log("user:", user);
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
