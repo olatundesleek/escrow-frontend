@@ -14,59 +14,77 @@ interface DashboardUserKYCProps {
   applicant: ApplicantData;
 }
 
+// Extend the Window type safely for QoreID
+declare global {
+  interface Window {
+    onQoreSubmit?: (response: unknown) => void;
+    onQoreError?: (error: unknown) => void;
+    onQoreClose?: () => void;
+  }
+}
+
 export default function DashboardUserKYC({
   username,
   applicant,
 }: DashboardUserKYCProps) {
   const [sdkReady, setSdkReady] = useState(false);
 
-  // Load QoreID SDK dynamically
+  // ---- Load QoreID SDK dynamically ----
   useEffect(() => {
-    const existingScript = document.querySelector(
-      'script[src="https://dashboard.qoreid.com/qoreid-sdk/qoreid.js"]'
+    if (typeof window === "undefined") return;
+
+    const scriptUrl = "https://dashboard.qoreid.com/qoreid-sdk/qoreid.js";
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      `script[src="${scriptUrl}"]`
     );
 
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.src = "https://dashboard.qoreid.com/qoreid-sdk/qoreid.js";
-      script.async = true;
-
-      script.onload = () => {
-        console.log("✅ QoreID SDK loaded");
-        setSdkReady(true);
-      };
-
-      script.onerror = () => {
-        console.error("❌ Failed to load QoreID SDK");
-      };
-
-      document.body.appendChild(script);
-    } else {
-      // SDK already loaded
+    if (existingScript) {
       setSdkReady(true);
+      return;
     }
+
+    const script = document.createElement("script");
+    script.src = scriptUrl;
+    script.async = true;
+
+    script.onload = () => {
+      console.log("QoreID SDK loaded");
+      setSdkReady(true);
+    };
+
+    script.onerror = () => {
+      console.error("Failed to load QoreID SDK");
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
-  // Register QoreID event handlers
-  // useEffect(() => {
-  //   (window).onQoreSubmit = (response) => {
-  //     console.log("✅ QoreID submitted:", response);
-  //   };
+  // ---- Register QoreID event handlers ----
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-  //   (window).onQoreError = (error) => {
-  //     console.error("❌ QoreID error:", error);
-  //   };
+    window.onQoreSubmit = (response) => {
+      console.log("✅ QoreID submitted:", response);
+    };
 
-  //   (window).onQoreClose = () => {
-  //     console.log("🔒 QoreID closed");
-  //   };
-  // }, []);
+    window.onQoreError = (error) => {
+      console.error("❌ QoreID error:", error);
+    };
+
+    window.onQoreClose = () => {
+      console.log("🔒 QoreID closed");
+    };
+  }, []);
 
   const applicantData = JSON.stringify(applicant);
 
   return (
     <section className="h-full flex justify-center items-center">
-      <div className="w-full max-w-mdtext-center">
+      <div className="w-full max-w-md text-center">
         <h1 className="text-2xl font-semibold text-db-text mb-2">
           Verify your identity
         </h1>
