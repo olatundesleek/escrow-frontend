@@ -31,11 +31,11 @@ type ModalContent = {
 export const useUserProfileForm = () => {
   // user can be null until fetched
   const [user, setUser] = useState<initialUserType | null>(null);
+  const [currUser, setCurrUser] = useState<User | null>(null);
 
   const fetchUser = async () => {
     try {
       const currentuser = await getUserProfile();
-      console.log("getUserProfile response:", currentuser);
 
       if (!currentuser?.success) return;
 
@@ -57,6 +57,7 @@ export const useUserProfileForm = () => {
       };
 
       setUser(normalizedUser);
+      setCurrUser(currentuser.data as User);
     } catch (err) {
       console.error("fetchUser error", err);
     }
@@ -431,6 +432,7 @@ export const useUserProfileForm = () => {
 
   return {
     user,
+    currUser,
     userInfo,
     avatar,
     inputFields,
