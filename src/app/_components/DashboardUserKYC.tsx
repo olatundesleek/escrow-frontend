@@ -32,11 +32,11 @@ export default function DashboardUserKYC({
 
   // 1️⃣ Define global handlers before rendering
   useEffect(() => {
-  window.onQoreSubmit = (response: any) => {
+  window.onQoreSubmit = (response) => {
       console.log("✅ QoreID submitted:", response);
     };
 
-    window.onQoreError = (error: any) => {
+    window.onQoreError = (error) => {
       console.error("❌ QoreID error:", error);
     };
 
