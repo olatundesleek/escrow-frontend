@@ -48,19 +48,19 @@ export default function DashboardUserKYC({
   }, []);
 
   // Register QoreID event handlers
-  useEffect(() => {
-    (window as any).onQoreSubmit = (response: any) => {
-      console.log("✅ QoreID submitted:", response);
-    };
+  // useEffect(() => {
+  //   (window).onQoreSubmit = (response) => {
+  //     console.log("✅ QoreID submitted:", response);
+  //   };
 
-    (window as any).onQoreError = (error: any) => {
-      console.error("❌ QoreID error:", error);
-    };
+  //   (window).onQoreError = (error) => {
+  //     console.error("❌ QoreID error:", error);
+  //   };
 
-    (window as any).onQoreClose = () => {
-      console.log("🔒 QoreID closed");
-    };
-  }, []);
+  //   (window).onQoreClose = () => {
+  //     console.log("🔒 QoreID closed");
+  //   };
+  // }, []);
 
   const applicantData = JSON.stringify(applicant);
 
