@@ -13,8 +13,8 @@ import {
   changePasswordType,
 } from "./../_types/authTypes";
 
-// This function handles the login process by sending a POST request to the server with the user's credentials.
-// It returns a promise that resolves to an object containing the success status and message.
+// This function handles the login process by sending a POST request to the server with the user's credentials
+// It returns a promise that resolves to an object containing the success status and message
 export async function login({
   rememberme,
   username,
