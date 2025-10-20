@@ -200,6 +200,7 @@ export interface initialUserType {
   country: string;
   state: string;
   postalCode: string;
+  
 }
 
 export type Address = {
