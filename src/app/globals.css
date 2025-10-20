@@ -271,3 +271,7 @@
 .animate-pulse-slow {
   animation: pulse 3s ease-in-out infinite;
 }
+
+#__next.loader{
+  margin-top:300px !important;
+}
