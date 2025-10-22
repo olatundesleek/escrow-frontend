@@ -54,8 +54,8 @@ export default function UserProfile() {
 
   useEffect(() => {
     const fetch = async () => {
-      const currentuser = await getUserProfile();
-      console.log(currentuser);
+   await getUserProfile();
+  
     };
     fetch();
   }, []);
