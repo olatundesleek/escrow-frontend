@@ -46,7 +46,7 @@ export default function Deposit({ wallet, onClose }: DepositProps) {
     });
   });
 
-  const { availableBalance } = wallet;
+  const { totalBalance } = wallet;
 
   const onSubmit = function (data: DepositFormInputs) {
     deposit(data);
@@ -59,7 +59,7 @@ export default function Deposit({ wallet, onClose }: DepositProps) {
         <div className='text-sm space-y-1'>
           <p>
             <span className='font-medium'>Current balance:</span>{' '}
-            {formatCurrency(availableBalance)}
+            {formatCurrency(totalBalance)}
           </p>
         </div>
       </div>

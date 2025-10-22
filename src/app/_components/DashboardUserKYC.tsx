@@ -97,6 +97,38 @@ export default function DashboardUserKYC({
     }
   }, [sdkReady, username, applicant]);
 
+  useEffect(() => {
+    const adjustButtonPosition = () => {
+      const sdkPopup = document.querySelector<HTMLDivElement>(
+        '#QoreIDButton.sdkPopup',
+      );
+
+      if (sdkPopup) {
+        sdkPopup.style.top = '0';
+        sdkPopup.style.position = 'fixed';
+        sdkPopup.style.zIndex = '100';
+        sdkPopup.style.right = '0';
+        sdkPopup.style.left = '0';
+        sdkPopup.style.bottom = '0';
+        sdkPopup.style.backdropFilter = 'blur(5px)';
+        sdkPopup.style.backdropFilter = 'blur(5px)';
+        sdkPopup.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        sdkPopup.style.userSelect = 'none';
+        sdkPopup.style.webkitUserSelect = 'none';
+
+        console.log('✅ QoreID popup repositioned');
+      } else {
+        console.warn('⏳ Waiting for QoreIDButton to appear...');
+      }
+    };
+
+    // Run immediately and again after SDK inserts it
+    const interval = setInterval(adjustButtonPosition, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
   return (
     <section className="h-full flex justify-center items-center">
       <div className="w-full max-w-md text-center">
