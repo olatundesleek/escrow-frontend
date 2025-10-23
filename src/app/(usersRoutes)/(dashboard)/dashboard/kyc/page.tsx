@@ -9,9 +9,12 @@ export default function KYCPage() {
 
   if (!currentUserData)
     return (
-      <div className="flex h-screen items-center justify-center text-gray-500">
-        Loading user data...
-      </div>
+      <>
+        <UserDashboardPageTitle />
+        <div className='flex h-screen items-center justify-center text-gray-500'>
+          Loading user data...
+        </div>
+      </>
     );
 
   const user = {
