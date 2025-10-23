@@ -20,6 +20,7 @@ declare global {
     onQoreSubmit?: (response: unknown) => void;
     onQoreError?: (error: unknown) => void;
     onQoreClose?: () => void;
+    QoreIDWebSdk?: unknown;
   }
 }
 
@@ -32,16 +33,16 @@ export default function DashboardUserKYC({
 
   // 1️⃣ Define global handlers before rendering
   useEffect(() => {
-  window.onQoreSubmit = (response) => {
-      console.log("✅ QoreID submitted:", response);
+    window.onQoreSubmit = (response) => {
+      console.log('✅ QoreID submitted:', response);
     };
 
     window.onQoreError = (error) => {
-      console.error("❌ QoreID error:", error);
+      console.error('❌ QoreID error:', error);
     };
 
     window.onQoreClose = () => {
-      console.log("🔒 QoreID closed");
+      console.log('🔒 QoreID closed');
     };
 
     return () => {
@@ -51,6 +52,7 @@ export default function DashboardUserKYC({
     };
   }, []);
 
+  /*
   // 2️⃣ Dynamically load SDK
   useEffect(() => {
     const scriptSrc = "https://dashboard.qoreid.com/qoreid-sdk/qoreid.js";
@@ -75,24 +77,59 @@ export default function DashboardUserKYC({
       setSdkReady(true);
     }
   }, []);
+  */
+
+  useEffect(() => {
+    const loadScript = (src: string) => {
+      return new Promise<void>((resolve, reject) => {
+        if (document.querySelector(`script[src="${src}"]`)) return resolve();
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject();
+        document.body.appendChild(script);
+      });
+    };
+
+    const loadSDK = async () => {
+      try {
+        // 1️⃣ Load EJS first (required for QoreID rendering)
+        await loadScript('https://cdn.jsdelivr.net/npm/ejs@3.1.8/ejs.min.js');
+
+        // 2️⃣ Then load QoreID SDK
+        await loadScript('https://dashboard.qoreid.com/qoreid-sdk/qoreid.js');
+
+        console.log('✅ SDK loaded, checking global object...');
+        console.log('QoreIDWebSdk:', window.QoreIDWebSdk);
+
+        console.log('✅ QoreID SDK + EJS loaded');
+        setSdkReady(true);
+      } catch {
+        console.error('❌ Failed to load QoreID dependencies');
+      }
+    };
+
+    loadSDK();
+  }, []);
 
   // 3️⃣ Render QoreID button once SDK is ready
   useEffect(() => {
     if (sdkReady && qoreContainerRef.current) {
       const applicantData = JSON.stringify(applicant);
 
-      const button = document.createElement("qoreid-button");
-      button.id = "QoreIDButton";
-      button.setAttribute("clientId", "45YG8XCOI7OE77U8R40T");
-      button.setAttribute("flowId", "1517");
-      button.setAttribute("environment", "sandbox");
-      button.setAttribute("customerReference", username);
-      button.setAttribute("applicantData", applicantData);
-      button.setAttribute("onQoreIDSdkSubmitted", "onQoreSubmit");
-      button.setAttribute("onQoreIDSdkError", "onQoreError");
-      button.setAttribute("onQoreIDSdkClosed", "onQoreClose");
+      const button = document.createElement('qoreid-button');
+      button.id = 'QoreIDButton';
+      button.setAttribute('clientId', '45YG8XCOI7OE77U8R40T');
+      button.setAttribute('flowId', '1517');
+      button.setAttribute('environment', 'sandbox');
+      button.setAttribute('customerReference', username);
+      button.setAttribute('applicantData', applicantData);
+      button.setAttribute('onQoreIDSdkSubmitted', 'onQoreSubmit');
+      button.setAttribute('onQoreIDSdkError', 'onQoreError');
+      button.setAttribute('onQoreIDSdkClosed', 'onQoreClose');
 
-      qoreContainerRef.current.innerHTML = ""; // clear old content
+      qoreContainerRef.current.innerHTML = ''; // clear old content
       qoreContainerRef.current.appendChild(button);
     }
   }, [sdkReady, username, applicant]);
@@ -128,21 +165,20 @@ export default function DashboardUserKYC({
     return () => clearInterval(interval);
   }, []);
 
-
   return (
-    <section className="h-full flex justify-center items-center">
-      <div className="w-full max-w-md text-center">
-        <h1 className="text-2xl font-semibold text-db-text mb-2">
+    <section className='h-full flex justify-center items-center'>
+      <div className='w-full max-w-md text-center'>
+        <h1 className='text-2xl font-semibold text-db-text mb-2'>
           Verify your identity
         </h1>
-        <p className="text-sm text-db-text-primary mb-6">
+        <p className='text-sm text-db-text-primary mb-6'>
           Verify your identity securely
         </p>
 
         {sdkReady ? (
           <div ref={qoreContainerRef}></div>
         ) : (
-          <div className="text-db-text-primary text-sm">
+          <div className='text-db-text-primary text-sm'>
             Loading KYC module...
           </div>
         )}
